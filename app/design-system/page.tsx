@@ -9,7 +9,7 @@ export default function DesignSystemPage() {
   return (
     <div className="min-h-screen bg-white p-10">
       <div className="max-w-6xl mx-auto">
-        <h1 className="text-3xl font-financier text-cbre-green mb-4">CBRE Design System</h1>
+        <h1 className="text-6xl font-financier text-cbre-green mb-6">CBRE Design System</h1>
         
         <p className="text-dark-grey font-calibre mb-10 max-w-3xl">
           Documentation of colors, typography, and spacing used in the CBRE UI Elements library.
@@ -19,7 +19,7 @@ export default function DesignSystemPage() {
         <div className="space-y-16">
           {/* Colors */}
           <div className="border-t border-light-grey pt-6">
-            <h2 className="text-2xl font-financier text-cbre-green mb-3">Color Palette</h2>
+            <h2 className="text-4xl font-financier text-cbre-green mb-3">Color Palette</h2>
             <p className="text-dark-grey font-calibre mb-6">
               The CBRE color palette consists of primary and secondary colors that reflect the brand's identity.
               Use these colors consistently across all components.
@@ -64,7 +64,7 @@ export default function DesignSystemPage() {
           
           {/* Typography */}
           <div className="border-t border-light-grey pt-6">
-            <h2 className="text-2xl font-financier text-cbre-green mb-3">Typography</h2>
+            <h2 className="text-4xl font-financier text-cbre-green mb-3">Typography</h2>
             <p className="text-dark-grey font-calibre mb-6">
               CBRE uses Financier Display for headings and Calibre for body text.
             </p>
@@ -73,8 +73,8 @@ export default function DesignSystemPage() {
               <div>
                 <h3 className="text-lg font-calibre font-medium text-dark-grey mb-2">Headings (Financier Display)</h3>
                 <div className="space-y-4">
-                  <div className="font-financier text-4xl text-cbre-green">Heading 1 (text-4xl)</div>
-                  <div className="font-financier text-3xl text-cbre-green">Heading 2 (text-3xl)</div>
+                  <div className="font-financier text-6xl text-cbre-green">Heading 1 (text-6xl)</div>
+                  <div className="font-financier text-4xl text-cbre-green">Heading 2 (text-4xl)</div>
                   <div className="font-financier text-2xl text-cbre-green">Heading 3 (text-2xl)</div>
                   <div className="font-financier text-xl text-cbre-green">Heading 4 (text-xl)</div>
                 </div>
@@ -93,7 +93,7 @@ export default function DesignSystemPage() {
           
           {/* Charts & Graphs */}
           <div className="border-t border-light-grey pt-6">
-            <h2 className="text-2xl font-financier text-cbre-green mb-3">Charts & Graphs</h2>
+            <h2 className="text-4xl font-financier text-cbre-green mb-3">Charts & Graphs</h2>
             <p className="text-dark-grey font-calibre mb-6">
               Special color palettes are provided for charts, graphs, and data visualizations to ensure clarity and consistency.
             </p>
@@ -125,7 +125,7 @@ export default function DesignSystemPage() {
           
           {/* Infographics & Diagrams */}
           <div className="border-t border-light-grey pt-6">
-            <h2 className="text-2xl font-financier text-cbre-green mb-3">Infographics & Diagrams</h2>
+            <h2 className="text-4xl font-financier text-cbre-green mb-3">Infographics & Diagrams</h2>
             <p className="text-dark-grey font-calibre mb-6">
               A subset of colors are used for infographics and diagrams to maintain a clean, professional appearance.
             </p>

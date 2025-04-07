@@ -50,7 +50,7 @@ const elementCategories = [
         name: "Card",
         description: "A container for displaying content and actions about a single subject.",
         path: "/elements-example/card",
-        status: "planned"
+        status: "completed"
       },
       {
         name: "Tabs",
@@ -276,7 +276,7 @@ export default function ElementsExamplePage() {
   return (
     <div className="min-h-screen bg-white p-10">
       <div className="max-w-6xl mx-auto">
-        <h1 className="text-3xl font-financier text-cbre-green mb-4">CBRE UI Elements</h1>
+        <h1 className="text-6xl font-financier text-cbre-green mb-6">CBRE UI Elements</h1>
         
         <p className="text-dark-grey font-calibre mb-10 max-w-3xl">
           This section showcases all the shadcn UI elements that have been customized to match CBRE's design language.
@@ -294,7 +294,7 @@ export default function ElementsExamplePage() {
         <div className="space-y-16">
           {elementCategories.map((category, categoryIndex) => (
             <div key={categoryIndex} className="border-t border-light-grey pt-6">
-              <h2 className="text-2xl font-financier text-cbre-green mb-3">{category.name}</h2>
+              <h2 className="text-4xl font-financier text-cbre-green mb-3">{category.name}</h2>
               <p className="text-dark-grey font-calibre mb-6">{category.description}</p>
               
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
