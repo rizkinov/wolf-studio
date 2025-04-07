@@ -26,13 +26,13 @@ const elementCategories = [
         name: "Toggle",
         description: "A control for a binary on/off state.",
         path: "/elements-example/toggle",
-        status: "planned"
+        status: "completed"
       },
       {
         name: "Toggle Group",
         description: "A group of toggle controls.",
         path: "/elements-example/toggle-group",
-        status: "planned"
+        status: "completed"
       },
     ]
   },
