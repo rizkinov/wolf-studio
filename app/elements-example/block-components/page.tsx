@@ -30,7 +30,7 @@ export default function BlockComponentsPage() {
           Pre-built content blocks that combine multiple elements for common use cases.
         </p>
         
-        <div className="bg-[#E6E8E9] p-8">
+        <div className="bg-[var(--lighter-grey)] p-8">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             {blockComponents.map((component, index) => (
               <div key={index} className="bg-white border-none p-6 h-full flex flex-col">

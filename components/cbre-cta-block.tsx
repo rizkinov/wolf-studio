@@ -26,11 +26,11 @@ export function CBRECTABlock({
 }: CBRECTABlockProps) {
   return (
     <div className={cn(
-      "flex flex-col md:flex-row items-center justify-between bg-[#E6E8E9] p-8",
+      "flex flex-col md:flex-row items-center justify-between bg-[var(--lighter-grey)] p-8",
       className
     )}>
       <div className="mb-6 md:mb-0 md:mr-8">
-        <h3 className="text-[#003F2D] font-financier text-xl md:text-2xl">
+        <h3 className="text-[var(--cbre-green)] font-financier text-xl md:text-2xl">
           {title}
         </h3>
       </div>

@@ -75,6 +75,38 @@
   --sidebar-accent-foreground: #003F2D;
   --sidebar-border: #CAD1D3;
   --sidebar-ring: #17E88F;
+  
+  /* CBRE Custom Colors */
+  /* Primary Colors */
+  --cbre-green: #003F2D;
+  --accent-green: #17E88F;
+  --dark-green: #012A2D;
+  --dark-grey: #435254;
+  --light-grey: #CAD1D3;
+  --lighter-grey: #E6E8E9;
+  
+  /* Secondary Colors */
+  --midnight: #032842;
+  --midnight-tint: #778F9C;
+  --sage: #538184;
+  --sage-tint: #96B3B6;
+  --celadon: #80BBAD;
+  --celadon-tint: #C0D4CB;
+  --wheat: #DBD99A;
+  --wheat-tint: #EFECD2;
+  --cement: #7F8480;
+  --cement-tint: #CBCDCB;
+  
+  /* Charts & Graphs Colors */
+  --data-orange: #D2785A;
+  --data-purple: #885073;
+  --data-light-purple: #A388BF;
+  --data-blue: #1F3765;
+  --data-light-blue: #3E7CA6;
+  --negative-red: #AD2A2A;
+  
+  /* Infographics Colors (duplicated from above where applicable) */
+  /* These are the same colors as above but kept separately for semantic purposes */
 }
 
 @layer base {

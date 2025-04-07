@@ -20,7 +20,7 @@ const elementCategories = [
         name: "Dropdown Menu",
         description: "A menu that appears when a button is clicked.",
         path: "/elements-example/dropdown-menu",
-        status: "planned"
+        status: "completed"
       },
       {
         name: "Toggle",
@@ -284,6 +284,13 @@ export default function ElementsExamplePage() {
           consistent user experience across all applications.
         </p>
         
+        <div className="mb-8 flex items-center">
+          <Link href="/design-system">
+            <CBREButton variant="primary">View Design System</CBREButton>
+          </Link>
+          <span className="ml-4 text-dark-grey">View color palette, typography, and usage guidelines</span>
+        </div>
+        
         <div className="space-y-16">
           {elementCategories.map((category, categoryIndex) => (
             <div key={categoryIndex} className="border-t border-light-grey pt-6">
@@ -292,7 +299,7 @@ export default function ElementsExamplePage() {
               
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                 {category.elements.map((element, elementIndex) => (
-                  <div key={elementIndex} className="border border-light-grey rounded-none p-6 h-full flex flex-col">
+                  <div key={elementIndex} className="bg-[var(--lighter-grey)] p-6 h-full flex flex-col">
                     <div className="flex items-start justify-between mb-2">
                       <h3 className="text-xl font-financier text-cbre-green">{element.name}</h3>
                       {element.status === "completed" ? (

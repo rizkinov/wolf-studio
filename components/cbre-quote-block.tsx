@@ -29,16 +29,16 @@ export function CBREQuoteBlock({
 }: CBREQuoteBlockProps) {
   return (
     <div className={cn(
-      "flex flex-col md:flex-row bg-[#E6E8E9] border-l-4 border-l-[#012A2D]",
+      "flex flex-col md:flex-row bg-[var(--lighter-grey)] border-l-4 border-l-[var(--dark-green)]",
       className
     )}>
       <div className="p-8 md:w-2/3 flex flex-col justify-center">
-        <blockquote className="text-[#003F2D] font-financier text-xl md:text-2xl italic mb-6">
+        <blockquote className="text-[var(--cbre-green)] font-financier text-xl md:text-2xl italic mb-6">
           "{quote}"
         </blockquote>
         <div>
-          <p className="font-medium text-[#003F2D]">{author}</p>
-          <p className="text-sm text-[#003F2D]">{role}</p>
+          <p className="font-medium text-[var(--cbre-green)]">{author}</p>
+          <p className="text-sm text-[var(--cbre-green)]">{role}</p>
         </div>
       </div>
       {imageSrc && (

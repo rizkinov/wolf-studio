@@ -18,6 +18,31 @@ module.exports = {
         financier: ['var(--font-financier-display)'],
         calibre: ['var(--font-calibre)'],
       },
+      // In Tailwind v4, colors should be defined using this format to ensure proper generation of utility classes
+      textColor: {
+        'cbre-green': '#003F2D',
+        'accent-green': '#17E88F',
+        'dark-green': '#012A2D',
+        'dark-grey': '#435254',
+        'light-grey': '#CAD1D3',
+        'lighter-grey': '#E6E8E9',
+      },
+      backgroundColor: {
+        'cbre-green': '#003F2D',
+        'accent-green': '#17E88F',
+        'dark-green': '#012A2D',
+        'dark-grey': '#435254',
+        'light-grey': '#CAD1D3',
+        'lighter-grey': '#E6E8E9',
+      },
+      borderColor: {
+        'cbre-green': '#003F2D',
+        'accent-green': '#17E88F',
+        'dark-green': '#012A2D',
+        'dark-grey': '#435254',
+        'light-grey': '#CAD1D3',
+        'lighter-grey': '#E6E8E9',
+      },
       colors: {
         // Primary Colors
         "cbre-green": "#003F2D",
@@ -25,6 +50,7 @@ module.exports = {
         "dark-green": "#012A2D",
         "dark-grey": "#435254",
         "light-grey": "#CAD1D3",
+        "lighter-grey": "#E6E8E9",
         
         // Secondary Colors
         "midnight": "#032842",
