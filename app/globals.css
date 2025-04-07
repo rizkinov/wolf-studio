@@ -1,26 +1,136 @@
 @import "tailwindcss";
-
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
-}
+@import "tw-animate-css";
 
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  --font-financier: var(--font-financier-display);
+  --font-calibre: var(--font-calibre);
+  --color-sidebar-ring: var(--sidebar-ring);
+  --color-sidebar-border: var(--sidebar-border);
+  --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
+  --color-sidebar-accent: var(--sidebar-accent);
+  --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
+  --color-sidebar-primary: var(--sidebar-primary);
+  --color-sidebar-foreground: var(--sidebar-foreground);
+  --color-sidebar: var(--sidebar);
+  --color-chart-5: var(--chart-5);
+  --color-chart-4: var(--chart-4);
+  --color-chart-3: var(--chart-3);
+  --color-chart-2: var(--chart-2);
+  --color-chart-1: var(--chart-1);
+  --color-ring: var(--ring);
+  --color-input: var(--input);
+  --color-border: var(--border);
+  --color-destructive: var(--destructive);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-accent: var(--accent);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-muted: var(--muted);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-secondary: var(--secondary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-primary: var(--primary);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-popover: var(--popover);
+  --color-card-foreground: var(--card-foreground);
+  --color-card: var(--card);
+  --radius-sm: 0;
+  --radius-md: 0;
+  --radius-lg: 0;
+  --radius-xl: 0;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+:root {
+  --radius: 0;
+  --background: #FFFFFF;
+  --foreground: #435254;
+  --card: #FFFFFF;
+  --card-foreground: #435254;
+  --popover: #FFFFFF;
+  --popover-foreground: #435254;
+  --primary: #003F2D;
+  --primary-foreground: #FFFFFF;
+  --secondary: #435254;
+  --secondary-foreground: #FFFFFF;
+  --muted: #CAD1D3;
+  --muted-foreground: #435254;
+  --accent: #17E88F;
+  --accent-foreground: #003F2D;
+  --destructive: #032842;
+  --destructive-foreground: #FFFFFF;
+  --border: #CAD1D3;
+  --input: #CAD1D3;
+  --ring: #17E88F;
+  --chart-1: #003F2D;
+  --chart-2: #17E88F;
+  --chart-3: #012A2D;
+  --chart-4: #435254;
+  --chart-5: #CAD1D3;
+  --sidebar: #FFFFFF;
+  --sidebar-foreground: #435254;
+  --sidebar-primary: #003F2D;
+  --sidebar-primary-foreground: #FFFFFF;
+  --sidebar-accent: #17E88F;
+  --sidebar-accent-foreground: #003F2D;
+  --sidebar-border: #CAD1D3;
+  --sidebar-ring: #17E88F;
+}
+
+@layer base {
+  * {
+    @apply border-border outline-ring/50;
   }
-}
+  body {
+    @apply bg-background text-foreground font-calibre;
+  }
+  
+  /* Typography classes for CBRE styling */
+  h1, h2, h3, h4, h5, h6 {
+    @apply font-financier font-medium text-primary;
+  }
+  
+  h1 {
+    @apply text-5xl leading-tight;
+  }
+  
+  h2 {
+    @apply text-4xl leading-tight;
+  }
+  
+  h3 {
+    @apply text-3xl leading-tight;
+  }
+  
+  p {
+    @apply font-calibre text-base leading-relaxed text-foreground;
+  }
+  
+  .display-xl {
+    @apply font-financier text-6xl font-medium leading-tight text-primary;
+  }
 
-body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  .display-lg {
+    @apply font-financier text-5xl font-medium leading-tight text-primary;
+  }
+  
+  .display-md {
+    @apply font-financier text-4xl font-medium leading-tight text-primary;
+  }
+  
+  .body-lg {
+    @apply font-calibre text-xl leading-relaxed text-foreground;
+  }
+  
+  .body-md {
+    @apply font-calibre text-base leading-relaxed text-foreground;
+  }
+  
+  .body-sm {
+    @apply font-calibre text-sm leading-relaxed text-foreground;
+  }
+  
+  .accent-line {
+    @apply bg-accent h-1 w-14 my-4;
+  }
 }

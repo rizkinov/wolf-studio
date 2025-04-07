@@ -1,36 +1,71 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# CBRE Web Elements Template
+
+A modern web application template built with Next.js, Tailwind CSS, and shadcn/ui components, featuring CBRE's color palette and sharp corners design.
+
+## Features
+
+- [Next.js](https://nextjs.org/) - React framework for building web applications
+- [Tailwind CSS](https://tailwindcss.com/) - Utility-first CSS framework
+- [shadcn/ui](https://ui.shadcn.com/) - Customizable components built with Radix UI and Tailwind CSS
+- CBRE brand colors - Includes the complete CBRE color palette
+- Sharp corners - All UI elements have sharp corners consistent with CBRE's design language
+
+## CBRE Color Palette
+
+### Primary Colors
+- CBRE Green: `#003F2D`
+- Accent Green: `#17E88F`
+- Dark Green: `#012A2D`
+- Dark Grey: `#435254`
+- Light Grey: `#CAD1D3`
+
+### Secondary Colors
+- Midnight: `#032842`
+- Sage: `#538184`
+- Celadon: `#80BBAD`
+- Wheat: `#DBD99A`
+- Cement: `#7F8480`
+
+## Components Included
+
+- Button - Various button styles with CBRE colors and sharp corners
+- Card - Content containers with sharp corners and CBRE color accents
+- Avatar - User profile components with sharp corners
 
 ## Getting Started
 
-First, run the development server:
-
+1. Clone this repository:
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+git clone https://your-repository-url.git
+cd cbre-web-elements
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+2. Install dependencies:
+```bash
+npm install
+```
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+3. Run the development server:
+```bash
+npm run dev
+```
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+4. Open [http://localhost:3000](http://localhost:3000) in your browser.
 
-## Learn More
+## Adding More Components
 
-To learn more about Next.js, take a look at the following resources:
+You can easily add more shadcn components using the CLI:
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+```bash
+npx shadcn add [component-name]
+```
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+Available components: https://ui.shadcn.com/docs/components
 
-## Deploy on Vercel
+## Customization
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+The shadcn components have been customized to remove rounded corners and use the CBRE color palette. You can further customize them by editing the files in the `components/ui` directory. The design tokens and theme variables are defined in the Tailwind configuration and `globals.css`.
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+## License
+
+MIT
