@@ -288,8 +288,8 @@ export default function SidebarExamplePage() {
               <div className="h-[500px] flex overflow-hidden">
                 <CBRESidebarProvider defaultOpen={false}>
                   <div className="flex h-full w-full relative overflow-hidden">
-                    <CBRESidebar collapsible="icon" className="!static !h-full !min-h-full">
-                      <CBRESidebarHeader>
+                    <CBRESidebar collapsible="icon" className="!static !h-full">
+                      <CBRESidebarHeader className="flex justify-center">
                         <CBRELogo />
                       </CBRESidebarHeader>
                       <CBRESidebarContent>
@@ -304,11 +304,11 @@ export default function SidebarExamplePage() {
                                     isActive={item.active}
                                     tooltip={item.title}
                                   >
-                                    <a href={item.url} className="flex w-full items-center justify-center py-2 relative">
+                                    <a href={item.url} className="flex flex-col items-center justify-center py-2 relative">
                                       <item.icon className="size-5" />
-                                      <span className="ml-3">{item.title}</span>
+                                      <span className="sr-only">{item.title}</span>
                                       {item.badge && (
-                                        <CBRESidebarMenuBadge className="absolute top-0 right-2 -translate-y-1/4 size-4 text-xs">
+                                        <CBRESidebarMenuBadge className="absolute top-0 right-1 -translate-y-1/2 size-4 text-xs">
                                           {item.badge}
                                         </CBRESidebarMenuBadge>
                                       )}
@@ -320,7 +320,7 @@ export default function SidebarExamplePage() {
                           </CBRESidebarGroupContent>
                         </CBRESidebarGroup>
                       </CBRESidebarContent>
-                      <CBRESidebarFooter>
+                      <CBRESidebarFooter className="flex justify-center">
                         <div className="flex items-center justify-center p-2">
                           <div className="size-8 rounded-full bg-cbre-green flex items-center justify-center text-white">
                             <UsersIcon className="size-4" />
@@ -359,26 +359,26 @@ export default function SidebarExamplePage() {
             <pre className="bg-gray-100 p-4 rounded overflow-x-auto text-sm">
 {`<CBRESidebarProvider defaultOpen={false}>
   <CBRESidebar collapsible="icon">
-    <CBRESidebarHeader>
-      <Logo />
+    <CBRESidebarHeader className="flex justify-center">
+      <CBRELogo />
     </CBRESidebarHeader>
     <CBRESidebarContent>
       <CBRESidebarGroup>
         <CBRESidebarGroupLabel>Main</CBRESidebarGroupLabel>
         <CBRESidebarGroupContent>
           <CBRESidebarMenu>
-            {items.map((item) => (
+            {mainMenuItems.map((item) => (
               <CBRESidebarMenuItem key={item.title}>
                 <CBRESidebarMenuButton 
                   asChild 
                   isActive={item.active}
                   tooltip={item.title}
                 >
-                  <a href={item.url} className="flex w-full items-center py-2">
-                    <item.icon className="size-5 mr-3" />
-                    <span className="ml-2">{item.title}</span>
+                  <a href={item.url} className="flex flex-col items-center justify-center py-2 relative">
+                    <item.icon className="size-5" />
+                    <span className="sr-only">{item.title}</span>
                     {item.badge && (
-                      <CBRESidebarMenuBadge className="ml-auto">
+                      <CBRESidebarMenuBadge className="absolute top-0 right-1 -translate-y-1/2 size-4 text-xs">
                         {item.badge}
                       </CBRESidebarMenuBadge>
                     )}
@@ -390,7 +390,7 @@ export default function SidebarExamplePage() {
         </CBRESidebarGroupContent>
       </CBRESidebarGroup>
     </CBRESidebarContent>
-    <CBRESidebarFooter>
+    <CBRESidebarFooter className="flex justify-center">
       {/* User profile */}
     </CBRESidebarFooter>
   </CBRESidebar>
