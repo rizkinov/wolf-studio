@@ -438,7 +438,19 @@
     padding: 0 !important;
   }
   
-  /* Force all menu items to use solid backgrounds with no borders */
+  /* Force all menu items to have the exact same styling */
+  [data-collapsible="icon"] [data-slot="sidebar-menu"] > [data-slot="sidebar-menu-item"]:nth-child(1),
+  [data-collapsible="icon"] [data-slot="sidebar-menu"] > [data-slot="sidebar-menu-item"]:nth-child(2),
+  [data-collapsible="icon"] [data-slot="sidebar-menu"] > [data-slot="sidebar-menu-item"]:nth-child(3),
+  [data-collapsible="icon"] [data-slot="sidebar-menu"] > [data-slot="sidebar-menu-item"]:nth-child(4),
+  [data-collapsible="icon"] [data-slot="sidebar-menu"] > [data-slot="sidebar-menu-item"]:nth-child(5) {
+    border: none !important;
+    padding: 0 !important;
+    margin: 4px 0 !important;
+    background: white !important;
+  }
+  
+  /* Basic styling for all menu buttons */
   [data-collapsible="icon"] [data-slot="sidebar-menu-button"] {
     display: flex !important;
     align-items: center !important;
@@ -449,6 +461,62 @@
     border: none !important;
     outline: none !important;
     box-shadow: none !important;
+    border-top: none !important;
+    border-bottom: none !important;
+    margin-top: 0 !important;
+    margin-bottom: 0 !important;
+  }
+  
+  /* Remove all possible elements above Inbox icon */
+  [data-collapsible="icon"] [data-slot="sidebar-menu"] > [data-slot="sidebar-menu-item"]:nth-child(2) {
+    position: relative !important;
+  }
+  
+  [data-collapsible="icon"] [data-slot="sidebar-menu"] > [data-slot="sidebar-menu-item"]:nth-child(2)::before,
+  [data-collapsible="icon"] [data-slot="sidebar-menu"] > [data-slot="sidebar-menu-item"]:nth-child(2)::after,
+  [data-collapsible="icon"] [data-slot="sidebar-menu"] > [data-slot="sidebar-menu-item"]:nth-child(2) > * {
+    border-top: none !important;
+    border-bottom: none !important;
+    outline: none !important;
+    box-shadow: none !important;
+  }
+  
+  /* Special fix for the mail/inbox icon */
+  [data-collapsible="icon"] [data-slot="sidebar-menu-button"] a[data-title="Inbox"],
+  [data-collapsible="icon"] [data-slot="sidebar-menu-button"] a[data-title="Inbox"] svg,
+  [data-collapsible="icon"] [data-slot="sidebar-menu-button"] a[data-title="Inbox"]::before,
+  [data-collapsible="icon"] [data-slot="sidebar-menu-button"] a[data-title="Inbox"]::after {
+    border: none !important;
+    border-top: none !important;
+    border-bottom: none !important;
+    outline: none !important;
+    box-shadow: none !important;
+    background-image: none !important;
+    text-decoration: none !important;
+  }
+  
+  /* Ensure absolutely no borders or line-type elements can exist */
+  [data-collapsible="icon"] [data-slot="sidebar"] *,
+  [data-collapsible="icon"] [data-slot="sidebar"] *::before,
+  [data-collapsible="icon"] [data-slot="sidebar"] *::after {
+    border-top-width: 0 !important;
+    border-bottom-width: 0 !important;
+    border-top-color: transparent !important;
+    border-bottom-color: transparent !important;
+    box-shadow: none !important;
+    text-decoration: none !important;
+    text-decoration-color: transparent !important;
+  }
+  
+  /* Target specific green elements in the sidebar */
+  [data-collapsible="icon"] [data-slot="sidebar"] [style*="background-color: #003F2D"],
+  [data-collapsible="icon"] [data-slot="sidebar"] [style*="background-color:#003F2D"],
+  [data-collapsible="icon"] [data-slot="sidebar"] [style*="border-color: #003F2D"],
+  [data-collapsible="icon"] [data-slot="sidebar"] [style*="border-color:#003F2D"] {
+    height: auto !important;
+    min-height: 0 !important;
+    max-height: none !important;
+    border: none !important;
   }
   
   [data-collapsible="icon"] [data-slot="sidebar-menu-button"] a {
@@ -597,6 +665,66 @@
     color: white;
     font-weight: 600;
     font-family: var(--font-financier);
+  }
+
+  /* Solution to fix the green line above mail/inbox icon */
+  /* This is a targeted fix for the specific issue */
+  .debug-item {
+    position: relative !important;
+  }
+  
+  .debug-button {
+    position: relative !important;
+    display: block !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    border: none !important;
+    background: transparent !important;
+  }
+  
+  .debug-link {
+    position: relative !important; 
+    z-index: 5 !important;
+  }
+  
+  .debug-link::before,
+  .debug-link::after {
+    display: none !important;
+    content: none !important;
+  }
+  
+  /* Brute force approach to remove ANY potential green line */
+  [data-collapsible="icon"] [data-slot="sidebar-menu-item"] {
+    position: relative !important;
+    isolation: isolate !important;
+  }
+  
+  [data-collapsible="icon"] [data-slot="sidebar-menu-item"]::after {
+    content: "" !important;
+    position: absolute !important;
+    top: 0 !important;
+    left: 0 !important;
+    right: 0 !important;
+    height: 3px !important;  /* Cover potential green line */
+    background-color: white !important;
+    z-index: 10 !important;
+  }
+  
+  /* Force active styles to be immediately applied */
+  [data-collapsible="icon"] [data-slot="sidebar-menu-button"][data-active="true"] {
+    background-color: var(--cbre-green) !important;
+    color: white !important;
+    height: 40px !important;
+    width: 100% !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    border: none !important;
+    border-radius: 0 !important;
+    box-shadow: none !important;
+    outline: none !important;
+    margin: 0 !important;
+    padding: 0 !important;
   }
 }
 

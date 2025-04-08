@@ -384,22 +384,23 @@ export default function SidebarExamplePage() {
                           <CBRESidebarGroupContent>
                             <CBRESidebarMenu className="!border-none !shadow-none">
                               {iconMenuItems.map((item) => (
-                                <CBRESidebarMenuItem key={item.title} className="!border-none !shadow-none">
+                                <CBRESidebarMenuItem key={item.title} className="!border-none !shadow-none debug-item">
                                   <CBRESidebarMenuButton 
                                     asChild 
                                     isActive={item.active}
                                     tooltip={item.title}
-                                    className="!border-none !outline-none !shadow-none"
+                                    className="!border-none !outline-none !shadow-none debug-button"
                                   >
                                     <a 
                                       href={item.url} 
-                                      className="flex flex-col items-center justify-center py-2 relative !border-none !outline-none"
+                                      className="flex flex-col items-center justify-center py-2 relative !border-none !outline-none debug-link"
                                       onClick={item.onClick}
+                                      data-title={item.title}
                                     >
-                                      <item.icon className="size-5" />
+                                      <item.icon className="size-5 debug-icon" />
                                       <span className="sr-only">{item.title}</span>
                                       {item.badge && (
-                                        <CBRESidebarMenuBadge className="absolute top-0 right-1 -translate-y-1/2 size-4 text-xs">
+                                        <CBRESidebarMenuBadge className="absolute top-0 right-1 -translate-y-1/2 size-4 text-xs debug-badge">
                                           {item.badge}
                                         </CBRESidebarMenuBadge>
                                       )}
@@ -459,21 +460,23 @@ export default function SidebarExamplePage() {
         <CBRESidebarGroupContent>
           <CBRESidebarMenu>
             {iconMenuItems.map((item) => (
-              <CBRESidebarMenuItem key={item.title}>
+              <CBRESidebarMenuItem key={item.title} className="!border-none !shadow-none debug-item">
                 <CBRESidebarMenuButton 
                   asChild 
                   isActive={item.active}
                   tooltip={item.title}
+                  className="!border-none !outline-none !shadow-none debug-button"
                 >
                   <a 
                     href={item.url} 
-                    className="flex flex-col items-center justify-center py-2 relative"
+                    className="flex flex-col items-center justify-center py-2 relative !border-none !outline-none debug-link"
                     onClick={item.onClick}
+                    data-title={item.title}
                   >
-                    <item.icon className="size-5" />
+                    <item.icon className="size-5 debug-icon" />
                     <span className="sr-only">{item.title}</span>
                     {item.badge && (
-                      <CBRESidebarMenuBadge className="absolute top-0 right-1 -translate-y-1/2 size-4 text-xs">
+                      <CBRESidebarMenuBadge className="absolute top-0 right-1 -translate-y-1/2 size-4 text-xs debug-badge">
                         {item.badge}
                       </CBRESidebarMenuBadge>
                     )}
