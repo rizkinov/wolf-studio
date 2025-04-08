@@ -48,7 +48,11 @@ function CBRECheckboxItem({
         id={id}
         checked={checked}
         defaultChecked={defaultChecked}
-        onCheckedChange={onCheckedChange}
+        onCheckedChange={(value) => {
+          // Convert indeterminate to boolean for simpler state management
+          const isChecked = value === true;
+          onCheckedChange?.(isChecked);
+        }}
         disabled={disabled}
         required={required}
         name={name}
@@ -68,7 +72,7 @@ function CBRECheckboxItem({
             labelClassName
           )}
           onClick={disabled ? undefined : (e) => {
-            // Extra handling for the label click
+            // Only handle click when no ID is present (otherwise htmlFor handles it)
             if (!id) {
               e.preventDefault();
               onCheckedChange?.(!checked);

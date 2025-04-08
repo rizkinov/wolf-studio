@@ -70,12 +70,17 @@ export default function CheckboxExamplePage() {
           <h2 className="text-4xl font-financier text-cbre-green mb-5">Checkbox with Label</h2>
           <div className="bg-[var(--lighter-grey)] p-4 md:p-8">
             <div className="border border-light-grey bg-white p-8 max-w-2xl mx-auto">
-              <CheckboxItem 
-                id="terms-checkbox" 
-                label="Accept terms and conditions"
-                checked={acceptTerms}
-                onCheckedChange={() => setAcceptTerms(!acceptTerms)}
-              />
+              <div>
+                <CheckboxItem 
+                  id="terms-checkbox" 
+                  label="Accept terms and conditions"
+                  checked={acceptTerms}
+                  onCheckedChange={(checked) => setAcceptTerms(checked)}
+                />
+                <p className="mt-2 text-sm text-dark-grey">
+                  Current state: <span className="font-bold">{acceptTerms ? 'Checked ✓' : 'Unchecked ✗'}</span>
+                </p>
+              </div>
             </div>
           </div>
           
@@ -86,12 +91,17 @@ export default function CheckboxExamplePage() {
 
 const [acceptTerms, setAcceptTerms] = React.useState(false);
 
-<CheckboxItem 
-  id="terms-checkbox" 
-  label="Accept terms and conditions"
-  checked={acceptTerms}
-  onCheckedChange={() => setAcceptTerms(!acceptTerms)}
-/>
+<div>
+  <CheckboxItem 
+    id="terms-checkbox" 
+    label="Accept terms and conditions"
+    checked={acceptTerms}
+    onCheckedChange={(checked) => setAcceptTerms(checked)}
+  />
+  <p className="mt-2 text-sm text-dark-grey">
+    Current state: <span className="font-bold">{acceptTerms ? 'Checked ✓' : 'Unchecked ✗'}</span>
+  </p>
+</div>
 `}
             </pre>
           </div>
@@ -167,7 +177,12 @@ const [acceptTerms, setAcceptTerms] = React.useState(false);
                   label="Product updates"
                   description="Receive notifications about new features and improvements"
                   checked={newsletterOptions.updates}
-                  onCheckedChange={() => handleNewsletterChange('updates')}
+                  onCheckedChange={(checked) => {
+                    setNewsletterOptions(prev => ({
+                      ...prev,
+                      updates: checked
+                    }));
+                  }}
                 />
                 
                 <CheckboxItem 
@@ -175,7 +190,12 @@ const [acceptTerms, setAcceptTerms] = React.useState(false);
                   label="Marketing communications"
                   description="Receive special offers, promotions, and marketing emails"
                   checked={newsletterOptions.marketing}
-                  onCheckedChange={() => handleNewsletterChange('marketing')}
+                  onCheckedChange={(checked) => {
+                    setNewsletterOptions(prev => ({
+                      ...prev,
+                      marketing: checked
+                    }));
+                  }}
                 />
                 
                 <CheckboxItem 
@@ -183,7 +203,12 @@ const [acceptTerms, setAcceptTerms] = React.useState(false);
                   label="Partner offers"
                   description="Receive offers from our trusted partners"
                   checked={newsletterOptions.partner}
-                  onCheckedChange={() => handleNewsletterChange('partner')}
+                  onCheckedChange={(checked) => {
+                    setNewsletterOptions(prev => ({
+                      ...prev,
+                      partner: checked
+                    }));
+                  }}
                 />
               </CheckboxGroup>
               
@@ -220,7 +245,12 @@ const handleNewsletterChange = (option: keyof typeof newsletterOptions) => {
     label="Product updates"
     description="Receive notifications about new features and improvements"
     checked={newsletterOptions.updates}
-    onCheckedChange={() => handleNewsletterChange('updates')}
+    onCheckedChange={(checked) => {
+      setNewsletterOptions(prev => ({
+        ...prev,
+        updates: checked
+      }));
+    }}
   />
   
   <CheckboxItem 
@@ -228,7 +258,12 @@ const handleNewsletterChange = (option: keyof typeof newsletterOptions) => {
     label="Marketing communications"
     description="Receive special offers, promotions, and marketing emails"
     checked={newsletterOptions.marketing}
-    onCheckedChange={() => handleNewsletterChange('marketing')}
+    onCheckedChange={(checked) => {
+      setNewsletterOptions(prev => ({
+        ...prev,
+        marketing: checked
+      }));
+    }}
   />
   
   <CheckboxItem 
@@ -236,7 +271,12 @@ const handleNewsletterChange = (option: keyof typeof newsletterOptions) => {
     label="Partner offers"
     description="Receive offers from our trusted partners"
     checked={newsletterOptions.partner}
-    onCheckedChange={() => handleNewsletterChange('partner')}
+    onCheckedChange={(checked) => {
+      setNewsletterOptions(prev => ({
+        ...prev,
+        partner: checked
+      }));
+    }}
   />
 </CheckboxGroup>
 `}
@@ -258,42 +298,72 @@ const handleNewsletterChange = (option: keyof typeof newsletterOptions) => {
                     id="recents-checkbox" 
                     label="Recents"
                     checked={sidebarItems.recents}
-                    onCheckedChange={() => handleSidebarItemChange('recents')}
+                    onCheckedChange={(checked) => {
+                      setSidebarItems(prev => ({
+                        ...prev,
+                        recents: checked
+                      }));
+                    }}
                   />
                   
                   <CheckboxItem 
                     id="home-checkbox" 
                     label="Home"
                     checked={sidebarItems.home}
-                    onCheckedChange={() => handleSidebarItemChange('home')}
+                    onCheckedChange={(checked) => {
+                      setSidebarItems(prev => ({
+                        ...prev,
+                        home: checked
+                      }));
+                    }}
                   />
                   
                   <CheckboxItem 
                     id="applications-checkbox" 
                     label="Applications"
                     checked={sidebarItems.applications}
-                    onCheckedChange={() => handleSidebarItemChange('applications')}
+                    onCheckedChange={(checked) => {
+                      setSidebarItems(prev => ({
+                        ...prev,
+                        applications: checked
+                      }));
+                    }}
                   />
                   
                   <CheckboxItem 
                     id="desktop-checkbox" 
                     label="Desktop"
                     checked={sidebarItems.desktop}
-                    onCheckedChange={() => handleSidebarItemChange('desktop')}
+                    onCheckedChange={(checked) => {
+                      setSidebarItems(prev => ({
+                        ...prev,
+                        desktop: checked
+                      }));
+                    }}
                   />
                   
                   <CheckboxItem 
                     id="downloads-checkbox" 
                     label="Downloads"
                     checked={sidebarItems.downloads}
-                    onCheckedChange={() => handleSidebarItemChange('downloads')}
+                    onCheckedChange={(checked) => {
+                      setSidebarItems(prev => ({
+                        ...prev,
+                        downloads: checked
+                      }));
+                    }}
                   />
                   
                   <CheckboxItem 
                     id="documents-checkbox" 
                     label="Documents"
                     checked={sidebarItems.documents}
-                    onCheckedChange={() => handleSidebarItemChange('documents')}
+                    onCheckedChange={(checked) => {
+                      setSidebarItems(prev => ({
+                        ...prev,
+                        documents: checked
+                      }));
+                    }}
                   />
                 </div>
               </CheckboxGroup>
@@ -316,42 +386,72 @@ const handleNewsletterChange = (option: keyof typeof newsletterOptions) => {
       id="recents-checkbox" 
       label="Recents"
       checked={sidebarItems.recents}
-      onCheckedChange={() => handleSidebarItemChange('recents')}
+      onCheckedChange={(checked) => {
+        setSidebarItems(prev => ({
+          ...prev,
+          recents: checked
+        }));
+      }}
     />
     
     <CheckboxItem 
       id="home-checkbox" 
       label="Home"
       checked={sidebarItems.home}
-      onCheckedChange={() => handleSidebarItemChange('home')}
+      onCheckedChange={(checked) => {
+        setSidebarItems(prev => ({
+          ...prev,
+          home: checked
+        }));
+      }}
     />
     
     <CheckboxItem 
       id="applications-checkbox" 
       label="Applications"
       checked={sidebarItems.applications}
-      onCheckedChange={() => handleSidebarItemChange('applications')}
+      onCheckedChange={(checked) => {
+        setSidebarItems(prev => ({
+          ...prev,
+          applications: checked
+        }));
+      }}
     />
     
     <CheckboxItem 
       id="desktop-checkbox" 
       label="Desktop"
       checked={sidebarItems.desktop}
-      onCheckedChange={() => handleSidebarItemChange('desktop')}
+      onCheckedChange={(checked) => {
+        setSidebarItems(prev => ({
+          ...prev,
+          desktop: checked
+        }));
+      }}
     />
     
     <CheckboxItem 
       id="downloads-checkbox" 
       label="Downloads"
       checked={sidebarItems.downloads}
-      onCheckedChange={() => handleSidebarItemChange('downloads')}
+      onCheckedChange={(checked) => {
+        setSidebarItems(prev => ({
+          ...prev,
+          downloads: checked
+        }));
+      }}
     />
     
     <CheckboxItem 
       id="documents-checkbox" 
       label="Documents"
       checked={sidebarItems.documents}
-      onCheckedChange={() => handleSidebarItemChange('documents')}
+      onCheckedChange={(checked) => {
+        setSidebarItems(prev => ({
+          ...prev,
+          documents: checked
+        }));
+      }}
     />
   </div>
 </CheckboxGroup>
