@@ -219,12 +219,12 @@ export default function SeparatorExamplePage() {
             <div className="space-y-8">
               <div>
                 <p className="font-calibre mb-4">Custom width separator (50% width):</p>
-                <CBRESeparator style={{ width: '50%', marginLeft: 0 }} />
+                <CBRESeparator style={{ width: '50% !important', marginLeft: '0 !important' }} />
               </div>
               
               <div>
                 <p className="font-calibre mb-4">Custom color separator (negative-red):</p>
-                <CBRESeparator style={{ backgroundColor: '#AD2A2A' }} />
+                <CBRESeparator style={{ backgroundColor: '#AD2A2A !important' }} />
               </div>
               
               <div>
@@ -238,10 +238,10 @@ export default function SeparatorExamplePage() {
             <h3 className="text-lg font-calibre font-medium text-dark-grey mb-3">Custom Styling</h3>
             <pre className="bg-gray-100 p-4 rounded overflow-x-auto text-sm">
 {`// Custom width (50%)
-<CBRESeparator style={{ width: '50%', marginLeft: 0 }} />
+<CBRESeparator style={{ width: '50% !important', marginLeft: '0 !important' }} />
 
 // Custom color (negative-red)
-<CBRESeparator style={{ backgroundColor: '#AD2A2A' }} />
+<CBRESeparator style={{ backgroundColor: '#AD2A2A !important' }} />
 
 // Custom margin (extra large)
 <CBRESeparator className="!my-16" />`}

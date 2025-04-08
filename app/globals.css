@@ -203,4 +203,62 @@
     background-color: transparent !important;
     box-shadow: none !important;
   }
+
+  /* Specific fix for the tabs border flickering issue */
+  [data-slot="tabs-trigger"][data-variant="underline"][data-state="active"],
+  [data-slot="tabs-trigger"][data-variant="underline"][data-state="inactive"] {
+    border: none !important;
+    outline: none !important;
+  }
+  
+  /* Add the accent green border only after ensuring there are no other borders */
+  [data-slot="tabs-trigger"][data-variant="underline"][data-state="active"]::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 3px;
+    background-color: var(--accent-green);
+    z-index: 10;
+  }
+  
+  /* Underline variant active state */
+  [data-slot="tabs-trigger"][data-variant="underline"][data-state="active"] {
+    background-color: transparent !important; 
+    color: var(--cbre-green) !important;
+    box-shadow: none !important;
+  }
+
+  /* Ensure separator visibility */
+  [data-slot="separator-root"] {
+    background-color: var(--cbre-green) !important;
+    opacity: 1 !important;
+    visibility: visible !important;
+    display: block !important;
+  }
+  
+  [data-slot="separator-root"][data-orientation="horizontal"] {
+    height: 2px !important;
+    min-height: 2px !important;
+  }
+  
+  [data-slot="separator-root"][data-orientation="vertical"] {
+    width: 2px !important;
+    min-width: 2px !important;
+  }
+  
+  [data-slot="separator-root"][data-variant="thin"][data-orientation="horizontal"] {
+    height: 1px !important;
+    min-height: 1px !important;
+  }
+  
+  [data-slot="separator-root"][data-variant="thick"][data-orientation="horizontal"] {
+    height: 3px !important;
+    min-height: 3px !important;
+  }
+  
+  [data-slot="separator-root"][data-variant="accent"] {
+    background-color: var(--accent-green) !important;
+  }
 }

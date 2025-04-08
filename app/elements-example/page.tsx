@@ -62,7 +62,7 @@ const elementCategories = [
         name: "Separator",
         description: "A visual divider between content or elements.",
         path: "/elements-example/separator",
-        status: "planned"
+        status: "completed"
       },
       {
         name: "Resizable",
