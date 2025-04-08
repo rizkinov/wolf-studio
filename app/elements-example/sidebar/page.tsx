@@ -49,20 +49,30 @@ const teamMenuItems = [
 ];
 
 // Logo component for the sidebar header
-function CBRELogo() {
+function CBRELogo({textOnly = false}: {textOnly?: boolean} = {}) {
   const { state } = useSidebar();
   const isCollapsed = state === "collapsed";
   
   if (isCollapsed) {
     return (
-      <div className="flex items-center p-2 justify-center">
+      <div className="flex items-center p-2 justify-center h-[60px]">
         <div className="logo-square">C</div>
       </div>
     );
   }
   
+  if (textOnly) {
+    return (
+      <div className="h-[60px] flex items-center pl-2">
+        <div className="h-6 w-14">
+          <span className="logo-cbre-green"></span>
+        </div>
+      </div>
+    );
+  }
+  
   return (
-    <div className="flex items-center p-2">
+    <div className="flex items-center p-2 h-[60px]">
       <div className="logo-square mr-2">C</div>
       <div className="h-6 w-14">
         <span className="logo-cbre-green"></span>
@@ -118,6 +128,7 @@ export default function SidebarExamplePage() {
 
   const iconMenuItems = mainMenuItems.map(item => ({
     ...item,
+    badge: undefined,
     active: item.title === iconActiveItem,
     onClick: (e: React.MouseEvent<HTMLAnchorElement>) => {
       e.preventDefault();
@@ -152,8 +163,8 @@ export default function SidebarExamplePage() {
                 <CBRESidebarProvider defaultOpen={true}>
                   <div className="flex h-full w-full relative overflow-hidden">
                     <CBRESidebar className="!static !w-64 !h-full max-w-[16rem]">
-                      <CBRESidebarHeader>
-                        <CBRELogo />
+                      <CBRESidebarHeader className="h-[60px] box-border py-2">
+                        <CBRELogo textOnly={true} />
                       </CBRESidebarHeader>
                       <CBRESidebarContent>
                         <CBRESidebarGroup>
@@ -227,8 +238,12 @@ export default function SidebarExamplePage() {
                       </CBRESidebarContent>
                       <CBRESidebarFooter>
                         <div className="flex items-center p-2">
-                          <div className="size-8 rounded-full bg-cbre-green flex items-center justify-center text-white">
-                            <UsersIcon className="size-4" />
+                          <div className="!size-8 !rounded-full !overflow-hidden !flex !items-center !justify-center !border !border-light-grey">
+                            <img 
+                              src="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='100%' height='100%' viewBox='0 0 24 24' fill='%23004b23' stroke='none'><rect width='24' height='24' fill='%23004b23' rx='12' ry='12'/><path d='M12 13a4 4 0 100-8 4 4 0 000 8z' fill='white'/><path d='M18 21v-2a4 4 0 00-4-4H10a4 4 0 00-4 4v2' fill='white'/></svg>"
+                              alt="Jane Smith" 
+                              className="!w-full !h-full !object-cover"
+                            />
                           </div>
                           <div className="ml-2">
                             <div className="text-sm font-medium">Jane Smith</div>
@@ -239,12 +254,12 @@ export default function SidebarExamplePage() {
                     </CBRESidebar>
                     
                     <div className="flex-1 flex flex-col overflow-hidden">
-                      <div className="border-b border-light-grey p-4 flex items-center">
-                        <CBRESidebarTrigger className="mr-4" />
+                      <div className="flex items-center h-[60px] py-0 box-border">
+                        <CBRESidebarTrigger className="mr-4 ml-4" />
                         <h2 className="text-xl font-financier text-cbre-green">Dashboard</h2>
                       </div>
                       
-                      <div className="p-6 flex-1 overflow-auto">
+                      <div className="border-t border-light-grey p-6 flex-1 overflow-auto">
                         <div className="max-w-2xl mx-auto">
                           <p className="text-dark-grey font-calibre mb-4">
                             This is an example of the sidebar in use with a main content area. 
@@ -268,7 +283,7 @@ export default function SidebarExamplePage() {
             <pre className="bg-gray-100 p-4 rounded overflow-x-auto text-sm">
 {`<CBRESidebarProvider defaultOpen={true}>
   <CBRESidebar>
-    <CBRESidebarHeader>
+    <CBRESidebarHeader className="h-[60px] box-border py-2">
       <CBRELogo />
     </CBRESidebarHeader>
     <CBRESidebarContent>
@@ -343,8 +358,12 @@ export default function SidebarExamplePage() {
     </CBRESidebarContent>
     <CBRESidebarFooter>
       <div className="flex items-center p-2">
-        <div className="size-8 rounded-full bg-cbre-green flex items-center justify-center text-white">
-          <UsersIcon className="size-4" />
+        <div className="!size-8 !rounded-full !overflow-hidden !flex !items-center !justify-center !border !border-light-grey">
+          <img 
+            src="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='100%' height='100%' viewBox='0 0 24 24' fill='%23004b23' stroke='none'><rect width='24' height='24' fill='%23004b23' rx='12' ry='12'/><path d='M12 13a4 4 0 100-8 4 4 0 000 8z' fill='white'/><path d='M18 21v-2a4 4 0 00-4-4H10a4 4 0 00-4 4v2' fill='white'/></svg>"
+            alt="Jane Smith" 
+            className="!w-full !h-full !object-cover"
+          />
         </div>
         <div className="ml-2">
           <div className="text-sm font-medium">Jane Smith</div>
@@ -375,7 +394,7 @@ export default function SidebarExamplePage() {
                 <CBRESidebarProvider defaultOpen={false}>
                   <div className="flex h-full w-full relative overflow-hidden">
                     <CBRESidebar collapsible="icon" className="!static !h-full">
-                      <CBRESidebarHeader className="flex justify-center">
+                      <CBRESidebarHeader className="flex justify-center h-[60px] box-border py-2">
                         <CBRELogo />
                       </CBRESidebarHeader>
                       <CBRESidebarContent className="!border-none !shadow-none">
@@ -389,7 +408,7 @@ export default function SidebarExamplePage() {
                                     asChild 
                                     isActive={item.active}
                                     tooltip={item.title}
-                                    className="!border-none !outline-none !shadow-none debug-button"
+                                    className="!border-none !outline-none !shadow-none hover:!bg-lighter-grey data-[active=true]:!bg-dark-green data-[active=true]:!text-white debug-button"
                                   >
                                     <a 
                                       href={item.url} 
@@ -400,8 +419,8 @@ export default function SidebarExamplePage() {
                                       <item.icon className="size-5 debug-icon" />
                                       <span className="sr-only">{item.title}</span>
                                       {item.badge && (
-                                        <CBRESidebarMenuBadge className="absolute top-0 right-1 -translate-y-1/2 size-4 text-xs debug-badge">
-                                          {item.badge}
+                                        <CBRESidebarMenuBadge className="absolute top-0 right-0 h-1.5 w-1.5 !bg-accent-green !flex !items-center !justify-center !p-0 !rounded-full !debug-badge">
+                                          <span className="sr-only">{item.badge}</span>
                                         </CBRESidebarMenuBadge>
                                       )}
                                     </a>
@@ -414,20 +433,24 @@ export default function SidebarExamplePage() {
                       </CBRESidebarContent>
                       <CBRESidebarFooter className="flex justify-center">
                         <div className="flex items-center justify-center p-2">
-                          <div className="size-8 rounded-full bg-cbre-green flex items-center justify-center text-white">
-                            <UsersIcon className="size-4" />
+                          <div className="!size-8 !rounded-full !overflow-hidden !flex !items-center !justify-center !border !border-light-grey">
+                            <img 
+                              src="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='100%' height='100%' viewBox='0 0 24 24' fill='%23004b23' stroke='none'><rect width='24' height='24' fill='%23004b23' rx='12' ry='12'/><path d='M12 13a4 4 0 100-8 4 4 0 000 8z' fill='white'/><path d='M18 21v-2a4 4 0 00-4-4H10a4 4 0 00-4 4v2' fill='white'/></svg>"
+                              alt="Jane Smith" 
+                              className="!w-full !h-full !object-cover"
+                            />
                           </div>
                         </div>
                       </CBRESidebarFooter>
                     </CBRESidebar>
                     
                     <div className="flex-1 flex flex-col overflow-hidden">
-                      <div className="border-b border-light-grey p-4 flex items-center">
-                        <CBRESidebarTrigger className="mr-4" />
+                      <div className="flex items-center h-[60px] py-0 box-border">
+                        <CBRESidebarTrigger className="mr-4 ml-4" />
                         <h2 className="text-xl font-financier text-cbre-green">Icon Sidebar Example</h2>
                       </div>
-                      
-                      <div className="p-6 flex-1 overflow-auto">
+
+                      <div className="border-t border-light-grey p-6 flex-1 overflow-auto">
                         <div className="max-w-2xl mx-auto">
                           <p className="text-dark-grey font-calibre mb-4">
                             This example shows a sidebar that collapses to icons when toggled.
@@ -451,7 +474,7 @@ export default function SidebarExamplePage() {
             <pre className="bg-gray-100 p-4 rounded overflow-x-auto text-sm">
 {`<CBRESidebarProvider defaultOpen={false}>
   <CBRESidebar collapsible="icon">
-    <CBRESidebarHeader className="flex justify-center">
+    <CBRESidebarHeader className="flex justify-center h-[60px] box-border py-2">
       <CBRELogo />
     </CBRESidebarHeader>
     <CBRESidebarContent>
@@ -465,7 +488,7 @@ export default function SidebarExamplePage() {
                   asChild 
                   isActive={item.active}
                   tooltip={item.title}
-                  className="!border-none !outline-none !shadow-none debug-button"
+                  className="!border-none !outline-none !shadow-none hover:!bg-lighter-grey data-[active=true]:!bg-dark-green data-[active=true]:!text-white debug-button"
                 >
                   <a 
                     href={item.url} 
@@ -476,8 +499,8 @@ export default function SidebarExamplePage() {
                     <item.icon className="size-5 debug-icon" />
                     <span className="sr-only">{item.title}</span>
                     {item.badge && (
-                      <CBRESidebarMenuBadge className="absolute top-0 right-1 -translate-y-1/2 size-4 text-xs debug-badge">
-                        {item.badge}
+                      <CBRESidebarMenuBadge className="absolute top-0 right-0 h-1.5 w-1.5 !bg-accent-green !flex !items-center !justify-center !p-0 !rounded-full !debug-badge">
+                        <span className="sr-only">{item.badge}</span>
                       </CBRESidebarMenuBadge>
                     )}
                   </a>
@@ -489,7 +512,15 @@ export default function SidebarExamplePage() {
       </CBRESidebarGroup>
     </CBRESidebarContent>
     <CBRESidebarFooter className="flex justify-center">
-      {/* User profile */}
+      <div className="flex items-center justify-center p-2">
+        <div className="!size-8 !rounded-full !overflow-hidden !flex !items-center !justify-center !border !border-light-grey">
+          <img 
+            src="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='100%' height='100%' viewBox='0 0 24 24' fill='%23004b23' stroke='none'><rect width='24' height='24' fill='%23004b23' rx='12' ry='12'/><path d='M12 13a4 4 0 100-8 4 4 0 000 8z' fill='white'/><path d='M18 21v-2a4 4 0 00-4-4H10a4 4 0 00-4 4v2' fill='white'/></svg>"
+            alt="Jane Smith" 
+            className="!w-full !h-full !object-cover"
+          />
+        </div>
+      </div>
     </CBRESidebarFooter>
   </CBRESidebar>
   
@@ -510,9 +541,9 @@ export default function SidebarExamplePage() {
               <div className="h-[500px] flex overflow-hidden">
                 <CBRESidebarProvider defaultOpen={true}>
                   <div className="flex h-full w-full relative overflow-hidden">
-                    <CBRESidebar variant="floating" className="!static !h-full !min-h-full max-w-[16rem]">
-                      <CBRESidebarHeader>
-                        <CBRELogo />
+                    <CBRESidebar variant="floating" className="!static !h-full !min-h-full max-w-[18rem] !w-72">
+                      <CBRESidebarHeader className="h-[60px] box-border py-2">
+                        <CBRELogo textOnly={true} />
                       </CBRESidebarHeader>
                       <CBRESidebarContent>
                         <CBRESidebarGroup>
@@ -540,12 +571,12 @@ export default function SidebarExamplePage() {
                     </CBRESidebar>
                     
                     <div className="flex-1 flex flex-col overflow-hidden bg-lighter-grey">
-                      <div className="border-b border-light-grey p-4 flex items-center bg-white">
-                        <CBRESidebarTrigger className="mr-4" />
+                      <div className="flex items-center h-[68px] bg-white py-0 box-border">
+                        <CBRESidebarTrigger className="mr-4 ml-4" />
                         <h2 className="text-xl font-financier text-cbre-green">Floating Sidebar</h2>
                       </div>
-                      
-                      <div className="p-6 flex-1 overflow-auto">
+
+                      <div className="border-t border-light-grey p-6 flex-1 overflow-auto">
                         <div className="max-w-2xl mx-auto bg-white p-6 rounded-none shadow-sm">
                           <p className="text-dark-grey font-calibre mb-4">
                             This example shows the floating variant of the sidebar. The sidebar appears to float
@@ -569,8 +600,8 @@ export default function SidebarExamplePage() {
             <pre className="bg-gray-100 p-4 rounded overflow-x-auto text-sm">
 {`<CBRESidebarProvider>
   <CBRESidebar variant="floating">
-    <CBRESidebarHeader>
-      <Logo />
+    <CBRESidebarHeader className="h-[60px] box-border py-2">
+      <CBRELogo />
     </CBRESidebarHeader>
     <CBRESidebarContent>
       <CBRESidebarGroup>
