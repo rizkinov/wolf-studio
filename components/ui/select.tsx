@@ -13,9 +13,14 @@ function Select({
 }
 
 function SelectGroup({
+  className,
   ...props
 }: React.ComponentProps<typeof SelectPrimitive.Group>) {
-  return <SelectPrimitive.Group data-slot="select-group" {...props} />
+  return <SelectPrimitive.Group 
+    data-slot="select-group" 
+    className={cn("mb-2 last:mb-0", className)} 
+    {...props} 
+  />
 }
 
 function SelectValue({
@@ -87,7 +92,7 @@ function SelectContent({
         <SelectScrollUpButton />
         <SelectPrimitive.Viewport
           className={cn(
-            "p-1",
+            "p-2",
             position === "popper" &&
               "h-[var(--radix-select-trigger-height)] w-full min-w-[var(--radix-select-trigger-width)] scroll-my-1"
           )}
@@ -107,7 +112,7 @@ function SelectLabel({
   return (
     <SelectPrimitive.Label
       data-slot="select-label"
-      className={cn("text-muted-foreground px-2 py-1.5 text-xs font-calibre", className)}
+      className={cn("text-muted-foreground px-2 py-2 text-xs font-calibre font-medium mb-1", className)}
       {...props}
     />
   )
@@ -147,7 +152,7 @@ function SelectSeparator({
   return (
     <SelectPrimitive.Separator
       data-slot="select-separator"
-      className={cn("bg-light-grey/70 pointer-events-none -mx-1 my-1 h-[1px]", className)}
+      className={cn("bg-border pointer-events-none -mx-1 my-1 h-px", className)}
       {...props}
     />
   )
