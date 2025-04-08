@@ -1,11 +1,25 @@
 "use client";
 
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { CBRESeparator } from '@/components/cbre-separator';
 import { CBREButton } from '@/components/cbre-button';
 import Link from 'next/link';
 
 export default function SeparatorExamplePage() {
+  // State to force re-render after initial mount
+  const [mounted, setMounted] = useState(false);
+  const [key, setKey] = useState(0);
+
+  // Force a re-render after the component mounts
+  useEffect(() => {
+    setMounted(true);
+    // Use a short timeout to ensure the styles are applied after navigation
+    const timer = setTimeout(() => {
+      setKey(1); // Change key to force recreation of components
+    }, 50);
+    return () => clearTimeout(timer);
+  }, []);
+
   return (
     <div className="min-h-screen bg-white p-10">
       <style jsx global>{`
@@ -15,6 +29,20 @@ export default function SeparatorExamplePage() {
           display: block !important;
           border-radius: 0 !important;
           margin: 16px 0 !important;
+          animation: none !important;
+          transition: none !important;
+          contain: none !important;
+        }
+        
+        /* Reset any transition effects */
+        *, *::before, *::after {
+          transition: none !important;
+          animation: none !important;
+        }
+        
+        /* Force layout recalculation */
+        html body {
+          contain: none !important;
         }
         
         [data-slot="separator-root"][data-orientation="horizontal"] {
@@ -60,12 +88,6 @@ export default function SeparatorExamplePage() {
         [data-slot="separator-root"].!my-16 {
           margin-top: 4rem !important;
           margin-bottom: 4rem !important;
-        }
-
-        /* Fix for initial render */
-        html [data-slot="separator-root"] {
-          animation: none !important;
-          transition: none !important;
         }
       `}</style>
       <div className="max-w-4xl mx-auto">
@@ -219,17 +241,35 @@ export default function SeparatorExamplePage() {
             <div className="space-y-8">
               <div>
                 <p className="font-calibre mb-4">Custom width separator (50% width):</p>
-                <CBRESeparator style={{ width: '50% !important', marginLeft: '0 !important' }} />
+                {mounted ? (
+                  <CBRESeparator 
+                    key={`width-${key}`}
+                    style={{ width: '50% !important', marginLeft: '0 !important' }} 
+                  />
+                ) : (
+                  <div className="h-4">Loading...</div>
+                )}
               </div>
               
               <div>
                 <p className="font-calibre mb-4">Custom color separator (negative-red):</p>
-                <CBRESeparator style={{ backgroundColor: '#AD2A2A !important' }} />
+                {mounted ? (
+                  <CBRESeparator 
+                    key={`color-${key}`}
+                    style={{ backgroundColor: '#AD2A2A !important' }} 
+                  />
+                ) : (
+                  <div className="h-4">Loading...</div>
+                )}
               </div>
               
               <div>
                 <p className="font-calibre mb-4">Custom margin separator (extra large margins):</p>
-                <CBRESeparator className="!my-16" />
+                {mounted ? (
+                  <CBRESeparator key={`margin-${key}`} className="!my-16" />
+                ) : (
+                  <div className="h-4">Loading...</div>
+                )}
               </div>
             </div>
           </div>
@@ -257,4 +297,4 @@ export default function SeparatorExamplePage() {
       </div>
     </div>
   );
-} 
+}
