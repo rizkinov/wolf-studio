@@ -104,7 +104,7 @@ const elementCategories = [
         name: "Checkbox",
         description: "A control that allows selecting multiple items from a set.",
         path: "/elements-example/checkbox",
-        status: "planned"
+        status: "completed"
       },
       {
         name: "Input",
