@@ -49,7 +49,7 @@ export function CBREButton({
       case "outline":
         return cn(
           "border border-cbre-green text-cbre-green", 
-          "hover:bg-[rgba(23,232,143,0.2)] hover:border-cbre-green", 
+          "hover:bg-[rgba(230,232,233,0.2)] hover:border-cbre-green", 
           "transition-colors duration-300",
           className
         );
