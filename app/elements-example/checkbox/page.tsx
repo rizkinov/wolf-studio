@@ -2,9 +2,10 @@
 
 import React from 'react';
 import Link from 'next/link';
-
+import { Label } from "@/components/ui/label";
+import { Checkbox, CheckboxGroup } from '@/components/cbre-checkbox';
 import { CBREButton } from '@/components/cbre-button';
-import { Checkbox, CheckboxItem, CheckboxGroup } from '@/components/cbre-checkbox';
+import { type CheckedState } from "@radix-ui/react-checkbox";
 
 export default function CheckboxExamplePage() {
   const [acceptTerms, setAcceptTerms] = React.useState(false);
@@ -23,18 +24,8 @@ export default function CheckboxExamplePage() {
     documents: false
   });
 
-  const handleNewsletterChange = (option: keyof typeof newsletterOptions) => {
-    setNewsletterOptions(prev => ({
-      ...prev,
-      [option]: !prev[option]
-    }));
-  };
-
-  const handleSidebarItemChange = (option: keyof typeof sidebarItems) => {
-    setSidebarItems(prev => ({
-      ...prev,
-      [option]: !prev[option]
-    }));
+  const handleCheckedChange = (checked: CheckedState) => {
+    setAcceptTerms(checked === true);
   };
 
   return (
@@ -57,7 +48,7 @@ export default function CheckboxExamplePage() {
           <div className="bg-white p-6 border border-light-grey mt-6">
             <h3 className="text-lg font-calibre font-medium text-dark-grey mb-3">Implementation</h3>
             <pre className="bg-gray-100 p-4 rounded overflow-x-auto text-sm">
-{`import { Checkbox } from '@/components/cbre-checkbox';
+{`import { Checkbox } from '@/components/ui/checkbox';
 
 <Checkbox id="basic-checkbox" />
 `}
@@ -71,12 +62,19 @@ export default function CheckboxExamplePage() {
           <div className="bg-[var(--lighter-grey)] p-4 md:p-8">
             <div className="border border-light-grey bg-white p-8 max-w-2xl mx-auto">
               <div>
-                <CheckboxItem 
-                  id="terms-checkbox" 
-                  label="Accept terms and conditions"
-                  checked={acceptTerms}
-                  onCheckedChange={(checked) => setAcceptTerms(checked)}
-                />
+                <div className="flex items-center space-x-2">
+                  <Checkbox 
+                    id="terms-checkbox" 
+                    checked={acceptTerms}
+                    onCheckedChange={handleCheckedChange}
+                  />
+                  <Label 
+                    htmlFor="terms-checkbox"
+                    className="text-sm font-calibre text-dark-grey cursor-pointer"
+                  >
+                    Accept terms and conditions
+                  </Label>
+                </div>
                 <p className="mt-2 text-sm text-dark-grey">
                   Current state: <span className="font-bold">{acceptTerms ? 'Checked ✓' : 'Unchecked ✗'}</span>
                 </p>
@@ -87,20 +85,28 @@ export default function CheckboxExamplePage() {
           <div className="bg-white p-6 border border-light-grey mt-6">
             <h3 className="text-lg font-calibre font-medium text-dark-grey mb-3">Implementation</h3>
             <pre className="bg-gray-100 p-4 rounded overflow-x-auto text-sm">
-{`import { CheckboxItem } from '@/components/cbre-checkbox';
+{`import { Checkbox } from '@/components/ui/checkbox';
+import { Label } from '@/components/ui/label';
+import { type CheckedState } from "@radix-ui/react-checkbox";
 
 const [acceptTerms, setAcceptTerms] = React.useState(false);
 
-<div>
-  <CheckboxItem 
+const handleCheckedChange = (checked: CheckedState) => {
+  setAcceptTerms(checked === true);
+};
+
+<div className="flex items-center space-x-2">
+  <Checkbox 
     id="terms-checkbox" 
-    label="Accept terms and conditions"
     checked={acceptTerms}
-    onCheckedChange={(checked) => setAcceptTerms(checked)}
+    onCheckedChange={handleCheckedChange}
   />
-  <p className="mt-2 text-sm text-dark-grey">
-    Current state: <span className="font-bold">{acceptTerms ? 'Checked ✓' : 'Unchecked ✗'}</span>
-  </p>
+  <Label 
+    htmlFor="terms-checkbox"
+    className="text-sm font-calibre text-dark-grey cursor-pointer"
+  >
+    Accept terms and conditions
+  </Label>
 </div>
 `}
             </pre>
@@ -112,26 +118,50 @@ const [acceptTerms, setAcceptTerms] = React.useState(false);
           <h2 className="text-4xl font-financier text-cbre-green mb-5">Checkbox with Description</h2>
           <div className="bg-[var(--lighter-grey)] p-4 md:p-8">
             <div className="border border-light-grey bg-white p-8 max-w-2xl mx-auto">
-              <CheckboxItem 
-                id="terms-with-desc" 
-                label="Accept terms and conditions"
-                description="You agree to our Terms of Service and Privacy Policy."
-                checked={acceptTerms}
-                onCheckedChange={() => setAcceptTerms(!acceptTerms)}
-              />
+              <div className="flex items-start space-x-2">
+                <Checkbox 
+                  id="terms-with-desc" 
+                  className="mt-1"
+                  checked={acceptTerms}
+                  onCheckedChange={handleCheckedChange}
+                />
+                <div className="grid gap-1">
+                  <Label 
+                    htmlFor="terms-with-desc"
+                    className="text-sm font-calibre text-dark-grey cursor-pointer"
+                  >
+                    Accept terms and conditions
+                  </Label>
+                  <p className="text-xs font-calibre text-light-grey">
+                    You agree to our Terms of Service and Privacy Policy.
+                  </p>
+                </div>
+              </div>
             </div>
           </div>
           
           <div className="bg-white p-6 border border-light-grey mt-6">
             <h3 className="text-lg font-calibre font-medium text-dark-grey mb-3">Implementation</h3>
             <pre className="bg-gray-100 p-4 rounded overflow-x-auto text-sm">
-{`<CheckboxItem 
-  id="terms-with-desc" 
-  label="Accept terms and conditions"
-  description="You agree to our Terms of Service and Privacy Policy."
-  checked={acceptTerms}
-  onCheckedChange={() => setAcceptTerms(!acceptTerms)}
-/>
+{`<div className="flex items-start space-x-2">
+  <Checkbox 
+    id="terms-with-desc" 
+    className="mt-1"
+    checked={acceptTerms}
+    onCheckedChange={handleCheckedChange}
+  />
+  <div className="grid gap-1">
+    <Label 
+      htmlFor="terms-with-desc"
+      className="text-sm font-calibre text-dark-grey cursor-pointer"
+    >
+      Accept terms and conditions
+    </Label>
+    <p className="text-xs font-calibre text-light-grey">
+      You agree to our Terms of Service and Privacy Policy.
+    </p>
+  </div>
+</div>
 `}
             </pre>
           </div>
@@ -142,22 +172,30 @@ const [acceptTerms, setAcceptTerms] = React.useState(false);
           <h2 className="text-4xl font-financier text-cbre-green mb-5">Disabled Checkbox</h2>
           <div className="bg-[var(--lighter-grey)] p-4 md:p-8">
             <div className="border border-light-grey bg-white p-8 max-w-2xl mx-auto">
-              <CheckboxItem 
-                id="disabled-checkbox" 
-                label="Accept terms and conditions"
-                disabled
-              />
+              <div className="flex items-center space-x-2">
+                <Checkbox id="disabled-checkbox" disabled />
+                <Label 
+                  htmlFor="disabled-checkbox"
+                  className="text-sm font-calibre text-dark-grey opacity-50 cursor-not-allowed"
+                >
+                  Accept terms and conditions
+                </Label>
+              </div>
             </div>
           </div>
           
           <div className="bg-white p-6 border border-light-grey mt-6">
             <h3 className="text-lg font-calibre font-medium text-dark-grey mb-3">Implementation</h3>
             <pre className="bg-gray-100 p-4 rounded overflow-x-auto text-sm">
-{`<CheckboxItem 
-  id="disabled-checkbox" 
-  label="Accept terms and conditions"
-  disabled
-/>
+{`<div className="flex items-center space-x-2">
+  <Checkbox id="disabled-checkbox" disabled />
+  <Label 
+    htmlFor="disabled-checkbox"
+    className="text-sm font-calibre text-dark-grey opacity-50 cursor-not-allowed"
+  >
+    Accept terms and conditions
+  </Label>
+</div>
 `}
             </pre>
           </div>
@@ -172,44 +210,71 @@ const [acceptTerms, setAcceptTerms] = React.useState(false);
                 title="Newsletter preferences"
                 description="Select the types of newsletters you'd like to receive"
               >
-                <CheckboxItem 
-                  id="updates-checkbox" 
-                  label="Product updates"
-                  description="Receive notifications about new features and improvements"
-                  checked={newsletterOptions.updates}
-                  onCheckedChange={(checked) => {
-                    setNewsletterOptions(prev => ({
-                      ...prev,
-                      updates: checked
-                    }));
-                  }}
-                />
+                <div className="flex items-start space-x-2">
+                  <Checkbox 
+                    id="updates-checkbox" 
+                    className="mt-1"
+                    checked={newsletterOptions.updates}
+                    onCheckedChange={(checked: CheckedState) => 
+                      setNewsletterOptions(prev => ({ ...prev, updates: checked === true }))
+                    }
+                  />
+                  <div className="grid gap-1">
+                    <Label 
+                      htmlFor="updates-checkbox"
+                      className="text-sm font-calibre text-dark-grey"
+                    >
+                      Product updates
+                    </Label>
+                    <p className="text-xs font-calibre text-light-grey">
+                      Receive notifications about new features and improvements
+                    </p>
+                  </div>
+                </div>
                 
-                <CheckboxItem 
-                  id="marketing-checkbox" 
-                  label="Marketing communications"
-                  description="Receive special offers, promotions, and marketing emails"
-                  checked={newsletterOptions.marketing}
-                  onCheckedChange={(checked) => {
-                    setNewsletterOptions(prev => ({
-                      ...prev,
-                      marketing: checked
-                    }));
-                  }}
-                />
+                <div className="flex items-start space-x-2">
+                  <Checkbox 
+                    id="marketing-checkbox" 
+                    className="mt-1"
+                    checked={newsletterOptions.marketing}
+                    onCheckedChange={(checked: CheckedState) => 
+                      setNewsletterOptions(prev => ({ ...prev, marketing: checked === true }))
+                    }
+                  />
+                  <div className="grid gap-1">
+                    <Label 
+                      htmlFor="marketing-checkbox"
+                      className="text-sm font-calibre text-dark-grey"
+                    >
+                      Marketing communications
+                    </Label>
+                    <p className="text-xs font-calibre text-light-grey">
+                      Receive special offers, promotions, and marketing emails
+                    </p>
+                  </div>
+                </div>
                 
-                <CheckboxItem 
-                  id="partner-checkbox" 
-                  label="Partner offers"
-                  description="Receive offers from our trusted partners"
-                  checked={newsletterOptions.partner}
-                  onCheckedChange={(checked) => {
-                    setNewsletterOptions(prev => ({
-                      ...prev,
-                      partner: checked
-                    }));
-                  }}
-                />
+                <div className="flex items-start space-x-2">
+                  <Checkbox 
+                    id="partner-checkbox" 
+                    className="mt-1"
+                    checked={newsletterOptions.partner}
+                    onCheckedChange={(checked: CheckedState) => 
+                      setNewsletterOptions(prev => ({ ...prev, partner: checked === true }))
+                    }
+                  />
+                  <div className="grid gap-1">
+                    <Label 
+                      htmlFor="partner-checkbox"
+                      className="text-sm font-calibre text-dark-grey"
+                    >
+                      Partner offers
+                    </Label>
+                    <p className="text-xs font-calibre text-light-grey">
+                      Receive offers from our trusted partners
+                    </p>
+                  </div>
+                </div>
               </CheckboxGroup>
               
               <div className="pt-4 mt-4">
@@ -221,7 +286,9 @@ const [acceptTerms, setAcceptTerms] = React.useState(false);
           <div className="bg-white p-6 border border-light-grey mt-6">
             <h3 className="text-lg font-calibre font-medium text-dark-grey mb-3">Implementation</h3>
             <pre className="bg-gray-100 p-4 rounded overflow-x-auto text-sm">
-{`import { CheckboxGroup, CheckboxItem } from '@/components/cbre-checkbox';
+{`import { Checkbox, CheckboxGroup } from '@/components/cbre-checkbox';
+import { Label } from '@/components/ui/label';
+import { type CheckedState } from "@radix-ui/react-checkbox";
 
 const [newsletterOptions, setNewsletterOptions] = React.useState({
   updates: false,
@@ -229,55 +296,33 @@ const [newsletterOptions, setNewsletterOptions] = React.useState({
   partner: false
 });
 
-const handleNewsletterChange = (option: keyof typeof newsletterOptions) => {
-  setNewsletterOptions(prev => ({
-    ...prev,
-    [option]: !prev[option]
-  }));
-};
-
 <CheckboxGroup
   title="Newsletter preferences"
   description="Select the types of newsletters you'd like to receive"
 >
-  <CheckboxItem 
-    id="updates-checkbox" 
-    label="Product updates"
-    description="Receive notifications about new features and improvements"
-    checked={newsletterOptions.updates}
-    onCheckedChange={(checked) => {
-      setNewsletterOptions(prev => ({
-        ...prev,
-        updates: checked
-      }));
-    }}
-  />
+  <div className="flex items-start space-x-2">
+    <Checkbox 
+      id="updates-checkbox" 
+      className="mt-1"
+      checked={newsletterOptions.updates}
+      onCheckedChange={(checked: CheckedState) => 
+        setNewsletterOptions(prev => ({ ...prev, updates: checked === true }))
+      }
+    />
+    <div className="grid gap-1">
+      <Label 
+        htmlFor="updates-checkbox"
+        className="text-sm font-calibre text-dark-grey"
+      >
+        Product updates
+      </Label>
+      <p className="text-xs font-calibre text-light-grey">
+        Receive notifications about new features and improvements
+      </p>
+    </div>
+  </div>
   
-  <CheckboxItem 
-    id="marketing-checkbox" 
-    label="Marketing communications"
-    description="Receive special offers, promotions, and marketing emails"
-    checked={newsletterOptions.marketing}
-    onCheckedChange={(checked) => {
-      setNewsletterOptions(prev => ({
-        ...prev,
-        marketing: checked
-      }));
-    }}
-  />
-  
-  <CheckboxItem 
-    id="partner-checkbox" 
-    label="Partner offers"
-    description="Receive offers from our trusted partners"
-    checked={newsletterOptions.partner}
-    onCheckedChange={(checked) => {
-      setNewsletterOptions(prev => ({
-        ...prev,
-        partner: checked
-      }));
-    }}
-  />
+  {/* Additional checkboxes */}
 </CheckboxGroup>
 `}
             </pre>
@@ -294,77 +339,26 @@ const handleNewsletterChange = (option: keyof typeof newsletterOptions) => {
                 description="Select the items you want to display in the sidebar"
               >
                 <div className="grid md:grid-cols-2 gap-4">
-                  <CheckboxItem 
-                    id="recents-checkbox" 
-                    label="Recents"
-                    checked={sidebarItems.recents}
-                    onCheckedChange={(checked) => {
-                      setSidebarItems(prev => ({
-                        ...prev,
-                        recents: checked
-                      }));
-                    }}
-                  />
-                  
-                  <CheckboxItem 
-                    id="home-checkbox" 
-                    label="Home"
-                    checked={sidebarItems.home}
-                    onCheckedChange={(checked) => {
-                      setSidebarItems(prev => ({
-                        ...prev,
-                        home: checked
-                      }));
-                    }}
-                  />
-                  
-                  <CheckboxItem 
-                    id="applications-checkbox" 
-                    label="Applications"
-                    checked={sidebarItems.applications}
-                    onCheckedChange={(checked) => {
-                      setSidebarItems(prev => ({
-                        ...prev,
-                        applications: checked
-                      }));
-                    }}
-                  />
-                  
-                  <CheckboxItem 
-                    id="desktop-checkbox" 
-                    label="Desktop"
-                    checked={sidebarItems.desktop}
-                    onCheckedChange={(checked) => {
-                      setSidebarItems(prev => ({
-                        ...prev,
-                        desktop: checked
-                      }));
-                    }}
-                  />
-                  
-                  <CheckboxItem 
-                    id="downloads-checkbox" 
-                    label="Downloads"
-                    checked={sidebarItems.downloads}
-                    onCheckedChange={(checked) => {
-                      setSidebarItems(prev => ({
-                        ...prev,
-                        downloads: checked
-                      }));
-                    }}
-                  />
-                  
-                  <CheckboxItem 
-                    id="documents-checkbox" 
-                    label="Documents"
-                    checked={sidebarItems.documents}
-                    onCheckedChange={(checked) => {
-                      setSidebarItems(prev => ({
-                        ...prev,
-                        documents: checked
-                      }));
-                    }}
-                  />
+                  {Object.entries(sidebarItems).map(([key, value]) => (
+                    <div key={key} className="flex items-center space-x-2">
+                      <Checkbox 
+                        id={`${key}-checkbox`}
+                        checked={value}
+                        onCheckedChange={(checked: CheckedState) => 
+                          setSidebarItems(prev => ({ 
+                            ...prev, 
+                            [key]: checked === true 
+                          }))
+                        }
+                      />
+                      <Label 
+                        htmlFor={`${key}-checkbox`}
+                        className="text-sm font-calibre text-dark-grey"
+                      >
+                        {key.charAt(0).toUpperCase() + key.slice(1)}
+                      </Label>
+                    </div>
+                  ))}
                 </div>
               </CheckboxGroup>
               
@@ -382,77 +376,26 @@ const handleNewsletterChange = (option: keyof typeof newsletterOptions) => {
   description="Select the items you want to display in the sidebar"
 >
   <div className="grid md:grid-cols-2 gap-4">
-    <CheckboxItem 
-      id="recents-checkbox" 
-      label="Recents"
-      checked={sidebarItems.recents}
-      onCheckedChange={(checked) => {
-        setSidebarItems(prev => ({
-          ...prev,
-          recents: checked
-        }));
-      }}
-    />
-    
-    <CheckboxItem 
-      id="home-checkbox" 
-      label="Home"
-      checked={sidebarItems.home}
-      onCheckedChange={(checked) => {
-        setSidebarItems(prev => ({
-          ...prev,
-          home: checked
-        }));
-      }}
-    />
-    
-    <CheckboxItem 
-      id="applications-checkbox" 
-      label="Applications"
-      checked={sidebarItems.applications}
-      onCheckedChange={(checked) => {
-        setSidebarItems(prev => ({
-          ...prev,
-          applications: checked
-        }));
-      }}
-    />
-    
-    <CheckboxItem 
-      id="desktop-checkbox" 
-      label="Desktop"
-      checked={sidebarItems.desktop}
-      onCheckedChange={(checked) => {
-        setSidebarItems(prev => ({
-          ...prev,
-          desktop: checked
-        }));
-      }}
-    />
-    
-    <CheckboxItem 
-      id="downloads-checkbox" 
-      label="Downloads"
-      checked={sidebarItems.downloads}
-      onCheckedChange={(checked) => {
-        setSidebarItems(prev => ({
-          ...prev,
-          downloads: checked
-        }));
-      }}
-    />
-    
-    <CheckboxItem 
-      id="documents-checkbox" 
-      label="Documents"
-      checked={sidebarItems.documents}
-      onCheckedChange={(checked) => {
-        setSidebarItems(prev => ({
-          ...prev,
-          documents: checked
-        }));
-      }}
-    />
+    {Object.entries(sidebarItems).map(([key, value]) => (
+      <div key={key} className="flex items-center space-x-2">
+        <Checkbox 
+          id={\`\${key}-checkbox\`}
+          checked={value}
+          onCheckedChange={(checked: CheckedState) => 
+            setSidebarItems(prev => ({ 
+              ...prev, 
+              [key]: checked === true 
+            }))
+          }
+        />
+        <Label 
+          htmlFor={\`\${key}-checkbox\`}
+          className="text-sm font-calibre text-dark-grey"
+        >
+          {key.charAt(0).toUpperCase() + key.slice(1)}
+        </Label>
+      </div>
+    ))}
   </div>
 </CheckboxGroup>
 `}
