@@ -8,6 +8,8 @@ import {
   CBRETabsContent 
 } from '@/components/cbre-tabs';
 import { CBREButton } from '@/components/cbre-button';
+import { Input } from '@/components/ui/input';
+import { Label } from '@/components/ui/label';
 import Link from 'next/link';
 
 export default function TabsExamplePage() {
@@ -30,20 +32,20 @@ export default function TabsExamplePage() {
                 <div className="bg-white p-6 border border-light-grey">
                   <h3 className="text-xl font-financier text-cbre-green mb-3">Account Settings</h3>
                   <div className="space-y-6">
-                    <div>
-                      <label className="block font-calibre font-medium text-dark-grey mb-2">Name</label>
-                      <input 
+                    <div className="grid w-full gap-1.5">
+                      <Label htmlFor="name">Name</Label>
+                      <Input 
                         type="text" 
+                        id="name"
                         placeholder="John Doe" 
-                        className="w-full border border-light-grey p-2 focus:outline-none focus:ring-2 focus:ring-accent-green"
                       />
                     </div>
-                    <div>
-                      <label className="block font-calibre font-medium text-dark-grey mb-2">Email</label>
-                      <input 
+                    <div className="grid w-full gap-1.5">
+                      <Label htmlFor="email">Email</Label>
+                      <Input 
                         type="email" 
+                        id="email"
                         placeholder="john.doe@example.com" 
-                        className="w-full border border-light-grey p-2 focus:outline-none focus:ring-2 focus:ring-accent-green"
                       />
                     </div>
                     <div className="flex justify-end gap-4">
@@ -57,28 +59,28 @@ export default function TabsExamplePage() {
                 <div className="bg-white p-6 border border-light-grey">
                   <h3 className="text-xl font-financier text-cbre-green mb-3">Password Settings</h3>
                   <div className="space-y-6">
-                    <div>
-                      <label className="block font-calibre font-medium text-dark-grey mb-2">Current Password</label>
-                      <input 
+                    <div className="grid w-full gap-1.5">
+                      <Label htmlFor="current-password">Current Password</Label>
+                      <Input 
                         type="password" 
+                        id="current-password"
                         placeholder="••••••••" 
-                        className="w-full border border-light-grey p-2 focus:outline-none focus:ring-2 focus:ring-accent-green"
                       />
                     </div>
-                    <div>
-                      <label className="block font-calibre font-medium text-dark-grey mb-2">New Password</label>
-                      <input 
+                    <div className="grid w-full gap-1.5">
+                      <Label htmlFor="new-password">New Password</Label>
+                      <Input 
                         type="password" 
+                        id="new-password"
                         placeholder="••••••••" 
-                        className="w-full border border-light-grey p-2 focus:outline-none focus:ring-2 focus:ring-accent-green"
                       />
                     </div>
-                    <div>
-                      <label className="block font-calibre font-medium text-dark-grey mb-2">Confirm Password</label>
-                      <input 
+                    <div className="grid w-full gap-1.5">
+                      <Label htmlFor="confirm-password">Confirm Password</Label>
+                      <Input 
                         type="password" 
+                        id="confirm-password"
                         placeholder="••••••••" 
-                        className="w-full border border-light-grey p-2 focus:outline-none focus:ring-2 focus:ring-accent-green"
                       />
                     </div>
                     <div className="flex justify-end gap-4">
@@ -92,9 +94,12 @@ export default function TabsExamplePage() {
                 <div className="bg-white p-6 border border-light-grey">
                   <h3 className="text-xl font-financier text-cbre-green mb-3">General Settings</h3>
                   <div className="space-y-6">
-                    <div>
-                      <label className="block font-calibre font-medium text-dark-grey mb-2">Language</label>
-                      <select className="w-full border border-light-grey p-2 focus:outline-none focus:ring-2 focus:ring-accent-green">
+                    <div className="grid w-full gap-1.5">
+                      <Label htmlFor="language">Language</Label>
+                      <select 
+                        id="language"
+                        className="w-full border border-light-grey p-2 focus:outline-none focus:ring-2 focus:ring-accent-green"
+                      >
                         <option value="en">English</option>
                         <option value="fr">French</option>
                         <option value="de">German</option>
@@ -102,11 +107,10 @@ export default function TabsExamplePage() {
                       </select>
                     </div>
                     <div>
-                      <label className="block font-calibre font-medium text-dark-grey mb-2">Notifications</label>
-                      <div className="flex items-center gap-2">
+                      <Label className="flex items-center gap-2">
                         <input type="checkbox" id="email-notifications" className="accent-cbre-green" />
-                        <label htmlFor="email-notifications">Email Notifications</label>
-                      </div>
+                        <span>Email Notifications</span>
+                      </Label>
                     </div>
                     <div className="flex justify-end gap-4">
                       <CBREButton variant="outline">Cancel</CBREButton>
