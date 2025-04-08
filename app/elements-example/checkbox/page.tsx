@@ -74,7 +74,7 @@ export default function CheckboxExamplePage() {
                 id="terms-checkbox" 
                 label="Accept terms and conditions"
                 checked={acceptTerms}
-                onCheckedChange={(checked: boolean) => setAcceptTerms(checked)}
+                onCheckedChange={() => setAcceptTerms(!acceptTerms)}
               />
             </div>
           </div>
@@ -107,7 +107,7 @@ const [acceptTerms, setAcceptTerms] = React.useState(false);
                 label="Accept terms and conditions"
                 description="You agree to our Terms of Service and Privacy Policy."
                 checked={acceptTerms}
-                onCheckedChange={(checked: boolean) => setAcceptTerms(checked)}
+                onCheckedChange={() => setAcceptTerms(!acceptTerms)}
               />
             </div>
           </div>
@@ -346,7 +346,33 @@ const handleSidebarItemChange = (option: keyof typeof sidebarItems) => {
     onCheckedChange={() => handleSidebarItemChange('home')}
   />
   
-  {/* Additional checkboxes... */}
+  <CBRECheckboxWithLabel 
+    id="applications-checkbox" 
+    label="Applications"
+    checked={sidebarItems.applications}
+    onCheckedChange={() => handleSidebarItemChange('applications')}
+  />
+  
+  <CBRECheckboxWithLabel 
+    id="desktop-checkbox" 
+    label="Desktop"
+    checked={sidebarItems.desktop}
+    onCheckedChange={() => handleSidebarItemChange('desktop')}
+  />
+  
+  <CBRECheckboxWithLabel 
+    id="downloads-checkbox" 
+    label="Downloads"
+    checked={sidebarItems.downloads}
+    onCheckedChange={() => handleSidebarItemChange('downloads')}
+  />
+  
+  <CBRECheckboxWithLabel 
+    id="documents-checkbox" 
+    label="Documents"
+    checked={sidebarItems.documents}
+    onCheckedChange={() => handleSidebarItemChange('documents')}
+  />
 </div>
 `}
             </pre>

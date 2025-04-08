@@ -15,14 +15,25 @@ import { Checkbox as BaseCheckbox } from "@/components/ui/checkbox"
  */
 function CBRECheckbox({
   className,
+  onCheckedChange,
   ...props
 }: React.ComponentProps<typeof BaseCheckbox>) {
+  const handleCheckedChange = React.useCallback(
+    (checked: boolean | "indeterminate") => {
+      if (onCheckedChange) {
+        onCheckedChange(checked);
+      }
+    },
+    [onCheckedChange]
+  );
+
   return (
     <BaseCheckbox
       className={cn(
         "border-light-grey data-[state=checked]:bg-cbre-green data-[state=checked]:border-cbre-green focus-visible:ring-accent-green/50",
         className
       )}
+      onCheckedChange={handleCheckedChange}
       {...props}
     />
   )
@@ -44,11 +55,21 @@ function CBRECheckboxWithLabel({
   className,
   labelClassName,
   descriptionClassName,
+  onCheckedChange,
   ...props
 }: CBRECheckboxWithLabelProps) {
   return (
     <div className="flex items-start space-x-2">
-      <CBRECheckbox className={className} id={props.id} {...props} />
+      <CBRECheckbox 
+        className={className} 
+        id={props.id} 
+        onCheckedChange={(checked) => {
+          if (onCheckedChange) {
+            onCheckedChange(checked === true);
+          }
+        }}
+        {...props} 
+      />
       <div className="flex flex-col">
         <label 
           htmlFor={props.id} 
