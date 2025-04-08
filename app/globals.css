@@ -1,6 +1,8 @@
 @import "tailwindcss";
 @import "tw-animate-css";
 
+@custom-variant dark (&:is(.dark *));
+
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
@@ -75,7 +77,7 @@
   --sidebar-accent-foreground: #003F2D;
   --sidebar-border: #CAD1D3;
   --sidebar-ring: #17E88F;
-  
+
   /* CBRE Custom Colors */
   /* Primary Colors */
   --cbre-green: #003F2D;
@@ -84,7 +86,7 @@
   --dark-grey: #435254;
   --light-grey: #CAD1D3;
   --lighter-grey: #E6E8E9;
-  
+
   /* Secondary Colors */
   --midnight: #032842;
   --midnight-tint: #778F9C;
@@ -96,7 +98,7 @@
   --wheat-tint: #EFECD2;
   --cement: #7F8480;
   --cement-tint: #CBCDCB;
-  
+
   /* Charts & Graphs Colors */
   --data-orange: #D2785A;
   --data-purple: #885073;
@@ -104,7 +106,7 @@
   --data-blue: #1F3765;
   --data-light-blue: #3E7CA6;
   --negative-red: #AD2A2A;
-  
+
   /* Infographics Colors (duplicated from above where applicable) */
   /* These are the same colors as above but kept separately for semantic purposes */
 }
@@ -116,28 +118,28 @@
   body {
     @apply bg-background text-foreground font-calibre;
   }
-  
+
   /* Typography classes for CBRE styling */
   h1, h2, h3, h4, h5, h6 {
     @apply font-financier font-medium text-primary;
   }
-  
+
   h1 {
     @apply text-6xl leading-tight;
   }
-  
+
   h2 {
     @apply text-4xl leading-tight;
   }
-  
+
   h3 {
     @apply text-3xl leading-tight;
   }
-  
+
   p {
     @apply font-calibre text-base leading-relaxed text-foreground;
   }
-  
+
   .display-xl {
     @apply font-financier text-6xl font-medium leading-tight text-primary;
   }
@@ -145,23 +147,23 @@
   .display-lg {
     @apply font-financier text-5xl font-medium leading-tight text-primary;
   }
-  
+
   .display-md {
     @apply font-financier text-4xl font-medium leading-tight text-primary;
   }
-  
+
   .body-lg {
     @apply font-calibre text-xl leading-relaxed text-foreground;
   }
-  
+
   .body-md {
     @apply font-calibre text-base leading-relaxed text-foreground;
   }
-  
+
   .body-sm {
     @apply font-calibre text-sm leading-relaxed text-foreground;
   }
-  
+
   .accent-line {
     @apply bg-accent h-1 w-14 my-4;
   }
@@ -183,12 +185,12 @@
     color: white !important;
     box-shadow: none !important;
   }
-  
+
   /* Underline variant inactive */
   [data-slot="tabs-trigger"][data-variant="underline"][data-state="inactive"] {
     border-bottom: 2px solid transparent !important;
   }
-  
+
   /* Underline variant active */
   [data-slot="tabs-trigger"][data-variant="underline"][data-state="active"] {
     background-color: transparent !important; 
@@ -210,7 +212,7 @@
     border: none !important;
     outline: none !important;
   }
-  
+
   /* Add the accent green border only after ensuring there are no other borders */
   [data-slot="tabs-trigger"][data-variant="underline"][data-state="active"]::after {
     content: '';
@@ -222,7 +224,7 @@
     background-color: var(--accent-green);
     z-index: 10;
   }
-  
+
   /* Underline variant active state */
   [data-slot="tabs-trigger"][data-variant="underline"][data-state="active"] {
     background-color: transparent !important; 
@@ -237,50 +239,50 @@
     visibility: visible !important;
     display: block !important;
   }
-  
+
   [data-slot="separator-root"][data-orientation="horizontal"] {
     height: 2px !important;
     min-height: 2px !important;
   }
-  
+
   [data-slot="separator-root"][data-orientation="vertical"] {
     width: 2px !important;
     min-width: 2px !important;
   }
-  
+
   [data-slot="separator-root"][data-variant="thin"][data-orientation="horizontal"] {
     height: 1px !important;
     min-height: 1px !important;
   }
-  
+
   [data-slot="separator-root"][data-variant="thick"][data-orientation="horizontal"] {
     height: 3px !important;
     min-height: 3px !important;
   }
-  
+
   [data-slot="separator-root"][data-variant="accent"] {
     background-color: var(--accent-green) !important;
   }
-  
+
   /* Color overrides - these need to be more specific to take precedence */
   [data-slot="separator-root"][data-color="negative-red"] {
     background-color: #AD2A2A !important;
   }
-  
+
   /* Width overrides - ensure classes for width modifications work */
   [data-slot="separator-root"].w-1\/2 {
     width: 50% !important;
     max-width: 50% !important;
     margin-left: 0 !important;
   }
-  
+
   /* Make resizable handles always visible */
   [data-slot="resizable-handle"] {
     background-color: var(--colors-light-grey) !important;
     z-index: 50 !important;
     position: relative !important;
   }
-  
+
   [data-slot="resizable-handle"][data-panel-group-direction="vertical"] {
     height: 1px !important;
     background-color: var(--colors-light-grey) !important;
@@ -288,5 +290,86 @@
     border-top: 1px solid var(--light-grey) !important;
     margin-top: -1px !important;
     margin-bottom: -1px !important;
+  }
+
+  /* Sidebar visibility fixes */
+  [data-slot="sidebar"] {
+    background-color: white !important;
+    visibility: visible !important;
+    display: flex !important;
+    position: relative !important;
+    height: 100% !important;
+    width: auto !important;
+  }
+  
+  [data-slot="sidebar-inner"] {
+    background-color: white !important;
+    border-color: var(--light-grey) !important;
+    border-width: 1px !important;
+    position: relative !important;
+    width: 100% !important;
+    height: 100% !important;
+    left: auto !important;
+    right: auto !important;
+  }
+  
+  [data-slot="sidebar-container"] {
+    z-index: 40 !important;
+    position: relative !important;
+    height: 100% !important;
+    width: auto !important;
+    inset: 0 !important;
+    left: auto !important;
+    right: auto !important;
+  }
+  
+  .h-\[500px\] [data-slot="sidebar-wrapper"] {
+    height: 100% !important;
+    min-height: 0 !important;
+  }
+  
+  [data-slot="sidebar-gap"] {
+    display: none !important;
+  }
+  
+  [data-slot="sidebar-header"],
+  [data-slot="sidebar-content"],
+  [data-slot="sidebar-footer"] {
+    background-color: white !important;
+  }
+  
+  [data-slot="sidebar-menu-button"][data-active="true"] {
+    background-color: var(--cbre-green) !important;
+    color: white !important;
+  }
+  
+  [data-slot="sidebar-menu-badge"] {
+    background-color: var(--cbre-green) !important;
+    color: white !important;
+  }
+  
+  [data-slot="sidebar-group-label"] {
+    color: var(--dark-grey) !important;
+    font-family: var(--font-financier) !important;
+  }
+}
+
+.dark {
+  --sidebar: hsl(240 5.9% 10%);
+  --sidebar-foreground: hsl(240 4.8% 95.9%);
+  --sidebar-primary: hsl(224.3 76.3% 48%);
+  --sidebar-primary-foreground: hsl(0 0% 100%);
+  --sidebar-accent: hsl(240 3.7% 15.9%);
+  --sidebar-accent-foreground: hsl(240 4.8% 95.9%);
+  --sidebar-border: hsl(240 3.7% 15.9%);
+  --sidebar-ring: hsl(217.2 91.2% 59.8%);
+}
+
+@layer base {
+  * {
+    @apply border-border outline-ring/50;
+  }
+  body {
+    @apply bg-background text-foreground;
   }
 }
