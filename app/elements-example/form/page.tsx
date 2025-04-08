@@ -225,13 +225,14 @@ export default function FormExamplePage() {
                       <FormItem className="flex flex-row items-start space-x-3 space-y-0">
                         <FormControl>
                           <Checkbox
+                            id="acceptTerms"
                             checked={field.value}
                             onCheckedChange={field.onChange}
                             className="mt-1"
                           />
                         </FormControl>
                         <div className="space-y-1 leading-none">
-                          <FormLabel className="cursor-pointer">
+                          <FormLabel htmlFor="acceptTerms" className="cursor-pointer">
                             I accept the terms and conditions
                           </FormLabel>
                           <FormDescription>
@@ -251,13 +252,14 @@ export default function FormExamplePage() {
                       <FormItem className="flex flex-row items-start space-x-3 space-y-0 rounded-md">
                         <FormControl>
                           <Checkbox
+                            id="marketingConsent"
                             checked={field.value}
                             onCheckedChange={field.onChange}
                             className="mt-1"
                           />
                         </FormControl>
                         <div className="space-y-1 leading-none">
-                          <FormLabel className="cursor-pointer">
+                          <FormLabel htmlFor="marketingConsent" className="cursor-pointer">
                             I want to receive marketing emails
                           </FormLabel>
                           <FormDescription>
@@ -359,13 +361,14 @@ const onSubmit = (data: z.infer<typeof formSchema>) => {
         <FormItem className="flex flex-row items-start space-x-3 space-y-0">
           <FormControl>
             <Checkbox
+              id="acceptTerms"
               checked={field.value}
               onCheckedChange={field.onChange}
               className="mt-1"
             />
           </FormControl>
           <div className="space-y-1 leading-none">
-            <FormLabel>I accept the terms and conditions</FormLabel>
+            <FormLabel htmlFor="acceptTerms">I accept the terms and conditions</FormLabel>
             <FormMessage />
           </div>
         </FormItem>
@@ -435,6 +438,7 @@ const onSubmit = (data: z.infer<typeof formSchema>) => {
                   <li>Implement proper error handling with <code className="bg-lighter-grey px-1 py-0.5 rounded">FormMessage</code> components.</li>
                   <li>Consider the accessible form structure: labels should be associated with their controls.</li>
                   <li>For checkbox and radio inputs, adjust the layout to place labels after the control.</li>
+                  <li>Always add an explicit <code className="bg-lighter-grey px-1 py-0.5 rounded">id</code> to checkboxes and connect it to the <code className="bg-lighter-grey px-1 py-0.5 rounded">FormLabel</code> using <code className="bg-lighter-grey px-1 py-0.5 rounded">htmlFor</code> for proper accessibility and to allow clicking on the label text to toggle the checkbox.</li>
                 </ul>
               </div>
             </div>
