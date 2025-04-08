@@ -62,9 +62,10 @@ export default function CheckboxExamplePage() {
           <div className="bg-[var(--lighter-grey)] p-4 md:p-8">
             <div className="border border-light-grey bg-white p-8 max-w-2xl mx-auto">
               <div>
-                <div className="flex items-center space-x-2">
+                <div className="flex items-start space-x-2">
                   <Checkbox 
                     id="terms-checkbox" 
+                    className="mt-0.5"
                     checked={acceptTerms}
                     onCheckedChange={handleCheckedChange}
                   />
@@ -95,9 +96,10 @@ const handleCheckedChange = (checked: CheckedState) => {
   setAcceptTerms(checked === true);
 };
 
-<div className="flex items-center space-x-2">
+<div className="flex items-start space-x-2">
   <Checkbox 
     id="terms-checkbox" 
+    className="mt-0.5"
     checked={acceptTerms}
     onCheckedChange={handleCheckedChange}
   />
@@ -121,7 +123,7 @@ const handleCheckedChange = (checked: CheckedState) => {
               <div className="flex items-start space-x-2">
                 <Checkbox 
                   id="terms-with-desc" 
-                  className="mt-1"
+                  className="mt-0.5"
                   checked={acceptTerms}
                   onCheckedChange={handleCheckedChange}
                 />
@@ -146,7 +148,7 @@ const handleCheckedChange = (checked: CheckedState) => {
 {`<div className="flex items-start space-x-2">
   <Checkbox 
     id="terms-with-desc" 
-    className="mt-1"
+    className="mt-0.5"
     checked={acceptTerms}
     onCheckedChange={handleCheckedChange}
   />
@@ -172,8 +174,12 @@ const handleCheckedChange = (checked: CheckedState) => {
           <h2 className="text-4xl font-financier text-cbre-green mb-5">Disabled Checkbox</h2>
           <div className="bg-[var(--lighter-grey)] p-4 md:p-8">
             <div className="border border-light-grey bg-white p-8 max-w-2xl mx-auto">
-              <div className="flex items-center space-x-2">
-                <Checkbox id="disabled-checkbox" disabled />
+              <div className="flex items-start space-x-2">
+                <Checkbox 
+                  id="disabled-checkbox" 
+                  className="mt-0.5"
+                  disabled 
+                />
                 <Label 
                   htmlFor="disabled-checkbox"
                   className="text-sm font-calibre text-dark-grey opacity-50 cursor-not-allowed"
@@ -187,8 +193,12 @@ const handleCheckedChange = (checked: CheckedState) => {
           <div className="bg-white p-6 border border-light-grey mt-6">
             <h3 className="text-lg font-calibre font-medium text-dark-grey mb-3">Implementation</h3>
             <pre className="bg-gray-100 p-4 rounded overflow-x-auto text-sm">
-{`<div className="flex items-center space-x-2">
-  <Checkbox id="disabled-checkbox" disabled />
+{`<div className="flex items-start space-x-2">
+  <Checkbox 
+    id="disabled-checkbox" 
+    className="mt-0.5"
+    disabled 
+  />
   <Label 
     htmlFor="disabled-checkbox"
     className="text-sm font-calibre text-dark-grey opacity-50 cursor-not-allowed"
@@ -213,7 +223,7 @@ const handleCheckedChange = (checked: CheckedState) => {
                 <div className="flex items-start space-x-2">
                   <Checkbox 
                     id="updates-checkbox" 
-                    className="mt-1"
+                    className="mt-0.5"
                     checked={newsletterOptions.updates}
                     onCheckedChange={(checked: CheckedState) => 
                       setNewsletterOptions(prev => ({ ...prev, updates: checked === true }))
@@ -235,7 +245,7 @@ const handleCheckedChange = (checked: CheckedState) => {
                 <div className="flex items-start space-x-2">
                   <Checkbox 
                     id="marketing-checkbox" 
-                    className="mt-1"
+                    className="mt-0.5"
                     checked={newsletterOptions.marketing}
                     onCheckedChange={(checked: CheckedState) => 
                       setNewsletterOptions(prev => ({ ...prev, marketing: checked === true }))
@@ -257,7 +267,7 @@ const handleCheckedChange = (checked: CheckedState) => {
                 <div className="flex items-start space-x-2">
                   <Checkbox 
                     id="partner-checkbox" 
-                    className="mt-1"
+                    className="mt-0.5"
                     checked={newsletterOptions.partner}
                     onCheckedChange={(checked: CheckedState) => 
                       setNewsletterOptions(prev => ({ ...prev, partner: checked === true }))
@@ -303,7 +313,7 @@ const [newsletterOptions, setNewsletterOptions] = React.useState({
   <div className="flex items-start space-x-2">
     <Checkbox 
       id="updates-checkbox" 
-      className="mt-1"
+      className="mt-0.5"
       checked={newsletterOptions.updates}
       onCheckedChange={(checked: CheckedState) => 
         setNewsletterOptions(prev => ({ ...prev, updates: checked === true }))
@@ -322,7 +332,49 @@ const [newsletterOptions, setNewsletterOptions] = React.useState({
     </div>
   </div>
   
-  {/* Additional checkboxes */}
+  <div className="flex items-start space-x-2">
+    <Checkbox 
+      id="marketing-checkbox" 
+      className="mt-0.5"
+      checked={newsletterOptions.marketing}
+      onCheckedChange={(checked: CheckedState) => 
+        setNewsletterOptions(prev => ({ ...prev, marketing: checked === true }))
+      }
+    />
+    <div className="grid gap-1">
+      <Label 
+        htmlFor="marketing-checkbox"
+        className="text-sm font-calibre text-dark-grey"
+      >
+        Marketing communications
+      </Label>
+      <p className="text-xs font-calibre text-light-grey">
+        Receive special offers, promotions, and marketing emails
+      </p>
+    </div>
+  </div>
+  
+  <div className="flex items-start space-x-2">
+    <Checkbox 
+      id="partner-checkbox" 
+      className="mt-0.5"
+      checked={newsletterOptions.partner}
+      onCheckedChange={(checked: CheckedState) => 
+        setNewsletterOptions(prev => ({ ...prev, partner: checked === true }))
+      }
+    />
+    <div className="grid gap-1">
+      <Label 
+        htmlFor="partner-checkbox"
+        className="text-sm font-calibre text-dark-grey"
+      >
+        Partner offers
+      </Label>
+      <p className="text-xs font-calibre text-light-grey">
+        Receive offers from our trusted partners
+      </p>
+    </div>
+  </div>
 </CheckboxGroup>
 `}
             </pre>
