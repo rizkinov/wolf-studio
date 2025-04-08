@@ -222,11 +222,12 @@ export default function FormExamplePage() {
                     control={form.control}
                     name="acceptTerms"
                     render={({ field }) => (
-                      <FormItem className="flex flex-row items-start space-x-3 space-y-0 rounded-md">
+                      <FormItem className="flex flex-row items-start space-x-3 space-y-0">
                         <FormControl>
                           <Checkbox
                             checked={field.value}
                             onCheckedChange={field.onChange}
+                            className="mt-1"
                           />
                         </FormControl>
                         <div className="space-y-1 leading-none">
@@ -252,6 +253,7 @@ export default function FormExamplePage() {
                           <Checkbox
                             checked={field.value}
                             onCheckedChange={field.onChange}
+                            className="mt-1"
                           />
                         </FormControl>
                         <div className="space-y-1 leading-none">
@@ -359,6 +361,7 @@ const onSubmit = (data: z.infer<typeof formSchema>) => {
             <Checkbox
               checked={field.value}
               onCheckedChange={field.onChange}
+              className="mt-1"
             />
           </FormControl>
           <div className="space-y-1 leading-none">

@@ -65,7 +65,7 @@ export default function CheckboxExamplePage() {
                 <div className="flex items-start space-x-2">
                   <Checkbox 
                     id="terms-checkbox" 
-                    className="mt-0.5"
+                    className="mt-1"
                     checked={acceptTerms}
                     onCheckedChange={handleCheckedChange}
                   />
@@ -99,7 +99,7 @@ const handleCheckedChange = (checked: CheckedState) => {
 <div className="flex items-start space-x-2">
   <Checkbox 
     id="terms-checkbox" 
-    className="mt-0.5"
+    className="mt-1"
     checked={acceptTerms}
     onCheckedChange={handleCheckedChange}
   />
@@ -123,7 +123,7 @@ const handleCheckedChange = (checked: CheckedState) => {
               <div className="flex items-start space-x-2">
                 <Checkbox 
                   id="terms-with-desc" 
-                  className="mt-0.5"
+                  className="mt-1"
                   checked={acceptTerms}
                   onCheckedChange={handleCheckedChange}
                 />
@@ -148,7 +148,7 @@ const handleCheckedChange = (checked: CheckedState) => {
 {`<div className="flex items-start space-x-2">
   <Checkbox 
     id="terms-with-desc" 
-    className="mt-0.5"
+    className="mt-1"
     checked={acceptTerms}
     onCheckedChange={handleCheckedChange}
   />
@@ -177,7 +177,7 @@ const handleCheckedChange = (checked: CheckedState) => {
               <div className="flex items-start space-x-2">
                 <Checkbox 
                   id="disabled-checkbox" 
-                  className="mt-0.5"
+                  className="mt-1"
                   disabled 
                 />
                 <Label 
@@ -196,7 +196,7 @@ const handleCheckedChange = (checked: CheckedState) => {
 {`<div className="flex items-start space-x-2">
   <Checkbox 
     id="disabled-checkbox" 
-    className="mt-0.5"
+    className="mt-1"
     disabled 
   />
   <Label 
@@ -223,7 +223,7 @@ const handleCheckedChange = (checked: CheckedState) => {
                 <div className="flex items-start space-x-2">
                   <Checkbox 
                     id="updates-checkbox" 
-                    className="mt-0.5"
+                    className="mt-1"
                     checked={newsletterOptions.updates}
                     onCheckedChange={(checked: CheckedState) => 
                       setNewsletterOptions(prev => ({ ...prev, updates: checked === true }))
@@ -245,7 +245,7 @@ const handleCheckedChange = (checked: CheckedState) => {
                 <div className="flex items-start space-x-2">
                   <Checkbox 
                     id="marketing-checkbox" 
-                    className="mt-0.5"
+                    className="mt-1"
                     checked={newsletterOptions.marketing}
                     onCheckedChange={(checked: CheckedState) => 
                       setNewsletterOptions(prev => ({ ...prev, marketing: checked === true }))
@@ -267,7 +267,7 @@ const handleCheckedChange = (checked: CheckedState) => {
                 <div className="flex items-start space-x-2">
                   <Checkbox 
                     id="partner-checkbox" 
-                    className="mt-0.5"
+                    className="mt-1"
                     checked={newsletterOptions.partner}
                     onCheckedChange={(checked: CheckedState) => 
                       setNewsletterOptions(prev => ({ ...prev, partner: checked === true }))
@@ -313,7 +313,7 @@ const [newsletterOptions, setNewsletterOptions] = React.useState({
   <div className="flex items-start space-x-2">
     <Checkbox 
       id="updates-checkbox" 
-      className="mt-0.5"
+      className="mt-1"
       checked={newsletterOptions.updates}
       onCheckedChange={(checked: CheckedState) => 
         setNewsletterOptions(prev => ({ ...prev, updates: checked === true }))
@@ -335,7 +335,7 @@ const [newsletterOptions, setNewsletterOptions] = React.useState({
   <div className="flex items-start space-x-2">
     <Checkbox 
       id="marketing-checkbox" 
-      className="mt-0.5"
+      className="mt-1"
       checked={newsletterOptions.marketing}
       onCheckedChange={(checked: CheckedState) => 
         setNewsletterOptions(prev => ({ ...prev, marketing: checked === true }))
@@ -357,7 +357,7 @@ const [newsletterOptions, setNewsletterOptions] = React.useState({
   <div className="flex items-start space-x-2">
     <Checkbox 
       id="partner-checkbox" 
-      className="mt-0.5"
+      className="mt-1"
       checked={newsletterOptions.partner}
       onCheckedChange={(checked: CheckedState) => 
         setNewsletterOptions(prev => ({ ...prev, partner: checked === true }))
