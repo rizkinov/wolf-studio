@@ -165,4 +165,42 @@
   .accent-line {
     @apply bg-accent h-1 w-14 my-4;
   }
+
+  /* Make sure all tabs have no side or top borders by default */
+  [data-slot="tabs-trigger"] {
+    background-color: transparent !important;
+    box-shadow: none !important;
+    border-left: none !important;
+    border-right: none !important;
+    border-top: none !important;
+    transition: color 0.2s ease, background-color 0.2s ease !important;
+    position: relative; /* Required for the ::after element positioning */
+  }
+
+  /* Override tab styles for CBRE branding - boxed variant */
+  [data-slot="tabs-trigger"][data-state="active"][data-variant="boxed"] {
+    background-color: var(--cbre-green) !important;
+    color: white !important;
+    box-shadow: none !important;
+  }
+  
+  /* Underline variant inactive */
+  [data-slot="tabs-trigger"][data-variant="underline"][data-state="inactive"] {
+    border-bottom: 2px solid transparent !important;
+  }
+  
+  /* Underline variant active */
+  [data-slot="tabs-trigger"][data-variant="underline"][data-state="active"] {
+    background-color: transparent !important; 
+    color: var(--cbre-green) !important;
+    box-shadow: none !important;
+    border-bottom: 3px solid var(--accent-green) !important;
+    margin-bottom: -1px !important; /* Close the gap with the tab line */
+  }
+
+  /* Remove background from tabs list */
+  [data-slot="tabs-list"] {
+    background-color: transparent !important;
+    box-shadow: none !important;
+  }
 }
