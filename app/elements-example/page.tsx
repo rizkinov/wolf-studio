@@ -116,7 +116,7 @@ const elementCategories = [
         name: "Select",
         description: "A dropdown control for selecting an option from a list.",
         path: "/elements-example/select",
-        status: "planned"
+        status: "completed"
       },
       {
         name: "Textarea",
@@ -297,7 +297,7 @@ export default function ElementsExamplePage() {
               <h2 className="text-4xl font-financier text-cbre-green mb-3">{category.name}</h2>
               <p className="text-dark-grey font-calibre mb-6">{category.description}</p>
               
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+              <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
                 {category.elements.map((element, elementIndex) => (
                   <div key={elementIndex} className="bg-[var(--lighter-grey)] p-6 h-full flex flex-col">
                     <div className="flex items-start justify-between mb-2">
