@@ -258,8 +258,8 @@ function CBRESidebarMenuButton({
   return (
     <BaseSidebarMenuButton
       className={cn(
-        "text-dark-grey hover:bg-lighter-grey", 
-        "data-[active=true]:bg-cbre-green data-[active=true]:text-white", 
+        "text-dark-grey hover:!bg-lighter-grey", 
+        "data-[active=true]:!bg-dark-green data-[active=true]:!text-white", 
         className
       )}
       {...props}

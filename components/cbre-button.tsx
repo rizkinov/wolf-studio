@@ -56,7 +56,7 @@ export function CBREButton({
       case "accent":
         return cn("bg-[#17E88F] text-[#003F2D] hover:bg-[#003F2D] hover:text-white transition-colors duration-300 font-medium", className);
       case "action":
-        return cn("bg-[#003F2D] text-white hover:bg-[#012A2D] hover:text-[#17E88F] transition-colors duration-300 px-6 py-2 font-medium text-sm", className);
+        return cn("bg-[#538184] text-white hover:bg-[#96B3B6] hover:text-[#012A2D] transition-colors duration-300 px-6 py-2 font-medium text-sm", className);
       case "view-more":
         // Fixed styling to match the design exactly - using actual hex values for reliability
         return cn("bg-[#012A2D] text-white hover:bg-[#17E88F] hover:text-[#003F2D] transition-colors duration-300 font-calibre font-medium px-6 py-2.5", className);
