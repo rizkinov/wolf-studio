@@ -11,6 +11,7 @@ import {
   SelectGroup,
   SelectItem,
   SelectLabel,
+  SelectSeparator,
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
@@ -144,6 +145,7 @@ const [language, setLanguage] = React.useState("");
                       <SelectItem value="can">Canada</SelectItem>
                       <SelectItem value="mex">Mexico</SelectItem>
                     </SelectGroup>
+                    <SelectSeparator />
                     <SelectGroup>
                       <SelectLabel>Europe</SelectLabel>
                       <SelectItem value="uk">United Kingdom</SelectItem>
@@ -151,6 +153,7 @@ const [language, setLanguage] = React.useState("");
                       <SelectItem value="de">Germany</SelectItem>
                       <SelectItem value="it">Italy</SelectItem>
                     </SelectGroup>
+                    <SelectSeparator />
                     <SelectGroup>
                       <SelectLabel>Asia Pacific</SelectLabel>
                       <SelectItem value="au">Australia</SelectItem>
@@ -178,6 +181,7 @@ const [language, setLanguage] = React.useState("");
       <SelectItem value="can">Canada</SelectItem>
       <SelectItem value="mex">Mexico</SelectItem>
     </SelectGroup>
+    <SelectSeparator />
     <SelectGroup>
       <SelectLabel>Europe</SelectLabel>
       <SelectItem value="uk">United Kingdom</SelectItem>
@@ -185,6 +189,7 @@ const [language, setLanguage] = React.useState("");
       <SelectItem value="de">Germany</SelectItem>
       <SelectItem value="it">Italy</SelectItem>
     </SelectGroup>
+    <SelectSeparator />
     <SelectGroup>
       <SelectLabel>Asia Pacific</SelectLabel>
       <SelectItem value="au">Australia</SelectItem>
