@@ -72,6 +72,68 @@ function CBRELogo() {
 }
 
 export default function SidebarExamplePage() {
+  // State to track active item in each example
+  const [basicActiveItem, setBasicActiveItem] = React.useState("Home");
+  const [basicActiveProject, setBasicActiveProject] = React.useState("");
+  const [basicActiveTeam, setBasicActiveTeam] = React.useState("");
+  const [iconActiveItem, setIconActiveItem] = React.useState("Home");
+  const [floatingActiveItem, setFloatingActiveItem] = React.useState("Home");
+
+  // Create interactive menu items for each section
+  const basicMenuItems = mainMenuItems.map(item => ({
+    ...item,
+    active: item.title === basicActiveItem,
+    onClick: (e: React.MouseEvent<HTMLAnchorElement>) => {
+      e.preventDefault();
+      setBasicActiveItem(item.title);
+      setBasicActiveProject(""); // Clear active project when main item is clicked
+      setBasicActiveTeam(""); // Clear active team when main item is clicked
+    }
+  }));
+
+  const basicProjectItems = projectMenuItems.map(item => ({
+    ...item,
+    active: item.title === basicActiveProject,
+    onClick: (e: React.MouseEvent<HTMLAnchorElement>) => {
+      e.preventDefault();
+      setBasicActiveProject(item.title);
+      setBasicActiveItem(""); // Clear active main item when project is clicked
+      // Keep active team if we're on Client Projects
+      if (item.title !== "Client Projects") {
+        setBasicActiveTeam("");
+      }
+    }
+  }));
+
+  const basicTeamItems = teamMenuItems.map(item => ({
+    ...item,
+    active: item.title === basicActiveTeam,
+    onClick: (e: React.MouseEvent<HTMLAnchorElement>) => {
+      e.preventDefault();
+      setBasicActiveTeam(item.title);
+      setBasicActiveProject("Client Projects"); // Set active project to Client Projects
+      setBasicActiveItem(""); // Clear active main item when team is clicked
+    }
+  }));
+
+  const iconMenuItems = mainMenuItems.map(item => ({
+    ...item,
+    active: item.title === iconActiveItem,
+    onClick: (e: React.MouseEvent<HTMLAnchorElement>) => {
+      e.preventDefault();
+      setIconActiveItem(item.title);
+    }
+  }));
+
+  const floatingMenuItems = mainMenuItems.slice(0, 3).map(item => ({
+    ...item,
+    active: item.title === floatingActiveItem,
+    onClick: (e: React.MouseEvent<HTMLAnchorElement>) => {
+      e.preventDefault();
+      setFloatingActiveItem(item.title);
+    }
+  }));
+
   return (
     <div className="min-h-screen bg-white">
       <div className="py-10 px-4 md:px-10 max-w-5xl mx-auto">
@@ -98,10 +160,14 @@ export default function SidebarExamplePage() {
                           <CBRESidebarGroupLabel>Main Navigation</CBRESidebarGroupLabel>
                           <CBRESidebarGroupContent>
                             <CBRESidebarMenu>
-                              {mainMenuItems.map((item) => (
+                              {basicMenuItems.map((item) => (
                                 <CBRESidebarMenuItem key={item.title}>
                                   <CBRESidebarMenuButton asChild isActive={item.active}>
-                                    <a href={item.url} className="flex w-full items-center py-2">
+                                    <a 
+                                      href={item.url} 
+                                      className="flex w-full items-center py-2"
+                                      onClick={item.onClick}
+                                    >
                                       <item.icon className="size-5 mr-3" />
                                       <span>{item.title}</span>
                                       {item.badge && (
@@ -123,10 +189,14 @@ export default function SidebarExamplePage() {
                           <CBRESidebarGroupLabel>Projects</CBRESidebarGroupLabel>
                           <CBRESidebarGroupContent>
                             <CBRESidebarMenu>
-                              {projectMenuItems.map((item) => (
+                              {basicProjectItems.map((item) => (
                                 <CBRESidebarMenuItem key={item.title}>
-                                  <CBRESidebarMenuButton asChild>
-                                    <a href={item.url} className="flex w-full items-center py-2">
+                                  <CBRESidebarMenuButton asChild isActive={item.active}>
+                                    <a 
+                                      href={item.url} 
+                                      className="flex w-full items-center py-2"
+                                      onClick={item.onClick}
+                                    >
                                       <item.icon className="size-5 mr-3" />
                                       <span>{item.title}</span>
                                     </a>
@@ -134,10 +204,14 @@ export default function SidebarExamplePage() {
                                   
                                   {item.title === "Client Projects" && (
                                     <CBRESidebarMenuSub>
-                                      {teamMenuItems.map((subItem) => (
+                                      {basicTeamItems.map((subItem) => (
                                         <CBRESidebarMenuSubItem key={subItem.title}>
-                                          <CBRESidebarMenuSubButton asChild>
-                                            <a href={subItem.url} className="flex w-full">
+                                          <CBRESidebarMenuSubButton asChild isActive={subItem.active}>
+                                            <a
+                                              href={subItem.url} 
+                                              className="flex w-full"
+                                              onClick={subItem.onClick}
+                                            >
                                               <span>{subItem.title}</span>
                                             </a>
                                           </CBRESidebarMenuSubButton>
@@ -202,10 +276,14 @@ export default function SidebarExamplePage() {
         <CBRESidebarGroupLabel>Main Navigation</CBRESidebarGroupLabel>
         <CBRESidebarGroupContent>
           <CBRESidebarMenu>
-            {mainMenuItems.map((item) => (
+            {basicMenuItems.map((item) => (
               <CBRESidebarMenuItem key={item.title}>
                 <CBRESidebarMenuButton asChild isActive={item.active}>
-                  <a href={item.url} className="flex w-full items-center py-2">
+                  <a 
+                    href={item.url} 
+                    className="flex w-full items-center py-2"
+                    onClick={item.onClick}
+                  >
                     <item.icon className="size-5 mr-3" />
                     <span>{item.title}</span>
                     {item.badge && (
@@ -227,10 +305,14 @@ export default function SidebarExamplePage() {
         <CBRESidebarGroupLabel>Projects</CBRESidebarGroupLabel>
         <CBRESidebarGroupContent>
           <CBRESidebarMenu>
-            {projectMenuItems.map((item) => (
+            {basicProjectItems.map((item) => (
               <CBRESidebarMenuItem key={item.title}>
-                <CBRESidebarMenuButton asChild>
-                  <a href={item.url} className="flex w-full items-center py-2">
+                <CBRESidebarMenuButton asChild isActive={item.active}>
+                  <a 
+                    href={item.url} 
+                    className="flex w-full items-center py-2"
+                    onClick={item.onClick}
+                  >
                     <item.icon className="size-5 mr-3" />
                     <span>{item.title}</span>
                   </a>
@@ -238,10 +320,14 @@ export default function SidebarExamplePage() {
                 
                 {item.title === "Client Projects" && (
                   <CBRESidebarMenuSub>
-                    {teamMenuItems.map((subItem) => (
+                    {basicTeamItems.map((subItem) => (
                       <CBRESidebarMenuSubItem key={subItem.title}>
-                        <CBRESidebarMenuSubButton asChild>
-                          <a href={subItem.url} className="flex w-full">
+                        <CBRESidebarMenuSubButton asChild isActive={subItem.active}>
+                          <a
+                            href={subItem.url} 
+                            className="flex w-full"
+                            onClick={subItem.onClick}
+                          >
                             <span>{subItem.title}</span>
                           </a>
                         </CBRESidebarMenuSubButton>
@@ -297,7 +383,7 @@ export default function SidebarExamplePage() {
                           <CBRESidebarGroupLabel>Main</CBRESidebarGroupLabel>
                           <CBRESidebarGroupContent>
                             <CBRESidebarMenu className="!border-none !shadow-none">
-                              {mainMenuItems.map((item) => (
+                              {iconMenuItems.map((item) => (
                                 <CBRESidebarMenuItem key={item.title} className="!border-none !shadow-none">
                                   <CBRESidebarMenuButton 
                                     asChild 
@@ -305,7 +391,11 @@ export default function SidebarExamplePage() {
                                     tooltip={item.title}
                                     className="!border-none !outline-none !shadow-none"
                                   >
-                                    <a href={item.url} className="flex flex-col items-center justify-center py-2 relative !border-none !outline-none">
+                                    <a 
+                                      href={item.url} 
+                                      className="flex flex-col items-center justify-center py-2 relative !border-none !outline-none"
+                                      onClick={item.onClick}
+                                    >
                                       <item.icon className="size-5" />
                                       <span className="sr-only">{item.title}</span>
                                       {item.badge && (
@@ -368,14 +458,18 @@ export default function SidebarExamplePage() {
         <CBRESidebarGroupLabel>Main</CBRESidebarGroupLabel>
         <CBRESidebarGroupContent>
           <CBRESidebarMenu>
-            {mainMenuItems.map((item) => (
+            {iconMenuItems.map((item) => (
               <CBRESidebarMenuItem key={item.title}>
                 <CBRESidebarMenuButton 
                   asChild 
                   isActive={item.active}
                   tooltip={item.title}
                 >
-                  <a href={item.url} className="flex flex-col items-center justify-center py-2 relative">
+                  <a 
+                    href={item.url} 
+                    className="flex flex-col items-center justify-center py-2 relative"
+                    onClick={item.onClick}
+                  >
                     <item.icon className="size-5" />
                     <span className="sr-only">{item.title}</span>
                     {item.badge && (
@@ -422,10 +516,14 @@ export default function SidebarExamplePage() {
                           <CBRESidebarGroupLabel>Navigation</CBRESidebarGroupLabel>
                           <CBRESidebarGroupContent>
                             <CBRESidebarMenu>
-                              {mainMenuItems.slice(0, 3).map((item) => (
+                              {floatingMenuItems.map((item) => (
                                 <CBRESidebarMenuItem key={item.title}>
                                   <CBRESidebarMenuButton asChild isActive={item.active}>
-                                    <a href={item.url} className="flex w-full items-center py-2">
+                                    <a 
+                                      href={item.url} 
+                                      className="flex w-full items-center py-2"
+                                      onClick={item.onClick}
+                                    >
                                       <item.icon className="size-5 mr-3" />
                                       <span>{item.title}</span>
                                     </a>
@@ -476,10 +574,14 @@ export default function SidebarExamplePage() {
         <CBRESidebarGroupLabel>Navigation</CBRESidebarGroupLabel>
         <CBRESidebarGroupContent>
           <CBRESidebarMenu>
-            {items.map((item) => (
+            {floatingMenuItems.map((item) => (
               <CBRESidebarMenuItem key={item.title}>
                 <CBRESidebarMenuButton asChild isActive={item.active}>
-                  <a href={item.url} className="flex w-full items-center py-2">
+                  <a 
+                    href={item.url} 
+                    className="flex w-full items-center py-2"
+                    onClick={item.onClick}
+                  >
                     <item.icon className="size-5 mr-3" />
                     <span>{item.title}</span>
                   </a>
