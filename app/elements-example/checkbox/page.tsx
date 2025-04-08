@@ -4,7 +4,7 @@ import React from 'react';
 import Link from 'next/link';
 
 import { CBREButton } from '@/components/cbre-button';
-import { CBRECheckbox, CBRECheckboxWithLabel } from '@/components/cbre-checkbox';
+import { Checkbox, CheckboxItem, CheckboxGroup } from '@/components/cbre-checkbox';
 
 export default function CheckboxExamplePage() {
   const [acceptTerms, setAcceptTerms] = React.useState(false);
@@ -50,16 +50,16 @@ export default function CheckboxExamplePage() {
           <h2 className="text-4xl font-financier text-cbre-green mb-5">Basic Checkbox</h2>
           <div className="bg-[var(--lighter-grey)] p-4 md:p-8">
             <div className="border border-light-grey bg-white p-8 max-w-2xl mx-auto">
-              <CBRECheckbox id="basic-checkbox" />
+              <Checkbox id="basic-checkbox" />
             </div>
           </div>
           
           <div className="bg-white p-6 border border-light-grey mt-6">
             <h3 className="text-lg font-calibre font-medium text-dark-grey mb-3">Implementation</h3>
             <pre className="bg-gray-100 p-4 rounded overflow-x-auto text-sm">
-{`import { CBRECheckbox } from '@/components/cbre-checkbox';
+{`import { Checkbox } from '@/components/cbre-checkbox';
 
-<CBRECheckbox id="basic-checkbox" />
+<Checkbox id="basic-checkbox" />
 `}
             </pre>
           </div>
@@ -70,7 +70,7 @@ export default function CheckboxExamplePage() {
           <h2 className="text-4xl font-financier text-cbre-green mb-5">Checkbox with Label</h2>
           <div className="bg-[var(--lighter-grey)] p-4 md:p-8">
             <div className="border border-light-grey bg-white p-8 max-w-2xl mx-auto">
-              <CBRECheckboxWithLabel 
+              <CheckboxItem 
                 id="terms-checkbox" 
                 label="Accept terms and conditions"
                 checked={acceptTerms}
@@ -82,15 +82,15 @@ export default function CheckboxExamplePage() {
           <div className="bg-white p-6 border border-light-grey mt-6">
             <h3 className="text-lg font-calibre font-medium text-dark-grey mb-3">Implementation</h3>
             <pre className="bg-gray-100 p-4 rounded overflow-x-auto text-sm">
-{`import { CBRECheckboxWithLabel } from '@/components/cbre-checkbox';
+{`import { CheckboxItem } from '@/components/cbre-checkbox';
 
 const [acceptTerms, setAcceptTerms] = React.useState(false);
 
-<CBRECheckboxWithLabel 
+<CheckboxItem 
   id="terms-checkbox" 
   label="Accept terms and conditions"
   checked={acceptTerms}
-  onCheckedChange={(checked: boolean) => setAcceptTerms(checked)}
+  onCheckedChange={() => setAcceptTerms(!acceptTerms)}
 />
 `}
             </pre>
@@ -102,7 +102,7 @@ const [acceptTerms, setAcceptTerms] = React.useState(false);
           <h2 className="text-4xl font-financier text-cbre-green mb-5">Checkbox with Description</h2>
           <div className="bg-[var(--lighter-grey)] p-4 md:p-8">
             <div className="border border-light-grey bg-white p-8 max-w-2xl mx-auto">
-              <CBRECheckboxWithLabel 
+              <CheckboxItem 
                 id="terms-with-desc" 
                 label="Accept terms and conditions"
                 description="You agree to our Terms of Service and Privacy Policy."
@@ -115,12 +115,12 @@ const [acceptTerms, setAcceptTerms] = React.useState(false);
           <div className="bg-white p-6 border border-light-grey mt-6">
             <h3 className="text-lg font-calibre font-medium text-dark-grey mb-3">Implementation</h3>
             <pre className="bg-gray-100 p-4 rounded overflow-x-auto text-sm">
-{`<CBRECheckboxWithLabel 
+{`<CheckboxItem 
   id="terms-with-desc" 
   label="Accept terms and conditions"
   description="You agree to our Terms of Service and Privacy Policy."
   checked={acceptTerms}
-  onCheckedChange={(checked: boolean) => setAcceptTerms(checked)}
+  onCheckedChange={() => setAcceptTerms(!acceptTerms)}
 />
 `}
             </pre>
@@ -132,7 +132,7 @@ const [acceptTerms, setAcceptTerms] = React.useState(false);
           <h2 className="text-4xl font-financier text-cbre-green mb-5">Disabled Checkbox</h2>
           <div className="bg-[var(--lighter-grey)] p-4 md:p-8">
             <div className="border border-light-grey bg-white p-8 max-w-2xl mx-auto">
-              <CBRECheckboxWithLabel 
+              <CheckboxItem 
                 id="disabled-checkbox" 
                 label="Accept terms and conditions"
                 disabled
@@ -143,7 +143,7 @@ const [acceptTerms, setAcceptTerms] = React.useState(false);
           <div className="bg-white p-6 border border-light-grey mt-6">
             <h3 className="text-lg font-calibre font-medium text-dark-grey mb-3">Implementation</h3>
             <pre className="bg-gray-100 p-4 rounded overflow-x-auto text-sm">
-{`<CBRECheckboxWithLabel 
+{`<CheckboxItem 
   id="disabled-checkbox" 
   label="Accept terms and conditions"
   disabled
@@ -158,13 +158,11 @@ const [acceptTerms, setAcceptTerms] = React.useState(false);
           <h2 className="text-4xl font-financier text-cbre-green mb-5">Checkbox Group: Newsletter</h2>
           <div className="bg-[var(--lighter-grey)] p-4 md:p-8">
             <div className="border border-light-grey bg-white p-8 max-w-2xl mx-auto">
-              <div className="space-y-4">
-                <div className="mb-4">
-                  <h3 className="text-xl font-financier text-cbre-green mb-2">Newsletter preferences</h3>
-                  <p className="text-dark-grey font-calibre text-sm mb-4">Select the types of newsletters you'd like to receive</p>
-                </div>
-                
-                <CBRECheckboxWithLabel 
+              <CheckboxGroup
+                title="Newsletter preferences"
+                description="Select the types of newsletters you'd like to receive"
+              >
+                <CheckboxItem 
                   id="updates-checkbox" 
                   label="Product updates"
                   description="Receive notifications about new features and improvements"
@@ -172,7 +170,7 @@ const [acceptTerms, setAcceptTerms] = React.useState(false);
                   onCheckedChange={() => handleNewsletterChange('updates')}
                 />
                 
-                <CBRECheckboxWithLabel 
+                <CheckboxItem 
                   id="marketing-checkbox" 
                   label="Marketing communications"
                   description="Receive special offers, promotions, and marketing emails"
@@ -180,17 +178,17 @@ const [acceptTerms, setAcceptTerms] = React.useState(false);
                   onCheckedChange={() => handleNewsletterChange('marketing')}
                 />
                 
-                <CBRECheckboxWithLabel 
+                <CheckboxItem 
                   id="partner-checkbox" 
                   label="Partner offers"
                   description="Receive offers from our trusted partners"
                   checked={newsletterOptions.partner}
                   onCheckedChange={() => handleNewsletterChange('partner')}
                 />
-                
-                <div className="pt-4">
-                  <CBREButton variant="primary" size="sm">Save Preferences</CBREButton>
-                </div>
+              </CheckboxGroup>
+              
+              <div className="pt-4 mt-4">
+                <CBREButton variant="primary" size="sm">Save Preferences</CBREButton>
               </div>
             </div>
           </div>
@@ -198,7 +196,9 @@ const [acceptTerms, setAcceptTerms] = React.useState(false);
           <div className="bg-white p-6 border border-light-grey mt-6">
             <h3 className="text-lg font-calibre font-medium text-dark-grey mb-3">Implementation</h3>
             <pre className="bg-gray-100 p-4 rounded overflow-x-auto text-sm">
-{`const [newsletterOptions, setNewsletterOptions] = React.useState({
+{`import { CheckboxGroup, CheckboxItem } from '@/components/cbre-checkbox';
+
+const [newsletterOptions, setNewsletterOptions] = React.useState({
   updates: false,
   marketing: false,
   partner: false
@@ -211,13 +211,11 @@ const handleNewsletterChange = (option: keyof typeof newsletterOptions) => {
   }));
 };
 
-<div className="space-y-4">
-  <div className="mb-4">
-    <h3 className="text-xl font-financier text-cbre-green mb-2">Newsletter preferences</h3>
-    <p className="text-dark-grey font-calibre text-sm mb-4">Select the types of newsletters you'd like to receive</p>
-  </div>
-  
-  <CBRECheckboxWithLabel 
+<CheckboxGroup
+  title="Newsletter preferences"
+  description="Select the types of newsletters you'd like to receive"
+>
+  <CheckboxItem 
     id="updates-checkbox" 
     label="Product updates"
     description="Receive notifications about new features and improvements"
@@ -225,7 +223,7 @@ const handleNewsletterChange = (option: keyof typeof newsletterOptions) => {
     onCheckedChange={() => handleNewsletterChange('updates')}
   />
   
-  <CBRECheckboxWithLabel 
+  <CheckboxItem 
     id="marketing-checkbox" 
     label="Marketing communications"
     description="Receive special offers, promotions, and marketing emails"
@@ -233,18 +231,14 @@ const handleNewsletterChange = (option: keyof typeof newsletterOptions) => {
     onCheckedChange={() => handleNewsletterChange('marketing')}
   />
   
-  <CBRECheckboxWithLabel 
+  <CheckboxItem 
     id="partner-checkbox" 
     label="Partner offers"
     description="Receive offers from our trusted partners"
     checked={newsletterOptions.partner}
     onCheckedChange={() => handleNewsletterChange('partner')}
   />
-  
-  <div className="pt-4">
-    <CBREButton variant="primary" size="sm">Save Preferences</CBREButton>
-  </div>
-</div>
+</CheckboxGroup>
 `}
             </pre>
           </div>
@@ -255,59 +249,57 @@ const handleNewsletterChange = (option: keyof typeof newsletterOptions) => {
           <h2 className="text-4xl font-financier text-cbre-green mb-5">Checkbox Group: Sidebar Items</h2>
           <div className="bg-[var(--lighter-grey)] p-4 md:p-8">
             <div className="border border-light-grey bg-white p-8 max-w-2xl mx-auto">
-              <div className="space-y-4">
-                <div className="mb-4">
-                  <h3 className="text-xl font-financier text-cbre-green mb-2">Sidebar</h3>
-                  <p className="text-dark-grey font-calibre text-sm mb-4">Select the items you want to display in the sidebar</p>
-                </div>
-                
+              <CheckboxGroup
+                title="Sidebar"
+                description="Select the items you want to display in the sidebar"
+              >
                 <div className="grid md:grid-cols-2 gap-4">
-                  <CBRECheckboxWithLabel 
+                  <CheckboxItem 
                     id="recents-checkbox" 
                     label="Recents"
                     checked={sidebarItems.recents}
                     onCheckedChange={() => handleSidebarItemChange('recents')}
                   />
                   
-                  <CBRECheckboxWithLabel 
+                  <CheckboxItem 
                     id="home-checkbox" 
                     label="Home"
                     checked={sidebarItems.home}
                     onCheckedChange={() => handleSidebarItemChange('home')}
                   />
                   
-                  <CBRECheckboxWithLabel 
+                  <CheckboxItem 
                     id="applications-checkbox" 
                     label="Applications"
                     checked={sidebarItems.applications}
                     onCheckedChange={() => handleSidebarItemChange('applications')}
                   />
                   
-                  <CBRECheckboxWithLabel 
+                  <CheckboxItem 
                     id="desktop-checkbox" 
                     label="Desktop"
                     checked={sidebarItems.desktop}
                     onCheckedChange={() => handleSidebarItemChange('desktop')}
                   />
                   
-                  <CBRECheckboxWithLabel 
+                  <CheckboxItem 
                     id="downloads-checkbox" 
                     label="Downloads"
                     checked={sidebarItems.downloads}
                     onCheckedChange={() => handleSidebarItemChange('downloads')}
                   />
                   
-                  <CBRECheckboxWithLabel 
+                  <CheckboxItem 
                     id="documents-checkbox" 
                     label="Documents"
                     checked={sidebarItems.documents}
                     onCheckedChange={() => handleSidebarItemChange('documents')}
                   />
                 </div>
-                
-                <div className="pt-4">
-                  <CBREButton variant="primary" size="sm">Apply Changes</CBREButton>
-                </div>
+              </CheckboxGroup>
+              
+              <div className="pt-4 mt-4">
+                <CBREButton variant="primary" size="sm">Apply Changes</CBREButton>
               </div>
             </div>
           </div>
@@ -315,65 +307,54 @@ const handleNewsletterChange = (option: keyof typeof newsletterOptions) => {
           <div className="bg-white p-6 border border-light-grey mt-6">
             <h3 className="text-lg font-calibre font-medium text-dark-grey mb-3">Implementation</h3>
             <pre className="bg-gray-100 p-4 rounded overflow-x-auto text-sm">
-{`const [sidebarItems, setSidebarItems] = React.useState({
-  recents: true,
-  home: true,
-  applications: false,
-  desktop: false,
-  downloads: true,
-  documents: false
-});
-
-const handleSidebarItemChange = (option: keyof typeof sidebarItems) => {
-  setSidebarItems(prev => ({
-    ...prev,
-    [option]: !prev[option]
-  }));
-};
-
-<div className="grid md:grid-cols-2 gap-4">
-  <CBRECheckboxWithLabel 
-    id="recents-checkbox" 
-    label="Recents"
-    checked={sidebarItems.recents}
-    onCheckedChange={() => handleSidebarItemChange('recents')}
-  />
-  
-  <CBRECheckboxWithLabel 
-    id="home-checkbox" 
-    label="Home"
-    checked={sidebarItems.home}
-    onCheckedChange={() => handleSidebarItemChange('home')}
-  />
-  
-  <CBRECheckboxWithLabel 
-    id="applications-checkbox" 
-    label="Applications"
-    checked={sidebarItems.applications}
-    onCheckedChange={() => handleSidebarItemChange('applications')}
-  />
-  
-  <CBRECheckboxWithLabel 
-    id="desktop-checkbox" 
-    label="Desktop"
-    checked={sidebarItems.desktop}
-    onCheckedChange={() => handleSidebarItemChange('desktop')}
-  />
-  
-  <CBRECheckboxWithLabel 
-    id="downloads-checkbox" 
-    label="Downloads"
-    checked={sidebarItems.downloads}
-    onCheckedChange={() => handleSidebarItemChange('downloads')}
-  />
-  
-  <CBRECheckboxWithLabel 
-    id="documents-checkbox" 
-    label="Documents"
-    checked={sidebarItems.documents}
-    onCheckedChange={() => handleSidebarItemChange('documents')}
-  />
-</div>
+{`<CheckboxGroup
+  title="Sidebar"
+  description="Select the items you want to display in the sidebar"
+>
+  <div className="grid md:grid-cols-2 gap-4">
+    <CheckboxItem 
+      id="recents-checkbox" 
+      label="Recents"
+      checked={sidebarItems.recents}
+      onCheckedChange={() => handleSidebarItemChange('recents')}
+    />
+    
+    <CheckboxItem 
+      id="home-checkbox" 
+      label="Home"
+      checked={sidebarItems.home}
+      onCheckedChange={() => handleSidebarItemChange('home')}
+    />
+    
+    <CheckboxItem 
+      id="applications-checkbox" 
+      label="Applications"
+      checked={sidebarItems.applications}
+      onCheckedChange={() => handleSidebarItemChange('applications')}
+    />
+    
+    <CheckboxItem 
+      id="desktop-checkbox" 
+      label="Desktop"
+      checked={sidebarItems.desktop}
+      onCheckedChange={() => handleSidebarItemChange('desktop')}
+    />
+    
+    <CheckboxItem 
+      id="downloads-checkbox" 
+      label="Downloads"
+      checked={sidebarItems.downloads}
+      onCheckedChange={() => handleSidebarItemChange('downloads')}
+    />
+    
+    <CheckboxItem 
+      id="documents-checkbox" 
+      label="Documents"
+      checked={sidebarItems.documents}
+      onCheckedChange={() => handleSidebarItemChange('documents')}
+    />
+  </div>
+</CheckboxGroup>
 `}
             </pre>
           </div>
