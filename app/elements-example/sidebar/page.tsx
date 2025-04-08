@@ -22,7 +22,8 @@ import {
   CBRESidebarMenuSubItem,
   CBRESidebarMenuSubButton,
   CBRESidebarMenuBadge,
-  CBRESidebarSeparator
+  CBRESidebarSeparator,
+  useSidebar
 } from '@/components/cbre-sidebar';
 
 // Menu items for the example
@@ -49,12 +50,23 @@ const teamMenuItems = [
 
 // Logo component for the sidebar header
 function CBRELogo() {
+  const { state } = useSidebar();
+  const isCollapsed = state === "collapsed";
+  
+  if (isCollapsed) {
+    return (
+      <div className="flex items-center p-2 justify-center">
+        <div className="logo-square">C</div>
+      </div>
+    );
+  }
+  
   return (
     <div className="flex items-center p-2">
-      <div className="w-8 h-8 bg-cbre-green flex items-center justify-center text-white font-semibold rounded-none">
-        C
+      <div className="logo-square">C</div>
+      <div className="ml-2 h-8 w-16">
+        <span className="logo-cbre-green"></span>
       </div>
-      <span className="ml-2 font-financier text-xl text-cbre-green">CBRE</span>
     </div>
   );
 }
