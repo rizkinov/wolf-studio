@@ -122,7 +122,7 @@ const elementCategories = [
         name: "Textarea",
         description: "A multi-line text input for longer form content.",
         path: "/elements-example/textarea",
-        status: "planned"
+        status: "completed"
       },
       {
         name: "Label",
