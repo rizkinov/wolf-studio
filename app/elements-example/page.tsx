@@ -74,7 +74,7 @@ const elementCategories = [
         name: "Sidebar",
         description: "A side navigation container for websites and applications.",
         path: "/elements-example/sidebar",
-        status: "planned"
+        status: "completed"
       },
     ]
   },
