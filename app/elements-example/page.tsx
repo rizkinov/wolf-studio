@@ -56,7 +56,7 @@ const elementCategories = [
         name: "Tabs",
         description: "A set of layered sections of content, each associated with a tab.",
         path: "/elements-example/tabs",
-        status: "planned"
+        status: "completed"
       },
       {
         name: "Separator",
