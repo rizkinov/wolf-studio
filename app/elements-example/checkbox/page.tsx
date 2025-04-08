@@ -127,7 +127,7 @@ const handleCheckedChange = (checked: CheckedState) => {
                   checked={acceptTerms}
                   onCheckedChange={handleCheckedChange}
                 />
-                <div className="grid gap-1">
+                <div className="grid gap-0.5">
                   <Label 
                     htmlFor="terms-with-desc"
                     className="text-sm font-calibre text-dark-grey cursor-pointer"
@@ -152,7 +152,7 @@ const handleCheckedChange = (checked: CheckedState) => {
     checked={acceptTerms}
     onCheckedChange={handleCheckedChange}
   />
-  <div className="grid gap-1">
+  <div className="grid gap-0.5">
     <Label 
       htmlFor="terms-with-desc"
       className="text-sm font-calibre text-dark-grey cursor-pointer"
@@ -229,7 +229,7 @@ const handleCheckedChange = (checked: CheckedState) => {
                       setNewsletterOptions(prev => ({ ...prev, updates: checked === true }))
                     }
                   />
-                  <div className="grid gap-1">
+                  <div className="grid gap-0.5">
                     <Label 
                       htmlFor="updates-checkbox"
                       className="text-sm font-calibre text-dark-grey"
@@ -251,7 +251,7 @@ const handleCheckedChange = (checked: CheckedState) => {
                       setNewsletterOptions(prev => ({ ...prev, marketing: checked === true }))
                     }
                   />
-                  <div className="grid gap-1">
+                  <div className="grid gap-0.5">
                     <Label 
                       htmlFor="marketing-checkbox"
                       className="text-sm font-calibre text-dark-grey"
@@ -273,7 +273,7 @@ const handleCheckedChange = (checked: CheckedState) => {
                       setNewsletterOptions(prev => ({ ...prev, partner: checked === true }))
                     }
                   />
-                  <div className="grid gap-1">
+                  <div className="grid gap-0.5">
                     <Label 
                       htmlFor="partner-checkbox"
                       className="text-sm font-calibre text-dark-grey"
@@ -319,7 +319,7 @@ const [newsletterOptions, setNewsletterOptions] = React.useState({
         setNewsletterOptions(prev => ({ ...prev, updates: checked === true }))
       }
     />
-    <div className="grid gap-1">
+    <div className="grid gap-0.5">
       <Label 
         htmlFor="updates-checkbox"
         className="text-sm font-calibre text-dark-grey"
@@ -341,7 +341,7 @@ const [newsletterOptions, setNewsletterOptions] = React.useState({
         setNewsletterOptions(prev => ({ ...prev, marketing: checked === true }))
       }
     />
-    <div className="grid gap-1">
+    <div className="grid gap-0.5">
       <Label 
         htmlFor="marketing-checkbox"
         className="text-sm font-calibre text-dark-grey"
@@ -363,7 +363,7 @@ const [newsletterOptions, setNewsletterOptions] = React.useState({
         setNewsletterOptions(prev => ({ ...prev, partner: checked === true }))
       }
     />
-    <div className="grid gap-1">
+    <div className="grid gap-0.5">
       <Label 
         htmlFor="partner-checkbox"
         className="text-sm font-calibre text-dark-grey"
