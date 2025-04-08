@@ -42,13 +42,13 @@ function CBRESeparator({
   // Combine variant and color - color should override variant bg
   const bgClass = color ? colorClass : variantClasses[variant];
 
-  // Calculate final styles
+  // Calculate final styles - ensure they override any other styles
   const finalStyles = {
     ...(style || {}),
     // Add specific styles for vertical orientation if not already defined
     ...(orientation === 'vertical' && !style?.marginLeft && !style?.marginRight ? {
-      marginLeft: '16px',
-      marginRight: '16px'
+      marginLeft: '16px !important',
+      marginRight: '16px !important'
     } : {})
   };
 
