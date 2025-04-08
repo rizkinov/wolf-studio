@@ -63,7 +63,8 @@ function CBRELogo() {
   
   return (
     <div className="flex items-center p-2">
-      <div className="h-8 w-16">
+      <div className="logo-square mr-2">C</div>
+      <div className="h-6 w-14">
         <span className="logo-cbre-green"></span>
       </div>
     </div>
@@ -287,7 +288,7 @@ export default function SidebarExamplePage() {
               <div className="h-[500px] flex overflow-hidden">
                 <CBRESidebarProvider defaultOpen={false}>
                   <div className="flex h-full w-full relative overflow-hidden">
-                    <CBRESidebar collapsible="icon" className="!static !h-full !min-h-full max-w-[16rem]">
+                    <CBRESidebar collapsible="icon" className="!static !h-full !min-h-full">
                       <CBRESidebarHeader>
                         <CBRELogo />
                       </CBRESidebarHeader>
@@ -303,11 +304,11 @@ export default function SidebarExamplePage() {
                                     isActive={item.active}
                                     tooltip={item.title}
                                   >
-                                    <a href={item.url} className="flex w-full items-center py-2">
-                                      <item.icon className="size-5 mr-3" />
-                                      <span className="ml-2">{item.title}</span>
+                                    <a href={item.url} className="flex w-full items-center justify-center py-2 relative">
+                                      <item.icon className="size-5" />
+                                      <span className="ml-3">{item.title}</span>
                                       {item.badge && (
-                                        <CBRESidebarMenuBadge className="ml-auto">
+                                        <CBRESidebarMenuBadge className="absolute top-0 right-2 -translate-y-1/4 size-4 text-xs">
                                           {item.badge}
                                         </CBRESidebarMenuBadge>
                                       )}
