@@ -140,7 +140,7 @@ const elementCategories = [
         name: "Slider",
         description: "An input for selecting a value from a range.",
         path: "/elements-example/slider",
-        status: "planned"
+        status: "completed"
       },
     ]
   },
