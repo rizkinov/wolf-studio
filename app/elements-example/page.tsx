@@ -110,7 +110,7 @@ const elementCategories = [
         name: "Input",
         description: "A form field for collecting text input from users.",
         path: "/elements-example/input",
-        status: "planned"
+        status: "completed"
       },
       {
         name: "Select",
