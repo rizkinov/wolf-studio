@@ -388,12 +388,64 @@
     border: none !important;
     outline: none !important;
     box-shadow: none !important;
+    background-color: var(--cbre-green) !important;
+    border-radius: 0 !important;
+  }
+  
+  [data-collapsible="icon"] [data-slot="sidebar-menu-button"][data-active="true"]::before,
+  [data-collapsible="icon"] [data-slot="sidebar-menu-button"][data-active="true"]::after {
+    display: none !important;
+    content: none !important;
+    background: none !important;
+    border: none !important;
+    height: 0 !important;
+    width: 0 !important;
+  }
+  
+  /* Ensure active menu items don't have bottom borders or indicators */
+  [data-collapsible="icon"] [data-slot="sidebar-menu-button"][data-active="true"] a {
+    border: none !important;
+    outline: none !important;
+    box-shadow: none !important;
+    background-color: transparent !important;
+    position: relative !important;
+    color: white !important;
+  }
+  
+  [data-collapsible="icon"] [data-slot="sidebar-menu-button"][data-active="true"] a::before,
+  [data-collapsible="icon"] [data-slot="sidebar-menu-button"][data-active="true"] a::after {
+    display: none !important;
+    content: none !important;
+    background: none !important;
+    border: none !important;
+    outline: none !important;
+    position: absolute !important;
+    height: 0 !important;
+    width: 0 !important;
+  }
+  
+  [data-collapsible="icon"] [data-slot="sidebar-menu-button"][data-active="true"] svg {
+    color: white !important;
+  }
+  
+  /* Make active selection a square in collapsed mode */
+  [data-collapsible="icon"] [data-slot="sidebar-menu-item"] {
+    margin: 4px 0 !important;
+  }
+  
+  [data-collapsible="icon"] [data-slot="sidebar-menu-button"][data-active="true"] {
+    margin: 0 !important;
+    padding: 0 !important;
   }
   
   /* Force all menu items to use solid backgrounds with no borders */
   [data-collapsible="icon"] [data-slot="sidebar-menu-button"] {
+    display: flex !important;
+    align-items: center !important;
     justify-content: center !important;
-    padding: 0.75rem 0 !important;
+    height: 40px !important;
+    width: 100% !important;
+    padding: 0 !important;
     border: none !important;
     outline: none !important;
     box-shadow: none !important;
