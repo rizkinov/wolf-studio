@@ -128,13 +128,13 @@ const elementCategories = [
         name: "Label",
         description: "A text label for form controls.",
         path: "/elements-example/label",
-        status: "planned"
+        status: "completed"
       },
       {
         name: "Form",
         description: "A comprehensive form implementation with validation.",
         path: "/elements-example/form",
-        status: "planned"
+        status: "completed"
       },
       {
         name: "Slider",
