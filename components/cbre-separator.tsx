@@ -36,6 +36,18 @@ function CBRESeparator({
     accent: "!bg-accent-green data-[orientation=horizontal]:!h-[2px] data-[orientation=vertical]:!w-[2px]",
   };
 
+  // Color mapping to actual color values
+  const colorValues = {
+    "cbre-green": "#003F2D",
+    "accent-green": "#17E88F",
+    "dark-green": "#00241A",
+    "midnight": "#242424",
+    "sage": "#CDD6C6",
+    "celadon": "#8FCDB3",
+    "wheat": "#FDE9B3",
+    "negative-red": "#AD2A2A"
+  };
+
   // Color classes
   const colorClass = color ? `!bg-${color}` : "";
 
@@ -45,12 +57,20 @@ function CBRESeparator({
   // Calculate final styles - ensure they override any other styles
   const finalStyles = {
     ...(style || {}),
+    // Apply direct color value if available
+    ...(color && colorValues[color] ? { backgroundColor: `${colorValues[color]} !important` } : {}),
     // Add specific styles for vertical orientation if not already defined
     ...(orientation === 'vertical' && !style?.marginLeft && !style?.marginRight ? {
       marginLeft: '16px !important',
       marginRight: '16px !important'
     } : {})
   };
+
+  // React hook to handle component mount
+  const [mounted, setMounted] = React.useState(false);
+  React.useEffect(() => {
+    setMounted(true);
+  }, []);
 
   return (
     <SeparatorPrimitive.Root

@@ -261,4 +261,32 @@
   [data-slot="separator-root"][data-variant="accent"] {
     background-color: var(--accent-green) !important;
   }
+  
+  /* Color overrides - these need to be more specific to take precedence */
+  [data-slot="separator-root"][data-color="negative-red"] {
+    background-color: #AD2A2A !important;
+  }
+  
+  /* Width overrides - ensure classes for width modifications work */
+  [data-slot="separator-root"].w-1\/2 {
+    width: 50% !important;
+    max-width: 50% !important;
+    margin-left: 0 !important;
+  }
+  
+  /* Make resizable handles always visible */
+  [data-slot="resizable-handle"] {
+    background-color: var(--colors-light-grey) !important;
+    z-index: 50 !important;
+    position: relative !important;
+  }
+  
+  [data-slot="resizable-handle"][data-panel-group-direction="vertical"] {
+    height: 1px !important;
+    background-color: var(--colors-light-grey) !important;
+    z-index: 50 !important;
+    border-top: 1px solid var(--light-grey) !important;
+    margin-top: -1px !important;
+    margin-bottom: -1px !important;
+  }
 }

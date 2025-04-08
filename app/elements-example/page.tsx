@@ -68,7 +68,7 @@ const elementCategories = [
         name: "Resizable",
         description: "A component that can be resized by the user.",
         path: "/elements-example/resizable",
-        status: "planned"
+        status: "completed"
       },
       {
         name: "Sidebar",

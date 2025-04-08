@@ -244,7 +244,12 @@ export default function SeparatorExamplePage() {
                 {mounted ? (
                   <CBRESeparator 
                     key={`width-${key}`}
-                    style={{ width: '50% !important', marginLeft: '0 !important' }} 
+                    className="w-1/2"
+                    style={{ 
+                      width: '50% !important', 
+                      maxWidth: '50% !important',
+                      marginLeft: '0 !important'
+                    }} 
                   />
                 ) : (
                   <div className="h-4">Loading...</div>
@@ -256,6 +261,7 @@ export default function SeparatorExamplePage() {
                 {mounted ? (
                   <CBRESeparator 
                     key={`color-${key}`}
+                    color="negative-red"
                     style={{ backgroundColor: '#AD2A2A !important' }} 
                   />
                 ) : (
@@ -278,10 +284,17 @@ export default function SeparatorExamplePage() {
             <h3 className="text-lg font-calibre font-medium text-dark-grey mb-3">Custom Styling</h3>
             <pre className="bg-gray-100 p-4 rounded overflow-x-auto text-sm">
 {`// Custom width (50%)
-<CBRESeparator style={{ width: '50% !important', marginLeft: '0 !important' }} />
+<CBRESeparator 
+  className="w-1/2"
+  style={{ 
+    width: '50% !important', 
+    maxWidth: '50% !important',
+    marginLeft: '0 !important'
+  }} 
+/>
 
 // Custom color (negative-red)
-<CBRESeparator style={{ backgroundColor: '#AD2A2A !important' }} />
+<CBRESeparator color="negative-red" />
 
 // Custom margin (extra large)
 <CBRESeparator className="!my-16" />`}
