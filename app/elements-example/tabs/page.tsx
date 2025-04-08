@@ -10,6 +10,14 @@ import {
 import { CBREButton } from '@/components/cbre-button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
+import { Checkbox } from "@/components/ui/checkbox";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 import Link from 'next/link';
 
 export default function TabsExamplePage() {
@@ -96,21 +104,21 @@ export default function TabsExamplePage() {
                   <div className="space-y-6">
                     <div className="grid w-full gap-1.5">
                       <Label htmlFor="language">Language</Label>
-                      <select 
-                        id="language"
-                        className="w-full border border-light-grey p-2 focus:outline-none focus:ring-2 focus:ring-accent-green"
-                      >
-                        <option value="en">English</option>
-                        <option value="fr">French</option>
-                        <option value="de">German</option>
-                        <option value="es">Spanish</option>
-                      </select>
+                      <Select defaultValue="en">
+                        <SelectTrigger>
+                          <SelectValue placeholder="Select a language" />
+                        </SelectTrigger>
+                        <SelectContent>
+                          <SelectItem value="en">English</SelectItem>
+                          <SelectItem value="fr">French</SelectItem>
+                          <SelectItem value="de">German</SelectItem>
+                          <SelectItem value="es">Spanish</SelectItem>
+                        </SelectContent>
+                      </Select>
                     </div>
-                    <div>
-                      <Label className="flex items-center gap-2">
-                        <input type="checkbox" id="email-notifications" className="accent-cbre-green" />
-                        <span>Email Notifications</span>
-                      </Label>
+                    <div className="flex items-center space-x-2">
+                      <Checkbox id="email-notifications" />
+                      <Label htmlFor="email-notifications">Email Notifications</Label>
                     </div>
                     <div className="flex justify-end gap-4">
                       <CBREButton variant="outline">Cancel</CBREButton>
