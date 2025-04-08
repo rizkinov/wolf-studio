@@ -63,8 +63,7 @@ function CBRELogo() {
   
   return (
     <div className="flex items-center p-2">
-      <div className="logo-square">C</div>
-      <div className="ml-2 h-8 w-16">
+      <div className="h-8 w-16">
         <span className="logo-cbre-green"></span>
       </div>
     </div>
@@ -101,8 +100,8 @@ export default function SidebarExamplePage() {
                               {mainMenuItems.map((item) => (
                                 <CBRESidebarMenuItem key={item.title}>
                                   <CBRESidebarMenuButton asChild isActive={item.active}>
-                                    <a href={item.url} className="flex w-full">
-                                      <item.icon className="size-5 mr-2" />
+                                    <a href={item.url} className="flex w-full items-center py-2">
+                                      <item.icon className="size-5 mr-3" />
                                       <span>{item.title}</span>
                                       {item.badge && (
                                         <CBRESidebarMenuBadge className="ml-auto">
@@ -126,8 +125,8 @@ export default function SidebarExamplePage() {
                               {projectMenuItems.map((item) => (
                                 <CBRESidebarMenuItem key={item.title}>
                                   <CBRESidebarMenuButton asChild>
-                                    <a href={item.url} className="flex w-full">
-                                      <item.icon className="size-5 mr-2" />
+                                    <a href={item.url} className="flex w-full items-center py-2">
+                                      <item.icon className="size-5 mr-3" />
                                       <span>{item.title}</span>
                                     </a>
                                   </CBRESidebarMenuButton>
@@ -205,8 +204,8 @@ export default function SidebarExamplePage() {
             {mainMenuItems.map((item) => (
               <CBRESidebarMenuItem key={item.title}>
                 <CBRESidebarMenuButton asChild isActive={item.active}>
-                  <a href={item.url} className="flex w-full">
-                    <item.icon className="size-5 mr-2" />
+                  <a href={item.url} className="flex w-full items-center py-2">
+                    <item.icon className="size-5 mr-3" />
                     <span>{item.title}</span>
                     {item.badge && (
                       <CBRESidebarMenuBadge className="ml-auto">
@@ -230,8 +229,8 @@ export default function SidebarExamplePage() {
             {projectMenuItems.map((item) => (
               <CBRESidebarMenuItem key={item.title}>
                 <CBRESidebarMenuButton asChild>
-                  <a href={item.url} className="flex w-full">
-                    <item.icon className="size-5 mr-2" />
+                  <a href={item.url} className="flex w-full items-center py-2">
+                    <item.icon className="size-5 mr-3" />
                     <span>{item.title}</span>
                   </a>
                 </CBRESidebarMenuButton>
@@ -304,9 +303,9 @@ export default function SidebarExamplePage() {
                                     isActive={item.active}
                                     tooltip={item.title}
                                   >
-                                    <a href={item.url} className="flex w-full">
-                                      <item.icon className="size-5 mr-2" />
-                                      <span>{item.title}</span>
+                                    <a href={item.url} className="flex w-full items-center py-2">
+                                      <item.icon className="size-5 mr-3" />
+                                      <span className="ml-2">{item.title}</span>
                                       {item.badge && (
                                         <CBRESidebarMenuBadge className="ml-auto">
                                           {item.badge}
@@ -374,11 +373,11 @@ export default function SidebarExamplePage() {
                   isActive={item.active}
                   tooltip={item.title}
                 >
-                  <a href={item.url}>
-                    <item.icon />
-                    <span>{item.title}</span>
+                  <a href={item.url} className="flex w-full items-center py-2">
+                    <item.icon className="size-5 mr-3" />
+                    <span className="ml-2">{item.title}</span>
                     {item.badge && (
-                      <CBRESidebarMenuBadge>
+                      <CBRESidebarMenuBadge className="ml-auto">
                         {item.badge}
                       </CBRESidebarMenuBadge>
                     )}
@@ -424,8 +423,8 @@ export default function SidebarExamplePage() {
                               {mainMenuItems.slice(0, 3).map((item) => (
                                 <CBRESidebarMenuItem key={item.title}>
                                   <CBRESidebarMenuButton asChild isActive={item.active}>
-                                    <a href={item.url} className="flex w-full">
-                                      <item.icon className="size-5 mr-2" />
+                                    <a href={item.url} className="flex w-full items-center py-2">
+                                      <item.icon className="size-5 mr-3" />
                                       <span>{item.title}</span>
                                     </a>
                                   </CBRESidebarMenuButton>
@@ -478,8 +477,8 @@ export default function SidebarExamplePage() {
             {items.map((item) => (
               <CBRESidebarMenuItem key={item.title}>
                 <CBRESidebarMenuButton asChild isActive={item.active}>
-                  <a href={item.url}>
-                    <item.icon />
+                  <a href={item.url} className="flex w-full items-center py-2">
+                    <item.icon className="size-5 mr-3" />
                     <span>{item.title}</span>
                   </a>
                 </CBRESidebarMenuButton>

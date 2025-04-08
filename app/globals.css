@@ -302,6 +302,31 @@
     width: auto !important;
   }
   
+  /* Improve icon positioning in collapsed sidebar */
+  [data-state="collapsed"] [data-slot="sidebar-menu-button"] {
+    display: flex !important;
+    justify-content: center !important;
+    align-items: center !important;
+    padding: 0.75rem 0 !important;
+  }
+  
+  [data-state="collapsed"] [data-slot="sidebar-menu-button"] svg {
+    margin: 0 auto !important;
+  }
+  
+  [data-state="collapsed"] [data-slot="sidebar-group"] {
+    padding-top: 1rem !important;
+  }
+  
+  [data-state="collapsed"] [data-slot="sidebar-group-label"] {
+    text-align: center !important;
+    margin-bottom: 0.5rem !important;
+  }
+  
+  [data-state="collapsed"] [data-slot="sidebar-header"] {
+    padding-top: 0.75rem !important;
+  }
+  
   [data-slot="sidebar-inner"] {
     background-color: white !important;
     border-color: var(--light-grey) !important;
