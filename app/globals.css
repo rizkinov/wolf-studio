@@ -343,13 +343,71 @@
     border-right: 1px solid var(--light-grey) !important;
   }
   
+  /* Remove any dividers or borders between menu items */
+  [data-collapsible="icon"] [data-slot="sidebar-menu-item"] {
+    position: relative !important;
+    border: none !important;
+    margin: 0 !important;
+    outline: none !important;
+    background: white !important;
+  }
+  
+  [data-collapsible="icon"] [data-slot="sidebar-menu-item"]::before,
+  [data-collapsible="icon"] [data-slot="sidebar-menu-item"]::after,
+  [data-collapsible="icon"] [data-slot="sidebar-menu-button"]::before,
+  [data-collapsible="icon"] [data-slot="sidebar-menu-button"]::after {
+    display: none !important;
+    content: none !important;
+    background: none !important;
+    border: none !important;
+  }
+  
+  [data-collapsible="icon"] [data-slot="sidebar-content"] {
+    border: none !important;
+    padding: 0 !important;
+  }
+  
+  [data-collapsible="icon"] [data-slot="sidebar-group"] {
+    border: none !important;
+    padding-bottom: 0 !important;
+    margin-bottom: 0 !important;
+    border-bottom: none !important;
+  }
+  
+  [data-collapsible="icon"] [data-slot="sidebar-menu"] {
+    border: none !important;
+    box-shadow: none !important;
+  }
+  
+  [data-collapsible="icon"] [data-slot="sidebar-separator"] {
+    display: none !important;
+  }
+  
+  /* Specifically target any active item to make sure it doesn't show anything but background color */
+  [data-collapsible="icon"] [data-slot="sidebar-menu-button"][data-active="true"] {
+    border: none !important;
+    outline: none !important;
+    box-shadow: none !important;
+  }
+  
+  /* Force all menu items to use solid backgrounds with no borders */
   [data-collapsible="icon"] [data-slot="sidebar-menu-button"] {
     justify-content: center !important;
     padding: 0.75rem 0 !important;
+    border: none !important;
+    outline: none !important;
+    box-shadow: none !important;
+  }
+  
+  [data-collapsible="icon"] [data-slot="sidebar-menu-button"] a {
+    border: none !important;
+    outline: none !important;
+    box-shadow: none !important;
   }
   
   [data-collapsible="icon"] [data-slot="sidebar-menu-button"] svg {
     margin: 0 !important;
+    border: none !important;
   }
   
   [data-collapsible="icon"] [data-slot="sidebar-menu-button"] span {
@@ -371,10 +429,6 @@
     display: flex !important;
     align-items: center !important;
     justify-content: center !important;
-  }
-  
-  [data-collapsible="icon"] [data-slot="sidebar-menu-item"] {
-    position: relative !important;
   }
   
   /* Force sidebar container override */

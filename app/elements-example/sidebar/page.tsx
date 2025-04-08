@@ -292,19 +292,20 @@ export default function SidebarExamplePage() {
                       <CBRESidebarHeader className="flex justify-center">
                         <CBRELogo />
                       </CBRESidebarHeader>
-                      <CBRESidebarContent>
-                        <CBRESidebarGroup>
+                      <CBRESidebarContent className="!border-none !shadow-none">
+                        <CBRESidebarGroup className="!border-none">
                           <CBRESidebarGroupLabel>Main</CBRESidebarGroupLabel>
                           <CBRESidebarGroupContent>
-                            <CBRESidebarMenu>
+                            <CBRESidebarMenu className="!border-none !shadow-none">
                               {mainMenuItems.map((item) => (
-                                <CBRESidebarMenuItem key={item.title}>
+                                <CBRESidebarMenuItem key={item.title} className="!border-none !shadow-none">
                                   <CBRESidebarMenuButton 
                                     asChild 
                                     isActive={item.active}
                                     tooltip={item.title}
+                                    className="!border-none !outline-none !shadow-none"
                                   >
-                                    <a href={item.url} className="flex flex-col items-center justify-center py-2 relative">
+                                    <a href={item.url} className="flex flex-col items-center justify-center py-2 relative !border-none !outline-none">
                                       <item.icon className="size-5" />
                                       <span className="sr-only">{item.title}</span>
                                       {item.badge && (
