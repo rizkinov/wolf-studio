@@ -47,7 +47,7 @@ export function CBREButton({
       case "primary":
         return cn("bg-[#003F2D] text-white hover:bg-[#17E88F] hover:text-[#003F2D] transition-colors duration-300 font-medium", className);
       case "outline":
-        return cn("border-cbre-green text-cbre-green hover:bg-accent-green hover:text-cbre-green hover:border-transparent transition-colors duration-300", className);
+        return cn("border-cbre-green text-cbre-green hover:bg-accent-green/20 hover:text-cbre-green transition-colors duration-300", className);
       case "accent":
         return cn("bg-[#17E88F] text-[#003F2D] hover:bg-[#003F2D] hover:text-white transition-colors duration-300 font-medium", className);
       case "action":
