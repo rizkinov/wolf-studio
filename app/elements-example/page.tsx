@@ -152,13 +152,13 @@ const elementCategories = [
         name: "Breadcrumb",
         description: "A navigation aid showing the current location within a hierarchy.",
         path: "/elements-example/breadcrumb",
-        status: "planned"
+        status: "completed"
       },
       {
         name: "Navigation Menu",
         description: "A responsive navigation component with dropdown menus.",
         path: "/elements-example/navigation-menu",
-        status: "planned"
+        status: "completed"
       },
       {
         name: "Menubar",
