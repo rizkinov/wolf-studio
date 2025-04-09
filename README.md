@@ -1,15 +1,5 @@
 # CBRE Web Elements
 
-<p align="center">
-  <img src="https://via.placeholder.com/600x120?text=CBRE+WEB+ELEMENTS" alt="CBRE Web Elements" width="600" />
-</p>
-
-<p align="center">
-  <a href="https://github.com/rizkinov/cbre-web-elements/actions"><img src="https://github.com/rizkinov/cbre-web-elements/actions/workflows/ci.yml/badge.svg" alt="Build Status"></a>
-  <a href="https://www.npmjs.com/package/cbre-web-elements"><img src="https://img.shields.io/npm/v/cbre-web-elements.svg" alt="npm version"></a>
-  <a href="https://github.com/rizkinov/cbre-web-elements/blob/main/LICENSE"><img src="https://img.shields.io/badge/license-MIT-blue.svg" alt="License"></a>
-</p>
-
 A modern React component library styled according to CBRE's design system. Built on top of shadcn/ui and Tailwind CSS, this library provides a consistent, accessible, and customizable UI toolkit for CBRE web applications.
 
 ## Features
