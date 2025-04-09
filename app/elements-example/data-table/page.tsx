@@ -5,7 +5,6 @@ import Link from "next/link";
 import { CBREButton } from "@/components/cbre-button";
 import { CBREDataTable } from "@/components/cbre-data-table";
 import { ColumnDef } from "@tanstack/react-table";
-import { Badge } from "@/components/ui/badge";
 import { Checkbox } from "@/components/ui/checkbox";
 import {
   DropdownMenu,
@@ -156,7 +155,7 @@ export default function DataTableExamplePage() {
                 ? "success"
                 : status === "Under Contract"
                 ? "warning"
-                : "secondary"
+                : "info"
             }
           >
             {status}
@@ -187,7 +186,9 @@ export default function DataTableExamplePage() {
       accessorKey: "lastUpdated",
       header: "Last Updated",
       cell: ({ row }) => {
-        return new Date(row.getValue("lastUpdated")).toLocaleDateString();
+        const date = new Date(row.getValue("lastUpdated"));
+        // Use explicit formatting instead of toLocaleDateString() to avoid hydration issues
+        return `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, '0')}-${String(date.getDate()).padStart(2, '0')}`;
       },
     },
     {
@@ -221,7 +222,13 @@ export default function DataTableExamplePage() {
 
   return (
     <div className="min-h-screen bg-white">
-      <div className="py-10 px-4 md:px-10 max-w-7xl mx-auto">
+      <div className="py-10 px-4 md:px-10 max-w-5xl mx-auto">
+        <div className="mb-8">
+          <Link href="/elements-example">
+            <CBREButton variant="outline">Back to UI Elements</CBREButton>
+          </Link>
+        </div>
+
         <h1 className="text-6xl font-financier text-cbre-green mb-6">Data Table Component</h1>
         <p className="text-dark-grey font-calibre mb-10 max-w-3xl">
           An enhanced table component with sorting, filtering, pagination, and row selection capabilities.
@@ -232,12 +239,15 @@ export default function DataTableExamplePage() {
         <div className="mb-16">
           <h2 className="text-4xl font-financier text-cbre-green mb-5">Property Management Table</h2>
           <div className="bg-[var(--lighter-grey)] p-4 md:p-8">
-            <div className="border border-light-grey bg-white p-8">
-              <CBREDataTable
-                columns={columns}
-                data={properties}
-                searchKey="name"
-              />
+            <div className="border border-light-grey bg-white p-8 max-w-full mx-auto space-y-6">
+              <div className="space-y-2">
+                <p className="text-dark-grey font-calibre mb-2">Interactive Data Table with Search, Pagination, and Sorting</p>
+                <CBREDataTable
+                  columns={columns}
+                  data={properties}
+                  searchKey="name"
+                />
+              </div>
             </div>
           </div>
 
@@ -254,11 +264,107 @@ export default function DataTableExamplePage() {
               <li>Formatted numbers and dates</li>
             </ul>
           </div>
+
+          <div className="bg-white p-6 border border-light-grey mt-6">
+            <h3 className="text-lg font-calibre font-medium text-dark-grey mb-3">Implementation</h3>
+            <pre className="bg-gray-100 p-4 rounded overflow-x-auto text-sm">
+{`// Define your columns
+const columns: ColumnDef<DataType>[] = [
+  {
+    accessorKey: "name",
+    header: "Name",
+  },
+  {
+    accessorKey: "status",
+    header: "Status",
+    cell: ({ row }) => {
+      const status = row.getValue("status") as string;
+      return (
+        <CBREBadge
+          variant={
+            status === "Active" ? "success" 
+            : status === "Under Contract" ? "warning" 
+            : "info"
+          }
+        >
+          {status}
+        </CBREBadge>
+      );
+    },
+  },
+  // Add more columns as needed
+];
+
+// Sample data
+const data = [/* Your data array */];
+
+// In your component
+<CBREDataTable
+  columns={columns}
+  data={data}
+  searchKey="name"
+/>`}
+            </pre>
+          </div>
+        </div>
+
+        {/* Component API */}
+        <div className="mb-16">
+          <h2 className="text-4xl font-financier text-cbre-green mb-5">Component API</h2>
+          <div className="bg-[var(--lighter-grey)] p-4 md:p-8">
+            <div className="border border-light-grey bg-white p-8 max-w-2xl mx-auto">
+              <div className="space-y-8">
+                <div>
+                  <h3 className="text-xl font-calibre font-medium mb-3">DataTable Components</h3>
+                  <p className="mb-3 text-dark-grey font-calibre">
+                    The DataTable component provides a consistent UI element following CBRE design guidelines.
+                  </p>
+                  <div className="overflow-x-auto">
+                    <table className="w-full border-collapse text-sm">
+                      <thead>
+                        <tr>
+                          <th className="border border-light-grey px-4 py-2 text-left">Component</th>
+                          <th className="border border-light-grey px-4 py-2 text-left">Description</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <tr>
+                          <td className="border border-light-grey px-4 py-2 font-mono">DataTable</td>
+                          <td className="border border-light-grey px-4 py-2">The root component.</td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+                <div>
+                  <h3 className="text-xl font-calibre font-medium mb-3">DataTable Props</h3>
+                  <div className="overflow-x-auto">
+                    <table className="w-full border-collapse text-sm">
+                      <thead>
+                        <tr>
+                          <th className="border border-light-grey px-4 py-2 text-left">Prop</th>
+                          <th className="border border-light-grey px-4 py-2 text-left">Type</th>
+                          <th className="border border-light-grey px-4 py-2 text-left">Description</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <tr>
+                          <td className="border border-light-grey px-4 py-2 font-mono">className</td>
+                          <td className="border border-light-grey px-4 py-2">string</td>
+                          <td className="border border-light-grey px-4 py-2">Additional CSS classes to apply to the component.</td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
 
         <div className="mt-16 flex justify-center">
           <Link href="/elements-example">
-            <CBREButton variant="outline">Back to Elements</CBREButton>
+            <CBREButton variant="outline">Back to UI Elements</CBREButton>
           </Link>
         </div>
       </div>
