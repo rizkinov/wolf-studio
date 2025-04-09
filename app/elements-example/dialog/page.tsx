@@ -17,6 +17,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Settings, User, CreditCard, X, Mail, BellRing, Loader2 } from "lucide-react";
+import { Checkbox } from "@/components/ui/checkbox";
 
 export default function DialogExamplePage() {
   // State for controlled dialog example
@@ -71,7 +72,7 @@ export default function DialogExamplePage() {
                       </DialogHeader>
                       <div className="flex items-center space-x-2 py-4">
                         <div className="grid flex-1 gap-2">
-                          <Label htmlFor="name" className="text-right">
+                          <Label htmlFor="name" className="text-left">
                             Name
                           </Label>
                           <Input id="name" defaultValue="Jane Smith" />
@@ -111,7 +112,7 @@ export default function DialogExamplePage() {
     </DialogHeader>
     <div className="flex items-center space-x-2 py-4">
       <div className="grid flex-1 gap-2">
-        <Label htmlFor="name" className="text-right">
+        <Label htmlFor="name" className="text-left">
           Name
         </Label>
         <Input id="name" defaultValue="Jane Smith" />
@@ -156,7 +157,7 @@ export default function DialogExamplePage() {
                       </DialogHeader>
                       <div className="grid gap-4 py-4">
                         <div className="grid grid-cols-4 items-center gap-4">
-                          <Label htmlFor="name" className="text-right">
+                          <Label htmlFor="name" className="text-left">
                             Name
                           </Label>
                           <Input id="name" defaultValue="Jane Smith" className="col-span-3" />
@@ -195,31 +196,43 @@ export default function DialogExamplePage() {
                         </DialogDescription>
                       </DialogHeader>
                       <div className="grid gap-4 py-4">
-                        <div className="flex items-center space-x-2">
-                          <input
-                            type="checkbox"
-                            id="notifications-email"
-                            className="h-4 w-4 rounded border-gray-300"
+                        <div className="flex items-start space-x-2">
+                          <Checkbox 
+                            id="notifications-email" 
+                            className="mt-1"
                             defaultChecked
                           />
-                          <Label htmlFor="notifications-email">Email notifications</Label>
+                          <Label 
+                            htmlFor="notifications-email" 
+                            className="text-sm font-calibre text-dark-grey cursor-pointer"
+                          >
+                            Email notifications
+                          </Label>
                         </div>
-                        <div className="flex items-center space-x-2">
-                          <input
-                            type="checkbox"
-                            id="notifications-push"
-                            className="h-4 w-4 rounded border-gray-300"
+                        <div className="flex items-start space-x-2">
+                          <Checkbox 
+                            id="notifications-push" 
+                            className="mt-1"
                             defaultChecked
                           />
-                          <Label htmlFor="notifications-push">Push notifications</Label>
+                          <Label 
+                            htmlFor="notifications-push" 
+                            className="text-sm font-calibre text-dark-grey cursor-pointer"
+                          >
+                            Push notifications
+                          </Label>
                         </div>
-                        <div className="flex items-center space-x-2">
-                          <input
-                            type="checkbox"
-                            id="notifications-sms"
-                            className="h-4 w-4 rounded border-gray-300"
+                        <div className="flex items-start space-x-2">
+                          <Checkbox 
+                            id="notifications-sms" 
+                            className="mt-1"
                           />
-                          <Label htmlFor="notifications-sms">SMS notifications</Label>
+                          <Label 
+                            htmlFor="notifications-sms" 
+                            className="text-sm font-calibre text-dark-grey cursor-pointer"
+                          >
+                            SMS notifications
+                          </Label>
                         </div>
                       </div>
                       <DialogFooter>
@@ -228,6 +241,74 @@ export default function DialogExamplePage() {
                     </DialogContent>
                   </Dialog>
                 </div>
+              </div>
+
+              {/* Implementation for Notification Dialog */}
+              <div className="bg-white p-6 border border-light-grey mt-6 mb-10">
+                <h3 className="text-lg font-calibre font-medium text-dark-grey mb-3">Notification Dialog Implementation</h3>
+                <pre className="bg-gray-100 p-4 rounded overflow-x-auto text-sm">
+{`import { Checkbox } from "@/components/ui/checkbox";
+
+<Dialog>
+  <DialogTrigger asChild>
+    <Button variant="outline">
+      <BellRing className="mr-2 h-4 w-4" />
+      Notifications
+    </Button>
+  </DialogTrigger>
+  <DialogContent>
+    <DialogHeader>
+      <DialogTitle>Notifications</DialogTitle>
+      <DialogDescription>
+        Configure how you receive notifications.
+      </DialogDescription>
+    </DialogHeader>
+    <div className="grid gap-4 py-4">
+      <div className="flex items-start space-x-2">
+        <Checkbox 
+          id="notifications-email" 
+          className="mt-1"
+          defaultChecked
+        />
+        <Label 
+          htmlFor="notifications-email" 
+          className="text-sm font-calibre text-dark-grey cursor-pointer"
+        >
+          Email notifications
+        </Label>
+      </div>
+      <div className="flex items-start space-x-2">
+        <Checkbox 
+          id="notifications-push" 
+          className="mt-1"
+          defaultChecked
+        />
+        <Label 
+          htmlFor="notifications-push" 
+          className="text-sm font-calibre text-dark-grey cursor-pointer"
+        >
+          Push notifications
+        </Label>
+      </div>
+      <div className="flex items-start space-x-2">
+        <Checkbox 
+          id="notifications-sms" 
+          className="mt-1"
+        />
+        <Label 
+          htmlFor="notifications-sms" 
+          className="text-sm font-calibre text-dark-grey cursor-pointer"
+        >
+          SMS notifications
+        </Label>
+      </div>
+    </div>
+    <DialogFooter>
+      <Button type="submit">Save preferences</Button>
+    </DialogFooter>
+  </DialogContent>
+</Dialog>`}
+                </pre>
               </div>
 
               {/* Payment Dialog */}
@@ -298,14 +379,13 @@ export default function DialogExamplePage() {
         Add a new payment method to your account
       </DialogDescription>
     </DialogHeader>
-    <div className="grid gap-4 py-4">
-      <div className="grid grid-cols-4 items-center gap-4">
-        <Label htmlFor="card-number" className="text-right">
+    <div className="flex items-center space-x-2 py-4">
+      <div className="grid flex-1 gap-2">
+        <Label htmlFor="card-number" className="text-left">
           Card Number
         </Label>
         <Input id="card-number" placeholder="4242 4242 4242 4242" className="col-span-3" />
       </div>
-      {/* Other form fields */}
     </div>
     <DialogFooter>
       <DialogClose asChild>
@@ -343,7 +423,7 @@ export default function DialogExamplePage() {
                       </DialogHeader>
                       <div className="grid gap-4 py-4">
                         <div className="grid grid-cols-4 items-center gap-4">
-                          <Label htmlFor="email" className="text-right">
+                          <Label htmlFor="email" className="text-left">
                             Email
                           </Label>
                           <Input 
@@ -418,7 +498,21 @@ const handleSubscribe = () => {
         Enter your email to receive our newsletter with the latest updates.
       </DialogDescription>
     </DialogHeader>
-    {/* Form content */}
+    <div className="flex items-center space-x-2 py-4">
+      <div className="grid flex-1 gap-2">
+        <Label htmlFor="email" className="text-left">
+          Email
+        </Label>
+        <Input 
+          id="email" 
+          type="email" 
+          placeholder="your@email.com" 
+          className="col-span-3"
+          value={email}
+          onChange={(e) => setEmail(e.target.value)}
+        />
+      </div>
+    </div>
     <DialogFooter>
       <DialogClose asChild>
         <Button variant="outline" onClick={() => setEmail("")}>

@@ -200,25 +200,25 @@ const elementCategories = [
         name: "Popover",
         description: "A small overlay that appears on hover or click.",
         path: "/elements-example/popover",
-        status: "planned"
+        status: "completed"
       },
       {
         name: "Hover Card",
         description: "A card that appears when hovering over an element.",
-        path: "/elements-example/hover-card",
-        status: "planned"
+        path: "/elements-example/cbre-hover-card",
+        status: "completed"
       },
       {
         name: "Toast",
         description: "A brief notification that appears temporarily.",
         path: "/elements-example/toast",
-        status: "planned"
+        status: "completed"
       },
       {
         name: "Tooltip",
         description: "A small informative message that appears on hover.",
         path: "/elements-example/tooltip",
-        status: "planned"
+        status: "completed"
       },
     ]
   },
@@ -230,43 +230,43 @@ const elementCategories = [
         name: "Table",
         description: "A component for displaying tabular data.",
         path: "/elements-example/table",
-        status: "planned"
+        status: "completed"
       },
       {
         name: "Data Table",
         description: "An enhanced table with sorting, filtering, and pagination.",
         path: "/elements-example/data-table",
-        status: "planned"
+        status: "completed"
       },
       {
         name: "Calendar",
         description: "A calendar component for date display and selection.",
         path: "/elements-example/calendar",
-        status: "planned"
+        status: "completed"
       },
       {
         name: "Date Picker",
         description: "A component for selecting dates.",
         path: "/elements-example/date-picker",
-        status: "planned"
+        status: "completed"
       },
       {
         name: "Chart",
         description: "Data visualization components for graphs and charts.",
-        path: "/elements-example/chart",
-        status: "planned"
+        path: "/elements-example/charts",
+        status: "completed"
       },
       {
         name: "Carousel",
         description: "A slideshow component for cycling through elements.",
         path: "/elements-example/carousel",
-        status: "planned"
+        status: "completed"
       },
       {
         name: "Scroll Area",
         description: "A scrollable container with custom styled scrollbars.",
         path: "/elements-example/scroll-area",
-        status: "planned"
+        status: "completed"
       },
     ]
   }
