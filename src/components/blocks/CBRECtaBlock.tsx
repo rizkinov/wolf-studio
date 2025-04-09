@@ -2,7 +2,7 @@
 
 import React from 'react';
 import { cn } from "@/lib/utils";
-import { CBREButton } from './cbre-button';
+import { CBREButton } from '../cbre/CBREButton';
 
 interface CBRECTABlockProps {
   title: string;
