@@ -13,7 +13,7 @@ const elementCategories = [
       {
         name: "Button",
         description: "A clickable element that performs an action or submits a form.",
-        path: "/button-example",
+        path: "/elements-example/button",
         status: "completed"
       },
       {

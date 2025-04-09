@@ -16,7 +16,13 @@ export default function CardExamplePage() {
   return (
     <div className="min-h-screen bg-white p-10">
       <div className="max-w-4xl mx-auto">
-        <h1 className="text-3xl font-financier text-cbre-green mb-10">Card Component</h1>
+        <div className="mb-8">
+          <Link href="/elements-example">
+            <CBREButton variant="outline">Back to UI Elements</CBREButton>
+          </Link>
+        </div>
+
+        <h1 className="text-6xl font-financier text-cbre-green mb-6">Card Component</h1>
         
         {/* Basic Card */}
         <div className="mb-16">
@@ -171,7 +177,61 @@ export default function CardExamplePage() {
           </div>
         </div>
         
-        <div className="mt-16 flex justify-center">
+                {/* Component API */}
+        <div className="mb-16">
+          <h2 className="text-4xl font-financier text-cbre-green mb-5">Component API</h2>
+          <div className="bg-[var(--lighter-grey)] p-4 md:p-8">
+            <div className="border border-light-grey bg-white p-8 max-w-2xl mx-auto">
+              <div className="space-y-8">
+                <div>
+                  <h3 className="text-xl font-calibre font-medium mb-3">Card Components</h3>
+                  <p className="mb-3 text-dark-grey font-calibre">
+                    The Card component provides a consistent UI element following CBRE design guidelines.
+                  </p>
+                  <div className="overflow-x-auto">
+                    <table className="w-full border-collapse text-sm">
+                      <thead>
+                        <tr>
+                          <th className="border border-light-grey px-4 py-2 text-left">Component</th>
+                          <th className="border border-light-grey px-4 py-2 text-left">Description</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <tr>
+                          <td className="border border-light-grey px-4 py-2 font-mono">Card</td>
+                          <td className="border border-light-grey px-4 py-2">The root component.</td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+                <div>
+                  <h3 className="text-xl font-calibre font-medium mb-3">Card Props</h3>
+                  <div className="overflow-x-auto">
+                    <table className="w-full border-collapse text-sm">
+                      <thead>
+                        <tr>
+                          <th className="border border-light-grey px-4 py-2 text-left">Prop</th>
+                          <th className="border border-light-grey px-4 py-2 text-left">Type</th>
+                          <th className="border border-light-grey px-4 py-2 text-left">Description</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <tr>
+                          <td className="border border-light-grey px-4 py-2 font-mono">className</td>
+                          <td className="border border-light-grey px-4 py-2">string</td>
+                          <td className="border border-light-grey px-4 py-2">Additional CSS classes to apply to the component.</td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+<div className="mt-16 flex justify-center">
           <Link href="/elements-example">
             <CBREButton variant="outline">Back to UI Elements</CBREButton>
           </Link>

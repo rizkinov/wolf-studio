@@ -68,6 +68,12 @@ export default function SliderExamplePage() {
   return (
     <div className="min-h-screen bg-white">
       <div className="py-10 px-4 md:px-10 max-w-5xl mx-auto">
+        <div className="mb-8">
+          <Link href="/elements-example">
+            <CBREButton variant="outline">Back to UI Elements</CBREButton>
+          </Link>
+        </div>
+
         <h1 className="text-6xl font-financier text-cbre-green mb-6">Slider Component</h1>
         <p className="text-dark-grey font-calibre mb-10 max-w-3xl">
           The Slider component provides a way to select a value or range of values along a specified number range.
@@ -385,7 +391,61 @@ const form = useForm<z.infer<typeof priceRangeSchema>>({
           </div>
         </div>
         
-        <div className="mt-16 flex justify-center">
+                {/* Component API */}
+        <div className="mb-16">
+          <h2 className="text-4xl font-financier text-cbre-green mb-5">Component API</h2>
+          <div className="bg-[var(--lighter-grey)] p-4 md:p-8">
+            <div className="border border-light-grey bg-white p-8 max-w-2xl mx-auto">
+              <div className="space-y-8">
+                <div>
+                  <h3 className="text-xl font-calibre font-medium mb-3">Slider Components</h3>
+                  <p className="mb-3 text-dark-grey font-calibre">
+                    The Slider component provides a consistent UI element following CBRE design guidelines.
+                  </p>
+                  <div className="overflow-x-auto">
+                    <table className="w-full border-collapse text-sm">
+                      <thead>
+                        <tr>
+                          <th className="border border-light-grey px-4 py-2 text-left">Component</th>
+                          <th className="border border-light-grey px-4 py-2 text-left">Description</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <tr>
+                          <td className="border border-light-grey px-4 py-2 font-mono">Slider</td>
+                          <td className="border border-light-grey px-4 py-2">The root component.</td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+                <div>
+                  <h3 className="text-xl font-calibre font-medium mb-3">Slider Props</h3>
+                  <div className="overflow-x-auto">
+                    <table className="w-full border-collapse text-sm">
+                      <thead>
+                        <tr>
+                          <th className="border border-light-grey px-4 py-2 text-left">Prop</th>
+                          <th className="border border-light-grey px-4 py-2 text-left">Type</th>
+                          <th className="border border-light-grey px-4 py-2 text-left">Description</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <tr>
+                          <td className="border border-light-grey px-4 py-2 font-mono">className</td>
+                          <td className="border border-light-grey px-4 py-2">string</td>
+                          <td className="border border-light-grey px-4 py-2">Additional CSS classes to apply to the component.</td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+<div className="mt-16 flex justify-center">
           <Link href="/elements-example">
             <CBREButton variant="outline">Back to UI Elements</CBREButton>
           </Link>

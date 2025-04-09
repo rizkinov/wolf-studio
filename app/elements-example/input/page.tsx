@@ -5,12 +5,16 @@ import Link from "next/link";
 import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
 import { CBREButton } from "@/components/cbre-button";
+import { CBREDatePicker } from "@/components/cbre-date-picker";
 
 export default function InputExamplePage() {
-  // Basic input example
-  const [textValue, setTextValue] = React.useState("");
+  // State for regular input
+  const [inputValue, setInputValue] = React.useState("");
   
-  // Form with multiple inputs
+  // State for date picker
+  const [date, setDate] = React.useState<Date | undefined>(undefined);
+  
+  // State for form inputs
   const [formState, setFormState] = React.useState({
     firstName: "",
     lastName: "",
@@ -18,12 +22,12 @@ export default function InputExamplePage() {
     password: ""
   });
   
-  // Handle individual input change
+  // Handle input change
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setTextValue(e.target.value);
+    setInputValue(e.target.value);
   };
-
-  // Handle form input changes
+  
+  // Handle form change
   const handleFormChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
     setFormState(prev => ({
@@ -31,8 +35,8 @@ export default function InputExamplePage() {
       [name]: value
     }));
   };
-
-  // Clear form
+  
+  // Handle form clear
   const handleClearForm = () => {
     setFormState({
       firstName: "",
@@ -45,6 +49,12 @@ export default function InputExamplePage() {
   return (
     <div className="min-h-screen bg-white">
       <div className="py-10 px-4 md:px-10 max-w-5xl mx-auto">
+        <div className="mb-8">
+          <Link href="/elements-example">
+            <CBREButton variant="outline">Back to UI Elements</CBREButton>
+          </Link>
+        </div>
+
         <h1 className="text-6xl font-financier text-cbre-green mb-6">Input Component</h1>
         <p className="text-dark-grey font-calibre mb-10 max-w-3xl">
           The Input component provides a way to get user input in a form field. It follows the shadcn/ui composition pattern for clean integration.
@@ -58,11 +68,11 @@ export default function InputExamplePage() {
               <Input 
                 type="text" 
                 placeholder="Enter some text"
-                value={textValue}
+                value={inputValue}
                 onChange={handleInputChange}
               />
               <p className="mt-4 text-sm text-dark-grey">
-                Current value: <span className="font-bold">{textValue || "(empty)"}</span>
+                Current value: <span className="font-bold">{inputValue || "(empty)"}</span>
               </p>
             </div>
           </div>
@@ -72,16 +82,16 @@ export default function InputExamplePage() {
             <pre className="bg-gray-100 p-4 rounded overflow-x-auto text-sm">
 {`import { Input } from "@/components/ui/input";
 
-const [textValue, setTextValue] = React.useState("");
+const [inputValue, setInputValue] = React.useState("");
 
 const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-  setTextValue(e.target.value);
+  setInputValue(e.target.value);
 };
 
 <Input 
   type="text" 
   placeholder="Enter some text"
-  value={textValue}
+  value={inputValue}
   onChange={handleInputChange}
 />
 `}
@@ -203,9 +213,9 @@ import { Input } from "@/components/ui/input";
                 
                 <div className="grid w-full gap-1.5">
                   <Label htmlFor="date-input">Date Input</Label>
-                  <Input 
-                    type="date" 
-                    id="date-input" 
+                  <CBREDatePicker
+                    date={date}
+                    setDate={setDate}
                   />
                 </div>
               </div>
@@ -215,7 +225,15 @@ import { Input } from "@/components/ui/input";
           <div className="bg-white p-6 border border-light-grey mt-6">
             <h3 className="text-lg font-calibre font-medium text-dark-grey mb-3">Implementation</h3>
             <pre className="bg-gray-100 p-4 rounded overflow-x-auto text-sm">
-{`<div className="grid w-full gap-1.5">
+{`import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { CBREDatePicker } from "@/components/cbre-date-picker";
+import { useState } from "react";
+
+// For date picker
+const [date, setDate] = useState<Date | undefined>(undefined);
+
+<div className="grid w-full gap-1.5">
   <Label htmlFor="text-input">Text Input</Label>
   <Input 
     type="text" 
@@ -244,9 +262,9 @@ import { Input } from "@/components/ui/input";
 
 <div className="grid w-full gap-1.5">
   <Label htmlFor="date-input">Date Input</Label>
-  <Input 
-    type="date" 
-    id="date-input" 
+  <CBREDatePicker
+    date={date}
+    setDate={setDate}
   />
 </div>
 `}
@@ -403,7 +421,61 @@ const handleClearForm = () => {
           </div>
         </div>
         
-        <div className="mt-16 flex justify-center">
+                {/* Component API */}
+        <div className="mb-16">
+          <h2 className="text-4xl font-financier text-cbre-green mb-5">Component API</h2>
+          <div className="bg-[var(--lighter-grey)] p-4 md:p-8">
+            <div className="border border-light-grey bg-white p-8 max-w-2xl mx-auto">
+              <div className="space-y-8">
+                <div>
+                  <h3 className="text-xl font-calibre font-medium mb-3">Input Components</h3>
+                  <p className="mb-3 text-dark-grey font-calibre">
+                    The Input component provides a consistent UI element following CBRE design guidelines.
+                  </p>
+                  <div className="overflow-x-auto">
+                    <table className="w-full border-collapse text-sm">
+                      <thead>
+                        <tr>
+                          <th className="border border-light-grey px-4 py-2 text-left">Component</th>
+                          <th className="border border-light-grey px-4 py-2 text-left">Description</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <tr>
+                          <td className="border border-light-grey px-4 py-2 font-mono">Input</td>
+                          <td className="border border-light-grey px-4 py-2">The root component.</td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+                <div>
+                  <h3 className="text-xl font-calibre font-medium mb-3">Input Props</h3>
+                  <div className="overflow-x-auto">
+                    <table className="w-full border-collapse text-sm">
+                      <thead>
+                        <tr>
+                          <th className="border border-light-grey px-4 py-2 text-left">Prop</th>
+                          <th className="border border-light-grey px-4 py-2 text-left">Type</th>
+                          <th className="border border-light-grey px-4 py-2 text-left">Description</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <tr>
+                          <td className="border border-light-grey px-4 py-2 font-mono">className</td>
+                          <td className="border border-light-grey px-4 py-2">string</td>
+                          <td className="border border-light-grey px-4 py-2">Additional CSS classes to apply to the component.</td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+<div className="mt-16 flex justify-center">
           <Link href="/elements-example">
             <CBREButton variant="outline">Back to UI Elements</CBREButton>
           </Link>

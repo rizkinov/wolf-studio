@@ -1,7 +1,8 @@
 "use client";
 
-import * as React from "react";
+import React from "react";
 import { Calendar as CalendarIcon } from "lucide-react";
+import { addDays, format } from "date-fns";
 import { DateRange, DayPicker, Matcher } from "react-day-picker";
 
 import { cn } from "@/lib/utils";
@@ -38,16 +39,16 @@ export interface CBREDatePickerProps {
 
 // Define props for the CBREDateRangePicker component
 export interface CBREDateRangePickerProps {
-  dateRange: DateRange | undefined;
-  setDateRange: (dateRange: DateRange | undefined) => void;
+  dateRange?: DateRange;
+  setDateRange?: (date: DateRange | undefined) => void;
   label?: string;
   description?: string;
   placeholder?: string;
   error?: string;
   disabled?: boolean;
   className?: string;
-  numberOfMonths?: number;
   disabledDates?: Matcher | Matcher[];
+  numberOfMonths?: number;
 }
 
 /**
@@ -111,7 +112,7 @@ export function CBREDatePicker({
             {date ? formatDate(date) : placeholder}
           </Button>
         </PopoverTrigger>
-        <PopoverContent className="w-[320px] p-0 border-light-grey" align="start">
+        <PopoverContent className="w-auto p-0 border-light-grey" align="start">
           <Calendar
             mode="single"
             selected={date}
@@ -140,104 +141,72 @@ export function CBREDateRangePicker({
   setDateRange,
   label,
   description,
-  placeholder = "Select a date range",
+  placeholder = "Select date range",
   error,
   disabled = false,
   className,
-  numberOfMonths = 2,
   disabledDates,
+  numberOfMonths = 2,
 }: CBREDateRangePickerProps) {
-  // Generate a unique ID for accessibility
-  const id = React.useId();
-  const datepickerId = `cbre-daterangepicker-${id}`;
-  const descriptionId = `${datepickerId}-description`;
-  const errorId = `${datepickerId}-error`;
+  const [date, setDate] = React.useState<DateRange | undefined>(dateRange);
 
-  // Use a single month on small screens, two months on larger screens
-  const [isMobile, setIsMobile] = React.useState(false);
+  const handleDateSelect = React.useCallback(
+    (selectedDateRange: DateRange | undefined) => {
+      setDate(selectedDateRange);
+      setDateRange?.(selectedDateRange);
+    },
+    [setDateRange]
+  );
 
   React.useEffect(() => {
-    const checkScreenSize = () => {
-      setIsMobile(window.innerWidth < 768);
-    };
-    
-    // Initial check
-    checkScreenSize();
-    
-    // Add event listener for resize
-    window.addEventListener('resize', checkScreenSize);
-    
-    // Clean up
-    return () => window.removeEventListener('resize', checkScreenSize);
-  }, []);
+    setDate(dateRange);
+  }, [dateRange]);
 
   return (
     <div className={cn("space-y-2", className)}>
-      {label && (
-        <Label
-          htmlFor={datepickerId}
-          className="text-dark-grey font-calibre"
-        >
-          {label}
-        </Label>
+      {label && <Label>{label}</Label>}
+      {description && (
+        <p className="text-muted-foreground text-sm">{description}</p>
       )}
-      {description && !error && (
-        <p id={descriptionId} className="text-sm text-muted-foreground font-calibre">
-          {description}
-        </p>
-      )}
-
       <Popover>
         <PopoverTrigger asChild>
           <Button
-            id={datepickerId}
             variant="outline"
             className={cn(
-              "w-full justify-start text-left font-normal border-light-grey",
-              "hover:border-cbre-green focus-visible:border-cbre-green focus-visible:ring-accent-light/30",
-              !dateRange?.from && "text-muted-foreground",
-              error && "border-destructive focus-visible:border-destructive focus-visible:ring-destructive/20",
-              disabled && "opacity-50 cursor-not-allowed"
+              "w-full justify-start text-left font-normal",
+              !date && "text-muted-foreground",
+              error && "border-destructive"
             )}
             disabled={disabled}
-            aria-describedby={
-              description || error
-                ? `${description ? descriptionId : ""} ${error ? errorId : ""}`
-                : undefined
-            }
-            aria-invalid={error ? "true" : undefined}
           >
             <CalendarIcon className="mr-2 h-4 w-4" />
-            {dateRange?.from ? (
-              dateRange.to ? (
+            {date?.from ? (
+              date.to ? (
                 <>
-                  {formatDate(dateRange.from)} - {formatDate(dateRange.to)}
+                  {formatDate(date.from)} - {formatDate(date.to)}
                 </>
               ) : (
-                formatDate(dateRange.from)
+                formatDate(date.from)
               )
             ) : (
               placeholder
             )}
           </Button>
         </PopoverTrigger>
-        <PopoverContent className="p-0 border-light-grey sm:w-auto md:w-[680px] lg:w-[760px]" align="start">
+        <PopoverContent className="w-auto p-0" align="start">
           <Calendar
-            mode="range"
-            selected={dateRange}
-            onSelect={setDateRange}
-            numberOfMonths={isMobile ? 1 : 2}
-            disabled={disabledDates}
             initialFocus
-            className="p-3"
+            mode="range"
+            defaultMonth={date?.from}
+            selected={date}
+            onSelect={handleDateSelect}
+            numberOfMonths={numberOfMonths}
+            disabled={disabled || disabledDates}
           />
         </PopoverContent>
       </Popover>
-
       {error && (
-        <p id={errorId} className="text-sm text-destructive font-calibre">
-          {error}
-        </p>
+        <p className="text-destructive text-sm font-medium">{error}</p>
       )}
     </div>
   );

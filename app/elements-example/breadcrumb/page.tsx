@@ -2,6 +2,7 @@
 
 import * as React from "react";
 import Link from "next/link";
+
 import {
   Breadcrumb,
   BreadcrumbEllipsis,
@@ -18,6 +19,12 @@ export default function BreadcrumbExamplePage() {
   return (
     <div className="min-h-screen bg-white">
       <div className="py-10 px-4 md:px-10 max-w-5xl mx-auto">
+        <div className="mb-8">
+          <Link href="/elements-example">
+            <CBREButton variant="outline">Back to UI Elements</CBREButton>
+          </Link>
+        </div>
+
         <h1 className="text-6xl font-financier text-cbre-green mb-6">Breadcrumb Component</h1>
         <p className="text-dark-grey font-calibre mb-10 max-w-3xl">
           The Breadcrumb component is a navigation aid that helps users understand their current location within the application's hierarchy and navigate back to previous levels.
@@ -271,7 +278,7 @@ export default function BreadcrumbExamplePage() {
           <div className="bg-white p-6 border border-light-grey mt-6">
             <h3 className="text-lg font-calibre font-medium text-dark-grey mb-3">Implementation</h3>
             <pre className="bg-gray-100 p-4 rounded overflow-x-auto text-sm">
-{`import Link from "next/link";
+{`
 
 <Breadcrumb>
   <BreadcrumbList>
@@ -338,7 +345,61 @@ const items = [
         </div>
         
         {/* Back to UI Elements button */}
-        <div className="mt-16 flex justify-center">
+                {/* Component API */}
+        <div className="mb-16">
+          <h2 className="text-4xl font-financier text-cbre-green mb-5">Component API</h2>
+          <div className="bg-[var(--lighter-grey)] p-4 md:p-8">
+            <div className="border border-light-grey bg-white p-8 max-w-2xl mx-auto">
+              <div className="space-y-8">
+                <div>
+                  <h3 className="text-xl font-calibre font-medium mb-3">Breadcrumb Components</h3>
+                  <p className="mb-3 text-dark-grey font-calibre">
+                    The Breadcrumb component provides a consistent UI element following CBRE design guidelines.
+                  </p>
+                  <div className="overflow-x-auto">
+                    <table className="w-full border-collapse text-sm">
+                      <thead>
+                        <tr>
+                          <th className="border border-light-grey px-4 py-2 text-left">Component</th>
+                          <th className="border border-light-grey px-4 py-2 text-left">Description</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <tr>
+                          <td className="border border-light-grey px-4 py-2 font-mono">Breadcrumb</td>
+                          <td className="border border-light-grey px-4 py-2">The root component.</td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+                <div>
+                  <h3 className="text-xl font-calibre font-medium mb-3">Breadcrumb Props</h3>
+                  <div className="overflow-x-auto">
+                    <table className="w-full border-collapse text-sm">
+                      <thead>
+                        <tr>
+                          <th className="border border-light-grey px-4 py-2 text-left">Prop</th>
+                          <th className="border border-light-grey px-4 py-2 text-left">Type</th>
+                          <th className="border border-light-grey px-4 py-2 text-left">Description</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <tr>
+                          <td className="border border-light-grey px-4 py-2 font-mono">className</td>
+                          <td className="border border-light-grey px-4 py-2">string</td>
+                          <td className="border border-light-grey px-4 py-2">Additional CSS classes to apply to the component.</td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+<div className="mt-16 flex justify-center">
           <Link href="/elements-example">
             <CBREButton variant="outline">Back to UI Elements</CBREButton>
           </Link>
