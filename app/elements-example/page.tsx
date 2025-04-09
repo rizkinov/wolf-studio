@@ -164,13 +164,13 @@ const elementCategories = [
         name: "Menubar",
         description: "A horizontal menu with dropdown menus.",
         path: "/elements-example/menubar",
-        status: "planned"
+        status: "completed"
       },
       {
         name: "Pagination",
         description: "Controls for navigating between pages of content.",
         path: "/elements-example/pagination",
-        status: "planned"
+        status: "completed"
       },
     ]
   },
@@ -182,13 +182,13 @@ const elementCategories = [
         name: "Alert",
         description: "A component that displays a short, important message.",
         path: "/elements-example/alert",
-        status: "planned"
+        status: "completed"
       },
       {
         name: "Alert Dialog",
         description: "A modal dialog that interrupts the user with important content.",
         path: "/elements-example/alert-dialog",
-        status: "planned"
+        status: "completed"
       },
       {
         name: "Dialog",
