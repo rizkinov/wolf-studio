@@ -194,7 +194,7 @@ const elementCategories = [
         name: "Dialog",
         description: "A window overlaid on the primary window, rendering content over the page.",
         path: "/elements-example/dialog",
-        status: "planned"
+        status: "completed"
       },
       {
         name: "Popover",
