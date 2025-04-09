@@ -13,7 +13,7 @@ import {
   CBRETableHeader,
   CBRETableRow,
 } from "@/components/cbre-table";
-import { Badge } from "@/components/ui/badge";
+import { CBREBadge } from "@/components/cbre-badge";
 
 // Sample data for the tables
 const propertyData = [
@@ -88,6 +88,12 @@ export default function TableExamplePage() {
   return (
     <div className="min-h-screen bg-white">
       <div className="py-10 px-4 md:px-10 max-w-5xl mx-auto">
+        <div className="mb-8">
+          <Link href="/elements-example">
+            <CBREButton variant="outline">Back to UI Elements</CBREButton>
+          </Link>
+        </div>
+
         <h1 className="text-6xl font-financier text-cbre-green mb-6">Table Component</h1>
         <p className="text-dark-grey font-calibre mb-10 max-w-3xl">
           Tables are used to organize and display data in a structured format. They help users compare
@@ -112,19 +118,19 @@ export default function TableExamplePage() {
                 <CBRETableBody>
                   {invoiceData.map((invoice) => (
                     <CBRETableRow key={invoice.invoice}>
-                      <CBRETableCell className="font-medium">{invoice.invoice}</CBRETableCell>
+                      <CBRETableCell>{invoice.invoice}</CBRETableCell>
                       <CBRETableCell>
-                        <Badge
+                        <CBREBadge
                           variant={
                             invoice.paymentStatus === "Paid"
                               ? "success"
                               : invoice.paymentStatus === "Pending"
                               ? "warning"
-                              : "destructive"
+                              : "error"
                           }
                         >
                           {invoice.paymentStatus}
-                        </Badge>
+                        </CBREBadge>
                       </CBRETableCell>
                       <CBRETableCell>{invoice.paymentMethod}</CBRETableCell>
                       <CBRETableCell className="text-right">{invoice.totalAmount}</CBRETableCell>
@@ -159,9 +165,17 @@ export default function TableExamplePage() {
       <CBRETableRow key={invoice.invoice}>
         <CBRETableCell>{invoice.invoice}</CBRETableCell>
         <CBRETableCell>
-          <Badge variant={getVariant(invoice.status)}>
+          <CBREBadge
+            variant={
+              invoice.paymentStatus === "Paid"
+                ? "success"
+                : invoice.paymentStatus === "Pending"
+                ? "warning"
+                : "error"
+            }
+          >
             {invoice.paymentStatus}
-          </Badge>
+          </CBREBadge>
         </CBRETableCell>
         <CBRETableCell>{invoice.paymentMethod}</CBRETableCell>
         <CBRETableCell className="text-right">
@@ -200,17 +214,17 @@ export default function TableExamplePage() {
                       <CBRETableCell>{property.location}</CBRETableCell>
                       <CBRETableCell>{property.type}</CBRETableCell>
                       <CBRETableCell>
-                        <Badge
+                        <CBREBadge
                           variant={
                             property.status === "Active"
                               ? "success"
                               : property.status === "Under Contract"
                               ? "warning"
-                              : "default"
+                              : "info"
                           }
                         >
                           {property.status}
-                        </Badge>
+                        </CBREBadge>
                       </CBRETableCell>
                       <CBRETableCell className="text-right">{property.sqft}</CBRETableCell>
                     </CBRETableRow>
@@ -225,11 +239,147 @@ export default function TableExamplePage() {
               </CBRETable>
             </div>
           </div>
+
+          <div className="bg-white p-6 border border-light-grey mt-6">
+            <h3 className="text-lg font-calibre font-medium text-dark-grey mb-3">Implementation</h3>
+            <pre className="bg-gray-100 p-4 rounded overflow-x-auto text-sm">
+{`<CBRETable>
+  <CBRETableCaption>Active Property Portfolio</CBRETableCaption>
+  <CBRETableHeader>
+    <CBRETableRow>
+      <CBRETableHead>Property ID</CBRETableHead>
+      <CBRETableHead>Name</CBRETableHead>
+      <CBRETableHead>Location</CBRETableHead>
+      <CBRETableHead>Type</CBRETableHead>
+      <CBRETableHead>Status</CBRETableHead>
+      <CBRETableHead className="text-right">Square Feet</CBRETableHead>
+    </CBRETableRow>
+  </CBRETableHeader>
+  <CBRETableBody>
+    {propertyData.map((property) => (
+      <CBRETableRow key={property.id}>
+        <CBRETableCell className="font-medium">{property.id}</CBRETableCell>
+        <CBRETableCell>{property.name}</CBRETableCell>
+        <CBRETableCell>{property.location}</CBRETableCell>
+        <CBRETableCell>{property.type}</CBRETableCell>
+        <CBRETableCell>
+          <CBREBadge
+            variant={
+              property.status === "Active"
+                ? "success"
+                : property.status === "Under Contract"
+                ? "warning"
+                : "info"
+            }
+          >
+            {property.status}
+          </CBREBadge>
+        </CBRETableCell>
+        <CBRETableCell className="text-right">{property.sqft}</CBRETableCell>
+      </CBRETableRow>
+    ))}
+  </CBRETableBody>
+  <CBRETableFooter>
+    <CBRETableRow>
+      <CBRETableCell colSpan={5}>Total Square Footage</CBRETableCell>
+      <CBRETableCell className="text-right">1,900,000</CBRETableCell>
+    </CBRETableRow>
+  </CBRETableFooter>
+</CBRETable>`}
+            </pre>
+          </div>
+        </div>
+
+        {/* Component API */}
+        <div className="mb-16">
+          <h2 className="text-4xl font-financier text-cbre-green mb-5">Component API</h2>
+          <div className="bg-[var(--lighter-grey)] p-4 md:p-8">
+            <div className="border border-light-grey bg-white p-8 max-w-2xl mx-auto">
+              <div className="space-y-8">
+                <div>
+                  <h3 className="text-xl font-calibre font-medium mb-3">Table Components</h3>
+                  <p className="mb-3 text-dark-grey font-calibre">
+                    The Table component provides a consistent UI element following CBRE design guidelines.
+                  </p>
+                  <div className="overflow-x-auto">
+                    <table className="w-full border-collapse text-sm">
+                      <thead>
+                        <tr>
+                          <th className="border border-light-grey px-4 py-2 text-left">Component</th>
+                          <th className="border border-light-grey px-4 py-2 text-left">Description</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <tr>
+                          <td className="border border-light-grey px-4 py-2 font-mono">CBRETable</td>
+                          <td className="border border-light-grey px-4 py-2">The root table component.</td>
+                        </tr>
+                        <tr>
+                          <td className="border border-light-grey px-4 py-2 font-mono">CBRETableHeader</td>
+                          <td className="border border-light-grey px-4 py-2">The table header container.</td>
+                        </tr>
+                        <tr>
+                          <td className="border border-light-grey px-4 py-2 font-mono">CBRETableHead</td>
+                          <td className="border border-light-grey px-4 py-2">The table header cell.</td>
+                        </tr>
+                        <tr>
+                          <td className="border border-light-grey px-4 py-2 font-mono">CBRETableBody</td>
+                          <td className="border border-light-grey px-4 py-2">The table body container.</td>
+                        </tr>
+                        <tr>
+                          <td className="border border-light-grey px-4 py-2 font-mono">CBRETableRow</td>
+                          <td className="border border-light-grey px-4 py-2">The table row component.</td>
+                        </tr>
+                        <tr>
+                          <td className="border border-light-grey px-4 py-2 font-mono">CBRETableCell</td>
+                          <td className="border border-light-grey px-4 py-2">The table cell component.</td>
+                        </tr>
+                        <tr>
+                          <td className="border border-light-grey px-4 py-2 font-mono">CBRETableCaption</td>
+                          <td className="border border-light-grey px-4 py-2">The table caption component.</td>
+                        </tr>
+                        <tr>
+                          <td className="border border-light-grey px-4 py-2 font-mono">CBRETableFooter</td>
+                          <td className="border border-light-grey px-4 py-2">The table footer container.</td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+                <div>
+                  <h3 className="text-xl font-calibre font-medium mb-3">Table Props</h3>
+                  <div className="overflow-x-auto">
+                    <table className="w-full border-collapse text-sm">
+                      <thead>
+                        <tr>
+                          <th className="border border-light-grey px-4 py-2 text-left">Prop</th>
+                          <th className="border border-light-grey px-4 py-2 text-left">Type</th>
+                          <th className="border border-light-grey px-4 py-2 text-left">Description</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <tr>
+                          <td className="border border-light-grey px-4 py-2 font-mono">className</td>
+                          <td className="border border-light-grey px-4 py-2">string</td>
+                          <td className="border border-light-grey px-4 py-2">Additional CSS classes to apply to the component.</td>
+                        </tr>
+                        <tr>
+                          <td className="border border-light-grey px-4 py-2 font-mono">children</td>
+                          <td className="border border-light-grey px-4 py-2">ReactNode</td>
+                          <td className="border border-light-grey px-4 py-2">The content to render inside the table component.</td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
 
         <div className="mt-16 flex justify-center">
           <Link href="/elements-example">
-            <CBREButton variant="outline">Back to Elements</CBREButton>
+            <CBREButton variant="outline">Back to UI Elements</CBREButton>
           </Link>
         </div>
       </div>
