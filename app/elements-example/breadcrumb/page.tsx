@@ -12,6 +12,7 @@ import {
   BreadcrumbSeparator,
 } from "@/components/ui/breadcrumb";
 import { ChevronRight, Home, SlashIcon } from "lucide-react";
+import { CBREButton } from "@/components/cbre-button";
 
 export default function BreadcrumbExamplePage() {
   return (
@@ -334,6 +335,13 @@ const items = [
 </Breadcrumb>`}
             </pre>
           </div>
+        </div>
+        
+        {/* Back to UI Elements button */}
+        <div className="mt-16 flex justify-center">
+          <Link href="/elements-example">
+            <CBREButton variant="outline">Back to UI Elements</CBREButton>
+          </Link>
         </div>
       </div>
     </div>
