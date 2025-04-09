@@ -22,6 +22,12 @@ export default function ScrollAreaExamplePage() {
   return (
     <div className="min-h-screen bg-white">
       <div className="py-10 px-4 md:px-10 max-w-5xl mx-auto">
+        <div className="mb-8">
+          <Link href="/elements-example">
+            <CBREButton variant="outline">Back to UI Elements</CBREButton>
+          </Link>
+        </div>
+
         <h1 className="text-6xl font-financier text-cbre-green mb-6">Scroll Area Component</h1>
         <p className="text-dark-grey font-calibre mb-10 max-w-3xl">
           A styled scrollable container with custom scrollbars that match CBRE's design system.
@@ -144,6 +150,94 @@ export default function ScrollAreaExamplePage() {
   <ScrollBar orientation="horizontal" />
 </ScrollArea>`}
             </pre>
+          </div>
+        </div>
+        
+        {/* Component API */}
+        <div className="mb-16">
+          <h2 className="text-4xl font-financier text-cbre-green mb-5">Component API</h2>
+          <div className="bg-[var(--lighter-grey)] p-4 md:p-8">
+            <div className="border border-light-grey bg-white p-8 max-w-2xl mx-auto">
+              <div className="space-y-8">
+                <div>
+                  <h3 className="text-xl font-calibre font-medium mb-3">ScrollArea Components</h3>
+                  <p className="mb-3 text-dark-grey font-calibre">
+                    The ScrollArea is composed of multiple components that work together to create a custom scrolling experience.
+                  </p>
+                  <div className="overflow-x-auto">
+                    <table className="w-full border-collapse text-sm">
+                      <thead>
+                        <tr>
+                          <th className="border border-light-grey px-4 py-2 text-left">Component</th>
+                          <th className="border border-light-grey px-4 py-2 text-left">Description</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <tr>
+                          <td className="border border-light-grey px-4 py-2 font-mono">ScrollArea</td>
+                          <td className="border border-light-grey px-4 py-2">The root container component that wraps the content to be scrolled.</td>
+                        </tr>
+                        <tr>
+                          <td className="border border-light-grey px-4 py-2 font-mono">ScrollBar</td>
+                          <td className="border border-light-grey px-4 py-2">The scrollbar component that can be oriented vertically or horizontally.</td>
+                        </tr>
+                        <tr>
+                          <td className="border border-light-grey px-4 py-2 font-mono">ScrollViewport</td>
+                          <td className="border border-light-grey px-4 py-2">The viewport component that contains the scrollable content (optional, used internally).</td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+                <div>
+                  <h3 className="text-xl font-calibre font-medium mb-3">ScrollArea Props</h3>
+                  <div className="overflow-x-auto">
+                    <table className="w-full border-collapse text-sm">
+                      <thead>
+                        <tr>
+                          <th className="border border-light-grey px-4 py-2 text-left">Prop</th>
+                          <th className="border border-light-grey px-4 py-2 text-left">Type</th>
+                          <th className="border border-light-grey px-4 py-2 text-left">Description</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <tr>
+                          <td className="border border-light-grey px-4 py-2 font-mono">type</td>
+                          <td className="border border-light-grey px-4 py-2">string</td>
+                          <td className="border border-light-grey px-4 py-2">Type of scrollbar: "auto", "always", "scroll", or "hover" (default: "hover").</td>
+                        </tr>
+                        <tr>
+                          <td className="border border-light-grey px-4 py-2 font-mono">scrollHideDelay</td>
+                          <td className="border border-light-grey px-4 py-2">number</td>
+                          <td className="border border-light-grey px-4 py-2">Delay in ms before the scrollbar is hidden when type is "hover" (default: 600).</td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+                <div>
+                  <h3 className="text-xl font-calibre font-medium mb-3">ScrollBar Props</h3>
+                  <div className="overflow-x-auto">
+                    <table className="w-full border-collapse text-sm">
+                      <thead>
+                        <tr>
+                          <th className="border border-light-grey px-4 py-2 text-left">Prop</th>
+                          <th className="border border-light-grey px-4 py-2 text-left">Type</th>
+                          <th className="border border-light-grey px-4 py-2 text-left">Description</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <tr>
+                          <td className="border border-light-grey px-4 py-2 font-mono">orientation</td>
+                          <td className="border border-light-grey px-4 py-2">string</td>
+                          <td className="border border-light-grey px-4 py-2">Orientation of the scrollbar: "vertical" or "horizontal" (required).</td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
 

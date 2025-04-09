@@ -1,54 +1,88 @@
 # CBRE Web Elements
 
-A modern React component library built with Next.js, Tailwind CSS, and shadcn/ui, styled according to CBRE's design system guidelines.
+<p align="center">
+  <img src="https://via.placeholder.com/600x120?text=CBRE+WEB+ELEMENTS" alt="CBRE Web Elements" width="600" />
+</p>
 
-![CBRE Web Elements](https://placeholder-for-cbre-web-elements-banner.png)
+<p align="center">
+  <a href="https://github.com/rizkinov/cbre-web-elements/actions"><img src="https://github.com/rizkinov/cbre-web-elements/actions/workflows/ci.yml/badge.svg" alt="Build Status"></a>
+  <a href="https://www.npmjs.com/package/cbre-web-elements"><img src="https://img.shields.io/npm/v/cbre-web-elements.svg" alt="npm version"></a>
+  <a href="https://github.com/rizkinov/cbre-web-elements/blob/main/LICENSE"><img src="https://img.shields.io/badge/license-MIT-blue.svg" alt="License"></a>
+</p>
 
-## Overview
+A modern React component library styled according to CBRE's design system. Built on top of shadcn/ui and Tailwind CSS, this library provides a consistent, accessible, and customizable UI toolkit for CBRE web applications.
 
-CBRE Web Elements is a comprehensive UI component library that provides CBRE-styled React components. Built on top of shadcn/ui and Tailwind CSS, it offers:
+## Features
 
-- **Brand Consistency**: All components follow CBRE's design language with proper colors and sharp corners
-- **Modern Framework Support**: Built for React and Next.js applications
-- **Developer Experience**: Simple API, fully typed with TypeScript, and extensive documentation
-- **Customization**: Easy theming and style overrides through Tailwind CSS
+- **CBRE Design System**: Components adhering to CBRE's brand guidelines
+- **Consistent Interface**: Standardized components with consistent styling and behavior
+- **TypeScript Support**: Fully typed components for improved developer experience
+- **Modular Architecture**: Import only the components you need
+- **Accessibility**: Built with accessibility in mind
+- **Framework Agnostic**: Works with any React-based framework (Next.js, Remix, Create React App)
 
 ## Table of Contents
 
 - [Installation](#installation)
 - [Usage](#usage)
 - [Components](#components)
+- [Project Structure](#project-structure)
 - [Theming](#theming)
 - [Contributing](#contributing)
 - [Development](#development)
-- [License](#license)
 
 ## Installation
 
-### Using as a dependency in your project
+### Using npm
 
 ```bash
-# npm
 npm install cbre-web-elements
+```
 
-# yarn
+### Using yarn
+
+```bash
 yarn add cbre-web-elements
+```
 
-# pnpm
+### Using pnpm
+
+```bash
 pnpm add cbre-web-elements
 ```
 
-### Required peer dependencies
+### Installing from GitHub
 
-CBRE Web Elements requires the following peer dependencies:
+```bash
+npm install github:rizkinov/cbre-web-elements
+```
+
+### Required Peer Dependencies
 
 ```bash
 npm install react react-dom next tailwindcss
 ```
 
+## Usage
+
+### Basic Import and Usage
+
+```jsx
+import { CBRE } from 'cbre-web-elements';
+
+function App() {
+  return (
+    <div>
+      <h1>My CBRE Application</h1>
+      <CBRE.CBREButton variant="primary">Click Me</CBRE.CBREButton>
+    </div>
+  );
+}
+```
+
 ### Tailwind CSS Configuration
 
-Add the CBRE theme configuration to your `tailwind.config.js`:
+Add the CBRE theme to your Tailwind configuration:
 
 ```js
 // tailwind.config.js
@@ -69,83 +103,94 @@ module.exports = {
 };
 ```
 
-## Usage
+### Namespace Organization
 
-Import components from the library:
-
-```jsx
-import { CBRE } from 'cbre-web-elements';
-
-export default function MyPage() {
-  return (
-    <div>
-      <h1>My CBRE Project</h1>
-      <CBRE.CBREButton variant="primary">Click Me</CBRE.CBREButton>
-    </div>
-  );
-}
-```
-
-### Namespace Imports
-
-To avoid naming conflicts, components are organized into namespaces:
-
-- `UI`: Base shadcn/ui components
-- `CBRE`: CBRE-styled components
-- `Blocks`: Higher-level block components
+The library uses namespaces to organize components and avoid naming conflicts:
 
 ```jsx
 import { UI, CBRE, Blocks } from 'cbre-web-elements';
 
-// Example usage
+// Base shadcn components
 <UI.Button>Base Button</UI.Button>
+
+// CBRE-styled components
 <CBRE.CBREButton>CBRE Button</CBRE.CBREButton>
-<Blocks.CBRECtaBlock>Call to Action</Blocks.CBRECtaBlock>
+
+// Block components (higher-level compositions)
+<Blocks.CBRECtaBlock title="Ready to get started?">
+  <CBRE.CBREButton>Get in touch</CBRE.CBREButton>
+</Blocks.CBRECtaBlock>
 ```
 
 ## Components
 
-### Core Components
+### User Interface Components
 
-- **Buttons**: `CBREButton`, `CBREArrowButton`
-- **Data Display**: `CBRETable`, `CBREDataTable`, `CBREBadge`
-- **Layout**: `CBRECard`, `CBRESidebar`, `CBREResizable`
-- **Navigation**: `CBREDropdownMenu`, `CBRETabs`
-- **Forms**: `CBRECheckbox`, `CBRESelect`, `CBREDatePicker`
-- **Feedback**: `CBREToast`, `CBRETooltip`
-- **Others**: `CBREAccordion`, `CBREChart`, `CBREHoverCard`
+CBRE Web Elements provides a comprehensive set of UI components:
+
+#### General
+
+- `CBREButton`: Primary action component with multiple variants
+- `CBREBadge`: Status indicators and labels
+- `CBREArrowButton`: Animated buttons with arrow indicators
+- `CBRECard`: Content containers with CBRE styling
+- `CBREStyledCard`: Enhanced cards with specific styling options
+
+#### Navigation
+
+- `CBREDropdownMenu`: Expandable menu for actions
+- `CBREResizable`: Resizable layout elements
+- `CBRESidebar`: Navigational sidebar with CBRE styling
+- `CBRETabs`: Tabbed interface for content organization
+- `CBREToggle`: Toggle component for on/off states
+- `CBREToggleGroup`: Group of toggles for selection
+- `CBRETooltip`: Informational hover tooltips
+
+#### Form Components
+
+- `CBRECheckbox`: Checkbox form element
+- `CBREDatePicker`: Date selection component
+- `CBRESelect`: Dropdown select component
+
+#### Data Display
+
+- `CBRETable`: Tabular data display
+- `CBREDataTable`: Enhanced table with sorting, pagination, etc.
+- `CBREAccordion`: Expandable content sections
+- `CBREChart`: Data visualization components
+- `CBREHoverCard`: Rich hover cards for additional information
+
+#### Feedback
+
+- `CBREToast`: Notifications and alerts
+- `CBRESeparator`: Visual dividers
 
 ### Block Components
 
-- `CBRECtaBlock`: Call-to-action component with title and button
-- `CBREQuoteBlock`: Quote display with attribution
-- `CBRECardGrid`: Grid layout for CBRE cards
+Higher-level composed components:
 
-### Example Usage
+- `CBRECtaBlock`: Call-to-action block with title and content
+- `CBREQuoteBlock`: Quote display block with attribution
 
-```jsx
-// Button example
-<CBRE.CBREButton variant="primary">Primary Button</CBRE.CBREButton>
-<CBRE.CBREButton variant="outline">Outline Button</CBRE.CBREButton>
-<CBRE.CBREButton variant="accent">Accent Button</CBRE.CBREButton>
+## Project Structure
 
-// Table example
-<CBRE.CBRETable>
-  <CBRE.CBRETableHeader>
-    <CBRE.CBRETableRow>
-      <CBRE.CBRETableHead>Name</CBRE.CBRETableHead>
-      <CBRE.CBRETableHead>Status</CBRE.CBRETableHead>
-    </CBRE.CBRETableRow>
-  </CBRE.CBRETableHeader>
-  <CBRE.CBRETableBody>
-    <CBRE.CBRETableRow>
-      <CBRE.CBRETableCell>Example</CBRE.CBRETableCell>
-      <CBRE.CBRETableCell>
-        <CBRE.CBREBadge variant="success">Active</CBRE.CBREBadge>
-      </CBRE.CBRETableCell>
-    </CBRE.CBRETableRow>
-  </CBRE.CBRETableBody>
-</CBRE.CBRETable>
+The repository is organized as follows:
+
+```
+cbre-web-elements/
+├── src/                  # Source code
+│   ├── components/       # Component files
+│   │   ├── ui/           # Base shadcn components
+│   │   ├── cbre/         # CBRE-specific components
+│   │   └── blocks/       # Higher-level block components
+│   ├── lib/              # Utility functions
+│   ├── hooks/            # Custom React hooks
+│   └── styles/           # Global styles and theme
+├── app/                  # Demo application
+│   └── elements-example/ # Component examples
+├── config/               # Configuration files
+├── scripts/              # Build and utility scripts
+└── public/               # Static assets
 ```
 
 ## Theming
@@ -163,50 +208,67 @@ import { UI, CBRE, Blocks } from 'cbre-web-elements';
 
 ### CSS Variables
 
-The theme is implemented using CSS variables that you can override:
+CBRE Web Elements uses CSS variables for theming that you can override:
 
 ```css
 :root {
   --cbre-green: #003F2D;
   --accent-green: #17E88F;
   --dark-green: #012A2D;
-  /* Other variables */
+  --dark-grey: #435254;
+  --light-grey: #CAD1D3;
+  --lighter-grey: #E6E8E9;
 }
 ```
 
 ### Customizing Components
 
-You can override the default styles using Tailwind classes:
+You can customize components using Tailwind classes:
 
 ```jsx
-<CBRE.CBREButton className="bg-blue-500 hover:bg-blue-600">
-  Custom Color
+<CBRE.CBREButton 
+  className="bg-blue-500 hover:bg-blue-600 text-white"
+>
+  Custom Button
 </CBRE.CBREButton>
 ```
 
 ## Contributing
 
-We welcome contributions to CBRE Web Elements! Please see our [Contributing Guide](CONTRIBUTING.md) for more details.
+We welcome contributions! Please see our [Contributing Guide](CONTRIBUTING.md) for details on how to get started.
 
-### Development Setup
+### Code of Conduct
+
+This project adheres to a [Code of Conduct](CONDUCT.md). By participating, you are expected to uphold this code.
+
+## Development
+
+### Setup
 
 1. Clone the repository:
-```bash
-git clone https://github.com/cbre/cbre-web-elements.git
-cd cbre-web-elements
-```
+   ```bash
+   git clone https://github.com/rizkinov/cbre-web-elements.git
+   cd cbre-web-elements
+   ```
 
 2. Install dependencies:
-```bash
-npm install
-```
+   ```bash
+   npm install
+   ```
 
 3. Start the development server:
+   ```bash
+   npm run dev
+   ```
+
+### Building the Library
+
 ```bash
-npm run dev
+npm run build:lib
 ```
 
-4. Generate a new component:
+### Creating a New Component
+
 ```bash
 npm run generateComp
 ```
@@ -217,12 +279,6 @@ npm run generateComp
 npm test
 ```
 
-### Building the Library
-
-```bash
-npm run build:lib
-```
-
 ## License
 
-MIT
+MIT © [CBRE](LICENSE)

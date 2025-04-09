@@ -50,6 +50,12 @@ export default function CalendarExamplePage() {
   return (
     <div className="min-h-screen bg-white">
       <div className="py-10 px-4 md:px-10 max-w-5xl mx-auto">
+        <div className="mb-8">
+          <Link href="/elements-example">
+            <CBREButton variant="outline">Back to UI Elements</CBREButton>
+          </Link>
+        </div>
+
         <h1 className="text-6xl font-financier text-cbre-green mb-6">Calendar Component</h1>
         <p className="text-dark-grey font-calibre mb-10 max-w-3xl">
           The Calendar component allows users to select dates in various formats: single date, multiple dates, or date ranges.
