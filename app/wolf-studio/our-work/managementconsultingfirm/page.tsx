@@ -17,93 +17,77 @@ import { CBREStyledCard } from '@/components/cbre-styled-card'
 // Sample project data structure - this would come from your CMS
 const projectData = {
   // Basic project information
-  id: "managementconsultingsg",
-  title: "Management Consulting SG",
-  subtitle: "A piece of the sky",
+  id: "managementconsultingfirm",
+  title: "Management Consulting Firm",
+  subtitle: "Taipei Office",
   
   // Project metadata
   details: [
-    { label: "Size", value: "60,000 sqft" },
-    { label: "Location", value: "Singapore" },
+    { label: "Size", value: "20,000 sqft" },
+    { label: "Location", value: "Taipei" },
     { label: "Scope", value: "Design Consultancy" },
     { label: "Year", value: "2022" }
   ],
   
   // Project description - could be a single rich text field in CMS
   description: [
-    "The clients new Singapore headquarters spans 60,000 sq ft, overlooking Singapore's Southern shoreline at 79 Robinson Road, and is symbolic of a people-centric workplace in a post-pandemic world.",
-    "The project is designed for openness, energy, collaboration and choice. The design was centered around 3 key themes:"
-  ],
-  
-  // Separate out the numbered items for better formatting
-  keyThemes: [
-    "Space - Open and invigorating environment fostering affiliation, interaction and \"buzz\" and a variety and choice of settings",
-    "Technology - User-centric design and enabling technology, offering multi-functionality and choice",
-    "Hospitality and Services – To provide a welcoming experience for clients and guests"
-  ],
-  
-  // Continue with additional paragraphs
-  additionalDescription: [
-    "The project was designed during the peak of the pandemic and the brief pivoted during that time, after the client acknowledged that the way their consultants work and the purpose of the office had fundamentally changed. The brief was to create a home for the Singapore community, where everyone could feel a sense of belonging. The environment was to feel professional, modern and premium, while emanating authenticity and cosy, casual, relaxed vibes.",
-    "The look and feel of the work space was to be modern, fresh, casual, yet polished and professional; not too industrial. The design thus responded to a highly mobile, independent and diverse work culture. Flexibility was central to the design, to accommodate hybrid working options and leave room for future growth.",
-    "The office was also designed to help strengthen a sense of community and collaboration, to attract people back into the office after a prolonged period of working from home.",
-    "The cafe occupies the best corner with stunning panoramic ocean views to soothe the senses. The cafe has been designed as a warm and approachable space, with Singapore Peranakan touches to highlight local culture and greenery to improve employee well-being."
+    "This office interior design project created a modern, open workspace with a deep appreciation for Taiwanese culture and a client-centric approach. It was designed as a haven of calmness and productivity, fostering a sense of belonging and well-being among employees while offering a touch of luxury and tranquility in client areas."
   ],
   
   // Banner image - main hero image
-  bannerImage: "/scraped-images/work-projects/managementconsultingsg/management-consulting-sg-banner.jpg",
+  bannerImage: "/scraped-images/work-projects/management-consulting-firm/management-consulting-banner.jpg",
   
   // Gallery images - can be expanded with more metadata from CMS
   galleryImages: [
     { 
       id: "gallery-1", 
-      alt: "Management Consulting SG Office Design",
-      url: "/scraped-images/work-projects/managementconsultingsg/management-consulting-sg-gallery-1.jpg"
+      alt: "Management Consulting Firm Taiwan Office",
+      url: "/scraped-images/work-projects/management-consulting-firm/management-consulting-gallery-1.jpg"
     },
     { 
       id: "gallery-2", 
-      alt: "Management Consulting SG Collaborative Space",
-      url: "/scraped-images/work-projects/managementconsultingsg/management-consulting-sg-gallery-2.jpg"
+      alt: "Management Consulting Firm Taiwan Workspace",
+      url: "/scraped-images/work-projects/management-consulting-firm/management-consulting-gallery-2.jpg"
     },
     { 
       id: "gallery-3", 
-      alt: "Management Consulting SG Meeting Area",
-      url: "/scraped-images/work-projects/managementconsultingsg/management-consulting-sg-gallery-3.jpg"
+      alt: "Management Consulting Firm Taiwan Collaboration Area",
+      url: "/scraped-images/work-projects/management-consulting-firm/management-consulting-gallery-3.jpg"
     },
     { 
       id: "gallery-4", 
-      alt: "Management Consulting SG Workspace",
-      url: "/scraped-images/work-projects/managementconsultingsg/management-consulting-sg-gallery-4.jpg"
+      alt: "Management Consulting Firm Taiwan Panoramic View",
+      url: "/scraped-images/work-projects/management-consulting-firm/management-consulting-gallery-4.jpg"
     },
     { 
       id: "gallery-5", 
-      alt: "Management Consulting SG Common Area",
-      url: "/scraped-images/work-projects/managementconsultingsg/management-consulting-sg-gallery-5.jpg"
+      alt: "Management Consulting Firm Taiwan Meeting Area",
+      url: "/scraped-images/work-projects/management-consulting-firm/management-consulting-gallery-5.jpg"
     },
     { 
       id: "gallery-6", 
-      alt: "Management Consulting SG Client Area",
-      url: "/scraped-images/work-projects/managementconsultingsg/management-consulting-sg-gallery-6.jpg"
+      alt: "Management Consulting Firm Taiwan Reception",
+      url: "/scraped-images/work-projects/management-consulting-firm/management-consulting-gallery-6.jpg"
     },
     { 
       id: "gallery-7", 
-      alt: "Management Consulting SG Cafe",
-      url: "/scraped-images/work-projects/managementconsultingsg/management-consulting-sg-gallery-7.jpg"
+      alt: "Management Consulting Firm Taiwan Client Area",
+      url: "/scraped-images/work-projects/management-consulting-firm/management-consulting-gallery-7.jpg"
     },
     { 
       id: "gallery-8", 
-      alt: "Management Consulting SG Breakout Space",
-      url: "/scraped-images/work-projects/managementconsultingsg/management-consulting-sg-gallery-8.jpg"
+      alt: "Management Consulting Firm Taiwan Interior",
+      url: "/scraped-images/work-projects/management-consulting-firm/management-consulting-gallery-8.jpg"
     },
     { 
       id: "gallery-9", 
-      alt: "Management Consulting SG Meeting Room",
-      url: "/scraped-images/work-projects/managementconsultingsg/management-consulting-sg-gallery-9.jpg"
+      alt: "Management Consulting Firm Taiwan Workspace",
+      url: "/scraped-images/work-projects/management-consulting-firm/management-consulting-gallery-9.jpg"
     },
     { 
       id: "gallery-10", 
-      alt: "Management Consulting SG Office Interior",
-      url: "/scraped-images/work-projects/managementconsultingsg/management-consulting-sg-gallery-10.jpg"
+      alt: "Management Consulting Firm Taiwan Design Detail",
+      url: "/scraped-images/work-projects/management-consulting-firm/management-consulting-gallery-10.jpg"
     }
   ]
 };
@@ -181,29 +165,68 @@ export default function ProjectPage() {
           <div className="flex flex-col md:flex-row gap-12">
             {/* Project Description */}
             <div className="md:w-2/3">
-              {/* Main description paragraphs */}
               {projectData.description.map((paragraph, index) => (
-                <p key={index} className="text-base mb-4 leading-relaxed text-dark-grey">
-                  {paragraph}
-                </p>
-              ))}
-              
-              {/* Numbered list with proper indentation */}
-              <div className="pl-8 mb-6">
-                {projectData.keyThemes.map((theme, index) => (
-                  <div key={index} className="mb-2 text-base leading-relaxed text-dark-grey flex">
-                    <span className="mr-2">{index + 1}.</span>
-                    <span>{theme}</span>
-                  </div>
-                ))}
-              </div>
-              
-              {/* Additional paragraphs */}
-              {projectData.additionalDescription.map((paragraph, index) => (
                 <p key={index} className="text-base mb-6 leading-relaxed text-dark-grey">
                   {paragraph}
                 </p>
               ))}
+              
+              {/* Design Philosophy */}
+              <div className="mb-8">
+                <h3 className="text-xl font-medium mb-3">Open Office and Agile Working</h3>
+                <ul className="list-disc pl-6 space-y-2">
+                  <li className="text-base leading-relaxed text-dark-grey">
+                    The primary focus was creating an open office layout that encourages collaboration and flexibility in workspace allocation
+                  </li>
+                  <li className="text-base leading-relaxed text-dark-grey">
+                    Workstations were designed with adjustable desks, flexible seating options, and easy access to shared amenities
+                  </li>
+                  <li className="text-base leading-relaxed text-dark-grey">
+                    Ergonomic furniture, ample greenery, and the incorporation of natural light created a nurturing atmosphere
+                  </li>
+                  <li className="text-base leading-relaxed text-dark-grey">
+                    Design solutions foster a culture of agility and adaptability in the workplace
+                  </li>
+                </ul>
+              </div>
+              
+              {/* Key Features */}
+              <div className="mb-8">
+                <h3 className="text-xl font-medium mb-3">Local Taiwanese Influence</h3>
+                <ul className="list-disc pl-6 space-y-2">
+                  <li className="text-base leading-relaxed text-dark-grey">
+                    Unique elements reflecting the local context of Taiwan were incorporated into the design
+                  </li>
+                  <li className="text-base leading-relaxed text-dark-grey">
+                    Materials, textures, and feature walls inspired by Taiwanese culture, art, and history
+                  </li>
+                  <li className="text-base leading-relaxed text-dark-grey">
+                    Local artisanal craftsmanship is showcased to celebrate the region's rich heritage
+                  </li>
+                  <li className="text-base leading-relaxed text-dark-grey">
+                    Integration of cultural influences with modern office design principles
+                  </li>
+                </ul>
+              </div>
+              
+              {/* Project Impact */}
+              <div className="mb-8">
+                <h3 className="text-xl font-medium mb-3">Client Areas</h3>
+                <ul className="list-disc pl-6 space-y-2">
+                  <li className="text-base leading-relaxed text-dark-grey">
+                    Client areas exude a sense of tranquility and sophistication with a zen-inspired design
+                  </li>
+                  <li className="text-base leading-relaxed text-dark-grey">
+                    Use of natural materials, soft lighting, and minimalistic aesthetics created a serene environment
+                  </li>
+                  <li className="text-base leading-relaxed text-dark-grey">
+                    Dedicated training rooms designed to accommodate various learning formats and workshops
+                  </li>
+                  <li className="text-base leading-relaxed text-dark-grey">
+                    Modular furniture and advanced AV technology ensures versatility for different client needs
+                  </li>
+                </ul>
+              </div>
             </div>
 
             {/* Project Details */}
