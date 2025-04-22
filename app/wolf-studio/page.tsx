@@ -353,27 +353,100 @@ export default function WolfStudioPage() {
             CBD design studio locations in Singapore or Hongkong.
           </p>
           
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            <div className="aspect-square overflow-hidden">
-              <img 
-                src="/scraped-images/office/office-1.jpg" 
-                alt="WOLF Studio Industrial Office" 
-                className="w-full h-full object-cover"
-              />
-            </div>
-            <div className="aspect-square overflow-hidden">
-              <img 
-                src="/scraped-images/office/office-2.jpg" 
-                alt="WOLF Studio CBD Office" 
-                className="w-full h-full object-cover"
-              />
-            </div>
-            <div className="aspect-square overflow-hidden">
-              <img 
-                src="/scraped-images/office/office-3.jpg" 
-                alt="WOLF Studio Hong Kong Office" 
-                className="w-full h-full object-cover"
-              />
+          {/* Bento-style Gallery */}
+          <div className="max-w-6xl mx-auto">
+            <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
+              {/* Row 1 */}
+              <div className="md:col-span-2 aspect-[4/3] overflow-hidden rounded-xl">
+                <img 
+                  src="/scraped-images/office/hideouts-1.jpg" 
+                  alt="WOLF Studio Hideout" 
+                  className="w-full h-full object-cover transition-transform duration-500 hover:scale-105"
+                />
+              </div>
+              <div className="aspect-square overflow-hidden rounded-xl">
+                <img 
+                  src="/scraped-images/office/hideouts-2.jpg" 
+                  alt="WOLF Studio Hideout" 
+                  className="w-full h-full object-cover transition-transform duration-500 hover:scale-105"
+                />
+              </div>
+              <div className="aspect-square overflow-hidden rounded-xl">
+                <img 
+                  src="/scraped-images/office/hideouts-3.jpg" 
+                  alt="WOLF Studio Hideout" 
+                  className="w-full h-full object-cover transition-transform duration-500 hover:scale-105"
+                />
+              </div>
+              
+              {/* Row 2 */}
+              <div className="aspect-square overflow-hidden rounded-xl">
+                <img 
+                  src="/scraped-images/office/hideouts-4.jpg" 
+                  alt="WOLF Studio Hideout" 
+                  className="w-full h-full object-cover transition-transform duration-500 hover:scale-105"
+                />
+              </div>
+              <div className="md:col-span-2 aspect-[4/3] overflow-hidden rounded-xl">
+                <img 
+                  src="/scraped-images/office/hideouts-5.jpg" 
+                  alt="WOLF Studio Hideout" 
+                  className="w-full h-full object-cover transition-transform duration-500 hover:scale-105"
+                />
+              </div>
+              <div className="aspect-square overflow-hidden rounded-xl">
+                <img 
+                  src="/scraped-images/office/hideouts-6.jpg" 
+                  alt="WOLF Studio Hideout" 
+                  className="w-full h-full object-cover transition-transform duration-500 hover:scale-105"
+                />
+              </div>
+              
+              {/* Row 3 */}
+              <div className="aspect-square overflow-hidden rounded-xl">
+                <img 
+                  src="/scraped-images/office/hideouts-7.jpg" 
+                  alt="WOLF Studio Hideout" 
+                  className="w-full h-full object-cover transition-transform duration-500 hover:scale-105"
+                />
+              </div>
+              <div className="aspect-square overflow-hidden rounded-xl">
+                <img 
+                  src="/scraped-images/office/hideouts-8.jpg" 
+                  alt="WOLF Studio Hideout" 
+                  className="w-full h-full object-cover transition-transform duration-500 hover:scale-105"
+                />
+              </div>
+              <div className="md:col-span-2 aspect-[4/3] overflow-hidden rounded-xl">
+                <img 
+                  src="/scraped-images/office/hideouts-9.jpg" 
+                  alt="WOLF Studio Hideout" 
+                  className="w-full h-full object-cover transition-transform duration-500 hover:scale-105"
+                />
+              </div>
+              
+              {/* Row 4 */}
+              <div className="md:col-span-2 aspect-[4/3] overflow-hidden rounded-xl">
+                <img 
+                  src="/scraped-images/office/hideouts-10.jpg" 
+                  alt="WOLF Studio Hideout" 
+                  className="w-full h-full object-cover transition-transform duration-500 hover:scale-105"
+                />
+              </div>
+              <div className="aspect-square overflow-hidden rounded-xl">
+                <img 
+                  src="/scraped-images/office/hideouts-11.jpg" 
+                  alt="WOLF Studio Hideout" 
+                  className="w-full h-full object-cover transition-transform duration-500 hover:scale-105"
+                />
+              </div>
+              <div className="aspect-square overflow-hidden rounded-xl">
+                <img 
+                  src="/scraped-images/office/hideouts-12.jpg" 
+                  alt="WOLF Studio Hideout" 
+                  className="w-full h-full object-cover transition-transform duration-500 hover:scale-105"
+                />
+              </div>
             </div>
           </div>
         </div>
