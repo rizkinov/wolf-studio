@@ -19,21 +19,20 @@ const projectData = {
   // Basic project information
   id: "ridehailinggiant",
   title: "Ride Hailing Giant",
-  subtitle: "",
+  subtitle: "Design & Build",
   
   // Project metadata
   details: [
-    { label: "Size", value: "70,000 sqft" },
-    { label: "Location", value: "Singapore" },
-    { label: "Scope", value: "Full Office Design & Build" },
-    { label: "Year", value: "2023" }
+    { label: "Size", value: "20,000 sqft" },
+    { label: "Location", value: "New Grade-A Building" },
+    { label: "Scope", value: "Design & Build" },
+    { label: "Year", value: "2019" }
   ],
   
   // Project description - could be a single rich text field in CMS
   description: [
-    "This project for one of Asia's leading ride-hailing platforms required creating a dynamic workspace that reflects their innovative, tech-forward culture. The space needed to accommodate rapid growth while maintaining the company's energetic startup spirit that has made them a disruptive force in transportation.",
-    "The office design incorporates elements of mobility and connectivity, with visual references to maps, routes, and the urban landscape throughout. Color-coding is used to delineate different functional areas, improving wayfinding while creating visual interest and spatial variety.",
-    "To support their agile working methodology, we designed a highly flexible environment with modular furniture systems, movable partitions, and a variety of collaborative spaces. Tech integration was paramount, with seamless digital infrastructure embedded throughout to support their data-driven operations and virtual collaboration across their regional teams."
+    "The new Asia Pacific Headquarters in Singapore was designed and built by Wolf, providing a total turn key service. The project captures a rich melting pot of cultures that is representative of the region the office supports. Rooms and collaborative spaces are themed to provide a nostalgic experience of good food synonymous with South East Asian cuisines.",
+    "Mural Art and an eclectic mix of design accessories provided the finishing touches and talking points for visitors and staff."
   ],
   
   // Banner image - main hero image
@@ -43,38 +42,48 @@ const projectData = {
   galleryImages: [
     { 
       id: "gallery-1", 
-      alt: "Ride Hailing Giant Interior Design",
+      alt: "Ride Hailing Giant Office Space",
       url: "/scraped-images/work-projects/ridehailinggiant/ridehailinggiant-gallery-1.jpg"
     },
     { 
       id: "gallery-2", 
-      alt: "Ride Hailing Giant Reception Area",
+      alt: "Ride Hailing Giant Collaborative Area",
       url: "/scraped-images/work-projects/ridehailinggiant/ridehailinggiant-gallery-2.jpg"
     },
     { 
       id: "gallery-3", 
-      alt: "Ride Hailing Giant Workspace",
+      alt: "Ride Hailing Giant Meeting Space",
       url: "/scraped-images/work-projects/ridehailinggiant/ridehailinggiant-gallery-3.jpg"
     },
     { 
       id: "gallery-4", 
-      alt: "Ride Hailing Giant Collaborative Space",
+      alt: "Ride Hailing Giant Reception",
       url: "/scraped-images/work-projects/ridehailinggiant/ridehailinggiant-gallery-4.jpg"
     },
     { 
       id: "gallery-5", 
-      alt: "Ride Hailing Giant Meeting Room",
+      alt: "Ride Hailing Giant Workspace",
       url: "/scraped-images/work-projects/ridehailinggiant/ridehailinggiant-gallery-5.jpg"
     },
     { 
       id: "gallery-6", 
-      alt: "Ride Hailing Giant Social Area",
+      alt: "Ride Hailing Giant Office Design",
       url: "/scraped-images/work-projects/ridehailinggiant/ridehailinggiant-gallery-6.jpg"
     },
     { 
       id: "gallery-7", 
-      alt: "Ride Hailing Giant Tech Hub",
+      alt: "Ride Hailing Giant Collaborative Space",
       url: "/scraped-images/work-projects/ridehailinggiant/ridehailinggiant-gallery-7.jpg"
+    },
+    { 
+      id: "gallery-8", 
+      alt: "Ride Hailing Giant Meeting Room",
+      url: "/scraped-images/work-projects/ridehailinggiant/ridehailinggiant-gallery-8.jpg"
+    },
+    { 
+      id: "gallery-9", 
+      alt: "Ride Hailing Giant Office Interior",
+      url: "/scraped-images/work-projects/ridehailinggiant/ridehailinggiant-gallery-9.jpg"
     }
   ]
 };

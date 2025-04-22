@@ -1,4 +1,6 @@
-import React from 'react'
+'use client';
+
+import React, { useState, useEffect } from 'react'
 import Link from 'next/link'
 import { CBREButton } from '@/components/cbre-button'
 import { CBREAccordion } from '@/components/cbre-accordion'
@@ -7,8 +9,56 @@ import { CBRESeparator } from '@/components/cbre-separator'
 import { CBRECard } from '@/components/cbre-card'
 import { CBREQuoteBlock } from '@/components/cbre-quote-block'
 import { CBRECTABlock } from '@/components/cbre-cta-block'
+import { ProjectGrid } from '@/components/ProjectGrid'
+import { ProjectFilter } from '@/components/ProjectFilter'
+import { Project } from '@/app/types'
 
 export default function WolfStudioPage() {
+  const [projects, setProjects] = useState<Project[]>([]);
+  const [filteredProjects, setFilteredProjects] = useState<Project[]>([]);
+  const [categories, setCategories] = useState<string[]>([]);
+  const [activeCategory, setActiveCategory] = useState('all');
+  const [isLoading, setIsLoading] = useState(true);
+
+  // Fetch projects
+  useEffect(() => {
+    async function fetchProjects() {
+      try {
+        // Import projects data
+        const { projectsData } = await import('@/data/projects');
+        const sortedProjects = [...projectsData].sort((a, b) => a.order - b.order);
+        
+        // Get unique categories
+        const uniqueCategories = [...new Set(sortedProjects.map(project => project.category || ''))].filter(Boolean);
+        
+        setProjects(sortedProjects);
+        setFilteredProjects(sortedProjects);
+        setCategories(uniqueCategories);
+        setIsLoading(false);
+      } catch (error) {
+        console.error('Failed to fetch projects:', error);
+        setIsLoading(false);
+      }
+    }
+
+    fetchProjects();
+  }, []);
+
+  // Handle category change
+  const handleCategoryChange = (category: string) => {
+    setActiveCategory(category);
+    
+    if (category === 'all') {
+      setFilteredProjects(projects);
+    } else {
+      // Filter projects by category
+      const filtered = projects.filter(project => 
+        project.category === category
+      );
+      setFilteredProjects(filtered);
+    }
+  };
+  
   return (
     <div className="flex flex-col min-h-screen">
       {/* Navigation Menu */}
@@ -204,63 +254,41 @@ export default function WolfStudioPage() {
       {/* Our Work Section */}
       <section id="our-work" className="py-20">
         <div className="container mx-auto px-4">
-          <h2 className="text-4xl font-bold mb-8 text-center">Some Our Work</h2>
+          <h2 className="text-4xl font-bold mb-8 text-center">Our Work</h2>
           <p className="text-xl mb-12 text-center max-w-4xl mx-auto">
             We define ourselves by the work we produce and the relationships we build with our clients.
             It's the skills, care and knowledge we have learnt and the experiences we have gained throughout
             the years that play a part in what we do at WOLF.
           </p>
           
-          {/* Work Portfolio Highlights */}
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mb-12">
-            <Link href="/wolf-studio/our-work/ihh" className="bg-gray-200 aspect-video hover:opacity-90 transition-opacity">
-              <img 
-                src="/scraped-images/work-projects/ihh/ihh-banner.jpg" 
-                alt="IHH Project" 
-                className="w-full h-full object-cover"
+          {/* Project Filtering */}
+          <div className="mb-8">
+            <ProjectFilter 
+              categories={categories}
+              activeCategory={activeCategory}
+              onCategoryChange={handleCategoryChange}
+            />
+          </div>
+          
+          {/* Project Grid Component */}
+          <div className="mb-12">
+            {isLoading ? (
+              <div className="text-center py-12">Loading projects...</div>
+            ) : (
+              <ProjectGrid 
+                projects={filteredProjects} 
+                columns={{
+                  mobile: 1,
+                  tablet: 2,
+                  desktop: 3,
+                  widescreen: 4
+                }}
               />
-            </Link>
-            <Link href="/wolf-studio/our-work/philip-morris-singapore" className="bg-gray-200 aspect-video hover:opacity-90 transition-opacity">
-              <img 
-                src="/scraped-images/work-projects/philip-morris-singapore/philip-morris-singapore-banner.jpg" 
-                alt="Philip Morris Singapore Project" 
-                className="w-full h-full object-cover"
-              />
-            </Link>
-            <Link href="/wolf-studio/our-work/management-consulting-sg" className="bg-gray-200 aspect-video hover:opacity-90 transition-opacity">
-              <img 
-                src="/scraped-images/work-projects/management-consulting-sg/management-consulting-sg-banner.jpg" 
-                alt="Management Consulting SG Project" 
-                className="w-full h-full object-cover"
-              />
-            </Link>
-            <Link href="/wolf-studio/our-work/heineken" className="bg-gray-200 aspect-video hover:opacity-90 transition-opacity">
-              <img 
-                src="/scraped-images/work-projects/heineken/heineken-banner.jpg" 
-                alt="Heineken Project" 
-                className="w-full h-full object-cover"
-              />
-            </Link>
-            <Link href="/wolf-studio/our-work/emerson" className="bg-gray-200 aspect-video hover:opacity-90 transition-opacity">
-              <img 
-                src="/scraped-images/work-projects/emerson/emerson-banner.jpg" 
-                alt="Emerson Project" 
-                className="w-full h-full object-cover"
-              />
-            </Link>
-            <Link href="/wolf-studio/our-work/the-wolf-den" className="bg-gray-200 aspect-video hover:opacity-90 transition-opacity">
-              <img 
-                src="/scraped-images/work-projects/the-wolf-den/the-wolf-den-banner.jpg" 
-                alt="The WOLF den Project" 
-                className="w-full h-full object-cover"
-              />
-            </Link>
+            )}
           </div>
           
           <div className="text-center">
-            <Link href="/wolf-studio/our-work">
-              <CBREButton>Get in touch for a full portfolio of our work</CBREButton>
-            </Link>
+            <CBREButton>Get in touch for a consultation</CBREButton>
           </div>
         </div>
       </section>

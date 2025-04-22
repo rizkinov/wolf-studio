@@ -35,59 +35,59 @@ const projectData = {
   ],
   
   // Banner image - main hero image
-  bannerImage: "/scraped-images/work-projects/management-consulting-firm/management-consulting-banner.jpg",
+  bannerImage: "/scraped-images/work-projects/managementconsultingfirm/managementconsultingfirm-banner.jpg",
   
   // Gallery images - can be expanded with more metadata from CMS
   galleryImages: [
     { 
       id: "gallery-1", 
       alt: "Management Consulting Firm Taiwan Office",
-      url: "/scraped-images/work-projects/management-consulting-firm/management-consulting-gallery-1.jpg"
+      url: "/scraped-images/work-projects/managementconsultingfirm/managementconsultingfirm-gallery-1.jpg"
     },
     { 
       id: "gallery-2", 
       alt: "Management Consulting Firm Taiwan Workspace",
-      url: "/scraped-images/work-projects/management-consulting-firm/management-consulting-gallery-2.jpg"
+      url: "/scraped-images/work-projects/managementconsultingfirm/managementconsultingfirm-gallery-2.jpg"
     },
     { 
       id: "gallery-3", 
       alt: "Management Consulting Firm Taiwan Collaboration Area",
-      url: "/scraped-images/work-projects/management-consulting-firm/management-consulting-gallery-3.jpg"
+      url: "/scraped-images/work-projects/managementconsultingfirm/managementconsultingfirm-gallery-3.jpg"
     },
     { 
       id: "gallery-4", 
       alt: "Management Consulting Firm Taiwan Panoramic View",
-      url: "/scraped-images/work-projects/management-consulting-firm/management-consulting-gallery-4.jpg"
+      url: "/scraped-images/work-projects/managementconsultingfirm/managementconsultingfirm-gallery-4.jpg"
     },
     { 
       id: "gallery-5", 
       alt: "Management Consulting Firm Taiwan Meeting Area",
-      url: "/scraped-images/work-projects/management-consulting-firm/management-consulting-gallery-5.jpg"
+      url: "/scraped-images/work-projects/managementconsultingfirm/managementconsultingfirm-gallery-5.jpg"
     },
     { 
       id: "gallery-6", 
       alt: "Management Consulting Firm Taiwan Reception",
-      url: "/scraped-images/work-projects/management-consulting-firm/management-consulting-gallery-6.jpg"
+      url: "/scraped-images/work-projects/managementconsultingfirm/managementconsultingfirm-gallery-6.jpg"
     },
     { 
       id: "gallery-7", 
       alt: "Management Consulting Firm Taiwan Client Area",
-      url: "/scraped-images/work-projects/management-consulting-firm/management-consulting-gallery-7.jpg"
+      url: "/scraped-images/work-projects/managementconsultingfirm/managementconsultingfirm-gallery-7.jpg"
     },
     { 
       id: "gallery-8", 
       alt: "Management Consulting Firm Taiwan Interior",
-      url: "/scraped-images/work-projects/management-consulting-firm/management-consulting-gallery-8.jpg"
+      url: "/scraped-images/work-projects/managementconsultingfirm/managementconsultingfirm-gallery-8.jpg"
     },
     { 
       id: "gallery-9", 
       alt: "Management Consulting Firm Taiwan Workspace",
-      url: "/scraped-images/work-projects/management-consulting-firm/management-consulting-gallery-9.jpg"
+      url: "/scraped-images/work-projects/managementconsultingfirm/managementconsultingfirm-gallery-9.jpg"
     },
     { 
       id: "gallery-10", 
       alt: "Management Consulting Firm Taiwan Design Detail",
-      url: "/scraped-images/work-projects/management-consulting-firm/management-consulting-gallery-10.jpg"
+      url: "/scraped-images/work-projects/managementconsultingfirm/managementconsultingfirm-gallery-10.jpg"
     }
   ]
 };

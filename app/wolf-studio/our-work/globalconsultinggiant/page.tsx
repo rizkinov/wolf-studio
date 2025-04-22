@@ -18,22 +18,20 @@ import { CBREStyledCard } from '@/components/cbre-styled-card'
 const projectData = {
   // Basic project information
   id: "globalconsultinggiant",
-  title: "Global Consulting Giant",
-  subtitle: "Professional Services Firm",
+  title: "Global Management Consulting and Professional Services Firm",
+  subtitle: "A tapestry of local inspiration",
   
   // Project metadata
   details: [
-    { label: "Size", value: "90,000 sqft" },
-    { label: "Location", value: "Singapore" },
-    { label: "Scope", value: "Workplace Strategy & Design" },
-    { label: "Year", value: "2022" }
+    { label: "Size", value: "52,000 sqft" },
+    { label: "Location", value: "Kuala Lumpur Malaysia" },
+    { label: "Scope", value: "Design Consultancy" },
+    { label: "Year", value: "2019" }
   ],
   
   // Project description - could be a single rich text field in CMS
   description: [
-    "For this global professional services firm, we created a flagship office that embodies their position as a leader in the consulting world. The design reflects their forward-thinking approach while maintaining the sophistication and gravitas expected of a premier consulting organization.",
-    "The workspace is organized around a central hub that serves as the heart of the office - creating opportunities for spontaneous collaboration and knowledge sharing between practice groups. From this hub radiate specialized neighborhoods for different consulting disciplines, each with their own character while maintaining overall design cohesion.",
-    "Client-facing spaces were given special attention, with a variety of meeting settings from formal boardrooms to casual conversation areas. Advanced technology is seamlessly integrated throughout, supporting hybrid collaboration and enabling consultants to work effectively with colleagues and clients across global locations."
+    "A global giant in the industry, Wolf was tasked to design across 2 sites in Malaysia concurrently and deliver a creative and inspiring working environment for otherwise traditional delivery center. The result, a rich tapestry of finishes and features that embraces local culture and provides a fun and creative place to work."
   ],
   
   // Banner image - main hero image
@@ -43,48 +41,53 @@ const projectData = {
   galleryImages: [
     { 
       id: "gallery-1", 
-      alt: "Global Consulting Giant Interior Design",
+      alt: "Global Consulting Firm Office Interior",
       url: "/scraped-images/work-projects/globalconsultinggiant/globalconsultinggiant-gallery-1.jpg"
     },
     { 
       id: "gallery-2", 
-      alt: "Global Consulting Giant Reception",
+      alt: "Global Consulting Firm Workspace",
       url: "/scraped-images/work-projects/globalconsultinggiant/globalconsultinggiant-gallery-2.jpg"
     },
     { 
       id: "gallery-3", 
-      alt: "Global Consulting Giant Workspace",
+      alt: "Global Consulting Firm Meeting Space",
       url: "/scraped-images/work-projects/globalconsultinggiant/globalconsultinggiant-gallery-3.jpg"
     },
     { 
       id: "gallery-4", 
-      alt: "Global Consulting Giant Meeting Room",
+      alt: "Global Consulting Firm Collaboration Area",
       url: "/scraped-images/work-projects/globalconsultinggiant/globalconsultinggiant-gallery-4.jpg"
     },
     { 
       id: "gallery-5", 
-      alt: "Global Consulting Giant Collaboration Area",
+      alt: "Global Consulting Firm Common Area",
       url: "/scraped-images/work-projects/globalconsultinggiant/globalconsultinggiant-gallery-5.jpg"
     },
     { 
       id: "gallery-6", 
-      alt: "Global Consulting Giant Client Space",
+      alt: "Global Consulting Firm Design Features",
       url: "/scraped-images/work-projects/globalconsultinggiant/globalconsultinggiant-gallery-6.jpg"
     },
     { 
       id: "gallery-7", 
-      alt: "Global Consulting Giant Social Hub",
+      alt: "Global Consulting Firm Office Design",
       url: "/scraped-images/work-projects/globalconsultinggiant/globalconsultinggiant-gallery-7.jpg"
     },
     { 
       id: "gallery-8", 
-      alt: "Global Consulting Giant Focus Area",
+      alt: "Global Consulting Firm Creative Space",
       url: "/scraped-images/work-projects/globalconsultinggiant/globalconsultinggiant-gallery-8.jpg"
     },
     { 
       id: "gallery-9", 
-      alt: "Global Consulting Giant Amenity Space",
+      alt: "Global Consulting Firm Reception Area",
       url: "/scraped-images/work-projects/globalconsultinggiant/globalconsultinggiant-gallery-9.jpg"
+    },
+    { 
+      id: "gallery-10", 
+      alt: "Global Consulting Firm Workspace Design",
+      url: "/scraped-images/work-projects/globalconsultinggiant/globalconsultinggiant-gallery-10.jpg"
     }
   ]
 };
@@ -151,7 +154,9 @@ export default function ProjectPage() {
         
         {/* Title Section */}
         <div className="pt-8 pb-4 max-w-3xl mx-auto px-6">
-          <h6 className="text-sm uppercase mb-2 tracking-wider font-medium text-[#333333] font-calibre">{projectData.subtitle}</h6>
+          {projectData.subtitle && (
+            <h6 className="text-sm uppercase mb-2 tracking-wider font-medium text-[#333333] font-calibre">{projectData.subtitle}</h6>
+          )}
           <h1 className="text-5xl font-financier font-bold text-dark-grey">{projectData.title}</h1>
         </div>
 

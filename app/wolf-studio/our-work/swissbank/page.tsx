@@ -19,21 +19,21 @@ const projectData = {
   // Basic project information
   id: "swissbank",
   title: "Swiss Bank",
-  subtitle: "",
+  subtitle: "Understated Elegance - Swiss tradition with Asian soul",
   
   // Project metadata
   details: [
-    { label: "Size", value: "45,000 sqft" },
-    { label: "Location", value: "Zurich, Switzerland" },
-    { label: "Scope", value: "Design & Build" },
-    { label: "Year", value: "2023" }
+    { label: "Size", value: "380,000 sqft" },
+    { label: "Location", value: "Singapore" },
+    { label: "Scope", value: "Design Consultancy" },
+    { label: "Year", value: "2022" }
   ],
   
   // Project description - could be a single rich text field in CMS
   description: [
-    "This prestigious project involved creating a refined and sophisticated workspace for a leading Swiss banking institution. Security, privacy, and discretion were paramount considerations throughout the design process.",
-    "The office layout was carefully planned to segregate client-facing areas from operational zones, with meticulous attention to acoustic privacy and visual screening. Materials selected reflect the bank's heritage and commitment to quality, featuring natural stone, sustainable timber, and premium finishes.",
-    "Technology integration was implemented with extreme discretion, ensuring that advanced security systems and digital infrastructure were embedded seamlessly within the elegant interior. The resulting space projects stability and tradition while accommodating modern banking operations."
+    "This project for a large Swiss Bank in Singapore consolidated over 3000 staff in wealth management, investment bank and asset management together within an entire building designed by Wolf.",
+    "Outfitted with innovative future workplace concepts and customized health and well-being facilities, this 381,000 square foot state-of-the-art facility defined new ways of working for the organisation.",
+    "Client suite, full scale kitchen, auditoriums, university, gymnasium, and recording studio are some of the unique offerings this project incorporated."
   ],
   
   // Banner image - main hero image
@@ -75,6 +75,21 @@ const projectData = {
       id: "gallery-7", 
       alt: "Swiss Bank Lounge",
       url: "/scraped-images/work-projects/swissbank/swissbank-gallery-7.jpg"
+    },
+    { 
+      id: "gallery-8", 
+      alt: "Swiss Bank Collaboration Space",
+      url: "/scraped-images/work-projects/swissbank/swissbank-gallery-8.jpg"
+    },
+    { 
+      id: "gallery-9", 
+      alt: "Swiss Bank Dining Area",
+      url: "/scraped-images/work-projects/swissbank/swissbank-gallery-9.jpg"
+    },
+    { 
+      id: "gallery-10", 
+      alt: "Swiss Bank Feature Space",
+      url: "/scraped-images/work-projects/swissbank/swissbank-gallery-10.jpg"
     }
   ]
 };

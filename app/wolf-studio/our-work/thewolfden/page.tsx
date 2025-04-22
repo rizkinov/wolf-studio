@@ -23,17 +23,15 @@ const projectData = {
   
   // Project metadata
   details: [
-    { label: "Size", value: "8,000 sqft" },
-    { label: "Location", value: "Singapore" },
-    { label: "Scope", value: "Interior Design & Build" },
-    { label: "Year", value: "2023" }
+    { label: "Size", value: "2,000 sqft" },
+    { label: "Location", value: "Oxley Buzhub" },
+    { label: "Scope", value: "Design & build" },
+    { label: "Year", value: "2017" }
   ],
   
   // Project description - could be a single rich text field in CMS
   description: [
-    "The WOLF den is our own studio space - a living showcase of our design philosophy and approach. This project gave us the opportunity to practice what we preach and create a workspace that embodies our values of creativity, collaboration, and well-being.",
-    "The design centers around a flexible, open studio space that encourages creativity and cross-pollination of ideas. A variety of work settings support different activities - from focused design work to collaborative brainstorming sessions and client presentations. Materials, finishes, and furniture selections demonstrate our commitment to sustainable design and attention to detail.",
-    "The space features a materials library, model-making area, and digital visualization zone to support our design process. A central social space doubles as a venue for industry events and team gatherings, helping us build community both within our studio and with the broader design world."
+    "Our home, designed and built by the team at WOLF. It's an expression of who we are: Daring, edgy, and fun. We have a little piece of ourselves here and it's a home our team look forward to coming to each day."
   ],
   
   // Banner image - main hero image
@@ -43,43 +41,33 @@ const projectData = {
   galleryImages: [
     { 
       id: "gallery-1", 
-      alt: "The WOLF den Interior Design",
+      alt: "WOLF studio - interior view",
       url: "/scraped-images/work-projects/thewolfden/thewolfden-gallery-1.jpg"
     },
     { 
       id: "gallery-2", 
-      alt: "The WOLF den Studio Space",
+      alt: "WOLF studio - staircase detail",
       url: "/scraped-images/work-projects/thewolfden/thewolfden-gallery-2.jpg"
     },
     { 
       id: "gallery-3", 
-      alt: "The WOLF den Materials Library",
+      alt: "WOLF studio - mezzanine",
       url: "/scraped-images/work-projects/thewolfden/thewolfden-gallery-3.jpg"
     },
     { 
       id: "gallery-4", 
-      alt: "The WOLF den Meeting Area",
+      alt: "WOLF studio - front door",
       url: "/scraped-images/work-projects/thewolfden/thewolfden-gallery-4.jpg"
     },
     { 
       id: "gallery-5", 
-      alt: "The WOLF den Social Space",
+      alt: "WOLF studio - ceiling feature",
       url: "/scraped-images/work-projects/thewolfden/thewolfden-gallery-5.jpg"
     },
     { 
       id: "gallery-6", 
-      alt: "The WOLF den Design Zone",
+      alt: "WOLF studio - meeting room",
       url: "/scraped-images/work-projects/thewolfden/thewolfden-gallery-6.jpg"
-    },
-    { 
-      id: "gallery-7", 
-      alt: "The WOLF den Collaboration Area",
-      url: "/scraped-images/work-projects/thewolfden/thewolfden-gallery-7.jpg"
-    },
-    { 
-      id: "gallery-8", 
-      alt: "The WOLF den Reception",
-      url: "/scraped-images/work-projects/thewolfden/thewolfden-gallery-8.jpg"
     }
   ]
 };
@@ -155,6 +143,7 @@ export default function ProjectPage() {
           <div className="flex flex-col md:flex-row gap-12">
             {/* Project Description */}
             <div className="md:w-2/3">
+              {/* Main description paragraphs */}
               {projectData.description.map((paragraph, index) => (
                 <p key={index} className="text-base mb-6 leading-relaxed text-dark-grey">
                   {paragraph}

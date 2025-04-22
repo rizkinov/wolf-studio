@@ -18,22 +18,20 @@ import { CBREStyledCard } from '@/components/cbre-styled-card'
 const projectData = {
   // Basic project information
   id: "emerson",
-  title: "EMERSON",
-  subtitle: "Automation Specialists",
+  title: "Emerson",
+  subtitle: "An automation specialist",
   
   // Project metadata
   details: [
-    { label: "Size", value: "50,000 sqft" },
-    { label: "Location", value: "Singapore" },
-    { label: "Scope", value: "Workplace Design & Build" },
-    { label: "Year", value: "2022" }
+    { label: "Size", value: "23,000 sqft" },
+    { label: "Location", value: "1 Pandan Crescent" },
+    { label: "Scope", value: "Design & build" },
+    { label: "Year", value: "2018" }
   ],
   
   // Project description - could be a single rich text field in CMS
   description: [
-    "For Emerson, a global leader in automation technology, we created a workspace that embodies their commitment to innovation and technical excellence. The design reflects Emerson's industrial heritage while showcasing their cutting-edge approach to automation and engineering solutions.",
-    "The office layout is organized around a central demonstration area where Emerson can showcase their latest automation technologies to clients and partners. This showcase space is surrounded by a mix of collaborative work zones, technical labs, and quiet focus areas to support diverse working needs.",
-    "Materials and finishes were selected to create a contemporary industrial aesthetic, with concrete, steel, and glass complemented by warm wood accents and subtle brand elements. The overall environment communicates technical expertise and precision while offering a comfortable and inspiring space for Emerson's engineering and sales teams."
+    "Emerson engaged Wolf to design and build their new office in Pandan Crescent to create a fresh new workplace that provided a clean and bright environment that captured portrayed their brand in a modern and minimalist design approach."
   ],
   
   // Banner image - main hero image
@@ -43,43 +41,23 @@ const projectData = {
   galleryImages: [
     { 
       id: "gallery-1", 
-      alt: "EMERSON Interior Design",
+      alt: "Emerson office interior",
       url: "/scraped-images/work-projects/emerson/emerson-gallery-1.jpg"
     },
     { 
       id: "gallery-2", 
-      alt: "EMERSON Demonstration Area",
+      alt: "Emerson workspace",
       url: "/scraped-images/work-projects/emerson/emerson-gallery-2.jpg"
     },
     { 
       id: "gallery-3", 
-      alt: "EMERSON Workspace",
+      alt: "Emerson meeting space",
       url: "/scraped-images/work-projects/emerson/emerson-gallery-3.jpg"
     },
     { 
       id: "gallery-4", 
-      alt: "EMERSON Technical Lab",
+      alt: "Emerson office design",
       url: "/scraped-images/work-projects/emerson/emerson-gallery-4.jpg"
-    },
-    { 
-      id: "gallery-5", 
-      alt: "EMERSON Meeting Room",
-      url: "/scraped-images/work-projects/emerson/emerson-gallery-5.jpg"
-    },
-    { 
-      id: "gallery-6", 
-      alt: "EMERSON Reception",
-      url: "/scraped-images/work-projects/emerson/emerson-gallery-6.jpg"
-    },
-    { 
-      id: "gallery-7", 
-      alt: "EMERSON Collaborative Space",
-      url: "/scraped-images/work-projects/emerson/emerson-gallery-7.jpg"
-    },
-    { 
-      id: "gallery-8", 
-      alt: "EMERSON Focus Area",
-      url: "/scraped-images/work-projects/emerson/emerson-gallery-8.jpg"
     }
   ]
 };
@@ -146,7 +124,9 @@ export default function ProjectPage() {
         
         {/* Title Section */}
         <div className="pt-8 pb-4 max-w-3xl mx-auto px-6">
-          <h6 className="text-sm uppercase mb-2 tracking-wider font-medium text-[#333333] font-calibre">{projectData.subtitle}</h6>
+          {projectData.subtitle && (
+            <h6 className="text-sm uppercase mb-2 tracking-wider font-medium text-[#333333] font-calibre">{projectData.subtitle}</h6>
+          )}
           <h1 className="text-5xl font-financier font-bold text-dark-grey">{projectData.title}</h1>
         </div>
 

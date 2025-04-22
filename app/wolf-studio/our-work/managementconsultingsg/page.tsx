@@ -19,11 +19,11 @@ const projectData = {
   // Basic project information
   id: "managementconsultingsg",
   title: "Management Consulting SG",
-  subtitle: "A piece of the sky",
+  subtitle: "Global Consultancy Headquarters",
   
   // Project metadata
   details: [
-    { label: "Size", value: "60,000 sqft" },
+    { label: "Size", value: "20,000 sqft" },
     { label: "Location", value: "Singapore" },
     { label: "Scope", value: "Design Consultancy" },
     { label: "Year", value: "2022" }
@@ -31,79 +31,69 @@ const projectData = {
   
   // Project description - could be a single rich text field in CMS
   description: [
-    "The clients new Singapore headquarters spans 60,000 sq ft, overlooking Singapore's Southern shoreline at 79 Robinson Road, and is symbolic of a people-centric workplace in a post-pandemic world.",
-    "The project is designed for openness, energy, collaboration and choice. The design was centered around 3 key themes:"
+    "WOLF was commissioned to design the Singapore headquarters for a global management consulting firm, creating a space that balances professionalism with innovation. The project aimed to reflect the firm's forward-thinking approach while providing a sophisticated environment for client interactions and collaborative work.",
+    "Our design seamlessly integrates elements of Singaporean culture with the firm's global brand identity, creating a workspace that feels both locally relevant and internationally connected. The space serves as a powerful tool for talent attraction and retention in the competitive consulting sector."
   ],
   
-  // Separate out the numbered items for better formatting
+  // Key themes section
   keyThemes: [
-    "Space - Open and invigorating environment fostering affiliation, interaction and \"buzz\" and a variety and choice of settings",
-    "Technology - User-centric design and enabling technology, offering multi-functionality and choice",
-    "Hospitality and Services – To provide a welcoming experience for clients and guests"
-  ],
-  
-  // Continue with additional paragraphs
-  additionalDescription: [
-    "The project was designed during the peak of the pandemic and the brief pivoted during that time, after the client acknowledged that the way their consultants work and the purpose of the office had fundamentally changed. The brief was to create a home for the Singapore community, where everyone could feel a sense of belonging. The environment was to feel professional, modern and premium, while emanating authenticity and cosy, casual, relaxed vibes.",
-    "The look and feel of the work space was to be modern, fresh, casual, yet polished and professional; not too industrial. The design thus responded to a highly mobile, independent and diverse work culture. Flexibility was central to the design, to accommodate hybrid working options and leave room for future growth.",
-    "The office was also designed to help strengthen a sense of community and collaboration, to attract people back into the office after a prolonged period of working from home.",
-    "The cafe occupies the best corner with stunning panoramic ocean views to soothe the senses. The cafe has been designed as a warm and approachable space, with Singapore Peranakan touches to highlight local culture and greenery to improve employee well-being."
+    {
+      title: "Client-Centric Design",
+      description: "The front-of-house spaces were designed with client experience as the priority. A welcoming reception area transitions into versatile meeting spaces equipped with state-of-the-art presentation technology. Private client lounges provide discreet areas for sensitive discussions, while the showcase space highlights the firm's global achievements and methodology through interactive displays."
+    },
+    {
+      title: "Collaborative Ecosystem",
+      description: "Beyond the client-facing areas, the workspace is organized into neighborhoods that support different work modes. Project zones feature flexible furniture systems that can be reconfigured based on team size and project requirements. Digital collaboration tools are integrated throughout, enabling seamless connection with global teams. Casual collision spaces encourage spontaneous interaction and knowledge sharing among consultants."
+    },
+    {
+      title: "Wellness & Sustainability",
+      description: "Employee wellbeing was central to our approach, with biophilic elements incorporated throughout to reduce stress and improve cognitive function. The lighting design mimics natural daylight cycles, supporting healthy circadian rhythms despite long working hours. Sustainable materials with low environmental impact were selected, and energy-efficient systems were implemented to reduce the carbon footprint, aligning with the firm's global sustainability commitments."
+    },
+    {
+      title: "Brand Expression",
+      description: "The firm's brand identity is subtly woven into the architectural elements and material palette. Corporate colors appear as thoughtful accents rather than overwhelming statements. Local art and design elements reflect Singapore's unique cultural position as a global business hub while creating a sense of place. The overall aesthetic strikes a perfect balance between timeless professionalism and contemporary innovation."
+    }
   ],
   
   // Banner image - main hero image
-  bannerImage: "/scraped-images/work-projects/managementconsultingsg/management-consulting-sg-banner.jpg",
+  bannerImage: "/scraped-images/work-projects/managementconsultingsg/mcsg-banner.jpg",
   
   // Gallery images - can be expanded with more metadata from CMS
   galleryImages: [
     { 
       id: "gallery-1", 
-      alt: "Management Consulting SG Office Design",
-      url: "/scraped-images/work-projects/managementconsultingsg/management-consulting-sg-gallery-1.jpg"
+      alt: "Elegant reception area featuring natural materials and subtle brand integration",
+      url: "/scraped-images/work-projects/managementconsultingsg/mcsg-gallery-1.jpg"
     },
     { 
       id: "gallery-2", 
-      alt: "Management Consulting SG Collaborative Space",
-      url: "/scraped-images/work-projects/managementconsultingsg/management-consulting-sg-gallery-2.jpg"
+      alt: "Contemporary client meeting space with advanced presentation technology",
+      url: "/scraped-images/work-projects/managementconsultingsg/mcsg-gallery-2.jpg"
     },
     { 
       id: "gallery-3", 
-      alt: "Management Consulting SG Meeting Area",
-      url: "/scraped-images/work-projects/managementconsultingsg/management-consulting-sg-gallery-3.jpg"
+      alt: "Collaborative work zone with flexible furniture arrangements and digital tools",
+      url: "/scraped-images/work-projects/managementconsultingsg/mcsg-gallery-3.jpg"
     },
     { 
       id: "gallery-4", 
-      alt: "Management Consulting SG Workspace",
-      url: "/scraped-images/work-projects/managementconsultingsg/management-consulting-sg-gallery-4.jpg"
+      alt: "Private client lounge designed for confidential discussions",
+      url: "/scraped-images/work-projects/managementconsultingsg/mcsg-gallery-4.jpg"
     },
     { 
       id: "gallery-5", 
-      alt: "Management Consulting SG Common Area",
-      url: "/scraped-images/work-projects/managementconsultingsg/management-consulting-sg-gallery-5.jpg"
+      alt: "Interactive showcase area highlighting the firm's global achievements",
+      url: "/scraped-images/work-projects/managementconsultingsg/mcsg-gallery-5.jpg"
     },
     { 
       id: "gallery-6", 
-      alt: "Management Consulting SG Client Area",
-      url: "/scraped-images/work-projects/managementconsultingsg/management-consulting-sg-gallery-6.jpg"
+      alt: "Biophilic elements integrated into the workspace to enhance wellbeing",
+      url: "/scraped-images/work-projects/managementconsultingsg/mcsg-gallery-6.jpg"
     },
     { 
       id: "gallery-7", 
-      alt: "Management Consulting SG Cafe",
-      url: "/scraped-images/work-projects/managementconsultingsg/management-consulting-sg-gallery-7.jpg"
-    },
-    { 
-      id: "gallery-8", 
-      alt: "Management Consulting SG Breakout Space",
-      url: "/scraped-images/work-projects/managementconsultingsg/management-consulting-sg-gallery-8.jpg"
-    },
-    { 
-      id: "gallery-9", 
-      alt: "Management Consulting SG Meeting Room",
-      url: "/scraped-images/work-projects/managementconsultingsg/management-consulting-sg-gallery-9.jpg"
-    },
-    { 
-      id: "gallery-10", 
-      alt: "Management Consulting SG Office Interior",
-      url: "/scraped-images/work-projects/managementconsultingsg/management-consulting-sg-gallery-10.jpg"
+      alt: "Staff café designed for both relaxation and informal collaboration",
+      url: "/scraped-images/work-projects/managementconsultingsg/mcsg-gallery-7.jpg"
     }
   ]
 };
@@ -193,15 +183,15 @@ export default function ProjectPage() {
                 {projectData.keyThemes.map((theme, index) => (
                   <div key={index} className="mb-2 text-base leading-relaxed text-dark-grey flex">
                     <span className="mr-2">{index + 1}.</span>
-                    <span>{theme}</span>
+                    <span>{theme.title}</span>
                   </div>
                 ))}
               </div>
               
               {/* Additional paragraphs */}
-              {projectData.additionalDescription.map((paragraph, index) => (
-                <p key={index} className="text-base mb-6 leading-relaxed text-dark-grey">
-                  {paragraph}
+              {projectData.keyThemes.map((theme, index) => (
+                <p key={`${theme.title}-description`} className="text-base mb-6 leading-relaxed text-dark-grey">
+                  {theme.description}
                 </p>
               ))}
             </div>

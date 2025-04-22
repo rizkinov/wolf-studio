@@ -18,22 +18,20 @@ import { CBREStyledCard } from '@/components/cbre-styled-card'
 const projectData = {
   // Basic project information
   id: "homeaway",
-  title: "Homeaway",
-  subtitle: "A home from home",
+  title: "HOMEAWAY",
+  subtitle: "A home away from home",
   
   // Project metadata
   details: [
-    { label: "Size", value: "25,000 sqft" },
-    { label: "Location", value: "Singapore" },
-    { label: "Scope", value: "Interior Design & Build" },
-    { label: "Year", value: "2022" }
+    { label: "Size", value: "6,000 sqft" },
+    { label: "Location", value: "UE Square Level 18" },
+    { label: "Scope", value: "Design Consultancy" },
+    { label: "Year", value: "2019" }
   ],
   
   // Project description - could be a single rich text field in CMS
   description: [
-    "This project for Homeaway centered around creating a workspace that truly feels like a home away from home for employees and visitors alike. The concept embraces warmth, comfort, and the familiar feeling of returning to a welcoming space.",
-    "We incorporated residential design elements throughout the office, with comfortable lounge areas, kitchen spaces that encourage social interaction, and work areas that blend productivity with comfort. Natural materials, warm lighting, and soft textures create an inviting atmosphere that stands apart from conventional corporate environments.",
-    "Special attention was paid to creating diverse settings that support different work styles and personal preferences, allowing employees to find their own 'home' within the larger space. The result is an office that supports both work requirements and emotional well-being, fostering a sense of belonging and community."
+    "HomeAway is a vacation rental marketplace with more than 2,000,000 vacation rentals in 190 countries listed on its website. When tasked to design their new workplace in Singapore, WOLF captured the spirit of travel while capturing unique Singapore design touches to ensure that the office felt just as much of a destination as the places they share on their website."
   ],
   
   // Banner image - main hero image
@@ -43,48 +41,53 @@ const projectData = {
   galleryImages: [
     { 
       id: "gallery-1", 
-      alt: "Homeaway Interior Design",
+      alt: "Homeaway Office Space",
       url: "/scraped-images/work-projects/homeaway/homeaway-gallery-1.jpg"
     },
     { 
       id: "gallery-2", 
-      alt: "Homeaway Workspace",
+      alt: "Homeaway Reception Area",
       url: "/scraped-images/work-projects/homeaway/homeaway-gallery-2.jpg"
     },
     { 
       id: "gallery-3", 
-      alt: "Homeaway Lounge Area",
+      alt: "Homeaway Workspace",
       url: "/scraped-images/work-projects/homeaway/homeaway-gallery-3.jpg"
     },
     { 
       id: "gallery-4", 
-      alt: "Homeaway Kitchen Space",
+      alt: "Homeaway Meeting Room",
       url: "/scraped-images/work-projects/homeaway/homeaway-gallery-4.jpg"
     },
     { 
       id: "gallery-5", 
-      alt: "Homeaway Meeting Area",
+      alt: "Homeaway Collaborative Space",
       url: "/scraped-images/work-projects/homeaway/homeaway-gallery-5.jpg"
     },
     { 
       id: "gallery-6", 
-      alt: "Homeaway Reception",
+      alt: "Homeaway Office Design",
       url: "/scraped-images/work-projects/homeaway/homeaway-gallery-6.jpg"
     },
     { 
       id: "gallery-7", 
-      alt: "Homeaway Collaborative Space",
+      alt: "Homeaway Interior Design",
       url: "/scraped-images/work-projects/homeaway/homeaway-gallery-7.jpg"
     },
     { 
       id: "gallery-8", 
-      alt: "Homeaway Quiet Zone",
+      alt: "Homeaway Breakout Space",
       url: "/scraped-images/work-projects/homeaway/homeaway-gallery-8.jpg"
     },
     { 
       id: "gallery-9", 
-      alt: "Homeaway Design Detail",
+      alt: "Homeaway Meeting Area",
       url: "/scraped-images/work-projects/homeaway/homeaway-gallery-9.jpg"
+    },
+    { 
+      id: "gallery-10", 
+      alt: "Homeaway Office Interior",
+      url: "/scraped-images/work-projects/homeaway/homeaway-gallery-10.jpg"
     }
   ]
 };

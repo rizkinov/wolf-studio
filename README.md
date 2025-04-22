@@ -71,6 +71,16 @@ Each project needs:
 - A banner image: `{projectname}-banner.jpg`
 - Gallery images: `{projectname}-gallery-1.jpg`, `{projectname}-gallery-2.jpg`, etc.
 
+Detailed documentation on image organization can be found in `docs/image-organization.md`.
+
+Tools for image organization maintenance:
+- `scripts/organize-images.sh`: Script to copy images from old locations to the standardized structure
+- `scripts/update-project-paths.cjs`: Script to update image paths in projects.ts
+- `scripts/update-project-pages.cjs`: Script to update image paths in project page files
+- `scripts/fix-gallery-brackets.cjs`: Script to fix syntax issues in gallery image arrays
+
+When adding new projects, use the template provided in `templates/project-page-template.tsx` to ensure consistency.
+
 ## GitHub Setup
 
 To deploy this repository to GitHub:

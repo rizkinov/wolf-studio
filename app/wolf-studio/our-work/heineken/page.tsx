@@ -19,21 +19,21 @@ const projectData = {
   // Basic project information
   id: "heineken",
   title: "Heineken",
-  subtitle: "",
+  subtitle: "A workplace, A Bar, an East meets West melting pot of 2 brands",
   
   // Project metadata
   details: [
-    { label: "Size", value: "30,000 sqft" },
-    { label: "Location", value: "Singapore" },
-    { label: "Scope", value: "Office Design & Build" },
-    { label: "Year", value: "2021" }
+    { label: "Size", value: "32,000 sqft" },
+    { label: "Location", value: "The Metropolis" },
+    { label: "Scope", value: "Design & Build" },
+    { label: "Year", value: "2019" }
   ],
   
   // Project description - could be a single rich text field in CMS
   description: [
-    "The Heineken regional office project captures the essence of the iconic beer brand while creating a dynamic workspace for their team. The design celebrates Heineken's rich heritage while providing a contemporary environment that supports innovation and collaboration.",
-    "Brand identity is thoughtfully integrated throughout the space, with the signature Heineken green used as accents against a neutral palette. Custom environmental graphics tell the story of the brand's history, brewing process, and global presence, creating an immersive brand experience for employees and visitors.",
-    "The workspace combines open plan areas with specialized zones including tasting rooms, social hubs reminiscent of Heineken bars, and flexible meeting spaces. Special attention was paid to creating spaces that facilitate both focused work and social interaction, reflecting the convivial spirit of the Heineken brand."
+    "The new Heineken workplace in Singapore brings together both the Heineken and Tiger Beer brands together to create a new experience for staff and visitors. Wolf was engaged to carry our live office A&A works to totally transform the old office design to improve work settings, brand experience, and overall employee wellness in the new environment.",
+    "A 'walk and talk' path (for wondering discussion) is woven through the office that connects the Bar, to key collaborative spaces, to shared meeting rooms and pantry facilities is a symbolic expression of both brands coming together in Singapore.",
+    "Design touches throughout the workplace tells a story of east meets west."
   ],
   
   // Banner image - main hero image
@@ -43,38 +43,28 @@ const projectData = {
   galleryImages: [
     { 
       id: "gallery-1", 
-      alt: "Heineken Interior Design",
+      alt: "Heineken Office Space",
       url: "/scraped-images/work-projects/heineken/heineken-gallery-1.jpg"
     },
     { 
       id: "gallery-2", 
-      alt: "Heineken Reception Area",
+      alt: "Heineken Collaborative Area",
       url: "/scraped-images/work-projects/heineken/heineken-gallery-2.jpg"
     },
     { 
       id: "gallery-3", 
-      alt: "Heineken Workspace",
+      alt: "Heineken Meeting Space",
       url: "/scraped-images/work-projects/heineken/heineken-gallery-3.jpg"
     },
     { 
       id: "gallery-4", 
-      alt: "Heineken Meeting Room",
+      alt: "Heineken Office Design",
       url: "/scraped-images/work-projects/heineken/heineken-gallery-4.jpg"
     },
     { 
       id: "gallery-5", 
-      alt: "Heineken Social Area",
+      alt: "Heineken Workspace",
       url: "/scraped-images/work-projects/heineken/heineken-gallery-5.jpg"
-    },
-    { 
-      id: "gallery-6", 
-      alt: "Heineken Brand Experience Space",
-      url: "/scraped-images/work-projects/heineken/heineken-gallery-6.jpg"
-    },
-    { 
-      id: "gallery-7", 
-      alt: "Heineken Collaborative Space",
-      url: "/scraped-images/work-projects/heineken/heineken-gallery-7.jpg"
     }
   ]
 };

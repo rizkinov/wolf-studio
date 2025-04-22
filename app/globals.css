@@ -747,3 +747,94 @@
     @apply bg-background text-foreground;
   }
 }
+
+/* Grid Layout - following CBRE design system spacing */
+.projects-grid {
+  display: grid;
+  grid-template-columns: repeat(var(--cols-mobile, 1), 1fr);
+  gap: 1rem; /* Use CBRE spacing variables if available */
+  width: 100%;
+}
+
+@media (min-width: 640px) {
+  .projects-grid {
+    grid-template-columns: repeat(var(--cols-tablet, 2), 1fr);
+  }
+}
+
+@media (min-width: 1024px) {
+  .projects-grid {
+    grid-template-columns: repeat(var(--cols-desktop, 3), 1fr);
+  }
+}
+
+@media (min-width: 1280px) {
+  .projects-grid {
+    grid-template-columns: repeat(var(--cols-wide, 4), 1fr);
+  }
+}
+
+/* Project Tiles - with CBRE styling */
+.project-tile {
+  position: relative;
+  height: 0;
+  padding-bottom: 75%; /* 4:3 aspect ratio */
+  overflow: hidden;
+  /* Use CBRE card styles as baseline, then override as needed */
+}
+
+.project-tile .image-container {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  transition: transform 0.4s ease;
+}
+
+.project-tile .overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0);
+  transition: background-color 0.4s ease;
+}
+
+.project-tile .project-info {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  padding: 2rem;
+  opacity: 0;
+  transition: opacity 0.4s ease;
+  z-index: 10;
+}
+
+.project-tile .project-title {
+  font-family: 'Financier Display', serif; /* Maintain brand font */
+  font-size: 1.5rem;
+  color: #ffffff;
+  margin-bottom: 0.25rem;
+}
+
+.project-tile .project-subtitle {
+  font-family: 'Calibre Light', sans-serif; /* Maintain brand font */
+  font-size: 1rem;
+  color: #ffffff;
+}
+
+/* Hover Effects - consistent with CBRE design system */
+.project-tile:hover .image-container {
+  transform: scale(1.05);
+}
+
+.project-tile:hover .overlay {
+  background-color: rgba(0, 0, 0, 0.5);
+}
+
+.project-tile:hover .project-info {
+  opacity: 1;
+}
