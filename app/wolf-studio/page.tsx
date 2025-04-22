@@ -286,10 +286,6 @@ export default function WolfStudioPage() {
               />
             )}
           </div>
-          
-          <div className="text-center">
-            <CBREButton>Get in touch for a consultation</CBREButton>
-          </div>
         </div>
       </section>
 
