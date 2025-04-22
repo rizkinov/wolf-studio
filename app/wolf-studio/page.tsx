@@ -223,6 +223,19 @@ export default function WolfStudioPage() {
           
           <h3 className="text-2xl font-bold mb-8 text-center">Our Second Singapore Studio & CBRE Offering</h3>
           
+          {/* Video Embed */}
+          <div className="max-w-4xl mx-auto mb-16">
+            <div className="aspect-video w-full rounded-lg overflow-hidden shadow-lg">
+              <iframe
+                src="https://cbre.qumucloud.com/view/HNqYZIv46FEanvMoZH5NPj/"
+                className="w-full h-full border-none"
+                title="CBRE WOLF Studio Video"
+                allowFullScreen={true}
+                loading="lazy"
+              ></iframe>
+            </div>
+          </div>
+          
           <div className="max-w-5xl mx-auto mt-16">
             <h3 className="text-2xl font-bold mb-12 text-center">A Bit About Us</h3>
             
