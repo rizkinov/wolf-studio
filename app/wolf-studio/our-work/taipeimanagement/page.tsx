@@ -3,6 +3,8 @@ import Link from 'next/link'
 import Image from 'next/image'
 import { CBREButton } from '@/components/cbre-button'
 import { CBREStyledCard } from '@/components/cbre-styled-card'
+import { BackToWorkButton } from '@/components/back-to-work-button'
+
 
 /**
  * Project Page Template - Wolf Studio
@@ -37,49 +39,49 @@ const projectData = {
   ],
   
   // Banner image - main hero image
-  bannerImage: "/scraped-images/work-projects/taipeimanagement/taipeimanagement-banner.jpg",
+  bannerImage: "/scraped-images/work-projects/managementconsultingfirm/managementconsultingfirm-banner.jpg",
   
   // Gallery images - can be expanded with more metadata from CMS
   galleryImages: [
     { 
       id: "gallery-1", 
       alt: "Taipei Management Interior Design",
-      url: "/scraped-images/work-projects/taipeimanagement/taipeimanagement-gallery-1.jpg"
+      url: "/scraped-images/work-projects/managementconsultingfirm/managementconsultingfirm-gallery-1.jpg"
     },
     { 
       id: "gallery-2", 
       alt: "Taipei Management Workspace",
-      url: "/scraped-images/work-projects/taipeimanagement/taipeimanagement-gallery-2.jpg"
+      url: "/scraped-images/work-projects/managementconsultingfirm/managementconsultingfirm-gallery-2.jpg"
     },
     { 
       id: "gallery-3", 
       alt: "Taipei Management Collaborative Space",
-      url: "/scraped-images/work-projects/taipeimanagement/taipeimanagement-gallery-3.jpg"
+      url: "/scraped-images/work-projects/managementconsultingfirm/managementconsultingfirm-gallery-3.jpg"
     },
     { 
       id: "gallery-4", 
       alt: "Taipei Management Meeting Area",
-      url: "/scraped-images/work-projects/taipeimanagement/taipeimanagement-gallery-4.jpg"
+      url: "/scraped-images/work-projects/managementconsultingfirm/managementconsultingfirm-gallery-4.jpg"
     },
     { 
       id: "gallery-5", 
       alt: "Taipei Management Office Space",
-      url: "/scraped-images/work-projects/taipeimanagement/taipeimanagement-gallery-5.jpg"
+      url: "/scraped-images/work-projects/managementconsultingfirm/managementconsultingfirm-gallery-5.jpg"
     },
     { 
       id: "gallery-6", 
       alt: "Taipei Management Reception",
-      url: "/scraped-images/work-projects/taipeimanagement/taipeimanagement-gallery-6.jpg"
+      url: "/scraped-images/work-projects/managementconsultingfirm/managementconsultingfirm-gallery-6.jpg"
     },
     { 
       id: "gallery-7", 
       alt: "Taipei Management Lounge Area",
-      url: "/scraped-images/work-projects/taipeimanagement/taipeimanagement-gallery-7.jpg"
+      url: "/scraped-images/work-projects/managementconsultingfirm/managementconsultingfirm-gallery-7.jpg"
     },
     { 
       id: "gallery-8", 
       alt: "Taipei Management Work Environment",
-      url: "/scraped-images/work-projects/taipeimanagement/taipeimanagement-gallery-8.jpg"
+      url: "/scraped-images/work-projects/managementconsultingfirm/managementconsultingfirm-gallery-8.jpg"
     }
   ]
 };
@@ -192,14 +194,7 @@ export default function ProjectPage() {
               </div>
             ))}
           </div>
-          
-          <div className="mt-12 text-center">
-            <Link href="/wolf-studio/our-work">
-              <CBREButton variant="view-more">
-                Back to work
-              </CBREButton>
-            </Link>
-          </div>
+          <BackToWorkButton />
         </section>
       </main>
 

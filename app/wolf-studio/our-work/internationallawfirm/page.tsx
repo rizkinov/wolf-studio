@@ -3,6 +3,7 @@ import Link from 'next/link'
 import Image from 'next/image'
 import { CBREButton } from '@/components/cbre-button'
 import { CBREStyledCard } from '@/components/cbre-styled-card'
+import { BackToWorkButton } from '@/components/back-to-work-button'
 
 /**
  * Project Page Template - Wolf Studio
@@ -240,13 +241,7 @@ export default function ProjectPage() {
             ))}
           </div>
           
-          <div className="mt-12 text-center">
-            <Link href="/wolf-studio/our-work">
-              <CBREButton variant="view-more">
-                Back to work
-              </CBREButton>
-            </Link>
-          </div>
+          <BackToWorkButton />
         </section>
       </main>
 
