@@ -79,46 +79,6 @@ const projectData = {
       id: "gallery-8", 
       alt: "Bosch office",
       url: "/scraped-images/work-projects/bosch/bosch-gallery-8.jpg"
-    },
-    { 
-      id: "gallery-9", 
-      alt: "Bosch office",
-      url: "/scraped-images/work-projects/bosch/bosch-gallery-9.jpg"
-    },
-    { 
-      id: "gallery-10", 
-      alt: "Bosch office",
-      url: "/scraped-images/work-projects/bosch/bosch-gallery-10.jpg"
-    },
-    { 
-      id: "gallery-11", 
-      alt: "Bosch office",
-      url: "/scraped-images/work-projects/bosch/bosch-gallery-11.jpg"
-    },
-    { 
-      id: "gallery-12", 
-      alt: "Bosch office",
-      url: "/scraped-images/work-projects/bosch/bosch-gallery-12.jpg"
-    },
-    { 
-      id: "gallery-13", 
-      alt: "Bosch office",
-      url: "/scraped-images/work-projects/bosch/bosch-gallery-13.jpg"
-    },
-    { 
-      id: "gallery-14", 
-      alt: "Bosch office",
-      url: "/scraped-images/work-projects/bosch/bosch-gallery-14.jpg"
-    },
-    { 
-      id: "gallery-15", 
-      alt: "Bosch office",
-      url: "/scraped-images/work-projects/bosch/bosch-gallery-15.jpg"
-    },
-    { 
-      id: "gallery-16", 
-      alt: "Bosch office",
-      url: "/scraped-images/work-projects/bosch/bosch-gallery-16.jpg"
     }
   ]
 };

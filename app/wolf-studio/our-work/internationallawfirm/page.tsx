@@ -104,51 +104,6 @@ const projectData = {
       id: "gallery-9", 
       alt: "International Law Firm",
       url: "/scraped-images/work-projects/internationallawfirm/internationallawfirm-gallery-9.jpg"
-    },
-    { 
-      id: "gallery-10", 
-      alt: "International Law Firm",
-      url: "/scraped-images/work-projects/internationallawfirm/internationallawfirm-gallery-10.jpg"
-    },
-    { 
-      id: "gallery-11", 
-      alt: "International Law Firm",
-      url: "/scraped-images/work-projects/internationallawfirm/internationallawfirm-gallery-11.jpg"
-    },
-    { 
-      id: "gallery-12", 
-      alt: "International Law Firm",
-      url: "/scraped-images/work-projects/internationallawfirm/internationallawfirm-gallery-12.jpg"
-    },
-    { 
-      id: "gallery-13", 
-      alt: "International Law Firm",
-      url: "/scraped-images/work-projects/internationallawfirm/internationallawfirm-gallery-13.jpg"
-    },
-    { 
-      id: "gallery-14", 
-      alt: "International Law Firm",
-      url: "/scraped-images/work-projects/internationallawfirm/internationallawfirm-gallery-14.jpg"
-    },
-    { 
-      id: "gallery-15", 
-      alt: "International Law Firm",
-      url: "/scraped-images/work-projects/internationallawfirm/internationallawfirm-gallery-15.jpg"
-    },
-    { 
-      id: "gallery-16", 
-      alt: "International Law Firm",
-      url: "/scraped-images/work-projects/internationallawfirm/internationallawfirm-gallery-16.jpg"
-    },
-    { 
-      id: "gallery-17", 
-      alt: "International Law Firm",
-      url: "/scraped-images/work-projects/internationallawfirm/internationallawfirm-gallery-17.jpg"
-    },
-    { 
-      id: "gallery-18", 
-      alt: "International Law Firm",
-      url: "/scraped-images/work-projects/internationallawfirm/internationallawfirm-gallery-18.jpg"
     }
   ]
 };
