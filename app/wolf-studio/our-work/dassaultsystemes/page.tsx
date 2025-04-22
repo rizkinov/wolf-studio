@@ -61,26 +61,6 @@ const projectData = {
       id: "gallery-4", 
       alt: "Dassault Systèmes Collaboration Area",
       url: "/scraped-images/work-projects/dassaultsystemes/dassaultsystemes-gallery-4.jpg"
-    },
-    { 
-      id: "gallery-5", 
-      alt: "Dassault Systèmes Office Design",
-      url: "/scraped-images/work-projects/dassaultsystemes/dassaultsystemes-gallery-5.jpg"
-    },
-    { 
-      id: "gallery-6", 
-      alt: "Dassault Systèmes Office Layout",
-      url: "/scraped-images/work-projects/dassaultsystemes/dassaultsystemes-gallery-6.jpg"
-    },
-    { 
-      id: "gallery-7", 
-      alt: "Dassault Systèmes Reception",
-      url: "/scraped-images/work-projects/dassaultsystemes/dassaultsystemes-gallery-7.jpg"
-    },
-    { 
-      id: "gallery-8", 
-      alt: "Dassault Systèmes Office Environment",
-      url: "/scraped-images/work-projects/dassaultsystemes/dassaultsystemes-gallery-8.jpg"
     }
   ]
 };
