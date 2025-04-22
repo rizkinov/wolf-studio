@@ -354,24 +354,24 @@ export default function WolfStudioPage() {
           </p>
           
           {/* Bento-style Gallery */}
-          <div className="max-w-6xl mx-auto">
-            <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
+          <div className="w-full max-w-7xl mx-auto">
+            <div className="grid grid-cols-1 md:grid-cols-6 gap-2">
               {/* Row 1 */}
-              <div className="md:col-span-2 aspect-[4/3] overflow-hidden rounded-xl">
+              <div className="md:col-span-3 aspect-[4/3] overflow-hidden rounded-md">
                 <img 
                   src="/scraped-images/office/hideouts-1.jpg" 
                   alt="WOLF Studio Hideout" 
                   className="w-full h-full object-cover transition-transform duration-500 hover:scale-105"
                 />
               </div>
-              <div className="aspect-square overflow-hidden rounded-xl">
+              <div className="md:col-span-2 aspect-square overflow-hidden rounded-md">
                 <img 
                   src="/scraped-images/office/hideouts-2.jpg" 
                   alt="WOLF Studio Hideout" 
                   className="w-full h-full object-cover transition-transform duration-500 hover:scale-105"
                 />
               </div>
-              <div className="aspect-square overflow-hidden rounded-xl">
+              <div className="md:col-span-1 aspect-square overflow-hidden rounded-md">
                 <img 
                   src="/scraped-images/office/hideouts-3.jpg" 
                   alt="WOLF Studio Hideout" 
@@ -380,21 +380,21 @@ export default function WolfStudioPage() {
               </div>
               
               {/* Row 2 */}
-              <div className="aspect-square overflow-hidden rounded-xl">
+              <div className="md:col-span-1 aspect-square overflow-hidden rounded-md">
                 <img 
                   src="/scraped-images/office/hideouts-4.jpg" 
                   alt="WOLF Studio Hideout" 
                   className="w-full h-full object-cover transition-transform duration-500 hover:scale-105"
                 />
               </div>
-              <div className="md:col-span-2 aspect-[4/3] overflow-hidden rounded-xl">
+              <div className="md:col-span-3 aspect-[4/3] overflow-hidden rounded-md">
                 <img 
                   src="/scraped-images/office/hideouts-5.jpg" 
                   alt="WOLF Studio Hideout" 
                   className="w-full h-full object-cover transition-transform duration-500 hover:scale-105"
                 />
               </div>
-              <div className="aspect-square overflow-hidden rounded-xl">
+              <div className="md:col-span-2 aspect-square overflow-hidden rounded-md">
                 <img 
                   src="/scraped-images/office/hideouts-6.jpg" 
                   alt="WOLF Studio Hideout" 
@@ -403,21 +403,21 @@ export default function WolfStudioPage() {
               </div>
               
               {/* Row 3 */}
-              <div className="aspect-square overflow-hidden rounded-xl">
+              <div className="md:col-span-2 aspect-square overflow-hidden rounded-md">
                 <img 
                   src="/scraped-images/office/hideouts-7.jpg" 
                   alt="WOLF Studio Hideout" 
                   className="w-full h-full object-cover transition-transform duration-500 hover:scale-105"
                 />
               </div>
-              <div className="aspect-square overflow-hidden rounded-xl">
+              <div className="md:col-span-1 aspect-square overflow-hidden rounded-md">
                 <img 
                   src="/scraped-images/office/hideouts-8.jpg" 
                   alt="WOLF Studio Hideout" 
                   className="w-full h-full object-cover transition-transform duration-500 hover:scale-105"
                 />
               </div>
-              <div className="md:col-span-2 aspect-[4/3] overflow-hidden rounded-xl">
+              <div className="md:col-span-3 aspect-[4/3] overflow-hidden rounded-md">
                 <img 
                   src="/scraped-images/office/hideouts-9.jpg" 
                   alt="WOLF Studio Hideout" 
@@ -426,21 +426,21 @@ export default function WolfStudioPage() {
               </div>
               
               {/* Row 4 */}
-              <div className="md:col-span-2 aspect-[4/3] overflow-hidden rounded-xl">
+              <div className="md:col-span-3 aspect-[4/3] overflow-hidden rounded-md">
                 <img 
                   src="/scraped-images/office/hideouts-10.jpg" 
                   alt="WOLF Studio Hideout" 
                   className="w-full h-full object-cover transition-transform duration-500 hover:scale-105"
                 />
               </div>
-              <div className="aspect-square overflow-hidden rounded-xl">
+              <div className="md:col-span-1 aspect-square overflow-hidden rounded-md">
                 <img 
                   src="/scraped-images/office/hideouts-11.jpg" 
                   alt="WOLF Studio Hideout" 
                   className="w-full h-full object-cover transition-transform duration-500 hover:scale-105"
                 />
               </div>
-              <div className="aspect-square overflow-hidden rounded-xl">
+              <div className="md:col-span-2 aspect-square overflow-hidden rounded-md">
                 <img 
                   src="/scraped-images/office/hideouts-12.jpg" 
                   alt="WOLF Studio Hideout" 
