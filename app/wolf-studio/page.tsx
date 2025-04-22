@@ -20,6 +20,15 @@ export default function WolfStudioPage() {
   const [activeCategory, setActiveCategory] = useState('all');
   const [isLoading, setIsLoading] = useState(true);
 
+  // Smooth scroll function
+  const handleNavClick = (e: React.MouseEvent<HTMLAnchorElement>, sectionId: string) => {
+    e.preventDefault();
+    const element = document.getElementById(sectionId);
+    if (element) {
+      element.scrollIntoView({ behavior: 'smooth' });
+    }
+  };
+
   // Fetch projects
   useEffect(() => {
     async function fetchProjects() {
@@ -75,12 +84,12 @@ export default function WolfStudioPage() {
             </div>
           </div>
           <div className="hidden md:flex space-x-6">
-            <Link href="#meet-the-pack" className="hover:text-gray-600">Meet the Pack</Link>
-            <Link href="#our-work" className="hover:text-gray-600">Our Work</Link>
-            <Link href="#what-we-offer" className="hover:text-gray-600">What We Offer</Link>
-            <Link href="#our-hideout" className="hover:text-gray-600">Our Hideout</Link>
-            <Link href="#social" className="hover:text-gray-600">Social</Link>
-            <Link href="#get-in-touch" className="hover:text-gray-600">Get in Touch</Link>
+            <a href="#meet-the-pack" onClick={(e) => handleNavClick(e, 'meet-the-pack')} className="hover:text-gray-600 cursor-pointer">Meet the Pack</a>
+            <a href="#our-work" onClick={(e) => handleNavClick(e, 'our-work')} className="hover:text-gray-600 cursor-pointer">Our Work</a>
+            <a href="#what-we-offer" onClick={(e) => handleNavClick(e, 'what-we-offer')} className="hover:text-gray-600 cursor-pointer">What We Offer</a>
+            <a href="#our-hideout" onClick={(e) => handleNavClick(e, 'our-hideout')} className="hover:text-gray-600 cursor-pointer">Our Hideout</a>
+            <a href="#social" onClick={(e) => handleNavClick(e, 'social')} className="hover:text-gray-600 cursor-pointer">Social</a>
+            <a href="#get-in-touch" onClick={(e) => handleNavClick(e, 'get-in-touch')} className="hover:text-gray-600 cursor-pointer">Get in Touch</a>
           </div>
           <div className="md:hidden">
             <button className="focus:outline-none">
@@ -124,7 +133,9 @@ export default function WolfStudioPage() {
               It is our calling to design great workplaces while 
               making the journey for our clients delightful and rewarding.
             </p>
-            <CBREButton>Meet the Pack</CBREButton>
+            <a href="#meet-the-pack" onClick={(e) => handleNavClick(e, 'meet-the-pack')}>
+              <CBREButton>Meet the Pack</CBREButton>
+            </a>
           </div>
         </div>
       </section>
@@ -353,25 +364,25 @@ export default function WolfStudioPage() {
             CBD design studio locations in Singapore or Hongkong.
           </p>
           
-          {/* Bento-style Gallery */}
-          <div className="w-full max-w-7xl mx-auto">
-            <div className="grid grid-cols-1 md:grid-cols-6 gap-2">
-              {/* Row 1 */}
-              <div className="md:col-span-3 aspect-[4/3] overflow-hidden rounded-md">
+          {/* Simplified Gallery with consistent image dimensions */}
+          <div className="w-full max-w-full mx-auto">
+            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-1">
+              {/* All images with consistent aspect ratio */}
+              <div className="aspect-square overflow-hidden rounded-sm">
                 <img 
                   src="/scraped-images/office/hideouts-1.jpg" 
                   alt="WOLF Studio Hideout" 
                   className="w-full h-full object-cover transition-transform duration-500 hover:scale-105"
                 />
               </div>
-              <div className="md:col-span-2 aspect-square overflow-hidden rounded-md">
+              <div className="aspect-square overflow-hidden rounded-sm">
                 <img 
                   src="/scraped-images/office/hideouts-2.jpg" 
                   alt="WOLF Studio Hideout" 
                   className="w-full h-full object-cover transition-transform duration-500 hover:scale-105"
                 />
               </div>
-              <div className="md:col-span-1 aspect-square overflow-hidden rounded-md">
+              <div className="aspect-square overflow-hidden rounded-sm">
                 <img 
                   src="/scraped-images/office/hideouts-3.jpg" 
                   alt="WOLF Studio Hideout" 
@@ -379,22 +390,21 @@ export default function WolfStudioPage() {
                 />
               </div>
               
-              {/* Row 2 */}
-              <div className="md:col-span-1 aspect-square overflow-hidden rounded-md">
+              <div className="aspect-square overflow-hidden rounded-sm">
                 <img 
                   src="/scraped-images/office/hideouts-4.jpg" 
                   alt="WOLF Studio Hideout" 
                   className="w-full h-full object-cover transition-transform duration-500 hover:scale-105"
                 />
               </div>
-              <div className="md:col-span-3 aspect-[4/3] overflow-hidden rounded-md">
+              <div className="aspect-square overflow-hidden rounded-sm">
                 <img 
                   src="/scraped-images/office/hideouts-5.jpg" 
                   alt="WOLF Studio Hideout" 
                   className="w-full h-full object-cover transition-transform duration-500 hover:scale-105"
                 />
               </div>
-              <div className="md:col-span-2 aspect-square overflow-hidden rounded-md">
+              <div className="aspect-square overflow-hidden rounded-sm">
                 <img 
                   src="/scraped-images/office/hideouts-6.jpg" 
                   alt="WOLF Studio Hideout" 
@@ -402,22 +412,21 @@ export default function WolfStudioPage() {
                 />
               </div>
               
-              {/* Row 3 */}
-              <div className="md:col-span-2 aspect-square overflow-hidden rounded-md">
+              <div className="aspect-square overflow-hidden rounded-sm">
                 <img 
                   src="/scraped-images/office/hideouts-7.jpg" 
                   alt="WOLF Studio Hideout" 
                   className="w-full h-full object-cover transition-transform duration-500 hover:scale-105"
                 />
               </div>
-              <div className="md:col-span-1 aspect-square overflow-hidden rounded-md">
+              <div className="aspect-square overflow-hidden rounded-sm">
                 <img 
                   src="/scraped-images/office/hideouts-8.jpg" 
                   alt="WOLF Studio Hideout" 
                   className="w-full h-full object-cover transition-transform duration-500 hover:scale-105"
                 />
               </div>
-              <div className="md:col-span-3 aspect-[4/3] overflow-hidden rounded-md">
+              <div className="aspect-square overflow-hidden rounded-sm">
                 <img 
                   src="/scraped-images/office/hideouts-9.jpg" 
                   alt="WOLF Studio Hideout" 
@@ -425,22 +434,21 @@ export default function WolfStudioPage() {
                 />
               </div>
               
-              {/* Row 4 */}
-              <div className="md:col-span-3 aspect-[4/3] overflow-hidden rounded-md">
+              <div className="aspect-square overflow-hidden rounded-sm">
                 <img 
                   src="/scraped-images/office/hideouts-10.jpg" 
                   alt="WOLF Studio Hideout" 
                   className="w-full h-full object-cover transition-transform duration-500 hover:scale-105"
                 />
               </div>
-              <div className="md:col-span-1 aspect-square overflow-hidden rounded-md">
+              <div className="aspect-square overflow-hidden rounded-sm">
                 <img 
                   src="/scraped-images/office/hideouts-11.jpg" 
                   alt="WOLF Studio Hideout" 
                   className="w-full h-full object-cover transition-transform duration-500 hover:scale-105"
                 />
               </div>
-              <div className="md:col-span-2 aspect-square overflow-hidden rounded-md">
+              <div className="aspect-square overflow-hidden rounded-sm">
                 <img 
                   src="/scraped-images/office/hideouts-12.jpg" 
                   alt="WOLF Studio Hideout" 
@@ -512,7 +520,9 @@ export default function WolfStudioPage() {
             </div>
             
             <div className="mt-12 text-center">
-              <CBREButton variant="outline">Terms of Use</CBREButton>
+              <a href="https://www.cbre.com/about-us/disclaimer-terms-of-use" target="_blank" rel="noopener noreferrer">
+                <CBREButton variant="outline">Terms of Use</CBREButton>
+              </a>
             </div>
           </div>
         </div>
