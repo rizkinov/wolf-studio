@@ -311,7 +311,7 @@ export default function WolfStudioPage() {
             Regardless of the scope of work, we make sure the design process is enjoyable, simple and successful for all our clients
           </p>
           
-          <Accordion type="single" collapsible className="max-w-3xl mx-auto">
+          <Accordion type="multiple" className="max-w-3xl mx-auto">
             <AccordionItem value="item-1">
               <AccordionTrigger className="text-xl font-medium py-4">Design Consultancy</AccordionTrigger>
               <AccordionContent>
