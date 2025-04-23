@@ -19,6 +19,7 @@ export default function WolfStudioPage() {
   const [categories, setCategories] = useState<string[]>([]);
   const [activeCategory, setActiveCategory] = useState('all');
   const [isLoading, setIsLoading] = useState(true);
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
   // Smooth scroll function
   const handleNavClick = (e: React.MouseEvent<HTMLAnchorElement>, sectionId: string) => {
@@ -26,7 +27,13 @@ export default function WolfStudioPage() {
     const element = document.getElementById(sectionId);
     if (element) {
       element.scrollIntoView({ behavior: 'smooth' });
+      setIsMobileMenuOpen(false);
     }
+  };
+
+  // Toggle mobile menu
+  const toggleMobileMenu = () => {
+    setIsMobileMenuOpen(!isMobileMenuOpen);
   };
 
   // Fetch projects
@@ -92,13 +99,27 @@ export default function WolfStudioPage() {
             <a href="#get-in-touch" onClick={(e) => handleNavClick(e, 'get-in-touch')} className="hover:text-gray-600 cursor-pointer">Get in Touch</a>
           </div>
           <div className="md:hidden">
-            <button className="focus:outline-none">
+            <button onClick={toggleMobileMenu} className="focus:outline-none">
               <svg className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d={isMobileMenuOpen ? "M6 18L18 6M6 6l12 12" : "M4 6h16M4 12h16M4 18h16"} />
               </svg>
             </button>
           </div>
         </nav>
+
+        {/* Mobile Menu Panel */}
+        {isMobileMenuOpen && (
+          <div className="md:hidden absolute top-full left-0 w-full bg-white shadow-md py-4 z-40">
+            <div className="container mx-auto px-4 flex flex-col space-y-4">
+              <a href="#meet-the-pack" onClick={(e) => handleNavClick(e, 'meet-the-pack')} className="block hover:text-gray-600 cursor-pointer">Meet the Pack</a>
+              <a href="#our-work" onClick={(e) => handleNavClick(e, 'our-work')} className="block hover:text-gray-600 cursor-pointer">Our Work</a>
+              <a href="#what-we-offer" onClick={(e) => handleNavClick(e, 'what-we-offer')} className="block hover:text-gray-600 cursor-pointer">What We Offer</a>
+              <a href="#our-hideout" onClick={(e) => handleNavClick(e, 'our-hideout')} className="block hover:text-gray-600 cursor-pointer">Our Hideout</a>
+              <a href="#social" onClick={(e) => handleNavClick(e, 'social')} className="block hover:text-gray-600 cursor-pointer">Social</a>
+              <a href="#get-in-touch" onClick={(e) => handleNavClick(e, 'get-in-touch')} className="block hover:text-gray-600 cursor-pointer">Get in Touch</a>
+            </div>
+          </div>
+        )}
       </header>
 
       {/* Full-width Banner */}
@@ -475,7 +496,7 @@ export default function WolfStudioPage() {
               {/* Instagram feed without the overlay - we'll use the custom button instead */}
               <iframe
                 src="https://www.instagram.com/wolfstudiosg/embed"
-                className="w-full h-[750px] border-none overflow-hidden rounded-xl"
+                className="w-full h-[455px] sm:h-[642px] lg:h-[750px] border-none overflow-hidden rounded-xl"
                 title="Instagram Feed for WOLF Studio"
                 allowFullScreen={true}
                 scrolling="no"
