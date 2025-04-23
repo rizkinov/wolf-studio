@@ -46,18 +46,36 @@ Website for WOLF Studio - a design and workplace consultancy firm.
 
 The site includes portfolio pages for various clients including:
 
-- IHH
-- Philip Morris Singapore
-- Management Consulting SG
+- VV Life
+- Rice Communications
+- Resources
+- Lufax
+- Life Science & Clinical (Life Science Manufacturer)
+- MYP
+- Bayer
+- Iqvia
+- Goodpack
+- RQAM
+- International Law Firm
+- Management Consulting Firm
+- Dassault Systemes
+- Zurich Insurance
+- Hong Kong Management
+- Hans Im Gluck
+- CBRE
+- Bosch
 - Taipei Management
-- Swiss Bank
-- HomeAway
-- Singapore Management
-- Heineken
+- The WOLF den
 - Ride Hailing Giant
+- Singapore Management
+- Swiss Bank
+- IHH Healthcare (IHH)
+- Management Consulting SG
+- Philip Morris Singapore (Philip Morris)
+- Heineken
+- Homeaway
 - Global Consulting Giant
 - Emerson
-- The WOLF den
 
 ## Development
 
@@ -157,14 +175,6 @@ Each project needs:
 - Gallery images: `{projectname}-gallery-1.jpg`, `{projectname}-gallery-2.jpg`, etc.
 
 Detailed documentation on image organization can be found in `docs/image-organization.md`.
-
-### Image Management Tools
-
-The repository includes several scripts to help manage project images:
-- `scripts/organize-images.sh`: Script to copy images from old locations to the standardized structure
-- `scripts/update-project-paths.cjs`: Script to update image paths in projects.ts
-- `scripts/update-project-pages.cjs`: Script to update image paths in project page files
-- `scripts/fix-gallery-brackets.cjs`: Script to fix syntax issues in gallery image arrays
 
 When adding new projects, use the template provided in `templates/project-page-template.tsx` to ensure consistency.
 
