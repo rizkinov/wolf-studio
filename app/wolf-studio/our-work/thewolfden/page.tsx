@@ -65,11 +65,6 @@ const projectData = {
       id: "gallery-5", 
       alt: "WOLF studio - ceiling feature",
       url: "/scraped-images/work-projects/thewolfden/thewolfden-gallery-5.jpg"
-    },
-    { 
-      id: "gallery-6", 
-      alt: "WOLF studio - meeting room",
-      url: "/scraped-images/work-projects/thewolfden/thewolfden-gallery-6.jpg"
     }
   ]
 };
