@@ -9,7 +9,6 @@ import {
   YAxis,
   CartesianGrid,
   Tooltip,
-  Legend,
   Pie,
   PieChart,
   Cell,
@@ -43,6 +42,17 @@ export const chartConfig = {
   }
 };
 
+// Type for Recharts Tooltip Payload Item
+interface TooltipPayloadItem {
+  fill?: string;
+  color?: string;
+  dataKey?: string;
+  value?: number | string; 
+  payload?: Record<string, unknown>; // Include payload object if needed
+  name?: string;
+  // Add other potential properties if known
+}
+
 // Chart Tooltip Component
 export function ChartTooltip({
   active,
@@ -51,7 +61,7 @@ export function ChartTooltip({
   className,
 }: {
   active?: boolean;
-  payload?: any[];
+  payload?: TooltipPayloadItem[];
   label?: string;
   className?: string;
 }) {

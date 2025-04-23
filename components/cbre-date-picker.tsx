@@ -1,9 +1,8 @@
 "use client";
 
-import React from "react";
+import * as React from "react";
 import { Calendar as CalendarIcon } from "lucide-react";
-import { addDays, format } from "date-fns";
-import { DateRange, DayPicker, Matcher } from "react-day-picker";
+import type { DateRange, Matcher } from "react-day-picker";
 
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";

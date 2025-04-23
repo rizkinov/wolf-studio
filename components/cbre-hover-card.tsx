@@ -10,7 +10,7 @@ import {
 
 // Define the props for CBREHoverCard component
 export interface CBREHoverCardProps extends React.ComponentPropsWithoutRef<typeof HoverCard> {
-  contentClassName?: string;
+  sideOffset?: number;
   children: React.ReactNode;
 }
 
@@ -23,7 +23,7 @@ export interface CBREHoverCardProps extends React.ComponentPropsWithoutRef<typeo
  * - Maintains CBRE typography and colors
  */
 export function CBREHoverCard({
-  contentClassName,
+  sideOffset = 4,
   children,
   ...props
 }: CBREHoverCardProps) {

@@ -101,7 +101,7 @@ export function CBRESelect({
           // Handle SelectTrigger
           if (child.type === SelectTrigger) {
             // Type cast the child to React element with SelectTrigger props
-            const trigger = child as React.ReactElement<any>;
+            const trigger = child as React.ReactElement<React.ComponentProps<typeof SelectTrigger>>;
             
             return React.cloneElement(trigger, {
               id: selectId,
@@ -119,7 +119,7 @@ export function CBRESelect({
           // Handle SelectContent
           if (child.type === SelectContent) {
             // Type cast the child to React element with SelectContent props  
-            const content = child as React.ReactElement<any>;
+            const content = child as React.ReactElement<React.ComponentProps<typeof SelectContent>>;
             
             return React.cloneElement(content, {
               className: cn(
