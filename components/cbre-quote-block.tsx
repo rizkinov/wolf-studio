@@ -34,7 +34,7 @@ export function CBREQuoteBlock({
     )}>
       <div className="p-8 md:w-2/3 flex flex-col justify-center">
         <blockquote className="text-[var(--cbre-green)] font-financier text-xl md:text-2xl italic mb-6">
-          &ldquo;{quote}&rdquo;
+          "{quote}"
         </blockquote>
         <div>
           <p className="font-medium text-[var(--cbre-green)]">{author}</p>

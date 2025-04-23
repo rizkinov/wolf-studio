@@ -110,10 +110,10 @@ The site automatically uses the following build configuration from `vercel.json`
 For deployment to other platforms:
 
 1. Build the project
-   ```bash
-   npm run clean
-   npm run build
-   ```
+```bash
+npm run clean
+npm run build
+```
 
 2. The built application will be in the `.next` directory
 3. Deploy the contents according to your hosting provider's instructions
@@ -142,7 +142,7 @@ To deploy the repository to GitHub:
 6. Push to GitHub
    ```bash
    git push -u origin main
-   ```
+   ``` 
 
 ## Image Structure
 
