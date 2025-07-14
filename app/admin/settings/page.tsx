@@ -1,293 +1,299 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { CBRECard } from '@/components/cbre-card'
 import { CBREButton } from '@/components/cbre-button'
 import { CBREBadge } from '@/components/cbre-badge'
-import { Settings, Save, User, Globe, Shield, Database, Palette } from 'lucide-react'
+import { Settings, User, Database, HardDrive, Image, Save, RefreshCw } from 'lucide-react'
+import { useAuth } from '@/lib/auth/context'
+import StorageMonitor from '@/components/admin/StorageMonitor'
+import ImageLibrary from '@/components/admin/ImageLibrary'
 
 export default function SettingsPage() {
-  const [settings, setSettings] = useState({
-    siteName: 'Wolf Studio',
-    siteDescription: 'Award-winning interior design and architecture firm',
-    contactEmail: 'info@wolfstudio.com',
-    defaultProjectsPerPage: 10,
-    enableAnalytics: true,
-    enableNotifications: true,
-    maintenanceMode: false,
-    autoBackup: true
-  })
+  const { user } = useAuth()
+  const [showImageLibrary, setShowImageLibrary] = useState(false)
+  const [refreshing, setRefreshing] = useState(false)
 
-  const [isSubmitting, setIsSubmitting] = useState(false)
-
-  const handleInputChange = (field: string, value: string | number | boolean) => {
-    setSettings(prev => ({ ...prev, [field]: value }))
+  const handleRefreshSystem = async () => {
+    setRefreshing(true)
+    // Simulate system refresh
+    await new Promise(resolve => setTimeout(resolve, 2000))
+    setRefreshing(false)
   }
 
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault()
-    setIsSubmitting(true)
-
-    // Simulate API call
-    await new Promise(resolve => setTimeout(resolve, 1000))
-
-    setIsSubmitting(false)
-    // Show success message (you could use a toast library here)
-    alert('Settings saved successfully!')
+  const handleImageSelect = (image: any) => {
+    console.log('Selected image:', image)
+    // Handle image selection
   }
 
   return (
     <div className="p-8">
-      {/* Header */}
       <div className="mb-8">
-        <h1 className="text-2xl font-financier text-cbre-green mb-2">
-          Settings
+        <h1 className="text-2xl font-financier text-[var(--cbre-green)] mb-2">
+          System Settings
         </h1>
         <p className="text-dark-grey font-calibre">
-          Configure your Wolf Studio admin panel and website settings
+          Manage your Wolf Studio admin dashboard configuration
         </p>
       </div>
 
-      <form onSubmit={handleSubmit} className="space-y-6">
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-          {/* Main Settings */}
-          <div className="lg:col-span-2 space-y-6">
-            {/* Site Information */}
-            <CBRECard className="p-6">
-              <h3 className="font-financier text-lg text-cbre-green mb-4 flex items-center">
-                <Globe className="h-5 w-5 mr-2" />
-                Site Information
-              </h3>
-              <div className="space-y-4">
-                <div>
-                  <label className="block text-sm font-medium text-dark-grey mb-2">
-                    Site Name
-                  </label>
-                  <input
-                    type="text"
-                    value={settings.siteName}
-                    onChange={(e) => handleInputChange('siteName', e.target.value)}
-                    className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-cbre-green focus:border-transparent"
-                  />
-                </div>
-
-                <div>
-                  <label className="block text-sm font-medium text-dark-grey mb-2">
-                    Site Description
-                  </label>
-                  <textarea
-                    value={settings.siteDescription}
-                    onChange={(e) => handleInputChange('siteDescription', e.target.value)}
-                    rows={3}
-                    className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-cbre-green focus:border-transparent"
-                  />
-                </div>
-
-                <div>
-                  <label className="block text-sm font-medium text-dark-grey mb-2">
-                    Contact Email
-                  </label>
-                  <input
-                    type="email"
-                    value={settings.contactEmail}
-                    onChange={(e) => handleInputChange('contactEmail', e.target.value)}
-                    className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-cbre-green focus:border-transparent"
-                  />
-                </div>
-              </div>
-            </CBRECard>
-
-            {/* Display Settings */}
-            <CBRECard className="p-6">
-              <h3 className="font-financier text-lg text-cbre-green mb-4 flex items-center">
-                <Palette className="h-5 w-5 mr-2" />
-                Display Settings
-              </h3>
-              <div className="space-y-4">
-                <div>
-                  <label className="block text-sm font-medium text-dark-grey mb-2">
-                    Projects Per Page
-                  </label>
-                  <select
-                    value={settings.defaultProjectsPerPage}
-                    onChange={(e) => handleInputChange('defaultProjectsPerPage', parseInt(e.target.value))}
-                    className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-cbre-green focus:border-transparent"
-                  >
-                    <option value={5}>5 projects</option>
-                    <option value={10}>10 projects</option>
-                    <option value={15}>15 projects</option>
-                    <option value={20}>20 projects</option>
-                  </select>
-                </div>
-              </div>
-            </CBRECard>
-
-            {/* System Settings */}
-            <CBRECard className="p-6">
-              <h3 className="font-financier text-lg text-cbre-green mb-4 flex items-center">
-                <Database className="h-5 w-5 mr-2" />
-                System Settings
-              </h3>
-              <div className="space-y-4">
-                <div className="flex items-center justify-between">
-                  <div>
-                    <p className="font-calibre text-dark-grey">Enable Analytics</p>
-                    <p className="text-sm text-gray-500">Collect visitor statistics and performance metrics</p>
-                  </div>
-                  <input
-                    type="checkbox"
-                    checked={settings.enableAnalytics}
-                    onChange={(e) => handleInputChange('enableAnalytics', e.target.checked)}
-                    className="rounded border-gray-300 text-cbre-green focus:ring-cbre-green"
-                  />
-                </div>
-
-                <div className="flex items-center justify-between">
-                  <div>
-                    <p className="font-calibre text-dark-grey">Notifications</p>
-                    <p className="text-sm text-gray-500">Receive email notifications for important events</p>
-                  </div>
-                  <input
-                    type="checkbox"
-                    checked={settings.enableNotifications}
-                    onChange={(e) => handleInputChange('enableNotifications', e.target.checked)}
-                    className="rounded border-gray-300 text-cbre-green focus:ring-cbre-green"
-                  />
-                </div>
-
-                <div className="flex items-center justify-between">
-                  <div>
-                    <p className="font-calibre text-dark-grey">Auto Backup</p>
-                    <p className="text-sm text-gray-500">Automatically backup database daily</p>
-                  </div>
-                  <input
-                    type="checkbox"
-                    checked={settings.autoBackup}
-                    onChange={(e) => handleInputChange('autoBackup', e.target.checked)}
-                    className="rounded border-gray-300 text-cbre-green focus:ring-cbre-green"
-                  />
-                </div>
-
-                <div className="flex items-center justify-between">
-                  <div>
-                    <p className="font-calibre text-dark-grey">Maintenance Mode</p>
-                    <p className="text-sm text-gray-500">Temporarily disable public site access</p>
-                  </div>
-                  <input
-                    type="checkbox"
-                    checked={settings.maintenanceMode}
-                    onChange={(e) => handleInputChange('maintenanceMode', e.target.checked)}
-                    className="rounded border-gray-300 text-cbre-green focus:ring-cbre-green"
-                  />
-                </div>
-              </div>
-            </CBRECard>
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+        {/* Account Information */}
+        <CBRECard className="p-6">
+          <div className="flex items-center space-x-3 mb-4">
+            <User className="h-5 w-5 text-[var(--cbre-green)]" />
+            <h3 className="font-financier text-lg text-[var(--cbre-green)]">
+              Account Information
+            </h3>
           </div>
-
-          {/* Sidebar */}
-          <div className="space-y-6">
-            {/* Quick Actions */}
-            <CBRECard className="p-6">
-              <h3 className="font-financier text-lg text-cbre-green mb-4">
-                Quick Actions
-              </h3>
-              <div className="space-y-3">
-                <CBREButton
-                  type="submit"
-                  disabled={isSubmitting}
-                  className="w-full flex items-center justify-center space-x-2"
-                >
-                  <Save className="h-4 w-4" />
-                  <span>{isSubmitting ? 'Saving...' : 'Save Settings'}</span>
-                </CBREButton>
-
-                <CBREButton
-                  type="button"
-                  variant="outline"
-                  className="w-full flex items-center justify-center space-x-2"
-                  onClick={() => {
-                    if (window.confirm('Are you sure you want to reset all settings to default?')) {
-                      // Reset to defaults
-                      setSettings({
-                        siteName: 'Wolf Studio',
-                        siteDescription: 'Award-winning interior design and architecture firm',
-                        contactEmail: 'info@wolfstudio.com',
-                        defaultProjectsPerPage: 10,
-                        enableAnalytics: true,
-                        enableNotifications: true,
-                        maintenanceMode: false,
-                        autoBackup: true
-                      })
-                    }
-                  }}
-                >
-                  <Settings className="h-4 w-4" />
-                  <span>Reset to Defaults</span>
-                </CBREButton>
+          <div className="space-y-4">
+            <div>
+              <label className="block text-sm font-medium text-dark-grey mb-1">
+                Email Address
+              </label>
+              <div className="text-dark-grey bg-gray-50 px-3 py-2 rounded border">
+                {user?.email || 'Not signed in'}
               </div>
-            </CBRECard>
+            </div>
+            <div>
+              <label className="block text-sm font-medium text-dark-grey mb-1">
+                Role
+              </label>
+              <CBREBadge className="bg-[var(--cbre-green)] text-white">Administrator</CBREBadge>
+            </div>
+            <div>
+              <label className="block text-sm font-medium text-dark-grey mb-1">
+                Last Login
+              </label>
+              <div className="text-dark-grey text-sm">
+                {new Date().toLocaleDateString()} at {new Date().toLocaleTimeString()}
+              </div>
+            </div>
+          </div>
+        </CBRECard>
 
-            {/* System Status */}
-            <CBRECard className="p-6">
-              <h3 className="font-financier text-lg text-cbre-green mb-4 flex items-center">
-                <Shield className="h-5 w-5 mr-2" />
+        {/* System Status */}
+        <CBRECard className="p-6">
+          <div className="flex items-center justify-between mb-4">
+            <div className="flex items-center space-x-3">
+              <Database className="h-5 w-5 text-[var(--cbre-green)]" />
+              <h3 className="font-financier text-lg text-[var(--cbre-green)]">
                 System Status
               </h3>
-              <div className="space-y-3">
-                <div className="flex items-center justify-between">
-                  <span className="text-dark-grey font-calibre text-sm">Database</span>
-                  <CBREBadge className="bg-green-100 text-green-800">Healthy</CBREBadge>
-                </div>
-                <div className="flex items-center justify-between">
-                  <span className="text-dark-grey font-calibre text-sm">Storage</span>
-                  <CBREBadge className="bg-green-100 text-green-800">Available</CBREBadge>
-                </div>
-                <div className="flex items-center justify-between">
-                  <span className="text-dark-grey font-calibre text-sm">Backup</span>
-                  <CBREBadge className="bg-green-100 text-green-800">Up to date</CBREBadge>
-                </div>
-                <div className="flex items-center justify-between">
-                  <span className="text-dark-grey font-calibre text-sm">Security</span>
-                  <CBREBadge className="bg-green-100 text-green-800">Secure</CBREBadge>
-                </div>
-              </div>
-            </CBRECard>
-
-            {/* Account Info */}
-            <CBRECard className="p-6">
-              <h3 className="font-financier text-lg text-cbre-green mb-4 flex items-center">
-                <User className="h-5 w-5 mr-2" />
-                Account Information
-              </h3>
-              <div className="space-y-3">
-                <div>
-                  <p className="text-sm text-gray-500">Admin User</p>
-                  <p className="font-calibre text-dark-grey">rizki.novianto@cbre.com</p>
-                </div>
-                <div>
-                  <p className="text-sm text-gray-500">Last Login</p>
-                  <p className="font-calibre text-dark-grey">Today, 2:30 PM</p>
-                </div>
-                <div>
-                  <p className="text-sm text-gray-500">Role</p>
-                  <CBREBadge className="bg-cbre-green text-white">Administrator</CBREBadge>
-                </div>
-              </div>
-            </CBRECard>
+            </div>
+            <CBREButton
+              variant="outline"
+              size="sm"
+              onClick={handleRefreshSystem}
+              disabled={refreshing}
+              className="flex items-center space-x-2"
+            >
+              <RefreshCw className={`h-4 w-4 ${refreshing ? 'animate-spin' : ''}`} />
+              <span>Refresh</span>
+            </CBREButton>
           </div>
-        </div>
-      </form>
+          <div className="space-y-4">
+            <div className="flex items-center justify-between">
+              <span className="text-dark-grey">Database</span>
+              <CBREBadge className="bg-green-100 text-green-800">Connected</CBREBadge>
+            </div>
+            <div className="flex items-center justify-between">
+              <span className="text-dark-grey">Storage</span>
+              <CBREBadge className="bg-green-100 text-green-800">Available</CBREBadge>
+            </div>
+            <div className="flex items-center justify-between">
+              <span className="text-dark-grey">Authentication</span>
+              <CBREBadge className="bg-green-100 text-green-800">Active</CBREBadge>
+            </div>
+            <div className="flex items-center justify-between">
+              <span className="text-dark-grey">API Status</span>
+              <CBREBadge className="bg-green-100 text-green-800">Online</CBREBadge>
+            </div>
+            <div className="text-xs text-gray-500 mt-4">
+              Last system check: {new Date().toLocaleString()}
+            </div>
+          </div>
+        </CBRECard>
 
-      {/* Coming Soon Features */}
-      <CBRECard className="p-8 text-center mt-8 border-dashed border-2 border-gray-300">
-        <Settings className="h-12 w-12 text-gray-400 mx-auto mb-4" />
-        <h3 className="font-financier text-lg text-dark-grey mb-2">
-          More Settings Coming Soon
-        </h3>
-        <p className="text-gray-500 font-calibre">
-          User management, API settings, theme customization, and advanced security options will be available in future updates.
-        </p>
-      </CBRECard>
+        {/* Storage Usage - Full Width */}
+        <div className="lg:col-span-2">
+          <StorageMonitor showActions={true} />
+        </div>
+
+        {/* Image Management */}
+        <CBRECard className="p-6 lg:col-span-2">
+          <div className="flex items-center space-x-3 mb-4">
+            <Image className="h-5 w-5 text-[var(--cbre-green)]" />
+            <h3 className="font-financier text-lg text-[var(--cbre-green)]">
+              Image Management
+            </h3>
+          </div>
+          <div className="space-y-4">
+            <p className="text-dark-grey text-sm">
+              Browse, search, and reuse images across your projects. The image library provides 
+              a centralized view of all uploaded images with advanced filtering and search capabilities.
+            </p>
+            
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+              <div className="text-center p-4 bg-gray-50 rounded-lg">
+                <div className="text-xl font-bold text-[var(--cbre-green)] mb-1">
+                  156
+                </div>
+                <div className="text-sm text-gray-600">Total Images</div>
+              </div>
+              
+              <div className="text-center p-4 bg-gray-50 rounded-lg">
+                <div className="text-xl font-bold text-blue-600 mb-1">
+                  42
+                </div>
+                <div className="text-sm text-gray-600">Banner Images</div>
+              </div>
+              
+              <div className="text-center p-4 bg-gray-50 rounded-lg">
+                <div className="text-xl font-bold text-purple-600 mb-1">
+                  114
+                </div>
+                <div className="text-sm text-gray-600">Gallery Images</div>
+              </div>
+            </div>
+            
+            <div className="flex space-x-3">
+              <CBREButton
+                onClick={() => setShowImageLibrary(true)}
+                className="flex items-center space-x-2"
+              >
+                <Image className="h-4 w-4" />
+                <span>Browse Image Library</span>
+              </CBREButton>
+              
+              <CBREButton
+                variant="outline"
+                className="flex items-center space-x-2"
+              >
+                <Database className="h-4 w-4" />
+                <span>Manage Storage</span>
+              </CBREButton>
+            </div>
+            
+            <div className="bg-blue-50 p-4 rounded-lg">
+              <h4 className="font-medium text-blue-900 mb-2">Image Management Features</h4>
+              <ul className="text-sm text-blue-800 space-y-1">
+                <li>• Browse images in grid or list view</li>
+                <li>• Search by filename or project name</li>
+                <li>• Filter by image type (banner/gallery)</li>
+                <li>• Copy URLs for quick reuse across projects</li>
+                <li>• View image dimensions and file sizes</li>
+                <li>• Storage optimization and cleanup tools</li>
+              </ul>
+            </div>
+          </div>
+        </CBRECard>
+
+        {/* Advanced Settings */}
+        <CBRECard className="p-6">
+          <div className="flex items-center space-x-3 mb-4">
+            <Settings className="h-5 w-5 text-[var(--cbre-green)]" />
+            <h3 className="font-financier text-lg text-[var(--cbre-green)]">
+              Advanced Settings
+            </h3>
+          </div>
+          <div className="space-y-4">
+            <div>
+              <label className="block text-sm font-medium text-dark-grey mb-2">
+                Items per page
+              </label>
+              <select className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[var(--cbre-green)] focus:border-transparent">
+                <option value="10">10 items</option>
+                <option value="25">25 items</option>
+                <option value="50" selected>50 items</option>
+                <option value="100">100 items</option>
+              </select>
+            </div>
+            
+            <div>
+              <label className="block text-sm font-medium text-dark-grey mb-2">
+                Default image quality
+              </label>
+              <select className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[var(--cbre-green)] focus:border-transparent">
+                <option value="high">High (100%)</option>
+                <option value="medium" selected>Medium (85%)</option>
+                <option value="low">Low (70%)</option>
+              </select>
+            </div>
+            
+            <div className="flex items-center justify-between">
+              <span className="text-dark-grey">Auto-optimize uploads</span>
+              <input type="checkbox" className="rounded" defaultChecked />
+            </div>
+            
+            <div className="flex items-center justify-between">
+              <span className="text-dark-grey">Generate WebP versions</span>
+              <input type="checkbox" className="rounded" defaultChecked />
+            </div>
+          </div>
+        </CBRECard>
+
+        {/* Security Settings */}
+        <CBRECard className="p-6">
+          <div className="flex items-center space-x-3 mb-4">
+            <Database className="h-5 w-5 text-[var(--cbre-green)]" />
+            <h3 className="font-financier text-lg text-[var(--cbre-green)]">
+              Security Settings
+            </h3>
+          </div>
+          <div className="space-y-4">
+            <div>
+              <label className="block text-sm font-medium text-dark-grey mb-2">
+                Session timeout
+              </label>
+              <select className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[var(--cbre-green)] focus:border-transparent">
+                <option value="30">30 minutes</option>
+                <option value="60" selected>1 hour</option>
+                <option value="120">2 hours</option>
+                <option value="240">4 hours</option>
+              </select>
+            </div>
+            
+            <div className="flex items-center justify-between">
+              <span className="text-dark-grey">Require re-authentication for deletions</span>
+              <input type="checkbox" className="rounded" defaultChecked />
+            </div>
+            
+            <div className="flex items-center justify-between">
+              <span className="text-dark-grey">Log admin actions</span>
+              <input type="checkbox" className="rounded" defaultChecked />
+            </div>
+            
+            <div>
+              <label className="block text-sm font-medium text-dark-grey mb-2">
+                Failed login attempts before lockout
+              </label>
+              <input 
+                type="number" 
+                defaultValue="5"
+                className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[var(--cbre-green)] focus:border-transparent"
+              />
+            </div>
+          </div>
+        </CBRECard>
+
+        {/* Save Settings */}
+        <div className="lg:col-span-2">
+          <CBREButton className="w-full flex items-center justify-center space-x-2">
+            <Save className="h-4 w-4" />
+            <span>Save Settings</span>
+          </CBREButton>
+        </div>
+      </div>
+
+      {/* Image Library Modal */}
+      <ImageLibrary
+        isOpen={showImageLibrary}
+        onClose={() => setShowImageLibrary(false)}
+        onSelect={handleImageSelect}
+        multiple={false}
+        typeFilter="all"
+      />
     </div>
   )
 } 

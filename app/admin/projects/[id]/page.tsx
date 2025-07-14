@@ -10,6 +10,9 @@ import Link from 'next/link'
 import { ProjectService, CategoryService } from '@/lib/services/database'
 import { Category, ProjectWithCategoryAndImages, ProjectUpdate, ProjectDescription } from '@/lib/types/database'
 import RichTextEditor, { isContentEmpty } from '@/components/admin/RichTextEditor'
+import ImageUploadZone from '@/components/admin/ImageUploadZone'
+import GalleryManager from '@/components/admin/GalleryManager'
+import { createUploadFunction } from '@/lib/services/image-upload'
 
 interface ProjectFormData {
   title: string
@@ -506,39 +509,100 @@ export default function EditProjectPage() {
               <h3 className="font-financier text-lg text-cbre-green mb-4">
                 Project Images
               </h3>
-              <div className="space-y-4">
+              <div className="space-y-6">
+                {/* Banner Image Upload */}
                 <div>
-                  <label className="block text-sm font-medium text-dark-grey mb-2">
-                    Banner Image URL
+                  <label className="block text-sm font-medium text-dark-grey mb-3">
+                    Banner Image
                   </label>
-                  <input
-                    type="text"
-                    value={formData.banner_image_url}
-                    onChange={(e) => handleInputChange('banner_image_url', e.target.value)}
-                    className={`w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-cbre-green focus:border-transparent ${
-                      errors.banner_image_url ? 'border-red-500' : 'border-gray-300'
-                    }`}
-                    placeholder="https://example.com/image.jpg"
+                  <ImageUploadZone
+                    multiple={false}
+                    accept={{
+                      'image/*': ['.jpeg', '.jpg', '.png', '.webp']
+                    }}
+                    maxSize={5 * 1024 * 1024} // 5MB
+                    uploadFn={createUploadFunction({
+                      imageType: 'banner',
+                      maxWidth: 1920,
+                      maxHeight: 1080,
+                      projectId: projectId
+                    })}
+                    onUpload={(files: any[]) => {
+                      if (files.length > 0 && files[0].status === 'success') {
+                        // Update form data with the uploaded banner image URL
+                        const uploadedFile = files[0]
+                        if (uploadedFile.url) {
+                          handleInputChange('banner_image_url', uploadedFile.url)
+                        }
+                      }
+                    }}
+                    className="mb-4"
+                    // Show existing banner image if available
+                    initialPreview={formData.banner_image_url ? {
+                      url: formData.banner_image_url,
+                      name: 'current-banner.jpg'
+                    } : undefined}
                   />
-                  {errors.banner_image_url && (
-                    <p className="text-red-500 text-sm mt-1">{errors.banner_image_url}</p>
-                  )}
-                  <p className="text-gray-500 text-sm mt-1">
-                    Main project image displayed on listing and detail pages
+                  <p className="text-gray-500 text-sm">
+                    Main project image displayed on listing and detail pages (16:9 aspect ratio recommended)
                   </p>
-                  {formData.banner_image_url && (
-                    <div className="mt-2">
-                      <img
-                        src={formData.banner_image_url}
-                        alt="Banner preview"
-                        className="w-full h-32 object-cover rounded border"
-                        onError={(e) => {
-                          e.currentTarget.style.display = 'none'
-                        }}
-                      />
-                    </div>
-                  )}
                 </div>
+
+                {/* Gallery Images */}
+                <div>
+                  <label className="block text-sm font-medium text-dark-grey mb-3">
+                    Gallery Images
+                  </label>
+                  <GalleryManager
+                    projectId={projectId}
+                    onGalleryUpdate={(images) => {
+                      console.log('Gallery updated:', images)
+                      // Handle gallery updates here
+                    }}
+                  />
+                  <p className="text-gray-500 text-sm mt-2">
+                    Additional project images for the gallery (4:3 aspect ratio recommended)
+                  </p>
+                </div>
+
+                {/* Legacy URL Input (for backwards compatibility) */}
+                <details className="group">
+                  <summary className="cursor-pointer text-sm text-gray-600 hover:text-gray-800">
+                    Advanced: Use Image URL Instead
+                  </summary>
+                  <div className="mt-3 p-4 bg-gray-50 rounded-lg">
+                    <label className="block text-sm font-medium text-dark-grey mb-2">
+                      Banner Image URL
+                    </label>
+                    <input
+                      type="text"
+                      value={formData.banner_image_url}
+                      onChange={(e) => handleInputChange('banner_image_url', e.target.value)}
+                      className={`w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-[var(--cbre-green)] focus:border-transparent ${
+                        errors.banner_image_url ? 'border-red-500' : 'border-gray-300'
+                      }`}
+                      placeholder="https://example.com/image.jpg"
+                    />
+                    {errors.banner_image_url && (
+                      <p className="text-red-500 text-sm mt-1">{errors.banner_image_url}</p>
+                    )}
+                    <p className="text-gray-500 text-sm mt-1">
+                      Manually enter an image URL (overrides uploaded banner)
+                    </p>
+                    {formData.banner_image_url && (
+                      <div className="mt-2">
+                        <img
+                          src={formData.banner_image_url}
+                          alt="Banner preview"
+                          className="w-full h-32 object-cover rounded border"
+                          onError={(e) => {
+                            e.currentTarget.style.display = 'none'
+                          }}
+                        />
+                      </div>
+                    )}
+                  </div>
+                </details>
               </div>
             </CBRECard>
           </div>
