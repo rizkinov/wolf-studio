@@ -537,11 +537,6 @@ export default function EditProjectPage() {
                       }
                     }}
                     className="mb-4"
-                    // Show existing banner image if available
-                    initialPreview={formData.banner_image_url ? {
-                      url: formData.banner_image_url,
-                      name: 'current-banner.jpg'
-                    } : undefined}
                   />
                   <p className="text-gray-500 text-sm">
                     Main project image displayed on listing and detail pages (16:9 aspect ratio recommended)
@@ -555,9 +550,31 @@ export default function EditProjectPage() {
                   </label>
                   <GalleryManager
                     projectId={projectId}
+                    onImageUpload={async (files: File[]) => {
+                      console.log('Uploading gallery images:', files)
+                      try {
+                        // Upload each file using the upload function
+                        const uploadPromises = files.map(file => 
+                          createUploadFunction({
+                            imageType: 'gallery',
+                            maxWidth: 1920,
+                            maxHeight: 1440,
+                            projectId: projectId
+                          })(file, () => {})
+                        )
+                        
+                        const results = await Promise.all(uploadPromises)
+                        console.log('Gallery images uploaded successfully:', results)
+                        
+                        // Reload the project to get updated images
+                        await loadProject()
+                      } catch (error) {
+                        console.error('Error uploading gallery images:', error)
+                      }
+                    }}
                     onGalleryUpdate={(images) => {
                       console.log('Gallery updated:', images)
-                      // Handle gallery updates here
+                      // Images are automatically loaded from database
                     }}
                   />
                   <p className="text-gray-500 text-sm mt-2">

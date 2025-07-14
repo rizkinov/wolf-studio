@@ -7,11 +7,12 @@ import { CBRECard } from '@/components/cbre-card'
 import { CBREButton } from '@/components/cbre-button'
 import { CBREBadge } from '@/components/cbre-badge'
 import Link from 'next/link'
-import { ProjectService, CategoryService } from '@/lib/services/database'
+import { ProjectService, CategoryService, ProjectImageService } from '@/lib/services/database'
 import { Category, ProjectInsert, ProjectDescription } from '@/lib/types/database'
 import ImageUploadZone from '@/components/admin/ImageUploadZone'
 import { createUploadFunction } from '@/lib/services/image-upload'
 import RichTextEditor, { isContentEmpty } from '@/components/admin/RichTextEditor'
+import { createClient } from '@/lib/supabase/client'
 
 interface ProjectFormData {
   title: string
@@ -47,6 +48,7 @@ export default function NewProjectPage() {
     order_index: 1,
     banner_image_url: ''
   })
+  const [galleryImageUploads, setGalleryImageUploads] = useState<string[]>([]) // Store gallery image URLs
   const [errors, setErrors] = useState<Record<string, string>>({})
   const [isSubmitting, setIsSubmitting] = useState(false)
 
@@ -186,6 +188,77 @@ export default function NewProjectPage() {
           setErrors({ general: 'Failed to create project. Please try again.' })
         }
         return
+      }
+
+            // Associate gallery images with the new project
+      if (result.data && galleryImageUploads.length > 0) {
+        console.log('🔄 Starting gallery image migration for project:', result.data.id)
+        console.log('📁 Gallery images to migrate:', galleryImageUploads.length)
+        console.log('📎 Image URLs:', galleryImageUploads)
+        
+        try {
+          // Get auth token
+          console.log('🔐 Getting auth session...')
+          const supabase = createClient()
+          const { data: { session }, error: sessionError } = await supabase.auth.getSession()
+          
+          if (sessionError) {
+            console.error('❌ Session error:', sessionError)
+            return
+          }
+          
+          if (!session) {
+            console.error('❌ No auth session found')
+            return
+          }
+          
+          console.log('✅ Auth session found, access token length:', session.access_token.length)
+          
+          // Call API to migrate temp images to permanent location
+          console.log('📡 Calling migration API...')
+          const requestBody = {
+            projectId: result.data.id,
+            tempImageUrls: galleryImageUploads
+          }
+          console.log('📤 Request body:', requestBody)
+          
+          const response = await fetch('/api/admin/migrate-temp-images', {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+              'Authorization': `Bearer ${session.access_token}`
+            },
+            body: JSON.stringify(requestBody)
+          })
+          
+          console.log('📥 API response status:', response.status)
+          console.log('📥 API response ok:', response.ok)
+          
+          if (!response.ok) {
+            const errorText = await response.text()
+            console.error('❌ API error response:', errorText)
+            throw new Error(`Migration failed: ${errorText}`)
+          }
+          
+          const migrationResult = await response.json()
+          console.log('✅ Migration result:', migrationResult)
+          console.log(`🎉 Gallery images migrated: ${migrationResult.successful}/${migrationResult.processed}`)
+          
+          if (migrationResult.failed > 0) {
+            console.warn(`⚠️ ${migrationResult.failed} images failed to migrate`)
+            console.warn('Failed results:', migrationResult.results.filter((r: any) => !r.success))
+          }
+          
+        } catch (imageError) {
+          console.error('❌ Error migrating gallery images:', imageError)
+          console.error('❌ Error details:', imageError instanceof Error ? imageError.message : String(imageError))
+          console.error('❌ Error stack:', imageError instanceof Error ? imageError.stack : 'No stack trace')
+          // Don't fail the whole operation, just log the error
+        }
+      } else {
+        console.log('ℹ️ No gallery images to migrate or no project data')
+        console.log('   Project data exists:', !!result.data)
+        console.log('   Gallery uploads count:', galleryImageUploads.length)
       }
 
       // Success - redirect to projects list
@@ -464,7 +537,14 @@ export default function NewProjectPage() {
                     })}
                     onUpload={(files: any[]) => {
                       console.log('Gallery images uploaded:', files)
-                      // Handle gallery image uploads
+                      // Store uploaded image URLs for later association with project
+                      const successfulUploads = files
+                        .filter((file: any) => file.status === 'success' && file.url)
+                        .map((file: any) => file.url)
+                      
+                      if (successfulUploads.length > 0) {
+                        setGalleryImageUploads(prev => [...prev, ...successfulUploads])
+                      }
                     }}
                     className="mb-4"
                   />

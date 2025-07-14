@@ -2,6 +2,7 @@
 // This module provides CRUD operations for all database entities
 
 import { createClient } from '@/lib/supabase/client'
+import { createClient as createSupabaseClient } from '@supabase/supabase-js'
 import type {
   Project,
   ProjectInsert,
@@ -16,6 +17,24 @@ import type {
   ProjectFilters,
   PaginationParams,
   SortParams,
+  UserProfile,
+  UserProfileInsert,
+  UserProfileUpdate,
+  UserProfileWithPermissions,
+  ActivityLog,
+  ActivityLogInsert,
+  ActivityLogWithUser,
+  UserSession,
+  UserSessionInsert,
+  UserSessionUpdate,
+  UserPermission,
+  UserPermissionInsert,
+  UserPermissionUpdate,
+  ActivityLogFilters,
+  UserFilters,
+  UserRole,
+  ActivityType,
+  UserActivitySummary,
 } from '@/lib/types/database'
 
 // Get the client-side Supabase client
@@ -966,6 +985,677 @@ export class ProjectImageService {
     } catch (error) {
       console.error('Error in reorderProjectImages:', error)
       return { error: 'Failed to reorder project images' }
+    }
+  }
+}
+
+// User Profile Service
+export class UserService {
+  
+  // Get all users with optional filtering and pagination
+  static async getUsers(
+    filters?: UserFilters,
+    pagination?: PaginationParams,
+    sort?: SortParams
+  ): Promise<{ data: UserProfile[]; count: number; error: string | null }> {
+    try {
+      const supabase = getSupabaseClient()
+      
+      // Create admin client to bypass RLS policies
+      const adminSupabase = createSupabaseClient(
+        process.env.NEXT_PUBLIC_SUPABASE_URL!,
+        process.env.SUPABASE_SERVICE_ROLE_KEY!,
+        {
+          auth: {
+            autoRefreshToken: false,
+            persistSession: false
+          }
+        }
+      )
+      
+      let query = adminSupabase
+        .from('user_profiles')
+        .select('*', { count: 'exact' })
+
+      // Apply filters
+      if (filters) {
+        if (filters.role) {
+          query = query.eq('role', filters.role)
+        }
+        if (filters.is_active !== undefined) {
+          query = query.eq('is_active', filters.is_active)
+        }
+        if (filters.search) {
+          query = query.or(`full_name.ilike.%${filters.search}%,email.ilike.%${filters.search}%`)
+        }
+        if (filters.department) {
+          query = query.eq('department', filters.department)
+        }
+      }
+
+      // Apply sorting
+      if (sort) {
+        query = query.order(sort.column, { ascending: sort.order === 'asc' })
+      } else {
+        query = query.order('created_at', { ascending: false })
+      }
+
+      // Apply pagination
+      if (pagination) {
+        const offset = pagination.offset ?? (pagination.page ? (pagination.page - 1) * (pagination.limit ?? 10) : 0)
+        const limit = pagination.limit ?? 10
+        query = query.range(offset, offset + limit - 1)
+      }
+
+      const { data, error, count } = await query
+
+      if (error) {
+        console.error('Error fetching users:', error)
+        return { data: [], count: 0, error: error.message }
+      }
+
+      return { data: data || [], count: count || 0, error: null }
+    } catch (error) {
+      console.error('Error in getUsers:', error)
+      return { data: [], count: 0, error: 'Failed to fetch users' }
+    }
+  }
+
+  // Get a single user profile by ID
+  static async getUserProfile(userId: string): Promise<{ data: UserProfileWithPermissions | null; error: string | null }> {
+    try {
+      const supabase = getSupabaseClient()
+      
+      // Create admin client to bypass RLS policies
+      const adminSupabase = createSupabaseClient(
+        process.env.NEXT_PUBLIC_SUPABASE_URL!,
+        process.env.SUPABASE_SERVICE_ROLE_KEY!,
+        {
+          auth: {
+            autoRefreshToken: false,
+            persistSession: false
+          }
+        }
+      )
+      
+      const { data: profile, error: profileError } = await adminSupabase
+        .from('user_profiles')
+        .select('*')
+        .eq('id', userId)
+        .single()
+
+      if (profileError) {
+        console.error('Error fetching user profile:', profileError)
+        return { data: null, error: profileError.message }
+      }
+
+      const { data: permissions, error: permissionsError } = await adminSupabase
+        .from('user_permissions')
+        .select('*')
+        .eq('user_id', userId)
+
+      if (permissionsError) {
+        console.error('Error fetching user permissions:', permissionsError)
+        return { data: null, error: permissionsError.message }
+      }
+
+      const userWithPermissions: UserProfileWithPermissions = {
+        ...profile,
+        permissions: permissions || []
+      }
+
+      return { data: userWithPermissions, error: null }
+    } catch (error) {
+      console.error('Error in getUserProfile:', error)
+      return { data: null, error: 'Failed to fetch user profile' }
+    }
+  }
+
+  // Update user profile
+  static async updateUserProfile(
+    userId: string,
+    updates: UserProfileUpdate
+  ): Promise<{ data: UserProfile | null; error: string | null }> {
+    try {
+      const supabase = getSupabaseClient()
+      
+      const { data, error } = await supabase
+        .from('user_profiles')
+        .update({ ...updates, updated_at: new Date().toISOString() })
+        .eq('id', userId)
+        .select()
+        .single()
+
+      if (error) {
+        console.error('Error updating user profile:', error)
+        return { data: null, error: error.message }
+      }
+
+      return { data, error: null }
+    } catch (error) {
+      console.error('Error in updateUserProfile:', error)
+      return { data: null, error: 'Failed to update user profile' }
+    }
+  }
+
+  // Create new user profile (admin only)
+  static async createUserProfile(
+    profileData: UserProfileInsert
+  ): Promise<{ data: UserProfile | null; error: string | null }> {
+    try {
+      const supabase = getSupabaseClient()
+      
+      const { data, error } = await supabase
+        .from('user_profiles')
+        .insert(profileData)
+        .select()
+        .single()
+
+      if (error) {
+        console.error('Error creating user profile:', error)
+        return { data: null, error: error.message }
+      }
+
+      return { data, error: null }
+    } catch (error) {
+      console.error('Error in createUserProfile:', error)
+      return { data: null, error: 'Failed to create user profile' }
+    }
+  }
+
+  // Deactivate user (soft delete)
+  static async deactivateUser(userId: string): Promise<{ error: string | null }> {
+    try {
+      const supabase = getSupabaseClient()
+      
+      const { error } = await supabase
+        .from('user_profiles')
+        .update({ is_active: false, updated_at: new Date().toISOString() })
+        .eq('id', userId)
+
+      if (error) {
+        console.error('Error deactivating user:', error)
+        return { error: error.message }
+      }
+
+      return { error: null }
+    } catch (error) {
+      console.error('Error in deactivateUser:', error)
+      return { error: 'Failed to deactivate user' }
+    }
+  }
+
+  // Get user activity summary
+  static async getUserActivitySummary(): Promise<{ data: UserActivitySummary[]; error: string | null }> {
+    try {
+      const supabase = getSupabaseClient()
+      
+      // Create admin client to bypass RLS policies
+      const adminSupabase = createSupabaseClient(
+        process.env.NEXT_PUBLIC_SUPABASE_URL!,
+        process.env.SUPABASE_SERVICE_ROLE_KEY!,
+        {
+          auth: {
+            autoRefreshToken: false,
+            persistSession: false
+          }
+        }
+      )
+      
+      // First try to use the view if it exists
+      const { data: viewData, error: viewError } = await adminSupabase
+        .from('user_activity_summary')
+        .select('*')
+        .order('last_activity_at', { ascending: false, nullsFirst: false })
+
+      // If view exists and works, return the data
+      if (!viewError && viewData) {
+        return { data: viewData, error: null }
+      }
+
+      // If view doesn't exist, build the query manually
+      console.log('user_activity_summary view not found, building query manually...')
+      
+      // Get all users first
+      const { data: users, error: usersError } = await adminSupabase
+        .from('user_profiles')
+        .select('*')
+        .order('created_at', { ascending: false })
+
+      if (usersError) {
+        console.error('Error fetching users:', usersError)
+        return { data: [], error: usersError.message }
+      }
+
+      // Get activity logs for all users
+      const { data: activities, error: activitiesError } = await adminSupabase
+        .from('activity_logs')
+        .select('user_id, created_at')
+        .order('created_at', { ascending: false })
+
+      if (activitiesError) {
+        console.log('activity_logs table not found, proceeding with zero activities')
+        // If activity_logs doesn't exist, return users with zero activities
+        const summaryData = users.map(user => ({
+          id: user.id,
+          email: user.email,
+          full_name: user.full_name,
+          role: user.role,
+          last_login_at: user.last_login_at,
+          is_active: user.is_active,
+          total_activities: 0,
+          activities_last_7_days: 0,
+          activities_last_30_days: 0,
+          last_activity_at: null
+        }))
+        return { data: summaryData, error: null }
+      }
+
+      // Build activity summary manually
+      const now = new Date()
+      const sevenDaysAgo = new Date(now.getTime() - 7 * 24 * 60 * 60 * 1000)
+      const thirtyDaysAgo = new Date(now.getTime() - 30 * 24 * 60 * 60 * 1000)
+
+      const summaryData = users.map(user => {
+        const userActivities = activities.filter(activity => activity.user_id === user.id)
+        
+        const totalActivities = userActivities.length
+        const activitiesLast7Days = userActivities.filter(activity => 
+          new Date(activity.created_at) > sevenDaysAgo
+        ).length
+        const activitiesLast30Days = userActivities.filter(activity => 
+          new Date(activity.created_at) > thirtyDaysAgo
+        ).length
+        
+        const lastActivity = userActivities.length > 0 ? userActivities[0].created_at : null
+
+        return {
+          id: user.id,
+          email: user.email,
+          full_name: user.full_name,
+          role: user.role,
+          last_login_at: user.last_login_at,
+          is_active: user.is_active,
+          total_activities: totalActivities,
+          activities_last_7_days: activitiesLast7Days,
+          activities_last_30_days: activitiesLast30Days,
+          last_activity_at: lastActivity
+        }
+      })
+
+      return { data: summaryData, error: null }
+    } catch (error) {
+      console.error('Error in getUserActivitySummary:', error)
+      return { data: [], error: 'Failed to fetch user activity summary' }
+    }
+  }
+}
+
+// Activity Log Service
+export class ActivityLogService {
+  
+  // Get activity logs with filtering and pagination
+  static async getActivityLogs(
+    filters?: ActivityLogFilters,
+    pagination?: PaginationParams
+  ): Promise<{ data: ActivityLogWithUser[]; count: number; error: string | null }> {
+    try {
+      const supabase = getSupabaseClient()
+      let query = supabase
+        .from('activity_logs')
+        .select(`
+          *,
+          user:user_profiles(id, email, full_name, role)
+        `, { count: 'exact' })
+
+      // Apply filters
+      if (filters) {
+        if (filters.user_id) {
+          query = query.eq('user_id', filters.user_id)
+        }
+        if (filters.activity_type) {
+          query = query.eq('activity_type', filters.activity_type)
+        }
+        if (filters.resource_type) {
+          query = query.eq('resource_type', filters.resource_type)
+        }
+        if (filters.date_from) {
+          query = query.gte('created_at', filters.date_from)
+        }
+        if (filters.date_to) {
+          query = query.lte('created_at', filters.date_to)
+        }
+      }
+
+      // Apply sorting
+      query = query.order('created_at', { ascending: false })
+
+      // Apply pagination
+      if (pagination) {
+        const offset = pagination.offset ?? (pagination.page ? (pagination.page - 1) * (pagination.limit ?? 10) : 0)
+        const limit = pagination.limit ?? 50
+        query = query.range(offset, offset + limit - 1)
+      }
+
+      const { data, error, count } = await query
+
+      if (error) {
+        console.error('Error fetching activity logs:', error)
+        return { 
+          data: [], 
+          count: 0, 
+          error: error.message || error.details || 'Failed to fetch activity logs from database' 
+        }
+      }
+
+      return { data: data || [], count: count || 0, error: null }
+    } catch (error) {
+      console.error('Error in getActivityLogs:', error)
+      return { 
+        data: [], 
+        count: 0, 
+        error: error instanceof Error ? error.message : 'Failed to fetch activity logs' 
+      }
+    }
+  }
+
+  // Log an activity (called via database function)
+  static async logActivity(
+    userId: string,
+    activityType: ActivityType,
+    resourceType?: string,
+    resourceId?: string,
+    resourceTitle?: string,
+    details?: Record<string, any>,
+    metadata?: Record<string, any>
+  ): Promise<{ data: string | null; error: string | null }> {
+    try {
+      const supabase = getSupabaseClient()
+      
+      const { data, error } = await supabase.rpc('log_activity', {
+        p_user_id: userId,
+        p_activity_type: activityType,
+        p_resource_type: resourceType,
+        p_resource_id: resourceId,
+        p_resource_title: resourceTitle,
+        p_details: details,
+        p_metadata: metadata
+      })
+
+      if (error) {
+        console.error('Error logging activity:', error)
+        return { data: null, error: error.message }
+      }
+
+      return { data, error: null }
+    } catch (error) {
+      console.error('Error in logActivity:', error)
+      return { data: null, error: 'Failed to log activity' }
+    }
+  }
+
+  // Clean up old activity logs
+  static async cleanupOldLogs(): Promise<{ data: number | null; error: string | null }> {
+    try {
+      const supabase = getSupabaseClient()
+      
+      const { data, error } = await supabase.rpc('cleanup_old_activity_logs')
+
+      if (error) {
+        console.error('Error cleaning up old logs:', error)
+        return { data: null, error: error.message }
+      }
+
+      return { data, error: null }
+    } catch (error) {
+      console.error('Error in cleanupOldLogs:', error)
+      return { data: null, error: 'Failed to cleanup old logs' }
+    }
+  }
+}
+
+// Permission Service
+export class PermissionService {
+  
+  // Check if user has permission
+  static async hasPermission(
+    userId: string,
+    resourceType: string,
+    permissionType: string
+  ): Promise<{ data: boolean; error: string | null }> {
+    try {
+      const supabase = getSupabaseClient()
+      
+      const { data, error } = await supabase.rpc('has_permission', {
+        p_user_id: userId,
+        p_resource_type: resourceType,
+        p_permission_type: permissionType
+      })
+
+      if (error) {
+        console.error('Error checking permission:', error)
+        return { data: false, error: error.message }
+      }
+
+      return { data: data || false, error: null }
+    } catch (error) {
+      console.error('Error in hasPermission:', error)
+      return { data: false, error: 'Failed to check permission' }
+    }
+  }
+
+  // Grant permission to user
+  static async grantPermission(
+    userId: string,
+    resourceType: string,
+    permissionType: string,
+    grantedBy: string
+  ): Promise<{ data: UserPermission | null; error: string | null }> {
+    try {
+      const supabase = getSupabaseClient()
+      
+      const permissionData: UserPermissionInsert = {
+        user_id: userId,
+        resource_type: resourceType,
+        permission_type: permissionType,
+        granted_by: grantedBy
+      }
+
+      const { data, error } = await supabase
+        .from('user_permissions')
+        .insert(permissionData)
+        .select()
+        .single()
+
+      if (error) {
+        console.error('Error granting permission:', error)
+        return { data: null, error: error.message }
+      }
+
+      return { data, error: null }
+    } catch (error) {
+      console.error('Error in grantPermission:', error)
+      return { data: null, error: 'Failed to grant permission' }
+    }
+  }
+
+  // Revoke permission from user
+  static async revokePermission(
+    userId: string,
+    resourceType: string,
+    permissionType: string
+  ): Promise<{ error: string | null }> {
+    try {
+      const supabase = getSupabaseClient()
+      
+      const { error } = await supabase
+        .from('user_permissions')
+        .delete()
+        .eq('user_id', userId)
+        .eq('resource_type', resourceType)
+        .eq('permission_type', permissionType)
+
+      if (error) {
+        console.error('Error revoking permission:', error)
+        return { error: error.message }
+      }
+
+      return { error: null }
+    } catch (error) {
+      console.error('Error in revokePermission:', error)
+      return { error: 'Failed to revoke permission' }
+    }
+  }
+
+  // Get user permissions
+  static async getUserPermissions(userId: string): Promise<{ data: UserPermission[]; error: string | null }> {
+    try {
+      const supabase = getSupabaseClient()
+      
+      const { data, error } = await supabase
+        .from('user_permissions')
+        .select('*')
+        .eq('user_id', userId)
+
+      if (error) {
+        console.error('Error fetching user permissions:', error)
+        return { data: [], error: error.message }
+      }
+
+      return { data: data || [], error: null }
+    } catch (error) {
+      console.error('Error in getUserPermissions:', error)
+      return { data: [], error: 'Failed to fetch user permissions' }
+    }
+  }
+
+  // Update user role and sync permissions
+  static async updateUserRole(
+    userId: string,
+    newRole: UserRole,
+    updatedBy: string
+  ): Promise<{ error: string | null }> {
+    try {
+      const supabase = getSupabaseClient()
+      
+      // Update user role
+      const { error: updateError } = await supabase
+        .from('user_profiles')
+        .update({ role: newRole, updated_at: new Date().toISOString() })
+        .eq('id', userId)
+
+      if (updateError) {
+        console.error('Error updating user role:', updateError)
+        return { error: updateError.message }
+      }
+
+      // Log the role change
+      await ActivityLogService.logActivity(
+        updatedBy,
+        'user_role_changed',
+        'user',
+        userId,
+        'User Role Update',
+        { new_role: newRole },
+        { updated_by: updatedBy }
+      )
+
+      return { error: null }
+    } catch (error) {
+      console.error('Error in updateUserRole:', error)
+      return { error: 'Failed to update user role' }
+    }
+  }
+}
+
+// Session Service
+export class SessionService {
+  
+  // Get user sessions
+  static async getUserSessions(userId: string): Promise<{ data: UserSession[]; error: string | null }> {
+    try {
+      const supabase = getSupabaseClient()
+      
+      const { data, error } = await supabase
+        .from('user_sessions')
+        .select('*')
+        .eq('user_id', userId)
+        .eq('is_active', true)
+        .order('last_activity', { ascending: false })
+
+      if (error) {
+        console.error('Error fetching user sessions:', error)
+        return { data: [], error: error.message }
+      }
+
+      return { data: data || [], error: null }
+    } catch (error) {
+      console.error('Error in getUserSessions:', error)
+      return { data: [], error: 'Failed to fetch user sessions' }
+    }
+  }
+
+  // Create new session
+  static async createSession(sessionData: UserSessionInsert): Promise<{ data: UserSession | null; error: string | null }> {
+    try {
+      const supabase = getSupabaseClient()
+      
+      const { data, error } = await supabase
+        .from('user_sessions')
+        .insert(sessionData)
+        .select()
+        .single()
+
+      if (error) {
+        console.error('Error creating session:', error)
+        return { data: null, error: error.message }
+      }
+
+      return { data, error: null }
+    } catch (error) {
+      console.error('Error in createSession:', error)
+      return { data: null, error: 'Failed to create session' }
+    }
+  }
+
+  // Revoke session
+  static async revokeSession(sessionId: string): Promise<{ error: string | null }> {
+    try {
+      const supabase = getSupabaseClient()
+      
+      const { error } = await supabase
+        .from('user_sessions')
+        .update({ is_active: false })
+        .eq('id', sessionId)
+
+      if (error) {
+        console.error('Error revoking session:', error)
+        return { error: error.message }
+      }
+
+      return { error: null }
+    } catch (error) {
+      console.error('Error in revokeSession:', error)
+      return { error: 'Failed to revoke session' }
+    }
+  }
+
+  // Cleanup expired sessions
+  static async cleanupExpiredSessions(): Promise<{ data: number | null; error: string | null }> {
+    try {
+      const supabase = getSupabaseClient()
+      
+      const { data, error } = await supabase.rpc('cleanup_expired_sessions')
+
+      if (error) {
+        console.error('Error cleaning up expired sessions:', error)
+        return { data: null, error: error.message }
+      }
+
+      return { data, error: null }
+    } catch (error) {
+      console.error('Error in cleanupExpiredSessions:', error)
+      return { data: null, error: 'Failed to cleanup expired sessions' }
     }
   }
 } 

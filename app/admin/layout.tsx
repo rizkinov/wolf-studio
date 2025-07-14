@@ -4,7 +4,7 @@ import { AuthProvider } from '@/lib/auth/context'
 import { useAuth } from '@/lib/auth/context'
 import { useRouter, usePathname } from 'next/navigation'
 import { CBREButton } from '@/components/cbre-button'
-import { LogOut, Home, FolderOpen, Tag, Settings, BarChart3 } from 'lucide-react'
+import { LogOut, Home, FolderOpen, Tag, Settings, BarChart3, Users } from 'lucide-react'
 import Link from 'next/link'
 
 function AdminNavigation() {
@@ -35,6 +35,12 @@ function AdminNavigation() {
       href: '/admin/categories',
       icon: Tag,
       active: pathname.startsWith('/admin/categories')
+    },
+    {
+      name: 'Users',
+      href: '/admin/users',
+      icon: Users,
+      active: pathname.startsWith('/admin/users')
     },
     {
       name: 'Analytics',

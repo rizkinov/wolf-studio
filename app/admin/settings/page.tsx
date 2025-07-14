@@ -13,6 +13,17 @@ export default function SettingsPage() {
   const { user } = useAuth()
   const [showImageLibrary, setShowImageLibrary] = useState(false)
   const [refreshing, setRefreshing] = useState(false)
+  const [currentDate, setCurrentDate] = useState<string>('')
+  const [currentTime, setCurrentTime] = useState<string>('')
+  const [lastCheck, setLastCheck] = useState<string>('')
+
+  // Set dates only on client side to avoid hydration mismatch
+  useEffect(() => {
+    const now = new Date()
+    setCurrentDate(now.toLocaleDateString())
+    setCurrentTime(now.toLocaleTimeString())
+    setLastCheck(now.toLocaleString())
+  }, [])
 
   const handleRefreshSystem = async () => {
     setRefreshing(true)
@@ -66,7 +77,7 @@ export default function SettingsPage() {
                 Last Login
               </label>
               <div className="text-dark-grey text-sm">
-                {new Date().toLocaleDateString()} at {new Date().toLocaleTimeString()}
+                {currentDate && currentTime ? `${currentDate} at ${currentTime}` : 'Loading...'}
               </div>
             </div>
           </div>
@@ -110,7 +121,7 @@ export default function SettingsPage() {
               <CBREBadge className="bg-green-100 text-green-800">Online</CBREBadge>
             </div>
             <div className="text-xs text-gray-500 mt-4">
-              Last system check: {new Date().toLocaleString()}
+              Last system check: {lastCheck || 'Loading...'}
             </div>
           </div>
         </CBRECard>
@@ -202,10 +213,13 @@ export default function SettingsPage() {
               <label className="block text-sm font-medium text-dark-grey mb-2">
                 Items per page
               </label>
-              <select className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[var(--cbre-green)] focus:border-transparent">
+              <select 
+                className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[var(--cbre-green)] focus:border-transparent"
+                defaultValue="50"
+              >
                 <option value="10">10 items</option>
                 <option value="25">25 items</option>
-                <option value="50" selected>50 items</option>
+                <option value="50">50 items</option>
                 <option value="100">100 items</option>
               </select>
             </div>
@@ -214,9 +228,12 @@ export default function SettingsPage() {
               <label className="block text-sm font-medium text-dark-grey mb-2">
                 Default image quality
               </label>
-              <select className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[var(--cbre-green)] focus:border-transparent">
+              <select 
+                className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[var(--cbre-green)] focus:border-transparent"
+                defaultValue="medium"
+              >
                 <option value="high">High (100%)</option>
-                <option value="medium" selected>Medium (85%)</option>
+                <option value="medium">Medium (85%)</option>
                 <option value="low">Low (70%)</option>
               </select>
             </div>
@@ -246,9 +263,12 @@ export default function SettingsPage() {
               <label className="block text-sm font-medium text-dark-grey mb-2">
                 Session timeout
               </label>
-              <select className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[var(--cbre-green)] focus:border-transparent">
+              <select 
+                className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[var(--cbre-green)] focus:border-transparent"
+                defaultValue="60"
+              >
                 <option value="30">30 minutes</option>
-                <option value="60" selected>1 hour</option>
+                <option value="60">1 hour</option>
                 <option value="120">2 hours</option>
                 <option value="240">4 hours</option>
               </select>

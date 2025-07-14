@@ -19,8 +19,218 @@ export interface Database {
         Insert: ProjectImageInsert
         Update: ProjectImageUpdate
       }
+      user_profiles: {
+        Row: UserProfile
+        Insert: UserProfileInsert
+        Update: UserProfileUpdate
+      }
+      activity_logs: {
+        Row: ActivityLog
+        Insert: ActivityLogInsert
+        Update: ActivityLogUpdate
+      }
+      user_sessions: {
+        Row: UserSession
+        Insert: UserSessionInsert
+        Update: UserSessionUpdate
+      }
+      user_permissions: {
+        Row: UserPermission
+        Insert: UserPermissionInsert
+        Update: UserPermissionUpdate
+      }
+    }
+    Views: {
+      user_activity_summary: {
+        Row: UserActivitySummary
+      }
+    }
+    Enums: {
+      user_role: 'admin' | 'editor' | 'viewer'
+      activity_type: 
+        | 'project_created' | 'project_updated' | 'project_deleted' | 'project_published' | 'project_unpublished'
+        | 'category_created' | 'category_updated' | 'category_deleted'
+        | 'image_uploaded' | 'image_deleted'
+        | 'user_created' | 'user_updated' | 'user_deleted' | 'user_role_changed'
+        | 'login' | 'logout'
     }
   }
+}
+
+// User management types
+export type UserRole = 'admin' | 'editor' | 'viewer'
+export type ActivityType = 
+  | 'project_created' | 'project_updated' | 'project_deleted' | 'project_published' | 'project_unpublished'
+  | 'category_created' | 'category_updated' | 'category_deleted'
+  | 'image_uploaded' | 'image_deleted'
+  | 'user_created' | 'user_updated' | 'user_deleted' | 'user_role_changed'
+  | 'login' | 'logout'
+
+// User Profile types
+export interface UserProfile {
+  id: string
+  email: string
+  full_name: string | null
+  avatar_url: string | null
+  role: UserRole
+  department: string | null
+  phone: string | null
+  bio: string | null
+  last_login_at: string | null
+  is_active: boolean
+  created_at: string
+  updated_at: string
+  created_by: string | null
+}
+
+export interface UserProfileInsert {
+  id: string
+  email: string
+  full_name?: string | null
+  avatar_url?: string | null
+  role?: UserRole
+  department?: string | null
+  phone?: string | null
+  bio?: string | null
+  last_login_at?: string | null
+  is_active?: boolean
+  created_at?: string
+  updated_at?: string
+  created_by?: string | null
+}
+
+export interface UserProfileUpdate {
+  email?: string
+  full_name?: string | null
+  avatar_url?: string | null
+  role?: UserRole
+  department?: string | null
+  phone?: string | null
+  bio?: string | null
+  last_login_at?: string | null
+  is_active?: boolean
+  updated_at?: string
+}
+
+// Activity Log types
+export interface ActivityLog {
+  id: string
+  user_id: string | null
+  activity_type: ActivityType
+  resource_type: string | null
+  resource_id: string | null
+  resource_title: string | null
+  details: Record<string, any> | null
+  metadata: Record<string, any> | null
+  created_at: string
+}
+
+export interface ActivityLogInsert {
+  id?: string
+  user_id?: string | null
+  activity_type: ActivityType
+  resource_type?: string | null
+  resource_id?: string | null
+  resource_title?: string | null
+  details?: Record<string, any> | null
+  metadata?: Record<string, any> | null
+  created_at?: string
+}
+
+export interface ActivityLogUpdate {
+  user_id?: string | null
+  activity_type?: ActivityType
+  resource_type?: string | null
+  resource_id?: string | null
+  resource_title?: string | null
+  details?: Record<string, any> | null
+  metadata?: Record<string, any> | null
+}
+
+// User Session types
+export interface UserSession {
+  id: string
+  user_id: string
+  session_token: string
+  ip_address: string | null
+  user_agent: string | null
+  is_active: boolean
+  last_activity: string
+  expires_at: string
+  created_at: string
+}
+
+export interface UserSessionInsert {
+  id?: string
+  user_id: string
+  session_token: string
+  ip_address?: string | null
+  user_agent?: string | null
+  is_active?: boolean
+  last_activity?: string
+  expires_at: string
+  created_at?: string
+}
+
+export interface UserSessionUpdate {
+  session_token?: string
+  ip_address?: string | null
+  user_agent?: string | null
+  is_active?: boolean
+  last_activity?: string
+  expires_at?: string
+}
+
+// User Permission types
+export interface UserPermission {
+  id: string
+  user_id: string
+  resource_type: string
+  permission_type: string
+  granted_by: string | null
+  granted_at: string
+}
+
+export interface UserPermissionInsert {
+  id?: string
+  user_id: string
+  resource_type: string
+  permission_type: string
+  granted_by?: string | null
+  granted_at?: string
+}
+
+export interface UserPermissionUpdate {
+  resource_type?: string
+  permission_type?: string
+  granted_by?: string | null
+  granted_at?: string
+}
+
+// User Activity Summary View
+export interface UserActivitySummary {
+  id: string
+  email: string
+  full_name: string | null
+  role: UserRole
+  last_login_at: string | null
+  is_active: boolean
+  total_activities: number
+  activities_last_7_days: number
+  activities_last_30_days: number
+  last_activity_at: string | null
+}
+
+// Permission system types
+export interface Permission {
+  resource: string
+  action: string
+}
+
+export interface RolePermissions {
+  admin: Permission[]
+  editor: Permission[]
+  viewer: Permission[]
 }
 
 // Category types
@@ -172,6 +382,14 @@ export interface ProjectWithCategoryAndImages extends Project {
   images: ProjectImage[]
 }
 
+export interface UserProfileWithPermissions extends UserProfile {
+  permissions: UserPermission[]
+}
+
+export interface ActivityLogWithUser extends ActivityLog {
+  user: UserProfile | null
+}
+
 // API response types
 export interface ProjectsResponse {
   data: ProjectWithCategoryAndImages[]
@@ -185,6 +403,18 @@ export interface CategoriesResponse {
   error: string | null
 }
 
+export interface UsersResponse {
+  data: UserProfile[]
+  count: number
+  error: string | null
+}
+
+export interface ActivityLogsResponse {
+  data: ActivityLogWithUser[]
+  count: number
+  error: string | null
+}
+
 // Filter and pagination types
 export interface ProjectFilters {
   category_id?: string
@@ -192,6 +422,21 @@ export interface ProjectFilters {
   search?: string
   year?: number
   featured?: boolean
+}
+
+export interface UserFilters {
+  role?: UserRole
+  is_active?: boolean
+  search?: string
+  department?: string
+}
+
+export interface ActivityLogFilters {
+  user_id?: string
+  activity_type?: ActivityType
+  resource_type?: string
+  date_from?: string
+  date_to?: string
 }
 
 export interface PaginationParams {
@@ -226,4 +471,22 @@ export interface CategoryFormData {
   name: string
   slug: string
   description?: string
+}
+
+export interface UserFormData {
+  email: string
+  full_name?: string
+  role: UserRole
+  department?: string
+  phone?: string
+  bio?: string
+  is_active: boolean
+}
+
+export interface UserProfileFormData {
+  full_name?: string
+  department?: string
+  phone?: string
+  bio?: string
+  avatar_url?: string
 } 

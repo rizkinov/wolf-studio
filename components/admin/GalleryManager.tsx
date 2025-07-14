@@ -1,6 +1,6 @@
 'use client'
 
-import React, { useState, useCallback } from 'react'
+import React, { useState, useCallback, useEffect } from 'react'
 import { DragDropContext, Droppable, Draggable, DropResult } from '@hello-pangea/dnd'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
@@ -26,6 +26,7 @@ import {
 } from 'lucide-react'
 import { cn } from '@/lib/utils'
 import ImageCropper, { CropResult } from './ImageCropper'
+import { createClient } from '@/lib/supabase/client'
 
 export interface GalleryImage {
   id: string
@@ -41,7 +42,9 @@ export interface GalleryImage {
 
 interface GalleryManagerProps {
   /** Gallery images */
-  images: GalleryImage[]
+  images?: GalleryImage[]
+  /** Project ID to load images for */
+  projectId?: string
   /** Callback when images are reordered */
   onReorder?: (images: GalleryImage[]) => void
   /** Callback when an image is updated */
@@ -52,6 +55,8 @@ interface GalleryManagerProps {
   onSetBanner?: (imageId: string) => void
   /** Callback when new images are uploaded */
   onImageUpload?: (files: File[]) => void
+  /** Callback when gallery is updated */
+  onGalleryUpdate?: (images: GalleryImage[]) => void
   /** Whether the component is in edit mode */
   editMode?: boolean
   /** Maximum number of images allowed */
@@ -180,11 +185,13 @@ function ImageEditDialog({ image, isOpen, onOpenChange, onSave, onCrop }: ImageE
 
 export default function GalleryManager({
   images,
+  projectId,
   onReorder,
   onImageUpdate,
   onImageDelete,
   onSetBanner,
   onImageUpload,
+  onGalleryUpdate,
   editMode = true,
   maxImages = 20,
   className,
@@ -193,14 +200,77 @@ export default function GalleryManager({
   const [selectedImages, setSelectedImages] = useState<Set<string>>(new Set())
   const [editingImage, setEditingImage] = useState<GalleryImage | null>(null)
   const [dragDisabled, setDragDisabled] = useState(false)
+  
+  // Internal state for loading images when projectId is provided
+  const [internalImages, setInternalImages] = useState<GalleryImage[]>([])
+  const [loading, setLoading] = useState(false)
+  const [error, setError] = useState<string | null>(null)
 
-  // Sort images by display_order and type (banners first)
-  const sortedImages = [...images].sort((a, b) => {
+  // Load images from database when projectId is provided
+  useEffect(() => {
+    if (projectId && !images) {
+      loadProjectImages()
+    }
+  }, [projectId, images])
+
+  const loadProjectImages = async () => {
+    if (!projectId) return
+    
+    setLoading(true)
+    setError(null)
+    
+    try {
+      const supabase = createClient()
+      const { data, error } = await supabase
+        .from('project_images')
+        .select('*')
+        .eq('project_id', projectId)
+        .order('image_type', { ascending: false }) // banners first
+        .order('display_order', { ascending: true })
+
+      if (error) {
+        throw error
+      }
+
+      const galleryImages: GalleryImage[] = (data || []).map(item => ({
+        id: item.id,
+        url: item.image_url,
+        alt_text: item.alt_text,
+        caption: item.caption,
+        display_order: item.display_order,
+        image_type: item.image_type as 'banner' | 'gallery',
+        storage_path: item.storage_path,
+        file_size: item.file_size,
+        mime_type: item.mime_type
+      }))
+
+      setInternalImages(galleryImages)
+      
+      // Notify parent component of loaded images
+      if (onGalleryUpdate) {
+        onGalleryUpdate(galleryImages)
+      }
+    } catch (err) {
+      console.error('Error loading project images:', err)
+      setError(err instanceof Error ? err.message : 'Failed to load images')
+    } finally {
+      setLoading(false)
+    }
+  }
+
+  // Use provided images or internal images - ensure it's always an array
+  const actualImages = images || internalImages
+  
+  // Defensive check: ensure actualImages is always an array
+  const safeActualImages = Array.isArray(actualImages) ? actualImages : []
+
+  // Sort images by display_order and type (banners first) - with extra defensive programming
+  const sortedImages = Array.isArray(safeActualImages) ? [...safeActualImages].sort((a, b) => {
     if (a.image_type !== b.image_type) {
       return a.image_type === 'banner' ? -1 : 1
     }
     return a.display_order - b.display_order
-  })
+  }) : []
 
   const bannerImages = sortedImages.filter(img => img.image_type === 'banner')
   const galleryImages = sortedImages.filter(img => img.image_type === 'gallery')
@@ -212,7 +282,7 @@ export default function GalleryManager({
     const { source, destination } = result
     if (source.index === destination.index) return
 
-    const newImages = Array.from(sortedImages)
+    const newImages = Array.from(Array.isArray(sortedImages) ? sortedImages : [])
     const [reorderedItem] = newImages.splice(source.index, 1)
     newImages.splice(destination.index, 0, reorderedItem)
 
@@ -240,12 +310,12 @@ export default function GalleryManager({
 
   // Select all images
   const handleSelectAll = useCallback(() => {
-    if (selectedImages.size === images.length) {
+    if (selectedImages.size === safeActualImages.length) {
       setSelectedImages(new Set())
     } else {
-      setSelectedImages(new Set(images.map(img => img.id)))
+      setSelectedImages(new Set(safeActualImages.map(img => img.id)))
     }
-  }, [selectedImages.size, images])
+  }, [selectedImages.size, safeActualImages])
 
   // Delete selected images
   const handleBulkDelete = useCallback(() => {
@@ -265,10 +335,38 @@ export default function GalleryManager({
     event.target.value = ''
   }, [onImageUpload])
 
-  const canAddMore = images.length < maxImages
+  const canAddMore = safeActualImages.length < maxImages
 
   return (
     <div className={cn('space-y-6', className)}>
+      {/* Loading State */}
+      {loading && (
+        <Alert>
+          <AlertTriangle className="h-4 w-4" />
+          <AlertDescription>
+            Loading project images...
+          </AlertDescription>
+        </Alert>
+      )}
+
+      {/* Error State */}
+      {error && (
+        <Alert variant="destructive">
+          <AlertTriangle className="h-4 w-4" />
+          <AlertDescription>
+            Error loading images: {error}
+            <Button 
+              variant="outline" 
+              size="sm" 
+              onClick={loadProjectImages}
+              className="ml-2"
+            >
+              Retry
+            </Button>
+          </AlertDescription>
+        </Alert>
+      )}
+
       {/* Header */}
       <Card>
         <CardHeader>
@@ -277,7 +375,7 @@ export default function GalleryManager({
               <ImageIcon className="w-5 h-5" />
               Gallery Manager
               <span className="text-sm font-normal text-muted-foreground">
-                ({images.length}/{maxImages} images)
+                ({safeActualImages.length}/{maxImages} images)
               </span>
             </CardTitle>
             
@@ -310,7 +408,7 @@ export default function GalleryManager({
                     size="sm"
                     onClick={handleSelectAll}
                   >
-                    {selectedImages.size === images.length ? 'Deselect All' : 'Select All'}
+                    {selectedImages.size === safeActualImages.length && safeActualImages.length > 0 ? 'Deselect All' : 'Select All'}
                   </Button>
                   <Button 
                     variant="destructive" 
@@ -338,10 +436,10 @@ export default function GalleryManager({
           )}
 
           {/* Bulk Selection Controls */}
-          {enableBulkOperations && images.length > 0 && (
+          {enableBulkOperations && safeActualImages.length > 0 && (
             <div className="flex items-center gap-4 mb-4 p-2 bg-muted/50 rounded">
               <Checkbox
-                checked={selectedImages.size === images.length && images.length > 0}
+                checked={selectedImages.size === safeActualImages.length && safeActualImages.length > 0}
                 onCheckedChange={handleSelectAll}
               />
               <span className="text-sm text-muted-foreground">
@@ -354,7 +452,7 @@ export default function GalleryManager({
           )}
 
           {/* Images Grid */}
-          {images.length === 0 ? (
+          {safeActualImages.length === 0 ? (
             <div className="text-center py-12 border-2 border-dashed rounded-lg">
               <ImageIcon className="w-12 h-12 mx-auto text-muted-foreground mb-4" />
               <p className="text-muted-foreground">No images uploaded yet</p>
@@ -376,7 +474,7 @@ export default function GalleryManager({
                       snapshot.isDraggingOver && "bg-muted/50 rounded-lg p-2"
                     )}
                   >
-                    {sortedImages.map((image, index) => (
+                    {(Array.isArray(sortedImages) ? sortedImages : []).map((image, index) => (
                       <Draggable 
                         key={image.id} 
                         draggableId={image.id} 

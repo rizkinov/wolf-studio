@@ -6,6 +6,7 @@ import { CBRECard } from '@/components/cbre-card'
 import { CBREButton } from '@/components/cbre-button'
 import { CBREBadge } from '@/components/cbre-badge'
 import { cn } from '@/lib/utils'
+import { createClient } from '@/lib/supabase/client'
 
 interface ImageAsset {
   id: string
@@ -53,7 +54,7 @@ const ImageLibrary: React.FC<ImageLibraryProps> = ({
   const [loading, setLoading] = useState(false)
   const [filter, setFilter] = useState<'all' | 'banner' | 'gallery'>(typeFilter)
 
-  // Mock data - replace with actual API call
+  // Load images from database
   useEffect(() => {
     if (isOpen) {
       loadImages()
@@ -63,54 +64,58 @@ const ImageLibrary: React.FC<ImageLibraryProps> = ({
   const loadImages = async () => {
     setLoading(true)
     try {
-      // Mock data - replace with actual Supabase query
-      const mockImages: ImageAsset[] = [
-        {
-          id: '1',
-          url: '/scraped-images/work-projects/cbre/cbre-banner.jpg',
-          name: 'cbre-banner.jpg',
-          size: 2560000,
-          dimensions: { width: 1920, height: 1080 },
-          uploadedAt: '2024-01-15T10:30:00Z',
-          projectId: 'cbre-1',
-          projectName: 'CBRE',
-          type: 'banner',
-          mimeType: 'image/jpeg'
-        },
-        {
-          id: '2', 
-          url: '/scraped-images/work-projects/cbre/cbre-gallery-1.jpg',
-          name: 'cbre-gallery-1.jpg',
-          size: 1840000,
-          dimensions: { width: 1200, height: 900 },
-          uploadedAt: '2024-01-15T10:32:00Z',
-          projectId: 'cbre-1',
-          projectName: 'CBRE',
-          type: 'gallery',
-          mimeType: 'image/jpeg'
-        },
-        {
-          id: '3',
-          url: '/scraped-images/work-projects/myp/myp-banner.jpg',
-          name: 'myp-banner.jpg',
-          size: 2100000,
-          dimensions: { width: 1920, height: 1080 },
-          uploadedAt: '2024-01-12T14:20:00Z',
-          projectId: 'myp-1',
-          projectName: 'MYP',
-          type: 'banner',
-          mimeType: 'image/jpeg'
-        }
-      ]
+      const supabase = createClient()
+      
+      // Query all project images with project details
+      let query = supabase
+        .from('project_images')
+        .select(`
+          id,
+          image_url,
+          alt_text,
+          file_size,
+          mime_type,
+          image_type,
+          created_at,
+          project:projects(
+            id,
+            title,
+            slug
+          )
+        `)
+        .order('created_at', { ascending: false })
 
-      // Filter by type
-      const filteredImages = mockImages.filter(img => 
-        filter === 'all' || img.type === filter
-      )
+      // Apply type filter
+      if (filter !== 'all') {
+        query = query.eq('image_type', filter)
+      }
 
-      setImages(filteredImages)
+      const { data, error } = await query
+
+      if (error) {
+        console.error('Error loading images:', error)
+        setImages([])
+        return
+      }
+
+      // Transform database results to ImageAsset format
+      const transformedImages: ImageAsset[] = (data || []).map((item: any) => ({
+        id: item.id,
+        url: item.image_url,
+        name: item.image_url.split('/').pop() || 'Unknown',
+        size: item.file_size || 0,
+        dimensions: undefined, // No width/height in database yet
+        uploadedAt: item.created_at,
+        projectId: item.project?.id,
+        projectName: item.project?.title || 'Unknown Project',
+        type: item.image_type as 'banner' | 'gallery',
+        mimeType: item.mime_type || 'image/jpeg'
+      }))
+
+      setImages(transformedImages)
     } catch (error) {
       console.error('Error loading images:', error)
+      setImages([])
     } finally {
       setLoading(false)
     }
@@ -284,7 +289,7 @@ const ImageLibrary: React.FC<ImageLibraryProps> = ({
                       {image.projectName}
                     </div>
                     <div className="text-xs text-gray-500">
-                      {image.dimensions && `${image.dimensions.width}×${image.dimensions.height}`} • {formatFileSize(image.size)}
+                      {image.dimensions ? `${image.dimensions.width}×${image.dimensions.height} • ` : ''}{formatFileSize(image.size)}
                     </div>
                     <div className="flex items-center justify-between mt-2">
                       <button
@@ -327,7 +332,7 @@ const ImageLibrary: React.FC<ImageLibraryProps> = ({
                       {image.name}
                     </div>
                     <div className="text-sm text-gray-500">
-                      {image.projectName} • {image.dimensions && `${image.dimensions.width}×${image.dimensions.height}`}
+                      {image.projectName}{image.dimensions ? ` • ${image.dimensions.width}×${image.dimensions.height}` : ''}
                     </div>
                     <div className="text-xs text-gray-400">
                       {formatFileSize(image.size)} • {new Date(image.uploadedAt).toLocaleDateString()}
