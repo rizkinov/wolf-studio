@@ -244,7 +244,7 @@ export default function AnalyticsPage() {
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
             <CBRECard className="p-6">
               <div className="flex items-center justify-between mb-4">
-                <div className="p-3 bg-cbre-green/10 rounded-lg">
+                <div className="p-3 bg-light-grey rounded-lg">
                   <FileText className="h-6 w-6 text-cbre-green" />
                 </div>
               </div>
@@ -257,7 +257,7 @@ export default function AnalyticsPage() {
 
             <CBRECard className="p-6">
               <div className="flex items-center justify-between mb-4">
-                <div className="p-3 bg-cbre-green/10 rounded-lg">
+                <div className="p-3 bg-light-grey rounded-lg">
                   <Eye className="h-6 w-6 text-cbre-green" />
                 </div>
               </div>
@@ -272,7 +272,7 @@ export default function AnalyticsPage() {
 
             <CBRECard className="p-6">
               <div className="flex items-center justify-between mb-4">
-                <div className="p-3 bg-cbre-green/10 rounded-lg">
+                <div className="p-3 bg-light-grey rounded-lg">
                   <Star className="h-6 w-6 text-cbre-green" />
                 </div>
               </div>
@@ -287,7 +287,7 @@ export default function AnalyticsPage() {
 
             <CBRECard className="p-6">
               <div className="flex items-center justify-between mb-4">
-                <div className="p-3 bg-cbre-green/10 rounded-lg">
+                <div className="p-3 bg-light-grey rounded-lg">
                   <Calendar className="h-6 w-6 text-cbre-green" />
                 </div>
               </div>
