@@ -9,6 +9,7 @@ import { ArrowLeft, Save, Eye, Trash2, ExternalLink } from 'lucide-react'
 import Link from 'next/link'
 import { ProjectService, CategoryService } from '@/lib/services/database'
 import { Category, ProjectWithCategoryAndImages, ProjectUpdate, ProjectDescription } from '@/lib/types/database'
+import RichTextEditor, { isContentEmpty } from '@/components/admin/RichTextEditor'
 
 interface ProjectFormData {
   title: string
@@ -177,6 +178,15 @@ export default function EditProjectPage() {
 
     if (formData.year && (formData.year < 1900 || formData.year > new Date().getFullYear() + 10)) {
       newErrors.year = 'Please enter a valid year'
+    }
+
+    // Validate banner image URL if provided
+    if (formData.banner_image_url && formData.banner_image_url.trim()) {
+      try {
+        new URL(formData.banner_image_url)
+      } catch {
+        newErrors.banner_image_url = 'Please enter a valid URL'
+      }
     }
 
     setErrors(newErrors)
@@ -475,15 +485,18 @@ export default function EditProjectPage() {
                 <label className="block text-sm font-medium text-dark-grey mb-2">
                   Description (HTML)
                 </label>
-                <textarea
-                  value={formData.description?.content || ''}
-                  onChange={(e) => handleDescriptionChange(e.target.value)}
-                  rows={8}
-                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-cbre-green focus:border-transparent font-mono text-sm"
-                  placeholder="Enter HTML content for the project description..."
+                <RichTextEditor
+                  content={formData.description?.content || ''}
+                  onChange={handleDescriptionChange}
+                  placeholder="Enter the project description using the rich text editor..."
+                  minHeight="300px"
+                  className={errors.description ? 'border-red-500' : ''}
                 />
-                <p className="text-gray-500 text-sm mt-1">
-                  You can use HTML tags for formatting. Rich text editor coming soon.
+                {errors.description && (
+                  <p className="text-red-500 text-sm mt-1">{errors.description}</p>
+                )}
+                <p className="text-gray-500 text-sm mt-2">
+                  Use the toolbar above to format your content with headings, lists, links, and more.
                 </p>
               </div>
             </CBRECard>
@@ -499,12 +512,17 @@ export default function EditProjectPage() {
                     Banner Image URL
                   </label>
                   <input
-                    type="url"
+                    type="text"
                     value={formData.banner_image_url}
                     onChange={(e) => handleInputChange('banner_image_url', e.target.value)}
-                    className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-cbre-green focus:border-transparent"
+                    className={`w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-cbre-green focus:border-transparent ${
+                      errors.banner_image_url ? 'border-red-500' : 'border-gray-300'
+                    }`}
                     placeholder="https://example.com/image.jpg"
                   />
+                  {errors.banner_image_url && (
+                    <p className="text-red-500 text-sm mt-1">{errors.banner_image_url}</p>
+                  )}
                   <p className="text-gray-500 text-sm mt-1">
                     Main project image displayed on listing and detail pages
                   </p>

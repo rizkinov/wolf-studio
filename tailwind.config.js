@@ -53,5 +53,5 @@ module.exports = {
       borderRadius: cbreTheme.borderRadius,
     },
   },
-  plugins: [],
+  plugins: [require('@tailwindcss/typography')],
 } 

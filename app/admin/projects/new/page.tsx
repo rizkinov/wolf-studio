@@ -2,13 +2,16 @@
 
 import { useState, useEffect } from 'react'
 import { useRouter } from 'next/navigation'
+import { ChevronLeft, Eye, Save } from 'lucide-react'
 import { CBRECard } from '@/components/cbre-card'
 import { CBREButton } from '@/components/cbre-button'
 import { CBREBadge } from '@/components/cbre-badge'
-import { ArrowLeft, Save, Eye } from 'lucide-react'
 import Link from 'next/link'
 import { ProjectService, CategoryService } from '@/lib/services/database'
 import { Category, ProjectInsert, ProjectDescription } from '@/lib/types/database'
+import ImageUploadZone from '@/components/admin/ImageUploadZone'
+import { createUploadFunction } from '@/lib/services/image-upload'
+import RichTextEditor, { isContentEmpty } from '@/components/admin/RichTextEditor'
 
 interface ProjectFormData {
   title: string
@@ -132,6 +135,15 @@ export default function NewProjectPage() {
       newErrors.year = 'Please enter a valid year'
     }
 
+    // Validate banner image URL if provided
+    if (formData.banner_image_url && formData.banner_image_url.trim()) {
+      try {
+        new URL(formData.banner_image_url)
+      } catch {
+        newErrors.banner_image_url = 'Please enter a valid URL'
+      }
+    }
+
     setErrors(newErrors)
     return Object.keys(newErrors).length === 0
   }
@@ -193,7 +205,7 @@ export default function NewProjectPage() {
         <div className="flex items-center space-x-4">
           <Link href="/admin/projects">
             <CBREButton variant="outline" size="sm">
-              <ArrowLeft className="h-4 w-4" />
+              <ChevronLeft className="h-4 w-4" />
             </CBREButton>
           </Link>
           <div>
@@ -377,17 +389,20 @@ export default function NewProjectPage() {
               </h3>
               <div>
                 <label className="block text-sm font-medium text-dark-grey mb-2">
-                  Description (HTML)
+                  Description
                 </label>
-                <textarea
-                  value={formData.description?.content || ''}
-                  onChange={(e) => handleDescriptionChange(e.target.value)}
-                  rows={8}
-                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-cbre-green focus:border-transparent font-mono text-sm"
-                  placeholder="Enter HTML content for the project description..."
+                <RichTextEditor
+                  content={formData.description?.content || ''}
+                  onChange={(content) => handleDescriptionChange(content)}
+                  placeholder="Enter the project description using the rich text editor..."
+                  minHeight="300px"
+                  className={errors.description ? 'border-red-500' : ''}
                 />
-                <p className="text-gray-500 text-sm mt-1">
-                  You can use HTML tags for formatting. Rich text editor coming soon.
+                {errors.description && (
+                  <p className="text-red-500 text-sm mt-1">{errors.description}</p>
+                )}
+                <p className="text-gray-500 text-sm mt-2">
+                  Use the toolbar above to format your content with headings, lists, links, and more.
                 </p>
               </div>
             </CBRECard>
@@ -397,22 +412,93 @@ export default function NewProjectPage() {
               <h3 className="font-financier text-lg text-cbre-green mb-4">
                 Project Images
               </h3>
-              <div className="space-y-4">
+              <div className="space-y-6">
+                {/* Banner Image Upload */}
                 <div>
-                  <label className="block text-sm font-medium text-dark-grey mb-2">
-                    Banner Image URL
+                  <label className="block text-sm font-medium text-dark-grey mb-3">
+                    Banner Image
                   </label>
-                  <input
-                    type="url"
-                    value={formData.banner_image_url}
-                    onChange={(e) => handleInputChange('banner_image_url', e.target.value)}
-                    className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-cbre-green focus:border-transparent"
-                    placeholder="https://example.com/image.jpg"
+                  <ImageUploadZone
+                    multiple={false}
+                    accept={{
+                      'image/*': ['.jpeg', '.jpg', '.png', '.webp']
+                    }}
+                    maxSize={5 * 1024 * 1024} // 5MB
+                    uploadFn={createUploadFunction({
+                      imageType: 'banner',
+                      maxWidth: 1920,
+                      maxHeight: 1080
+                    })}
+                    onUpload={(files: any[]) => {
+                      if (files.length > 0 && files[0].status === 'success') {
+                        // Update form data with the uploaded banner image URL
+                        const uploadedFile = files[0]
+                        if (uploadedFile.url) {
+                          handleInputChange('banner_image_url', uploadedFile.url)
+                        }
+                      }
+                    }}
+                    className="mb-4"
                   />
-                  <p className="text-gray-500 text-sm mt-1">
-                    Main project image displayed on listing and detail pages
+                  <p className="text-gray-500 text-sm">
+                    Main project image displayed on listing and detail pages (16:9 aspect ratio recommended)
                   </p>
                 </div>
+
+                {/* Gallery Images */}
+                <div>
+                  <label className="block text-sm font-medium text-dark-grey mb-3">
+                    Gallery Images
+                  </label>
+                  <ImageUploadZone
+                    multiple={true}
+                    maxFiles={10}
+                    accept={{
+                      'image/*': ['.jpeg', '.jpg', '.png', '.webp']
+                    }}
+                    maxSize={5 * 1024 * 1024} // 5MB
+                    uploadFn={createUploadFunction({
+                      imageType: 'gallery',
+                      maxWidth: 1920,
+                      maxHeight: 1440
+                    })}
+                    onUpload={(files: any[]) => {
+                      console.log('Gallery images uploaded:', files)
+                      // Handle gallery image uploads
+                    }}
+                    className="mb-4"
+                  />
+                  <p className="text-gray-500 text-sm">
+                    Additional project images for the gallery (4:3 aspect ratio recommended)
+                  </p>
+                </div>
+
+                {/* Legacy URL Input (for backwards compatibility) */}
+                <details className="group">
+                  <summary className="cursor-pointer text-sm text-gray-600 hover:text-gray-800">
+                    Advanced: Use Image URL Instead
+                  </summary>
+                  <div className="mt-3 p-4 bg-gray-50 rounded-lg">
+                    <label className="block text-sm font-medium text-dark-grey mb-2">
+                      Banner Image URL
+                    </label>
+                    <input
+                      type="text"
+                      value={formData.banner_image_url}
+                      onChange={(e) => handleInputChange('banner_image_url', e.target.value)}
+                      className={`w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-cbre-green focus:border-transparent ${
+                        errors.banner_image_url ? 'border-red-500' : 'border-gray-300'
+                      }`}
+                      placeholder="https://example.com/image.jpg"
+                    />
+                    {errors.banner_image_url && (
+                      <p className="text-red-500 text-sm mt-1">{errors.banner_image_url}</p>
+                    )}
+                    <p className="text-gray-500 text-sm mt-1">
+                      Manually enter an image URL (overrides uploaded banner)
+                    </p>
+                  </div>
+                </details>
               </div>
             </CBRECard>
           </div>
