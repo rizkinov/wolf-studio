@@ -7,12 +7,10 @@ import { CBRECard } from '@/components/cbre-card'
 import { CBREButton } from '@/components/cbre-button'
 import { CBREBadge } from '@/components/cbre-badge'
 import Link from 'next/link'
-import { ProjectService, CategoryService, ProjectImageService } from '@/lib/services/database'
 import { Category, ProjectInsert, ProjectDescription } from '@/lib/types/database'
 import ImageUploadZone from '@/components/admin/ImageUploadZone'
 import { createUploadFunction } from '@/lib/services/image-upload'
 import RichTextEditor, { isContentEmpty } from '@/components/admin/RichTextEditor'
-import { createClient } from '@/lib/supabase/client'
 
 interface ProjectFormData {
   title: string
@@ -58,11 +56,14 @@ export default function NewProjectPage() {
 
   const loadCategories = async () => {
     try {
-      const result = await CategoryService.getCategories()
-      if (result.error) {
+      const response = await fetch('/api/admin/categories')
+      const result = await response.json()
+      
+      if (!response.ok) {
         console.error('Error loading categories:', result.error)
         return
       }
+      
       setCategories(result.data)
     } catch (error) {
       console.error('Error loading categories:', error)
@@ -177,9 +178,19 @@ export default function NewProjectPage() {
         published_at: formData.is_published ? new Date().toISOString() : null
       }
 
-      const result = await ProjectService.createProject(projectData)
+      const response = await fetch('/api/admin/projects', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ 
+          action: 'create',
+          ...projectData
+        }),
+      })
+      const result = await response.json()
       
-      if (result.error) {
+      if (!response.ok) {
         console.error('Error creating project:', result.error)
         // Handle specific errors
         if (result.error.includes('duplicate key')) {
@@ -197,23 +208,6 @@ export default function NewProjectPage() {
         console.log('📎 Image URLs:', galleryImageUploads)
         
         try {
-          // Get auth token
-          console.log('🔐 Getting auth session...')
-          const supabase = createClient()
-          const { data: { session }, error: sessionError } = await supabase.auth.getSession()
-          
-          if (sessionError) {
-            console.error('❌ Session error:', sessionError)
-            return
-          }
-          
-          if (!session) {
-            console.error('❌ No auth session found')
-            return
-          }
-          
-          console.log('✅ Auth session found, access token length:', session.access_token.length)
-          
           // Call API to migrate temp images to permanent location
           console.log('📡 Calling migration API...')
           const requestBody = {
@@ -226,7 +220,6 @@ export default function NewProjectPage() {
             method: 'POST',
             headers: {
               'Content-Type': 'application/json',
-              'Authorization': `Bearer ${session.access_token}`
             },
             body: JSON.stringify(requestBody)
           })
