@@ -1,8 +1,5 @@
 import React from 'react'
 import Link from 'next/link'
-import Image from 'next/image'
-import { CBREButton } from '@/components/cbre-button'
-import { CBREStyledCard } from '@/components/cbre-styled-card'
 import { BackToWorkButton } from '@/components/back-to-work-button'
 
 
@@ -203,7 +200,7 @@ export default function ProjectPage() {
                     Materials, textures, and feature walls inspired by Taiwanese culture, art, and history
                   </li>
                   <li className="text-base leading-relaxed text-dark-grey">
-                    Local artisanal craftsmanship is showcased to celebrate the region's rich heritage
+                    Local artisanal craftsmanship is showcased to celebrate the region&apos;s rich heritage
                   </li>
                   <li className="text-base leading-relaxed text-dark-grey">
                     Integration of cultural influences with modern office design principles
@@ -251,7 +248,7 @@ export default function ProjectPage() {
         {/* Project Gallery */}
         <section className="py-10 max-w-3xl mx-auto px-6">
           <div className="flex flex-col space-y-5">
-            {projectData.galleryImages.map((image, index) => (
+            {projectData.galleryImages.map((image) => (
               <div key={image.id} className="overflow-hidden w-full border border-gray-100 shadow-sm">
                 <img 
                   src={image.url}

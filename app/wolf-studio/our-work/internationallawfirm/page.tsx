@@ -1,8 +1,5 @@
 import React from 'react'
 import Link from 'next/link'
-import Image from 'next/image'
-import { CBREButton } from '@/components/cbre-button'
-import { CBREStyledCard } from '@/components/cbre-styled-card'
 import { BackToWorkButton } from '@/components/back-to-work-button'
 
 /**
@@ -188,7 +185,7 @@ export default function ProjectPage() {
               ))}
               
               {/* Client's Objectives */}
-              <h3 className="text-xl font-semibold mb-4">Client's Objectives for this transformation:</h3>
+              <h3 className="text-xl font-semibold mb-4">Client&apos;s Objectives for this transformation:</h3>
               <div className="mb-6">
                 {projectData.objectives.map((objective, index) => (
                   <div key={index} className="mb-2 text-base leading-relaxed text-dark-grey flex">
@@ -230,7 +227,7 @@ export default function ProjectPage() {
         {/* Project Gallery */}
         <section className="py-10 max-w-3xl mx-auto px-6">
           <div className="flex flex-col space-y-5">
-            {projectData.galleryImages.map((image, index) => (
+            {projectData.galleryImages.map((image) => (
               <div key={image.id} className="overflow-hidden w-full border border-gray-100 shadow-sm">
                 <img 
                   src={image.url}

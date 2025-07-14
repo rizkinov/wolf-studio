@@ -12,7 +12,6 @@ import {
   DropdownMenuRadioItem,
   DropdownMenuLabel,
   DropdownMenuSeparator,
-  DropdownMenuGroup,
   DropdownMenuRadioGroup,
   DropdownMenuSub,
   DropdownMenuSubTrigger,
@@ -57,11 +56,11 @@ export function CBREDropdownMenu({
   radioValue,
   onRadioValueChange
 }: CBREDropdownMenuProps) {
-  const hasRadioItems = items.some(item => item.type === "radio");
+
   
   // Render the menu content based on item types
   const renderMenuItems = (menuItems: CBREDropdownMenuItemType[], inSubmenu = false) => {
-    let radioItems: CBREDropdownMenuItemType[] = [];
+    const radioItems: CBREDropdownMenuItemType[] = [];
     let nonRadioItems: CBREDropdownMenuItemType[] = [];
     
     // Separate radio items to wrap them in RadioGroup

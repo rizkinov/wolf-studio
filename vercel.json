@@ -1,15 +1,9 @@
 {
   "version": 2,
-  "buildCommand": "CI=true npm run build",
-  "installCommand": "npm install --legacy-peer-deps",
+  "buildCommand": "npm run build",
+  "installCommand": "npm install",
   "framework": "nextjs",
   "outputDirectory": ".next",
-  "routes": [
-    {
-      "src": "/(.*)",
-      "dest": "/$1"
-    }
-  ],
   "github": {
     "silent": true
   }

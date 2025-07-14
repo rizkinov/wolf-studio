@@ -66,11 +66,7 @@ function CBRESeparator({
     } : {})
   };
 
-  // React hook to handle component mount
-  const [mounted, setMounted] = React.useState(false);
-  React.useEffect(() => {
-    setMounted(true);
-  }, []);
+
 
   return (
     <SeparatorPrimitive.Root

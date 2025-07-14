@@ -1,14 +1,9 @@
 'use client';
 
 import React, { useState, useEffect } from 'react'
-import Link from 'next/link'
 import { CBREButton } from '@/components/cbre-button'
-import { CBREAccordion } from '@/components/cbre-accordion'
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/components/ui/accordion'
-import { CBRESeparator } from '@/components/cbre-separator'
 import { CBRECard } from '@/components/cbre-card'
-import { CBREQuoteBlock } from '@/components/cbre-quote-block'
-import { CBRECTABlock } from '@/components/cbre-cta-block'
 import { ProjectGrid } from '@/components/ProjectGrid'
 import { ProjectFilter } from '@/components/ProjectFilter'
 import { Project } from '@/app/types'
@@ -302,7 +297,7 @@ export default function WolfStudioPage() {
           <h2 className="text-4xl font-bold mb-8 text-center">Our Work</h2>
           <p className="text-xl mb-12 text-center max-w-4xl mx-auto">
             We define ourselves by the work we produce and the relationships we build with our clients.
-            It's the skills, care and knowledge we have learnt and the experiences we have gained throughout
+            It&apos;s the skills, care and knowledge we have learnt and the experiences we have gained throughout
             the years that play a part in what we do at WOLF.
           </p>
           

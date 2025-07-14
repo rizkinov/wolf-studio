@@ -1,5 +1,5 @@
 import * as React from "react";
-import { toast as sonnerToast, ToastT, Toaster as SonnerToaster, useSonner } from "sonner";
+import { toast as sonnerToast, Toaster as SonnerToaster, useSonner } from "sonner";
 
 // Re-export the Toaster component with CBRE styling
 export function CBREToaster() {

@@ -1,6 +1,6 @@
 # WOLF Studio
 
-Website for WOLF Studio - a design and workplace consultancy firm.
+Modern website for WOLF Studio - a design and workplace consultancy firm.
 
 ## Getting Started
 
@@ -20,10 +20,8 @@ Website for WOLF Studio - a design and workplace consultancy firm.
 
 2. Install dependencies
    ```bash
-   npm install --legacy-peer-deps
+   npm install
    ```
-   
-   > Note: We use `--legacy-peer-deps` flag due to some package compatibility requirements.
 
 3. Run the development server
    ```bash
@@ -37,45 +35,25 @@ Website for WOLF Studio - a design and workplace consultancy firm.
 - `/app`: Next.js app directory with all pages and components
   - `/wolf-studio`: Main website pages
   - `/wolf-studio/our-work`: Portfolio of projects
-- `/components`: Reusable UI components
+- `/components`: Reusable UI components built with CBRE design system
 - `/public`: Static assets including images and fonts
 - `/data`: JSON data files for project information
-- `/scripts`: Utility scripts for content management
+- `/config`: Configuration files including theme and styling
+- `/docs`: Documentation for project organization
+- `/templates`: Template files for creating new project pages
 
 ## Project Pages
 
 The site includes portfolio pages for various clients including:
 
-- VV Life
-- Rice Communications
-- Resources
-- Lufax
-- Life Science & Clinical (Life Science Manufacturer)
-- MYP
-- Bayer
-- Iqvia
-- Goodpack
-- RQAM
-- International Law Firm
-- Management Consulting Firm
-- Dassault Systemes
-- Zurich Insurance
-- Hong Kong Management
-- Hans Im Gluck
-- CBRE
-- Bosch
-- Taipei Management
-- The WOLF den
-- Ride Hailing Giant
-- Singapore Management
-- Swiss Bank
-- IHH Healthcare (IHH)
-- Management Consulting SG
-- Philip Morris Singapore (Philip Morris)
-- Heineken
-- Homeaway
-- Global Consulting Giant
-- Emerson
+- Management Consulting Firms (Taipei, Singapore, Global)
+- Financial Services (Swiss Bank, RQAM, Lufax, MYP)
+- Healthcare (IHH Healthcare, Iqvia, Bayer, Life Science Manufacturer)
+- Technology (Ride Hailing Giant, Dassault Systemes)
+- Corporate Offices (CBRE, Bosch, Emerson, Goodpack, Philip Morris)
+- Hospitality (Homeaway, Heineken, Hans im Glück)
+- Legal (International Law Firm)
+- The WOLF Den (Company's own office)
 
 ## Development
 
@@ -93,10 +71,24 @@ npm start
 
 # Lint the codebase
 npm run lint
-
-# Clean build files
-npm run clean
 ```
+
+## Technology Stack
+
+- **Framework**: Next.js 15 with App Router
+- **Styling**: Tailwind CSS with CBRE design system
+- **Components**: Custom CBRE components built on Radix UI
+- **TypeScript**: Full TypeScript support
+- **Fonts**: Custom fonts (Financier Display, Calibre)
+
+## Adding New Projects
+
+1. Add project data to `/data/projects.ts`
+2. Create project page using the template in `/templates/project-page-template.tsx`
+3. Add project images to `/public/scraped-images/work-projects/{project-id}/`
+4. Follow the image naming convention: `{project-id}-banner.jpg` and `{project-id}-gallery-*.jpg`
+
+See `/docs/image-organization.md` for detailed guidelines.
 
 ## Deployment
 
@@ -112,89 +104,35 @@ The easiest way to deploy this site is using Vercel:
    - Vercel will automatically detect the Next.js project and set up appropriate build settings
 4. Click "Deploy" and wait for the build to complete
 
-The site automatically uses the following build configuration from `vercel.json`:
-```json
-{
-  "version": 2,
-  "buildCommand": "CI=true npm run build",
-  "installCommand": "npm install --legacy-peer-deps",
-  "framework": "nextjs",
-  "outputDirectory": ".next"
-}
-```
-
 ### Manual Deployment
 
 For deployment to other platforms:
 
 1. Build the project
-```bash
-npm run clean
-npm run build
-```
+   ```bash
+   npm run build
+   ```
 
 2. The built application will be in the `.next` directory
 3. Deploy the contents according to your hosting provider's instructions
 
-### GitHub Setup
+## Design System
 
-To deploy the repository to GitHub:
-
-1. Create a new repository named `wolf-studio` on GitHub
-2. Initialize git in this directory (if not already done)
-   ```bash
-   git init
-   ```
-3. Add the remote repository
-   ```bash
-   git remote add origin https://github.com/yourusername/wolf-studio.git
-   ```
-4. Add all files
-   ```bash
-   git add .
-   ```
-5. Commit the changes
-   ```bash
-   git commit -m "Initial commit of WOLF Studio website"
-   ```
-6. Push to GitHub
-   ```bash
-   git push -u origin main
-   ``` 
-
-## Image Structure
-
-Before deployment, make sure to add project images to:
-
-```
-/public/scraped-images/work-projects/{projectname}/
-```
-
-Each project needs:
-- A banner image: `{projectname}-banner.jpg`
-- Gallery images: `{projectname}-gallery-1.jpg`, `{projectname}-gallery-2.jpg`, etc.
-
-Detailed documentation on image organization can be found in `docs/image-organization.md`.
-
-When adding new projects, use the template provided in `templates/project-page-template.tsx` to ensure consistency.
-
-## Environment Configuration
-
-The project uses Next.js environment variables. Create a `.env.local` file in the root directory:
-
-```
-# Example environment variables (replace with your actual values)
-NEXT_PUBLIC_SITE_URL=https://your-domain.com
-```
+The website uses the CBRE design system with:
+- **Colors**: CBRE green, accent green, and supporting palette
+- **Typography**: Financier Display for headings, Calibre for body text
+- **Components**: Consistent UI components following CBRE brand guidelines
 
 ## Contributing
 
-1. Fork the repository
-2. Create your feature branch (`git checkout -b feature/amazing-feature`)
-3. Commit your changes (`git commit -m 'Add some amazing feature'`)
-4. Push to the branch (`git push origin feature/amazing-feature`)
-5. Open a Pull Request
+When contributing to this project:
+
+1. Follow the existing code style and component patterns
+2. Use the CBRE design system components
+3. Add new projects using the provided template
+4. Update documentation as needed
+5. Test your changes thoroughly
 
 ## License
 
-This project is licensed under the MIT License.
+MIT License - see the LICENSE file for details.

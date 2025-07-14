@@ -9,7 +9,6 @@ import {
   YAxis,
   CartesianGrid,
   Tooltip,
-  Legend,
   Pie,
   PieChart,
   Cell,
@@ -51,7 +50,7 @@ export function ChartTooltip({
   className,
 }: {
   active?: boolean;
-  payload?: any[];
+  payload?: Array<{ value: number; dataKey: string; fill?: string; color?: string }>;
   label?: string;
   className?: string;
 }) {

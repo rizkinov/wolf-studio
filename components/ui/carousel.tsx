@@ -8,7 +8,7 @@ import { Button } from "@/components/ui/button"
 
 type CarouselProps = {
   opts?: EmblaOptionsType
-  plugins?: any[]
+  plugins?: any[] // eslint-disable-line @typescript-eslint/no-explicit-any
   orientation?: "horizontal" | "vertical"
   setApi?: (api: EmblaCarouselType) => void
 }

@@ -23,7 +23,6 @@ export interface CBREHoverCardProps extends React.ComponentPropsWithoutRef<typeo
  * - Maintains CBRE typography and colors
  */
 export function CBREHoverCard({
-  contentClassName,
   children,
   ...props
 }: CBREHoverCardProps) {
