@@ -1,8 +1,14 @@
 import { createClient } from '@/lib/supabase/client'
 import { v4 as uuidv4 } from 'uuid'
 
-// Initialize Supabase client
-const supabase = createClient()
+// Create Supabase client only when needed
+const getSupabaseClient = () => {
+  if (typeof window === 'undefined') {
+    // Server-side: return null to prevent usage during build
+    return null
+  }
+  return createClient()
+}
 
 export interface UploadProgress {
   loaded: number
@@ -51,6 +57,11 @@ class ImageUploadService {
     } = options
 
     try {
+      const supabase = getSupabaseClient()
+      if (!supabase) {
+        throw new Error('Supabase client not available')
+      }
+      
       // Check authentication state
       const { data: { session }, error: authError } = await supabase.auth.getSession()
       
@@ -145,6 +156,11 @@ class ImageUploadService {
    */
   async deleteImage(imageId: string): Promise<void> {
     try {
+      const supabase = getSupabaseClient()
+      if (!supabase) {
+        throw new Error('Supabase client not available')
+      }
+      
       // Get image record to find storage path
       const { data: imageRecord, error: fetchError } = await supabase
         .from('project_images')
@@ -192,6 +208,11 @@ class ImageUploadService {
       image_type?: 'banner' | 'gallery'
     }
   ): Promise<void> {
+    const supabase = getSupabaseClient()
+    if (!supabase) {
+      throw new Error('Supabase client not available')
+    }
+    
     const { error } = await supabase
       .from('project_images')
       .update({
@@ -212,6 +233,11 @@ class ImageUploadService {
     projectId: string,
     imageOrders: { imageId: string; displayOrder: number }[]
   ): Promise<void> {
+    const supabase = getSupabaseClient()
+    if (!supabase) {
+      throw new Error('Supabase client not available')
+    }
+    
     const updatePromises = imageOrders.map(({ imageId, displayOrder }) =>
       supabase
         .from('project_images')
@@ -235,6 +261,11 @@ class ImageUploadService {
    * Get images for a project
    */
   async getProjectImages(projectId: string): Promise<any[]> {
+    const supabase = getSupabaseClient()
+    if (!supabase) {
+      throw new Error('Supabase client not available')
+    }
+    
     const { data, error } = await supabase
       .from('project_images')
       .select('*')
@@ -355,6 +386,11 @@ class ImageUploadService {
     path: string,
     onProgress?: (progress: UploadProgress) => void
   ) {
+    const supabase = getSupabaseClient()
+    if (!supabase) {
+      throw new Error('Supabase client not available')
+    }
+    
     // For now, use standard upload as Supabase doesn't expose progress
     // In a real implementation, you might use a different approach
     const startTime = Date.now()
@@ -409,6 +445,11 @@ class ImageUploadService {
     mimeType: string
     dimensions: { width: number; height: number }
   }): Promise<string> {
+    const supabase = getSupabaseClient()
+    if (!supabase) {
+      throw new Error('Supabase client not available')
+    }
+    
     // Get next display order
     const { data: existingImages } = await supabase
       .from('project_images')
