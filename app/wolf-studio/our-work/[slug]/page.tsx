@@ -5,6 +5,7 @@ import Link from 'next/link'
 import { BackToWorkButton } from '@/components/back-to-work-button'
 import { useProjectTracking } from '@/components/project-page-with-tracking'
 import { ProjectService } from '@/lib/services/database'
+import { ProjectWithCategoryAndImages, ProjectImage } from '@/lib/types/database'
 import { useState, useEffect } from 'react'
 import { notFound } from 'next/navigation'
 
@@ -16,7 +17,7 @@ interface ProjectPageProps {
 
 export default function DynamicProjectPage({ params }: ProjectPageProps) {
   const resolvedParams = React.use(params)
-  const [project, setProject] = useState<any>(null)
+  const [project, setProject] = useState<ProjectWithCategoryAndImages | null>(null)
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)
 
@@ -78,7 +79,7 @@ export default function DynamicProjectPage({ params }: ProjectPageProps) {
       project.description.content.split('\n').filter((p: string) => p.trim() !== '') : 
       ['Project description coming soon.'],
     bannerImage: project.banner_image_url || '/placeholder-banner.jpg',
-    galleryImages: project.images?.map((img: any, index: number) => ({
+    galleryImages: project.images?.map((img: ProjectImage, index: number) => ({
       id: `gallery-${index + 1}`,
       alt: img.alt_text || `${project.title} gallery image ${index + 1}`,
       url: img.image_url

@@ -3,8 +3,8 @@ import "./globals.css";
 import { financierDisplay, calibre } from "./fonts";
 
 export const metadata: Metadata = {
-  title: "CBRE Web Elements",
-  description: "A modern web application template with CBRE styling",
+  title: "Wolf Studio",
+  description: "Wolf Studio - Creative Design & Build Services",
 };
 
 export default function RootLayout({
