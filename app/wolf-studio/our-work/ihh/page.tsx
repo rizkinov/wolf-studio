@@ -1,6 +1,9 @@
+'use client'
+
 import React from 'react'
 import Link from 'next/link'
 import { BackToWorkButton } from '@/components/back-to-work-button'
+import { useProjectTracking } from '@/components/project-page-with-tracking'
 
 
 /**
@@ -106,6 +109,9 @@ export default function ProjectPage() {
   // When integrating with a CMS, you'd replace this with your data fetch logic
   // For example:
   // const { data: projectData, isLoading, error } = useProjectData(projectId);
+  
+  // Track page view for analytics
+  useProjectTracking('ihh');
   
   return (
     <div className="flex flex-col min-h-screen bg-white">

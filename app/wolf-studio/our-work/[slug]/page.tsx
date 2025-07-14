@@ -4,105 +4,87 @@ import React from 'react'
 import Link from 'next/link'
 import { BackToWorkButton } from '@/components/back-to-work-button'
 import { useProjectTracking } from '@/components/project-page-with-tracking'
+import { ProjectService } from '@/lib/services/database'
+import { useState, useEffect } from 'react'
+import { notFound } from 'next/navigation'
 
+interface ProjectPageProps {
+  params: Promise<{
+    slug: string
+  }>
+}
 
-/**
- * Project Page Template - Wolf Studio
- * 
- * This component serves as a template for project pages.
- * For CMS integration:
- * 1. Replace projectData with data from your CMS
- * 2. Update image paths to point to your CMS media library
- * 3. Keep the layout structure consistent for all projects
- */
+export default function DynamicProjectPage({ params }: ProjectPageProps) {
+  const resolvedParams = React.use(params)
+  const [project, setProject] = useState<any>(null)
+  const [loading, setLoading] = useState(true)
+  const [error, setError] = useState<string | null>(null)
 
-// Sample project data structure - this would come from your CMS
-const projectData = {
-  // Basic project information
-  id: "bayer",
-  title: "Bayer (South East Asia) Pte Ltd",
-  subtitle: "Science for a better life. A Workplace for a better future.",
-  
-  // Project metadata
-  details: [
-    { label: "Size", value: "32,000 sqft" },
-    { label: "Location", value: "Paya Lebar Quarter" },
-    { label: "Scope", value: "Design & Build" },
-    { label: "Year", value: "2019" }
-  ],
-  
-  // Project description - could be a single rich text field in CMS
-  description: [
-    "Wolf was engaged to design and build the regional headquarters of Bayer in Paya Lebar Quarter 3 offering a full turn key service from design, project management, and construction.",
-    "The approach was to create a bright and positive atmosphere that promotes a collaborative work environment utilizing best-in-class work spaces and technology that bring a warm sense of optimism and innovation.",
-    "Vibrant colours taken from the Bayer brand palette were used as a way finding tool to identify different zones across the floor plate. Varying levels of collaborative and quiet zones were planned with an audio spectrum in mind, creating acoustically appropriate zones for different type of work."
-  ],
-  
-  // Banner image - main hero image
-  bannerImage: "/scraped-images/work-projects/bayer/bayer-banner.jpg",
-  
-  // Gallery images - can be expanded with more metadata from CMS
-  galleryImages: [
-    { 
-      id: "gallery-1", 
-      alt: "bayer reception",
-      url: "/scraped-images/work-projects/bayer/bayer-gallery-1.jpg"
-    },
-    { 
-      id: "gallery-2", 
-      alt: "bayer cafe",
-      url: "/scraped-images/work-projects/bayer/bayer-gallery-2.jpg"
-    },
-    { 
-      id: "gallery-3", 
-      alt: "bayer cafe",
-      url: "/scraped-images/work-projects/bayer/bayer-gallery-3.jpg"
-    },
-    { 
-      id: "gallery-4", 
-      alt: "bayer office",
-      url: "/scraped-images/work-projects/bayer/bayer-gallery-4.jpg"
-    },
-    { 
-      id: "gallery-5", 
-      alt: "bayer office",
-      url: "/scraped-images/work-projects/bayer/bayer-gallery-5.jpg"
-    },
-    { 
-      id: "gallery-6", 
-      alt: "bayer office",
-      url: "/scraped-images/work-projects/bayer/bayer-gallery-6.jpg"
-    },
-    { 
-      id: "gallery-7", 
-      alt: "bayer office",
-      url: "/scraped-images/work-projects/bayer/bayer-gallery-7.jpg"
-    },
-    { 
-      id: "gallery-8", 
-      alt: "bayer office",
-      url: "/scraped-images/work-projects/bayer/bayer-gallery-8.jpg"
-    }
-  ]
-};
-
-/**
- * ProjectPage Component
- * 
- * This is a template for any project detail page.
- * When integrating with a CMS, you would:
- * 1. Fetch project data from your API/CMS
- * 2. Replace the hardcoded projectData with your fetched data
- * 3. Keep the component structure the same
- */
-export default function ProjectPage() {
-  // When integrating with a CMS, you'd replace this with your data fetch logic
-  // For example:
-  // const { data: projectData, isLoading, error } = useProjectData(projectId);
-  
   // Track page view for analytics
-  useProjectTracking(projectData.id);
-  
+  useProjectTracking(resolvedParams.slug)
+
+  useEffect(() => {
+    const fetchProject = async () => {
+      try {
+        setLoading(true)
+        const { data, error } = await ProjectService.getProject(resolvedParams.slug, true) // bySlug = true
+        
+        if (error || !data) {
+          setError('Project not found')
+          return
+        }
+
+        setProject(data)
+      } catch (err) {
+        setError('Failed to load project')
+        console.error('Error fetching project:', err)
+      } finally {
+        setLoading(false)
+      }
+    }
+
+    fetchProject()
+  }, [resolvedParams.slug])
+
+  if (loading) {
+    return (
+      <div className="flex flex-col min-h-screen bg-white">
+        <div className="flex items-center justify-center min-h-screen">
+          <div className="animate-pulse">
+            <div className="h-8 bg-gray-200 rounded w-64 mb-4"></div>
+            <div className="h-4 bg-gray-200 rounded w-48"></div>
+          </div>
+        </div>
+      </div>
+    )
+  }
+
+  if (error || !project) {
+    notFound()
+  }
+
+  // Transform database project data to match the expected format
+  const projectData = {
+    id: project.slug,
+    title: project.title,
+    subtitle: project.subtitle || '',
+    details: [
+      { label: "Size", value: project.size || 'Not specified' },
+      { label: "Location", value: project.location || 'Not specified' },
+      { label: "Scope", value: project.scope || 'Not specified' },
+      { label: "Year", value: project.year?.toString() || 'Not specified' }
+    ],
+    description: project.description && project.description.content ? 
+      project.description.content.split('\n').filter((p: string) => p.trim() !== '') : 
+      ['Project description coming soon.'],
+    bannerImage: project.banner_image_url || '/placeholder-banner.jpg',
+    galleryImages: project.images?.map((img: any, index: number) => ({
+      id: `gallery-${index + 1}`,
+      alt: img.alt_text || `${project.title} gallery image ${index + 1}`,
+      url: img.image_url
+    })) || []
+  }
+
   return (
     <div className="flex flex-col min-h-screen bg-white">
       {/* Navigation Menu */}
@@ -162,7 +144,7 @@ export default function ProjectPage() {
           <div className="flex flex-col md:flex-row gap-12">
             {/* Project Description */}
             <div className="md:w-2/3">
-              {projectData.description.map((paragraph, index) => (
+              {projectData.description.map((paragraph: string, index: number) => (
                 <p key={index} className="text-base mb-6 leading-relaxed text-dark-grey">
                   {paragraph}
                 </p>
@@ -189,7 +171,7 @@ export default function ProjectPage() {
         {/* Project Gallery */}
         <section className="py-10 max-w-3xl mx-auto px-6">
           <div className="flex flex-col space-y-5">
-            {projectData.galleryImages.map((image) => (
+            {projectData.galleryImages.map((image: { id: string; alt: string; url: string }) => (
               <div key={image.id} className="overflow-hidden w-full border border-gray-100 shadow-sm">
                 <img 
                   src={image.url}
