@@ -247,9 +247,6 @@ export default function AnalyticsPage() {
                 <div className="p-3 bg-cbre-green/10 rounded-lg">
                   <FileText className="h-6 w-6 text-cbre-green" />
                 </div>
-                <CBREBadge className="bg-blue-100 text-blue-800">
-                  Total
-                </CBREBadge>
               </div>
               <div>
                 <p className="text-dark-grey font-calibre text-sm">Total Projects</p>
@@ -260,12 +257,9 @@ export default function AnalyticsPage() {
 
             <CBRECard className="p-6">
               <div className="flex items-center justify-between mb-4">
-                <div className="p-3 bg-green-500/10 rounded-lg">
-                  <Eye className="h-6 w-6 text-green-500" />
+                <div className="p-3 bg-cbre-green/10 rounded-lg">
+                  <Eye className="h-6 w-6 text-cbre-green" />
                 </div>
-                <CBREBadge className="bg-green-100 text-green-800">
-                  Live
-                </CBREBadge>
               </div>
               <div>
                 <p className="text-dark-grey font-calibre text-sm">Published</p>
@@ -278,12 +272,9 @@ export default function AnalyticsPage() {
 
             <CBRECard className="p-6">
               <div className="flex items-center justify-between mb-4">
-                <div className="p-3 bg-yellow-500/10 rounded-lg">
-                  <Star className="h-6 w-6 text-yellow-500" />
+                <div className="p-3 bg-cbre-green/10 rounded-lg">
+                  <Star className="h-6 w-6 text-cbre-green" />
                 </div>
-                <CBREBadge className="bg-yellow-100 text-yellow-800">
-                  Featured
-                </CBREBadge>
               </div>
               <div>
                 <p className="text-dark-grey font-calibre text-sm">Featured Projects</p>
@@ -296,12 +287,9 @@ export default function AnalyticsPage() {
 
             <CBRECard className="p-6">
               <div className="flex items-center justify-between mb-4">
-                <div className="p-3 bg-purple-500/10 rounded-lg">
-                  <Calendar className="h-6 w-6 text-purple-500" />
+                <div className="p-3 bg-cbre-green/10 rounded-lg">
+                  <Calendar className="h-6 w-6 text-cbre-green" />
                 </div>
-                <CBREBadge className="bg-purple-100 text-purple-800">
-                  30 days
-                </CBREBadge>
               </div>
               <div>
                 <p className="text-dark-grey font-calibre text-sm">Recent Projects</p>
