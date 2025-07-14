@@ -19,6 +19,7 @@ export default function ProjectsPage() {
   const [selectedCategory, setSelectedCategory] = useState<string>('')
   const [currentPage, setCurrentPage] = useState(1)
   const [totalPages, setTotalPages] = useState(1)
+  const [pageSize, setPageSize] = useState(50)
   const [sortBy, setSortBy] = useState<'title' | 'created_at' | 'updated_at' | 'order_index'>('order_index')
   const [sortOrder, setSortOrder] = useState<'asc' | 'desc'>('asc')
   
@@ -47,28 +48,28 @@ export default function ProjectsPage() {
         year: yearFilter ? parseInt(yearFilter) : undefined
       }
       
-      const result = await ProjectService.getProjects(filters, {
+            const result = await ProjectService.getProjects(filters, {
         page: currentPage,
-        limit: 10
+        limit: pageSize
       }, {
         column: sortBy,
         order: sortOrder
       })
-      
+
       if (result.error) {
         console.error('Error loading projects:', result.error)
         return
       }
-      
+
       setProjects(result.data)
       setDraggedProjects(result.data)
-      setTotalPages(Math.ceil(result.count / 10))
+      setTotalPages(Math.ceil(result.count / pageSize))
     } catch (error) {
       console.error('Error loading projects:', error)
     } finally {
       setLoading(false)
     }
-  }, [searchTerm, selectedCategory, publishedFilter, featuredFilter, yearFilter, currentPage, sortBy, sortOrder])
+  }, [searchTerm, selectedCategory, publishedFilter, featuredFilter, yearFilter, currentPage, pageSize, sortBy, sortOrder])
 
   const loadCategories = async () => {
     try {
@@ -255,12 +256,18 @@ export default function ProjectsPage() {
     setSortOrder(order as 'asc' | 'desc')
   }
 
+  const handlePageSizeChange = (newPageSize: number) => {
+    setPageSize(newPageSize)
+    setCurrentPage(1) // Reset to first page when changing page size
+  }
+
   const clearFilters = () => {
     setSearchTerm('')
     setSelectedCategory('')
     setPublishedFilter('all')
     setFeaturedFilter('all')
     setYearFilter('')
+    setCurrentPage(1) // Reset to first page when clearing filters
   }
 
   const activeFiltersCount = [
@@ -400,6 +407,20 @@ export default function ProjectsPage() {
                 <option value="created_at-desc">Newest First</option>
                 <option value="created_at-asc">Oldest First</option>
                 <option value="updated_at-desc">Recently Updated</option>
+              </select>
+            </div>
+
+            {/* Page Size Selector */}
+            <div className="lg:w-32">
+              <select
+                value={pageSize}
+                onChange={(e) => handlePageSizeChange(parseInt(e.target.value))}
+                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-cbre-green focus:border-transparent"
+              >
+                <option value={10}>10 per page</option>
+                <option value={25}>25 per page</option>
+                <option value={50}>50 per page</option>
+                <option value={100}>100 per page</option>
               </select>
             </div>
 
