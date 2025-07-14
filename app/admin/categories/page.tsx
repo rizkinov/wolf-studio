@@ -4,7 +4,6 @@ import { useState, useEffect } from 'react'
 import { CBRECard } from '@/components/cbre-card'
 import { CBREButton } from '@/components/cbre-button'
 import { Plus, Edit, Trash2, Tag, Save, X } from 'lucide-react'
-import { CategoryService } from '@/lib/services/database'
 import { Category, CategoryInsert, CategoryUpdate } from '@/lib/types/database'
 
 interface CategoryFormData {
@@ -32,11 +31,14 @@ export default function CategoriesPage() {
   const loadCategories = async () => {
     try {
       setLoading(true)
-      const result = await CategoryService.getCategories()
-      if (result.error) {
+      const response = await fetch('/api/admin/categories')
+      const result = await response.json()
+      
+      if (!response.ok) {
         console.error('Error loading categories:', result.error)
         return
       }
+      
       setCategories(result.data)
     } catch (error) {
       console.error('Error loading categories:', error)
@@ -57,8 +59,20 @@ export default function CategoriesPage() {
           slug: formData.slug,
           description: formData.description || null
         }
-        const result = await CategoryService.updateCategory(editingCategory.id, updates)
-        if (result.error) {
+        const response = await fetch('/api/admin/categories', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({ 
+            action: 'update',
+            id: editingCategory.id,
+            ...updates
+          }),
+        })
+        const result = await response.json()
+        
+        if (!response.ok) {
           console.error('Error updating category:', result.error)
           return
         }
@@ -69,8 +83,19 @@ export default function CategoriesPage() {
           slug: formData.slug,
           description: formData.description || null
         }
-        const result = await CategoryService.createCategory(categoryData)
-        if (result.error) {
+        const response = await fetch('/api/admin/categories', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({ 
+            action: 'create',
+            ...categoryData
+          }),
+        })
+        const result = await response.json()
+        
+        if (!response.ok) {
           console.error('Error creating category:', result.error)
           return
         }
@@ -101,8 +126,19 @@ export default function CategoriesPage() {
   const handleDelete = async (id: string) => {
     if (window.confirm('Are you sure you want to delete this category? This action cannot be undone.')) {
       try {
-        const result = await CategoryService.deleteCategory(id)
-        if (result.error) {
+        const response = await fetch('/api/admin/categories', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({ 
+            action: 'delete',
+            id: id
+          }),
+        })
+        const result = await response.json()
+        
+        if (!response.ok) {
           console.error('Error deleting category:', result.error)
           return
         }
