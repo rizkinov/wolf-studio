@@ -1,4 +1,5 @@
 import { createClient } from '@/lib/supabase/client'
+import { ProjectImage } from '@/lib/types/database'
 
 // Create Supabase client only when needed
 const getSupabaseClient = () => {
@@ -9,31 +10,20 @@ const getSupabaseClient = () => {
   return createClient()
 }
 
-export interface UploadProgress {
-  loaded: number
-  total: number
-  percentage: number
+interface UploadResult {
+  error?: { message: string }
+  data?: any
 }
 
-export interface UploadResult {
-  url: string
-  path: string
-  imageId: string
-  metadata: {
-    size: number
-    type: string
-    width?: number
-    height?: number
-  }
+interface UploadProgress {
+  progress: number
+  status: 'uploading' | 'complete' | 'error'
 }
 
-export interface ImageUploadOptions {
-  projectId?: string
-  imageType?: 'banner' | 'gallery'
-  maxWidth?: number
-  maxHeight?: number
-  quality?: number
+interface FileUploadOptions {
   onProgress?: (progress: UploadProgress) => void
+  maxSize?: number
+  allowedTypes?: string[]
 }
 
 class ImageUploadService {
@@ -44,14 +34,9 @@ class ImageUploadService {
    */
   async uploadImage(
     file: File,
-    options: ImageUploadOptions = {}
-  ): Promise<UploadResult> {
+    options: FileUploadOptions = {}
+  ): Promise<ProjectImage> {
     const {
-      projectId,
-      imageType = 'gallery',
-      maxWidth = 1920,
-      maxHeight = 1080,
-      quality = 0.9,
       onProgress
     } = options
 
@@ -73,9 +58,9 @@ class ImageUploadService {
 
       // Optimize image if needed
       const optimizedFile = await this.optimizeImage(file, {
-        maxWidth,
-        maxHeight,
-        quality
+        maxWidth: 1920, // Default max width
+        maxHeight: 1080, // Default max height
+        quality: 0.9 // Default quality
       })
 
       // Get image dimensions
@@ -84,10 +69,8 @@ class ImageUploadService {
       // Prepare form data for API
       const formData = new FormData()
       formData.append('file', optimizedFile)
-      if (projectId) {
-        formData.append('projectId', projectId)
-      }
-      formData.append('imageType', imageType)
+      // projectId, imageType, maxWidth, maxHeight, quality are removed from options
+      // as they are not directly used in the new upload logic
 
       // Upload via API route with authentication
       const response = await fetch('/api/admin/upload-image', {
@@ -105,17 +88,17 @@ class ImageUploadService {
 
       const result = await response.json()
 
-      return {
-        url: result.url,
-        path: result.path,
-        imageId: result.imageId,
-        metadata: {
-          size: optimizedFile.size,
-          type: optimizedFile.type,
-          width: dimensions.width,
-          height: dimensions.height
+              return {
+          id: result.id,
+          project_id: result.project_id,
+          image_url: result.image_url,
+          image_type: result.image_type,
+          display_order: result.display_order,
+          alt_text: result.alt_text,
+          caption: result.caption,
+          created_at: result.created_at,
+          updated_at: result.updated_at
         }
-      }
     } catch (error) {
       console.error('Image upload failed:', error)
       throw error
@@ -127,8 +110,8 @@ class ImageUploadService {
    */
   async uploadMultipleImages(
     files: File[],
-    options: ImageUploadOptions = {}
-  ): Promise<UploadResult[]> {
+    options: FileUploadOptions = {}
+  ): Promise<ProjectImage[]> {
     const uploadPromises = files.map((file, index) => {
       const fileOptions = {
         ...options,
@@ -137,7 +120,7 @@ class ImageUploadService {
               // Adjust progress for multiple files
               const adjustedProgress = {
                 ...progress,
-                percentage: (index * 100 + progress.percentage) / files.length
+                progress: (index * 100 + progress.progress) / files.length
               }
               options.onProgress!(adjustedProgress)
             }
@@ -228,38 +211,32 @@ class ImageUploadService {
   /**
    * Reorder images for a project
    */
-  async reorderImages(
-    projectId: string,
-    imageOrders: { imageId: string; displayOrder: number }[]
-  ): Promise<void> {
+  async reorderImages(projectId: string, imageIds: string[]): Promise<void> {
     const supabase = getSupabaseClient()
     if (!supabase) {
       throw new Error('Supabase client not available')
     }
-    
-    const updatePromises = imageOrders.map(({ imageId, displayOrder }) =>
+
+    const updatePromises = imageIds.map((imageId, index) => 
       supabase
         .from('project_images')
-        .update({ 
-          display_order: displayOrder,
-          updated_at: new Date().toISOString()
-        })
+        .update({ order_index: index })
         .eq('id', imageId)
         .eq('project_id', projectId)
     )
 
-    const results = await Promise.all(updatePromises)
-    
-    const errors = results.filter((result: any) => result.error)
-    if (errors.length > 0) {
-      throw new Error(`Failed to reorder images: ${errors[0].error?.message}`)
-    }
+      const results = await Promise.all(updatePromises)
+  
+  const errors = results.filter(result => result.error)
+  if (errors.length > 0) {
+    throw new Error(`Failed to reorder images: ${errors[0].error?.message}`)
+  }
   }
 
   /**
    * Get images for a project
    */
-  async getProjectImages(projectId: string): Promise<any[]> {
+  async getProjectImages(projectId: string): Promise<ProjectImage[]> {
     const supabase = getSupabaseClient()
     if (!supabase) {
       throw new Error('Supabase client not available')
@@ -269,11 +246,10 @@ class ImageUploadService {
       .from('project_images')
       .select('*')
       .eq('project_id', projectId)
-      .order('image_type', { ascending: false }) // banners first
-      .order('display_order', { ascending: true })
+      .order('order_index', { ascending: true })
 
     if (error) {
-      throw new Error(`Failed to fetch project images: ${error.message}`)
+      throw new Error(`Failed to get project images: ${error.message}`)
     }
 
     return data || []
@@ -396,7 +372,7 @@ class ImageUploadService {
     
     // Simulate progress if callback is provided
     if (onProgress) {
-      onProgress({ loaded: 0, total: file.size, percentage: 0 })
+      onProgress({ progress: 0, status: 'uploading' })
       
       // Simulate progress updates
       const progressInterval = setInterval(() => {
@@ -405,9 +381,8 @@ class ImageUploadService {
         const percentage = Math.min((elapsed / estimatedTotal) * 100, 95)
         
         onProgress({
-          loaded: (file.size * percentage) / 100,
-          total: file.size,
-          percentage
+          progress: percentage,
+          status: 'uploading'
         })
         
         if (percentage >= 95) {
@@ -425,7 +400,7 @@ class ImageUploadService {
 
     // Complete progress
     if (onProgress) {
-      onProgress({ loaded: file.size, total: file.size, percentage: 100 })
+      onProgress({ progress: 100, status: 'complete' })
     }
 
     return result
@@ -491,16 +466,16 @@ class ImageUploadService {
 export const imageUploadService = new ImageUploadService()
 
 // Export utility function for component usage
-export const createUploadFunction = (options: ImageUploadOptions) => {
+export const createUploadFunction = (options: FileUploadOptions) => {
   return async (file: File, onProgress: (progress: number) => void) => {
     const result = await imageUploadService.uploadImage(file, {
       ...options,
-      onProgress: (progress) => onProgress(progress.percentage)
+      onProgress: (progress) => onProgress(progress.progress)
     })
     
-    return {
-      url: result.url,
-      path: result.path
-    }
+          return {
+        url: result.image_url,
+        path: result.image_url
+      }
   }
 } 

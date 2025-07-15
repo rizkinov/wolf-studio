@@ -120,8 +120,8 @@ export interface ActivityLog {
   resource_type: string | null
   resource_id: string | null
   resource_title: string | null
-  details: Record<string, any> | null
-  metadata: Record<string, any> | null
+  details: ActivityLogDetails | null
+  metadata: ActivityLogMetadata | null
   created_at: string
 }
 
@@ -132,8 +132,8 @@ export interface ActivityLogInsert {
   resource_type?: string | null
   resource_id?: string | null
   resource_title?: string | null
-  details?: Record<string, any> | null
-  metadata?: Record<string, any> | null
+  details?: ActivityLogDetails | null
+  metadata?: ActivityLogMetadata | null
   created_at?: string
 }
 
@@ -143,8 +143,34 @@ export interface ActivityLogUpdate {
   resource_type?: string | null
   resource_id?: string | null
   resource_title?: string | null
-  details?: Record<string, any> | null
-  metadata?: Record<string, any> | null
+  details?: ActivityLogDetails | null
+  metadata?: ActivityLogMetadata | null
+}
+
+// Activity Log specific types
+export interface ActivityLogDetails {
+  previous_value?: string | number | boolean | null
+  new_value?: string | number | boolean | null
+  field_name?: string
+  action_context?: string
+  error_message?: string
+  duration_ms?: number
+  file_size?: number
+  file_type?: string
+  changes?: Record<string, string | number | boolean | null>
+  [key: string]: string | number | boolean | null | Record<string, string | number | boolean | null> | undefined
+}
+
+export interface ActivityLogMetadata {
+  timestamp?: string
+  user_agent?: string
+  url?: string
+  referrer?: string
+  ip_address?: string
+  session_id?: string
+  device_type?: string
+  browser_version?: string
+  [key: string]: string | undefined
 }
 
 // User Session types

@@ -9,7 +9,7 @@ import { ProjectWithCategoryAndImages, ProjectImage } from '@/lib/types/database
 import { useState, useEffect } from 'react'
 import { notFound } from 'next/navigation'
 import { BannerImage, GalleryImage } from '@/components/ui/optimized-image'
-import { PerformanceMonitor, PerformanceReporter } from '@/components/ui/performance-monitor'
+import { PerformanceMonitor } from '@/components/ui/performance-monitor'
 
 interface ProjectPageProps {
   params: Promise<{
@@ -196,8 +196,7 @@ export default function DynamicProjectPage({ params }: ProjectPageProps) {
   return (
     <div className="flex flex-col min-h-screen bg-white">
       {/* Performance monitoring (dev only) */}
-      <PerformanceMonitor enableConsoleLogging={process.env.NODE_ENV === 'development'} />
-      <PerformanceReporter />
+      <PerformanceMonitor />
 
       {/* Navigation Menu */}
       <header className="sticky top-0 z-50 bg-white shadow-sm">

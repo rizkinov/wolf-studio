@@ -35,6 +35,8 @@ import type {
   UserRole,
   ActivityType,
   UserActivitySummary,
+  ActivityLogDetails,
+  ActivityLogMetadata,
 } from '@/lib/types/database'
 
 // Get the client-side Supabase client
@@ -1366,8 +1368,8 @@ export class ActivityLogService {
     resourceType?: string,
     resourceId?: string,
     resourceTitle?: string,
-    details?: Record<string, any>,
-    metadata?: Record<string, any>
+    details?: ActivityLogDetails,
+    metadata?: ActivityLogMetadata
   ): Promise<{ data: string | null; error: string | null }> {
     try {
       const supabase = getSupabaseClient()
@@ -1383,14 +1385,14 @@ export class ActivityLogService {
       })
 
       if (error) {
-        console.error('Error logging activity:', error)
+        console.error('Database error logging activity:', error)
         return { data: null, error: error.message }
       }
 
-      return { data, error: null }
+      return { data: data || 'Activity logged successfully', error: null }
     } catch (error) {
-      console.error('Error in logActivity:', error)
-      return { data: null, error: 'Failed to log activity' }
+      console.error('Failed to log activity:', error)
+      return { data: null, error: error instanceof Error ? error.message : 'Unknown error' }
     }
   }
 

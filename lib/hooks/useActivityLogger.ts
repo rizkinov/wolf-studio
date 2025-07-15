@@ -1,7 +1,7 @@
 import React from 'react'
 import { useAuth } from '@/lib/auth/context'
 import { ActivityLogService } from '@/lib/services/database'
-import type { ActivityType } from '@/lib/types/database'
+import { ActivityType, ActivityLogDetails, ActivityLogMetadata } from '@/lib/types/database'
 
 interface ActivityLoggerOptions {
   enabled?: boolean
@@ -14,31 +14,31 @@ interface UseActivityLoggerReturn {
     resourceType?: string,
     resourceId?: string,
     resourceTitle?: string,
-    details?: Record<string, any>
+    details?: ActivityLogDetails
   ) => Promise<void>
   logProjectActivity: (
     action: 'created' | 'updated' | 'deleted' | 'published' | 'unpublished',
     projectId: string,
     projectTitle: string,
-    details?: Record<string, any>
+    details?: ActivityLogDetails
   ) => Promise<void>
   logCategoryActivity: (
     action: 'created' | 'updated' | 'deleted',
     categoryId: string,
     categoryName: string,
-    details?: Record<string, any>
+    details?: ActivityLogDetails
   ) => Promise<void>
   logUserActivity: (
     action: 'created' | 'updated' | 'deleted' | 'role_changed',
     userId: string,
     userName: string,
-    details?: Record<string, any>
+    details?: ActivityLogDetails
   ) => Promise<void>
   logImageActivity: (
     action: 'uploaded' | 'deleted',
     imageUrl: string,
     projectTitle?: string,
-    details?: Record<string, any>
+    details?: ActivityLogDetails
   ) => Promise<void>
   logLogin: () => Promise<void>
   logLogout: () => Promise<void>
@@ -48,7 +48,7 @@ export function useActivityLogger(options: ActivityLoggerOptions = {}): UseActiv
   const { user } = useAuth()
   const { enabled = true, includeMetadata = true } = options
 
-  const getMetadata = (): Record<string, any> | undefined => {
+  const getMetadata = (): ActivityLogMetadata | undefined => {
     if (!includeMetadata) return undefined
 
     return {
@@ -64,7 +64,7 @@ export function useActivityLogger(options: ActivityLoggerOptions = {}): UseActiv
     resourceType?: string,
     resourceId?: string,
     resourceTitle?: string,
-    details?: Record<string, any>
+    details?: ActivityLogDetails
   ): Promise<void> => {
     if (!enabled || !user?.id) {
       return
@@ -90,7 +90,7 @@ export function useActivityLogger(options: ActivityLoggerOptions = {}): UseActiv
     action: 'created' | 'updated' | 'deleted' | 'published' | 'unpublished',
     projectId: string,
     projectTitle: string,
-    details?: Record<string, any>
+    details?: ActivityLogDetails
   ): Promise<void> => {
     const activityType: ActivityType = `project_${action}` as ActivityType
     await logActivity(activityType, 'project', projectId, projectTitle, details)
@@ -100,7 +100,7 @@ export function useActivityLogger(options: ActivityLoggerOptions = {}): UseActiv
     action: 'created' | 'updated' | 'deleted',
     categoryId: string,
     categoryName: string,
-    details?: Record<string, any>
+    details?: ActivityLogDetails
   ): Promise<void> => {
     const activityType: ActivityType = `category_${action}` as ActivityType
     await logActivity(activityType, 'category', categoryId, categoryName, details)
@@ -110,7 +110,7 @@ export function useActivityLogger(options: ActivityLoggerOptions = {}): UseActiv
     action: 'created' | 'updated' | 'deleted' | 'role_changed',
     userId: string,
     userName: string,
-    details?: Record<string, any>
+    details?: ActivityLogDetails
   ): Promise<void> => {
     const activityType: ActivityType = `user_${action}` as ActivityType
     await logActivity(activityType, 'user', userId, userName, details)
@@ -120,24 +120,18 @@ export function useActivityLogger(options: ActivityLoggerOptions = {}): UseActiv
     action: 'uploaded' | 'deleted',
     imageUrl: string,
     projectTitle?: string,
-    details?: Record<string, any>
+    details?: ActivityLogDetails
   ): Promise<void> => {
     const activityType: ActivityType = `image_${action}` as ActivityType
-    await logActivity(
-      activityType, 
-      'image', 
-      undefined, 
-      projectTitle ? `Image for ${projectTitle}` : 'Image',
-      { image_url: imageUrl, ...details }
-    )
+    await logActivity(activityType, 'image', imageUrl, projectTitle, details)
   }
 
   const logLogin = async (): Promise<void> => {
-    await logActivity('login', 'system', user?.id, 'User Login')
+    await logActivity('login')
   }
 
   const logLogout = async (): Promise<void> => {
-    await logActivity('logout', 'system', user?.id, 'User Logout')
+    await logActivity('logout')
   }
 
   return {
@@ -147,81 +141,55 @@ export function useActivityLogger(options: ActivityLoggerOptions = {}): UseActiv
     logUserActivity,
     logImageActivity,
     logLogin,
-    logLogout
+    logLogout,
   }
 }
 
-// Higher-order component for automatic activity logging
-export function withActivityLogging<T extends Record<string, any>>(
-  WrappedComponent: React.ComponentType<T & { onActivity?: (details?: Record<string, any>) => Promise<void> }>,
-  defaultActivityType: ActivityType,
-  getResourceInfo?: (props: T) => { resourceType?: string; resourceId?: string; resourceTitle?: string }
-) {
-  return function ActivityLoggedComponent(props: T) {
-    const { logActivity } = useActivityLogger()
+interface ActivityLoggerHigherOrderComponentProps {
+  enabled?: boolean
+  includeMetadata?: boolean
+}
 
-    const handleActivityLog = async (details?: Record<string, any>) => {
-      if (getResourceInfo) {
-        const { resourceType, resourceId, resourceTitle } = getResourceInfo(props)
-        await logActivity(defaultActivityType, resourceType, resourceId, resourceTitle, details)
-      } else {
-        await logActivity(defaultActivityType, undefined, undefined, undefined, details)
-      }
+export function withActivityLogger<T extends Record<string, any>>(
+  WrappedComponent: React.ComponentType<T>,
+  options: ActivityLoggerHigherOrderComponentProps = {}
+) {
+  return function WithActivityLoggerComponent(props: T) {
+    const { logActivity } = useActivityLogger(options)
+
+    const handleActivityLog = async (details?: ActivityLogDetails) => {
+      await logActivity('user_updated', undefined, undefined, undefined, details)
     }
 
-    // Pass the logging function to the wrapped component
     return React.createElement(WrappedComponent, { ...props, onActivity: handleActivityLog })
   }
 }
 
-// Custom hook for form activity logging
-export function useFormActivityLogger(formType: string) {
+// Hook for tracking user interactions with valid ActivityType values
+export function useUserInteractionLogger() {
   const { logActivity } = useActivityLogger()
 
-  const logFormSubmit = async (
-    action: 'created' | 'updated' | 'deleted',
-    resourceId: string,
-    resourceTitle: string,
-    formData?: Record<string, any>
-  ) => {
-    await logActivity(
-      `${formType}_${action}` as ActivityType,
-      formType,
-      resourceId,
-      resourceTitle,
-      { form_data: formData }
-    )
+  const logUserUpdate = async (userId: string, userTitle: string, details?: ActivityLogDetails) => {
+    await logActivity('user_updated', 'user', userId, userTitle, {
+      ...details,
+      action_context: 'interaction',
+    })
   }
 
-  const logFormError = async (
-    error: string,
-    formData?: Record<string, any>
-  ) => {
-    await logActivity(
-      `${formType}_error` as ActivityType,
-      formType,
-      undefined,
-      'Form Error',
-      { error, form_data: formData }
-    )
+  const logProjectUpdate = async (projectId: string, projectTitle: string, details?: ActivityLogDetails) => {
+    await logActivity('project_updated', 'project', projectId, projectTitle, details)
   }
 
-  const logFormValidation = async (
-    validationErrors: Record<string, string>,
-    formData?: Record<string, any>
-  ) => {
-    await logActivity(
-      `${formType}_validation_error` as ActivityType,
-      formType,
-      undefined,
-      'Form Validation Error',
-      { validation_errors: validationErrors, form_data: formData }
-    )
+  const logImageUpload = async (imageUrl: string, projectTitle?: string, details?: ActivityLogDetails) => {
+    await logActivity('image_uploaded', 'image', imageUrl, projectTitle, {
+      ...details,
+      action_context: 'upload',
+    })
   }
 
   return {
-    logFormSubmit,
-    logFormError,
-    logFormValidation
+    logUserUpdate,
+    logProjectUpdate,
+    logImageUpload,
   }
 } 
