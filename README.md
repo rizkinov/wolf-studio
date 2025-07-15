@@ -98,107 +98,82 @@ graph TD
     G[Admin Dashboard] --> B
     H[Public Portfolio] --> B
     I[Vercel Deployment] --> B
-    J[External APIs] --> F
 ```
 
-### Application Structure
+### Core Components
 
-```
-wolf-studio/
-├── app/                         # Next.js App Router
-│   ├── admin/                   # Admin dashboard routes
-│   │   ├── analytics/           # Analytics dashboard
-│   │   ├── categories/          # Category management
-│   │   ├── projects/            # Project management
-│   │   ├── settings/            # System settings
-│   │   └── users/               # User management
-│   ├── api/                     # API routes
-│   │   └── admin/               # Admin API endpoints
-│   └── wolf-studio/             # Public portfolio site
-│       └── our-work/            # Project showcase
-├── components/                  # Reusable UI components
-│   ├── admin/                   # Admin-specific components
-│   ├── common/                  # Shared components
-│   ├── cbre/                    # CBRE-branded components
-│   └── ui/                      # Base UI components
-├── lib/                         # Utility libraries
-│   ├── auth/                    # Authentication utilities
-│   ├── hooks/                   # Custom React hooks
-│   ├── services/                # API service layers
-│   ├── supabase/                # Supabase configuration
-│   ├── types/                   # TypeScript definitions
-│   └── utils/                   # Helper utilities
-├── public/                      # Static assets
-├── supabase/                    # Database migrations
-└── docs/                        # Documentation
-```
+#### Frontend Architecture
+- **Next.js App Router**: Modern routing with layouts and nested routes
+- **React Server Components**: Optimized rendering with server-side execution
+- **TypeScript**: Type safety and better developer experience
+- **Tailwind CSS**: Utility-first CSS framework with custom design tokens
+- **Radix UI**: Accessible component primitives
+- **Framer Motion**: Smooth animations and transitions
 
-### Data Flow
+#### Backend Architecture
+- **Supabase Database**: PostgreSQL with real-time capabilities
+- **Row Level Security (RLS)**: Database-level security policies
+- **Supabase Auth**: JWT-based authentication system
+- **Supabase Storage**: File upload and management
+- **API Routes**: Server-side logic and data processing
 
-1. **Authentication Flow**: User login → Supabase Auth → JWT token → Protected routes
-2. **Data Operations**: Component → Service layer → Supabase client → Database
-3. **File Uploads**: User upload → API route → Supabase Storage → Database record
-4. **Real-time Updates**: Database change → Supabase subscription → Component update
+#### Security Architecture
+- **Authentication**: Multi-factor authentication support
+- **Authorization**: Role-based access control (RBAC)
+- **Data Protection**: Encryption at rest and in transit
+- **Security Headers**: CSP, HSTS, and other security headers
+- **Input Validation**: Comprehensive input sanitization
+- **Rate Limiting**: API rate limiting and DDoS protection
 
 ---
 
 ## Features
 
-### Admin Dashboard
-- **🏠 Dashboard**: Business overview and project statistics
-- **👥 User Management**: Team member and client user administration
-- **📁 Project Management**: Complete project lifecycle management for design projects
-- **🏷️ Category Management**: Organize projects by service type and industry
-- **📊 Analytics**: Real-time business metrics and project performance tracking
-- **⚙️ Settings**: Platform configuration and Wolf Studio branding
-- **📈 Storage Monitor**: Design asset management and optimization
+### 🎨 Portfolio Management
+- **Project Showcase**: Rich project galleries with high-resolution images
+- **Case Studies**: Detailed project documentation with before/after comparisons
+- **Interactive Galleries**: Lightbox galleries with zoom and navigation
+- **Mobile Responsive**: Optimized viewing across all devices
+- **SEO Optimized**: Enhanced search engine visibility
 
-### Public Portfolio Website
-- **🎨 Project Showcase**: Beautifully designed galleries of Wolf Studio's workplace projects
-- **📱 Responsive Design**: Mobile-first responsive layout optimized for all devices
-- **🚀 Performance Optimized**: Fast loading with lazy loading and image optimization
-- **♿ Accessibility**: WCAG 2.1 compliant interface for inclusive access
-- **🔍 SEO Optimized**: Search engine optimized for business visibility
+### 🔐 Admin Dashboard
+- **Project Management**: Create, edit, and organize portfolio projects
+- **Content Management**: Rich text editing with media embedding
+- **User Management**: Admin user creation and permission management
+- **Analytics Dashboard**: Project performance and visitor insights
+- **File Management**: Centralized media library with organization tools
 
-### Core Features
-- **🔐 Authentication**: Secure login with session management for team and client access
-- **🔒 Authorization**: Role-based access control (RBAC) for different user types
-- **📁 Design Asset Management**: Upload, organize, and optimize project images and documents
-- **📝 Rich Content Editor**: WYSIWYG editor for project descriptions and case studies
-- **🎭 Multi-Brand Support**: Support for both Wolf Studio and CBRE branding themes
-- **🔧 Error Handling**: Comprehensive error boundaries and logging for reliability
-- **📊 Performance Monitoring**: Real-time performance tracking and optimization
-- **🚨 Security Monitoring**: Enterprise-grade security logging and alerts
-- **🔍 Health Monitoring**: Comprehensive system health checks and monitoring
-- **📈 Business Analytics**: Real-time project metrics and client engagement insights
-- **🔄 Request Tracing**: Correlation IDs for debugging and system monitoring
-- **⚡ Web Vitals**: Client-side performance metrics for optimal user experience
+### 🚀 Performance & Monitoring
+- **Structured Logging**: Comprehensive logging with correlation IDs
+- **Performance Monitoring**: Real-time performance metrics and alerts
+- **Error Tracking**: Automated error detection and reporting
+- **Health Checks**: System health monitoring and status pages
+- **Security Monitoring**: Security event logging and audit trails
+
+### 📊 Analytics & Insights
+- **Web Vitals**: Core Web Vitals monitoring and optimization
+- **User Behavior**: Page views, session duration, and engagement metrics
+- **Performance Metrics**: Load times, API response times, and error rates
+- **System Metrics**: Database performance, storage usage, and resource utilization
+- **Business Intelligence**: Project performance and client engagement insights
 
 ---
 
 ## Prerequisites
 
+Before you begin, ensure you have the following installed:
+
+- **Node.js** (v18.0.0 or higher)
+- **npm** (v8.0.0 or higher) or **yarn** (v1.22.0 or higher)
+- **Git** (v2.0.0 or higher)
+- **Supabase CLI** (v1.0.0 or higher)
+
 ### System Requirements
 
-- **Node.js**: 18.0 or higher
-- **npm**: 8.0 or higher (or yarn 3.0+)
-- **Git**: Latest version
-- **Browser**: Modern browser with ES2020 support
-
-### Development Tools
-
-- **VS Code**: Recommended IDE with extensions:
-  - ES7+ React/Redux/React-Native snippets
-  - TypeScript Importer
-  - Tailwind CSS IntelliSense
-  - ESLint
-  - Prettier
-
-### External Services
-
-- **Supabase Account**: For database and authentication
-- **Vercel Account**: For deployment (recommended)
-- **Domain**: For custom domain configuration
+- **Operating System**: macOS, Linux, or Windows 10+
+- **Memory**: 4GB RAM minimum (8GB recommended)
+- **Storage**: 2GB available space
+- **Network**: Stable internet connection for API calls
 
 ---
 
@@ -208,7 +183,7 @@ wolf-studio/
 
 ```bash
 # Clone the repository
-git clone https://github.com/your-org/wolf-studio.git
+git clone <repository-url>
 cd wolf-studio
 
 # Install dependencies
@@ -217,20 +192,30 @@ npm install
 # Set up environment variables
 cp .env.example .env.local
 
-# Run the development server
+# Run database migrations
+npm run db:migrate
+
+# Start development server
 npm run dev
 ```
 
-### Detailed Setup
+### Detailed Installation
 
-1. **Clone and Install**
+1. **Clone the repository**
    ```bash
-   git clone https://github.com/your-org/wolf-studio.git
+   git clone <repository-url>
    cd wolf-studio
-   npm install
    ```
 
-2. **Environment Configuration**
+2. **Install dependencies**
+   ```bash
+   npm install
+   
+   # Or using yarn
+   yarn install
+   ```
+
+3. **Environment setup**
    ```bash
    # Copy environment template
    cp .env.example .env.local
@@ -239,23 +224,29 @@ npm run dev
    nano .env.local
    ```
 
-3. **Database Setup**
+4. **Database setup**
    ```bash
-   # Run database migrations
+   # Initialize Supabase
+   supabase init
+   
+   # Start local Supabase
+   supabase start
+   
+   # Run migrations
    npm run db:migrate
    
-   # Seed initial data
+   # Seed database (optional)
    npm run db:seed
    ```
 
-4. **Start Development Server**
+5. **Development server**
    ```bash
    npm run dev
    ```
 
-5. **Access the Application**
-   - Admin Dashboard: `http://localhost:3000/admin`
-   - Public Portfolio: `http://localhost:3000/wolf-studio`
+6. **Access the application**
+   - **Public Site**: http://localhost:3000
+   - **Admin Dashboard**: http://localhost:3000/admin
 
 ---
 
@@ -268,111 +259,57 @@ npm run dev
 # Supabase Configuration
 NEXT_PUBLIC_SUPABASE_URL=your_supabase_url
 NEXT_PUBLIC_SUPABASE_ANON_KEY=your_supabase_anon_key
-SUPABASE_SERVICE_ROLE_KEY=your_supabase_service_role_key
+SUPABASE_SERVICE_ROLE_KEY=your_service_role_key
 
-# Application Configuration
+# Authentication
 NEXTAUTH_URL=http://localhost:3000
 NEXTAUTH_SECRET=your_nextauth_secret
 
-# Optional: Custom Configuration
-NEXT_PUBLIC_APP_NAME="Wolf Studio"
-NEXT_PUBLIC_APP_URL="https://your-domain.com"
+# Database
+DATABASE_URL=your_database_url
 ```
 
-#### Development Variables
+#### Optional Variables
 ```env
-# Development Only
-NODE_ENV=development
-NEXT_PUBLIC_DEBUG=true
-NEXT_PUBLIC_ENABLE_ANALYTICS=false
+# Monitoring & Analytics
+NEXT_PUBLIC_ANALYTICS_ID=your_analytics_id
+SENTRY_DSN=your_sentry_dsn
+LOG_LEVEL=info
+
+# Performance
+NEXT_PUBLIC_ENABLE_PERFORMANCE_MONITORING=true
+NEXT_PUBLIC_PERFORMANCE_SAMPLE_RATE=0.1
+
+# Security
+SECURITY_HEADERS_ENABLED=true
+RATE_LIMIT_ENABLED=true
+RATE_LIMIT_REQUESTS_PER_MINUTE=60
 ```
 
-#### Production Variables
-```env
-# Production Only
-NODE_ENV=production
-NEXT_PUBLIC_DEBUG=false
-NEXT_PUBLIC_ENABLE_ANALYTICS=true
-NEXT_PUBLIC_SENTRY_DSN=your_sentry_dsn
+### Database Configuration
 
-# Monitoring & APM
-NEXT_PUBLIC_DATADOG_TOKEN=your_datadog_token
-NEXT_PUBLIC_NEWRELIC_LICENSE_KEY=your_newrelic_key
-NEXT_PUBLIC_LOGROCKET_APP_ID=your_logrocket_id
+#### Migration Setup
+```sql
+-- Enable required extensions
+CREATE EXTENSION IF NOT EXISTS "uuid-ossp";
+CREATE EXTENSION IF NOT EXISTS "pgcrypto";
 
-# Security Configuration
-SECURITY_RATE_LIMIT_MAX=100
-SECURITY_RATE_LIMIT_WINDOW=900000
-SECURITY_CSRF_SECRET=your_csrf_secret
-SECURITY_IP_WHITELIST=127.0.0.1,::1
-SECURITY_BLOCKED_IPS=suspicious.ip.1,suspicious.ip.2
-
-# Performance Monitoring
-PERFORMANCE_API_THRESHOLD=1000
-PERFORMANCE_DB_THRESHOLD=500
-PERFORMANCE_MEMORY_THRESHOLD=80
-PERFORMANCE_ERROR_RATE_THRESHOLD=0.05
+-- Enable Row Level Security
+ALTER TABLE projects ENABLE ROW LEVEL SECURITY;
+ALTER TABLE users ENABLE ROW LEVEL SECURITY;
 ```
 
-### Application Configuration
+#### Security Policies
+```sql
+-- Project access policy
+CREATE POLICY "Users can view published projects"
+  ON projects FOR SELECT
+  USING (is_published = true);
 
-#### Database Configuration
-```typescript
-// lib/supabase/config.ts
-export const supabaseConfig = {
-  url: process.env.NEXT_PUBLIC_SUPABASE_URL!,
-  anonKey: process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
-  serviceRoleKey: process.env.SUPABASE_SERVICE_ROLE_KEY!,
-}
-```
-
-#### Authentication Configuration
-```typescript
-// lib/auth/config.ts
-export const authConfig = {
-  pages: {
-    signIn: '/admin/login',
-    error: '/admin/error',
-  },
-  session: {
-    strategy: 'jwt',
-    maxAge: 24 * 60 * 60, // 24 hours
-  },
-}
-```
-
-### Brand Configuration
-
-#### Wolf Studio Theme
-```typescript
-// config/theme.ts
-export const wolfStudioTheme = {
-  colors: {
-    primary: '#000000',
-    secondary: '#666666',
-    accent: '#ff6b35',
-  },
-  fonts: {
-    primary: 'Calibre',
-    secondary: 'Financier Display',
-  },
-}
-```
-
-#### CBRE Theme
-```typescript
-// config/cbre-theme.js
-export const cbreTheme = {
-  colors: {
-    primary: '#00A14B',
-    secondary: '#004225',
-    accent: '#7ED321',
-  },
-  fonts: {
-    primary: 'Noto Sans',
-    secondary: 'Space Mono',
-  },
-}
+-- Admin access policy
+CREATE POLICY "Admins can manage all projects"
+  ON projects FOR ALL
+  USING (auth.jwt() ->> 'role' = 'admin');
 ```
 
 ---
@@ -381,29 +318,51 @@ export const cbreTheme = {
 
 ### Vercel Deployment (Recommended)
 
-#### Automatic Deployment
-```bash
-# Install Vercel CLI
-npm install -g vercel
+1. **Connect to Vercel**
+   ```bash
+   npm install -g vercel
+   vercel login
+   vercel link
+   ```
 
-# Deploy to Vercel
-vercel --prod
+2. **Configure environment variables**
+   ```bash
+   # Set production environment variables
+   vercel env add NEXT_PUBLIC_SUPABASE_URL
+   vercel env add NEXT_PUBLIC_SUPABASE_ANON_KEY
+   vercel env add SUPABASE_SERVICE_ROLE_KEY
+   ```
 
-# Configure environment variables
-vercel env add NEXT_PUBLIC_SUPABASE_URL
-vercel env add NEXT_PUBLIC_SUPABASE_ANON_KEY
-vercel env add SUPABASE_SERVICE_ROLE_KEY
-```
-
-#### Manual Configuration
-1. Connect your GitHub repository to Vercel
-2. Set up environment variables in Vercel dashboard
-3. Configure custom domain and SSL
-4. Set up deployment hooks for CI/CD
+3. **Deploy**
+   ```bash
+   vercel --prod
+   ```
 
 ### Alternative Deployment Options
 
-#### Docker Deployment
+#### AWS Amplify
+```bash
+# Install AWS CLI
+npm install -g @aws-amplify/cli
+
+# Configure deployment
+amplify configure
+amplify init
+amplify add hosting
+amplify publish
+```
+
+#### Netlify
+```bash
+# Install Netlify CLI
+npm install -g netlify-cli
+
+# Deploy to Netlify
+netlify deploy --prod
+```
+
+### Docker Deployment
+
 ```dockerfile
 # Dockerfile
 FROM node:18-alpine
@@ -420,55 +379,9 @@ CMD ["npm", "start"]
 ```
 
 ```bash
-# Build and run Docker container
+# Build and run
 docker build -t wolf-studio .
 docker run -p 3000:3000 wolf-studio
-```
-
-#### AWS Deployment
-```bash
-# Using AWS Amplify
-npm install -g @aws-amplify/cli
-amplify init
-amplify add hosting
-amplify publish
-```
-
-#### Azure Deployment
-```bash
-# Using Azure Static Web Apps
-npm install -g @azure/static-web-apps-cli
-swa init
-swa deploy
-```
-
-### CI/CD Pipeline
-
-#### GitHub Actions
-```yaml
-# .github/workflows/deploy.yml
-name: Deploy to Production
-
-on:
-  push:
-    branches: [main]
-
-jobs:
-  deploy:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v3
-      - uses: actions/setup-node@v3
-        with:
-          node-version: '18'
-      - run: npm ci
-      - run: npm run build
-      - run: npm run test
-      - uses: amondnet/vercel-action@v20
-        with:
-          vercel-token: ${{ secrets.VERCEL_TOKEN }}
-          vercel-org-id: ${{ secrets.VERCEL_ORG_ID }}
-          vercel-project-id: ${{ secrets.VERCEL_PROJECT_ID }}
 ```
 
 ---
@@ -477,82 +390,74 @@ jobs:
 
 ### Supabase Setup
 
-#### 1. Create Supabase Project
-```bash
-# Create new project at https://supabase.com/dashboard
-# Note your project URL and anon key
-```
+1. **Create Supabase project**
+   - Go to [supabase.com](https://supabase.com)
+   - Create new project
+   - Note your project URL and anon key
 
-#### 2. Run Migrations
-```sql
--- supabase/migrations/20241201000001_initial_schema.sql
--- This file contains the initial database schema
--- Run migrations through Supabase dashboard or CLI
-```
+2. **Run migrations**
+   ```bash
+   # Apply database schema
+   supabase db reset
+   
+   # Or run specific migrations
+   supabase migration up
+   ```
 
-#### 3. Set up Row Level Security (RLS)
-```sql
--- Enable RLS on all tables
-ALTER TABLE projects ENABLE ROW LEVEL SECURITY;
-ALTER TABLE categories ENABLE ROW LEVEL SECURITY;
-ALTER TABLE users ENABLE ROW LEVEL SECURITY;
-
--- Create policies
-CREATE POLICY "Public projects are viewable by everyone"
-  ON projects FOR SELECT
-  USING (is_published = true);
-
-CREATE POLICY "Users can manage their own projects"
-  ON projects FOR ALL
-  USING (auth.uid() = user_id);
-```
-
-### Alternative Database Setup
-
-#### PostgreSQL Setup
-```bash
-# Install PostgreSQL
-sudo apt install postgresql postgresql-contrib
-
-# Create database and user
-sudo -u postgres psql
-CREATE DATABASE wolf_studio;
-CREATE USER wolf_studio WITH PASSWORD 'your_password';
-GRANT ALL PRIVILEGES ON DATABASE wolf_studio TO wolf_studio;
-```
-
-#### MySQL Setup
-```bash
-# Install MySQL
-sudo apt install mysql-server
-
-# Create database and user
-mysql -u root -p
-CREATE DATABASE wolf_studio;
-CREATE USER 'wolf_studio'@'localhost' IDENTIFIED BY 'your_password';
-GRANT ALL PRIVILEGES ON wolf_studio.* TO 'wolf_studio'@'localhost';
-```
+3. **Configure Row Level Security**
+   ```sql
+   -- Enable RLS on all tables
+   ALTER TABLE projects ENABLE ROW LEVEL SECURITY;
+   ALTER TABLE categories ENABLE ROW LEVEL SECURITY;
+   ALTER TABLE users ENABLE ROW LEVEL SECURITY;
+   ```
 
 ### Database Schema
 
 #### Core Tables
-- **users**: User accounts and profiles
-- **projects**: Portfolio projects and metadata
-- **categories**: Project categorization
-- **project_images**: Image assets and metadata
-- **user_sessions**: Session management
-- **activity_logs**: Audit trail and user actions
-
-#### Relationships
 ```sql
--- Projects belong to categories
-projects.category_id → categories.id
+-- Projects table
+CREATE TABLE projects (
+  id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
+  title TEXT NOT NULL,
+  slug TEXT UNIQUE NOT NULL,
+  description JSONB,
+  is_published BOOLEAN DEFAULT false,
+  created_at TIMESTAMP WITH TIME ZONE DEFAULT now(),
+  updated_at TIMESTAMP WITH TIME ZONE DEFAULT now()
+);
 
--- Projects have many images
-project_images.project_id → projects.id
+-- Categories table
+CREATE TABLE categories (
+  id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
+  name TEXT NOT NULL,
+  slug TEXT UNIQUE NOT NULL,
+  description TEXT,
+  created_at TIMESTAMP WITH TIME ZONE DEFAULT now()
+);
 
--- Users can manage multiple projects
-projects.user_id → users.id
+-- Project images table
+CREATE TABLE project_images (
+  id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
+  project_id UUID REFERENCES projects(id) ON DELETE CASCADE,
+  image_url TEXT NOT NULL,
+  image_type TEXT CHECK (image_type IN ('banner', 'gallery')),
+  display_order INTEGER DEFAULT 0,
+  created_at TIMESTAMP WITH TIME ZONE DEFAULT now()
+);
+```
+
+#### Security Policies
+```sql
+-- Public read access for published projects
+CREATE POLICY "Public can view published projects"
+  ON projects FOR SELECT
+  USING (is_published = true);
+
+-- Admin full access
+CREATE POLICY "Admin full access"
+  ON projects FOR ALL
+  USING (auth.jwt() ->> 'role' = 'admin');
 ```
 
 ---
@@ -561,13 +466,19 @@ projects.user_id → users.id
 
 ### Authentication & Authorization
 
-#### JWT Token Management
+#### Multi-Factor Authentication
 ```typescript
-// lib/auth/jwt.ts
-export const tokenConfig = {
-  secret: process.env.NEXTAUTH_SECRET!,
-  expiration: '24h',
-  refreshThreshold: '1h',
+// lib/auth/mfa.ts
+import { supabase } from '@/lib/supabase/client'
+
+export async function enableMFA(userId: string) {
+  const { data, error } = await supabase.auth.mfa.enroll({
+    factorType: 'totp',
+    issuer: 'Wolf Studio'
+  })
+  
+  if (error) throw error
+  return data
 }
 ```
 
@@ -575,698 +486,351 @@ export const tokenConfig = {
 ```typescript
 // lib/auth/rbac.ts
 export const roles = {
-  ADMIN: 'admin',
-  EDITOR: 'editor',
-  VIEWER: 'viewer',
-} as const
+  admin: ['read', 'write', 'delete'],
+  editor: ['read', 'write'],
+  viewer: ['read']
+}
 
-export const permissions = {
-  MANAGE_USERS: 'manage_users',
-  MANAGE_PROJECTS: 'manage_projects',
-  VIEW_ANALYTICS: 'view_analytics',
+export function hasPermission(userRole: string, action: string) {
+  return roles[userRole]?.includes(action) || false
 }
 ```
 
-### Input Validation
+### Data Protection
 
-#### Schema Validation
+#### Encryption at Rest
+```sql
+-- Enable transparent data encryption
+ALTER TABLE projects ENABLE ENCRYPTION;
+ALTER TABLE users ENABLE ENCRYPTION;
+```
+
+#### Input Validation
 ```typescript
 // lib/validation/schemas.ts
 import { z } from 'zod'
 
-export const ProjectSchema = z.object({
-  title: z.string().min(1).max(100),
-  description: z.string().max(1000).optional(),
-  category: z.string().uuid(),
-  images: z.array(z.object({
-    url: z.string().url(),
-    alt: z.string().max(255),
-  })),
+export const projectSchema = z.object({
+  title: z.string().min(1).max(255),
+  description: z.string().optional(),
+  is_published: z.boolean().default(false)
 })
 ```
 
-#### API Validation
+#### Rate Limiting
 ```typescript
-// app/api/projects/route.ts
-import { ProjectSchema } from '@/lib/validation/schemas'
+// lib/middleware/rate-limit.ts
+import { rateLimit } from 'express-rate-limit'
 
-export async function POST(request: Request) {
-  try {
-    const body = await request.json()
-    const validatedData = ProjectSchema.parse(body)
-    // Process validated data
-  } catch (error) {
-    return NextResponse.json(
-      { error: 'Invalid input data' },
-      { status: 400 }
-    )
-  }
-}
+export const apiLimiter = rateLimit({
+  windowMs: 15 * 60 * 1000, // 15 minutes
+  max: 100, // limit each IP to 100 requests per windowMs
+  message: 'Too many requests from this IP'
+})
 ```
 
 ### Security Headers
 
-#### Next.js Security Configuration
-```typescript
+```javascript
 // next.config.js
 const securityHeaders = [
   {
+    key: 'X-DNS-Prefetch-Control',
+    value: 'on'
+  },
+  {
+    key: 'Strict-Transport-Security',
+    value: 'max-age=63072000; includeSubDomains; preload'
+  },
+  {
     key: 'X-Frame-Options',
-    value: 'DENY',
+    value: 'DENY'
   },
   {
     key: 'X-Content-Type-Options',
-    value: 'nosniff',
+    value: 'nosniff'
   },
   {
     key: 'Referrer-Policy',
-    value: 'strict-origin-when-cross-origin',
-  },
-  {
-    key: 'Content-Security-Policy',
-    value: "default-src 'self'; script-src 'self' 'unsafe-inline';",
-  },
+    value: 'origin-when-cross-origin'
+  }
 ]
-```
-
-### Environment Security
-
-#### Secret Management
-```bash
-# Use environment variables for secrets
-export SUPABASE_SERVICE_ROLE_KEY="your_secret_key"
-export NEXTAUTH_SECRET="your_nextauth_secret"
-
-# Never commit secrets to version control
-echo "*.env*" >> .gitignore
-```
-
-#### Production Security Checklist
-- [ ] Enable HTTPS/TLS encryption
-- [ ] Configure security headers
-- [ ] Implement rate limiting
-- [ ] Enable database encryption
-- [ ] Set up monitoring and alerts
-- [ ] Regular security audits
-- [ ] Dependency vulnerability scanning
-
----
-
-## Monitoring & Observability
-
-### Structured Logging
-
-#### Log Levels and Categories
-```typescript
-// lib/services/logger.ts
-export enum LogLevel {
-  ERROR = 'error',
-  WARN = 'warn',
-  INFO = 'info',
-  DEBUG = 'debug',
-  AUDIT = 'audit',
-  SECURITY = 'security',
-  PERFORMANCE = 'performance'
-}
-
-export enum LogCategory {
-  AUTH = 'auth',
-  API = 'api',
-  DATABASE = 'database',
-  SECURITY = 'security',
-  PERFORMANCE = 'performance',
-  USER_ACTION = 'user_action',
-  SYSTEM = 'system',
-  ERROR = 'error',
-  AUDIT = 'audit',
-  MIDDLEWARE = 'middleware'
-}
-```
-
-#### Request Tracing
-```typescript
-// Automatic correlation ID generation
-import { logger } from '@/lib/services/logger'
-
-// Every request gets a unique correlation ID
-const correlationId = logger.generateCorrelationId()
-
-// All logs include correlation ID for tracing
-logger.info('User login attempt', {
-  correlationId,
-  userId: 'user123',
-  ipAddress: '192.168.1.1'
-})
-```
-
-### Performance Monitoring
-
-#### API Performance Tracking
-```typescript
-// lib/services/performance-monitor.ts
-import { performanceMonitor } from '@/lib/services/performance-monitor'
-
-// Track API response times
-performanceMonitor.trackAPIRequest({
-  endpoint: '/api/projects',
-  method: 'GET',
-  statusCode: 200,
-  duration: 150,
-  responseSize: 1024,
-  timestamp: new Date()
-})
-```
-
-#### Database Performance
-```typescript
-// Track database query performance
-performanceMonitor.trackDatabaseQuery({
-  query: 'SELECT * FROM projects WHERE category_id = ?',
-  duration: 45,
-  rows: 25,
-  cached: false,
-  timestamp: new Date()
-})
-```
-
-#### Web Vitals Collection
-```typescript
-// Client-side performance metrics
-import { webVitalsTracker } from '@/lib/services/performance-monitor'
-
-// Automatically track Core Web Vitals
-webVitalsTracker.track('FCP', 1200, 'unique-id', 100, 'good')
-webVitalsTracker.track('LCP', 2500, 'unique-id', 200, 'needs-improvement')
-webVitalsTracker.track('CLS', 0.1, 'unique-id', 0.05, 'good')
-```
-
-### Security Event Logging
-
-#### Authentication Events
-```typescript
-// Log authentication events
-logger.logSecurity({
-  eventType: 'login',
-  userId: 'user123',
-  ipAddress: '192.168.1.1',
-  userAgent: 'Mozilla/5.0...',
-  details: { loginMethod: 'password' },
-  severity: 'low'
-})
-
-// Log failed login attempts
-logger.logSecurity({
-  eventType: 'failed_login',
-  ipAddress: '192.168.1.1',
-  userAgent: 'Mozilla/5.0...',
-  details: { reason: 'invalid_credentials', attempts: 3 },
-  severity: 'medium'
-})
-```
-
-#### Rate Limiting Events
-```typescript
-// Log rate limit violations
-logger.logSecurity({
-  eventType: 'rate_limit',
-  ipAddress: '192.168.1.1',
-  userAgent: 'Mozilla/5.0...',
-  details: { 
-    endpoint: '/api/projects',
-    attempts: 150,
-    timeWindow: '15min'
-  },
-  severity: 'high'
-})
-```
-
-### Health Monitoring
-
-#### System Health Checks
-```http
-GET /api/health
-```
-
-**Response:**
-```json
-{
-  "status": "healthy",
-  "timestamp": "2024-01-01T00:00:00Z",
-  "uptime": 3600,
-  "responseTime": 45,
-  "checks": {
-    "database": {
-      "status": "healthy",
-      "responseTime": 25,
-      "details": { "connected": true }
-    },
-    "performance": {
-      "status": "healthy",
-      "details": {
-        "errorRate": 0.001,
-        "memoryUsagePercent": 65,
-        "requestCount": 1250
-      }
-    },
-    "memory": {
-      "status": "healthy",
-      "details": {
-        "heapUsed": 134217728,
-        "heapTotal": 268435456,
-        "usagePercent": 50
-      }
-    }
-  },
-  "metrics": {
-    "requests": 1250,
-    "errors": 2,
-    "errorRate": 0.0016,
-    "uptime": 3600000
-  },
-  "system": {
-    "nodeVersion": "v18.17.0",
-    "platform": "linux",
-    "environment": "production"
-  }
-}
-```
-
-#### Performance Alerts
-```typescript
-// Automatic performance alerts
-performanceMonitor.checkPerformanceAlerts()
-
-// Custom alert thresholds
-performanceMonitor.setThresholds({
-  apiResponseTime: 1000,     // 1 second
-  databaseQueryTime: 500,    // 500ms
-  memoryUsagePercentage: 80, // 80%
-  errorRate: 0.05            // 5%
-})
-```
-
-### APM Integration
-
-#### Sentry Integration
-```typescript
-// lib/monitoring/sentry.ts
-import * as Sentry from '@sentry/nextjs'
-
-Sentry.init({
-  dsn: process.env.NEXT_PUBLIC_SENTRY_DSN,
-  environment: process.env.NODE_ENV,
-  tracesSampleRate: 1.0,
-  profilesSampleRate: 1.0,
-  beforeSend(event) {
-    // Filter sensitive data
-    return event
-  }
-})
-```
-
-#### DataDog Integration
-```typescript
-// lib/monitoring/datadog.ts
-import { datadog } from '@datadog/browser-logs'
-
-datadog.init({
-  clientToken: process.env.NEXT_PUBLIC_DATADOG_TOKEN,
-  site: 'datadoghq.com',
-  env: process.env.NODE_ENV,
-  service: 'wolf-studio',
-  version: '1.0.0'
-})
-```
-
-#### New Relic Integration
-```typescript
-// lib/monitoring/newrelic.ts
-import newrelic from 'newrelic'
-
-// Custom metrics
-newrelic.recordMetric('Custom/Performance/APIResponse', responseTime)
-newrelic.recordMetric('Custom/Business/ProjectsCreated', 1)
-```
-
-### Audit Logging
-
-#### User Actions
-```typescript
-// Log user actions for audit trail
-logger.logAudit({
-  action: 'project_created',
-  resource: 'project',
-  resourceId: 'project123',
-  userId: 'user123',
-  oldValue: null,
-  newValue: { title: 'New Project', category: 'web' },
-  metadata: { ipAddress: '192.168.1.1' }
-})
-```
-
-#### Data Changes
-```typescript
-// Log data modifications
-logger.logAudit({
-  action: 'project_updated',
-  resource: 'project',
-  resourceId: 'project123',
-  userId: 'user123',
-  oldValue: { title: 'Old Title', status: 'draft' },
-  newValue: { title: 'New Title', status: 'published' },
-  metadata: { reason: 'content_update' }
-})
-```
-
-### Monitoring Dashboard
-
-#### Real-time Metrics
-- **System Health**: CPU, memory, disk usage
-- **API Performance**: Response times, error rates, throughput
-- **Database Performance**: Query times, connection pools
-- **User Activity**: Login rates, feature usage, errors
-- **Security Events**: Failed logins, rate limits, suspicious activity
-
-#### Alerting Rules
-```typescript
-// lib/monitoring/alerts.ts
-export const alertRules = {
-  highErrorRate: {
-    condition: 'errorRate > 0.05',
-    severity: 'critical',
-    channels: ['email', 'slack', 'pagerduty']
-  },
-  slowAPIResponse: {
-    condition: 'avgResponseTime > 2000',
-    severity: 'warning',
-    channels: ['email', 'slack']
-  },
-  highMemoryUsage: {
-    condition: 'memoryUsage > 0.8',
-    severity: 'warning',
-    channels: ['email']
-  }
-}
 ```
 
 ---
 
 ## API Documentation
 
-### Authentication APIs
+### REST API Endpoints
 
-#### Login
-```http
-POST /api/auth/login
-Content-Type: application/json
+#### Projects API
+```typescript
+// GET /api/projects
+// Get all published projects
+GET /api/projects?published=true&limit=10&offset=0
 
+// GET /api/projects/[id]
+// Get project by ID
+GET /api/projects/123e4567-e89b-12d3-a456-426614174000
+
+// POST /api/projects
+// Create new project (Admin only)
+POST /api/projects
+{
+  "title": "Project Title",
+  "description": "Project description",
+  "is_published": false
+}
+
+// PUT /api/projects/[id]
+// Update project (Admin only)
+PUT /api/projects/123e4567-e89b-12d3-a456-426614174000
+{
+  "title": "Updated Title",
+  "is_published": true
+}
+
+// DELETE /api/projects/[id]
+// Delete project (Admin only)
+DELETE /api/projects/123e4567-e89b-12d3-a456-426614174000
+```
+
+#### Categories API
+```typescript
+// GET /api/categories
+// Get all categories
+GET /api/categories
+
+// POST /api/categories
+// Create category (Admin only)
+POST /api/categories
+{
+  "name": "Category Name",
+  "slug": "category-slug"
+}
+```
+
+#### Admin API
+```typescript
+// GET /api/admin/stats
+// Get admin statistics
+GET /api/admin/stats
+
+// GET /api/admin/users
+// Get all users (Admin only)
+GET /api/admin/users
+
+// POST /api/admin/users
+// Create user (Admin only)
+POST /api/admin/users
 {
   "email": "user@example.com",
-  "password": "securepassword"
+  "role": "editor"
 }
 ```
 
-**Response:**
-```json
-{
-  "success": true,
-  "data": {
-    "user": {
-      "id": "uuid",
-      "email": "user@example.com",
-      "role": "admin"
-    },
-    "token": "jwt_token"
-  }
-}
-```
+### GraphQL API (Optional)
 
-#### Logout
-```http
-POST /api/auth/logout
-Authorization: Bearer jwt_token
-```
-
-### Project APIs
-
-#### Get Projects
-```http
-GET /api/admin/projects?page=1&limit=10&category=web
-Authorization: Bearer jwt_token
-```
-
-**Response:**
-```json
-{
-  "success": true,
-  "data": [
-    {
-      "id": "uuid",
-      "title": "Project Name",
-      "description": "Project description",
-      "category": "web",
-      "images": [
-        {
-          "id": "uuid",
-          "url": "https://example.com/image.jpg",
-          "alt": "Image description"
-        }
-      ],
-      "created_at": "2024-01-01T00:00:00Z",
-      "updated_at": "2024-01-01T00:00:00Z"
+```graphql
+# Query projects
+query GetProjects($published: Boolean, $limit: Int) {
+  projects(published: $published, limit: $limit) {
+    id
+    title
+    slug
+    description
+    isPublished
+    createdAt
+    updatedAt
+    images {
+      id
+      imageUrl
+      imageType
+      displayOrder
     }
-  ],
-  "meta": {
-    "total": 50,
-    "page": 1,
-    "limit": 10,
-    "hasMore": true
+  }
+}
+
+# Mutation to create project
+mutation CreateProject($input: ProjectInput!) {
+  createProject(input: $input) {
+    id
+    title
+    slug
+    isPublished
   }
 }
 ```
 
-#### Create Project
-```http
-POST /api/admin/projects
-Authorization: Bearer jwt_token
-Content-Type: application/json
+---
 
-{
-  "title": "New Project",
-  "description": "Project description",
-  "category_id": "uuid",
-  "images": [
+## Monitoring & Logging
+
+### Structured Logging
+
+```typescript
+// lib/services/logger.ts
+import { winston } from 'winston'
+
+export const logger = winston.createLogger({
+  level: process.env.LOG_LEVEL || 'info',
+  format: winston.format.combine(
+    winston.format.timestamp(),
+    winston.format.errors({ stack: true }),
+    winston.format.json()
+  ),
+  transports: [
+    new winston.transports.File({ filename: 'error.log', level: 'error' }),
+    new winston.transports.File({ filename: 'combined.log' })
+  ]
+})
+
+// Usage example
+logger.info('User created', {
+  userId: '123',
+  correlationId: 'req-456',
+  action: 'user.create'
+})
+```
+
+### Performance Monitoring
+
+```typescript
+// lib/services/performance-monitor.ts
+export class PerformanceMonitor {
+  static trackApiCall(endpoint: string, duration: number, status: number) {
+    const metrics = {
+      endpoint,
+      duration,
+      status,
+      timestamp: Date.now()
+    }
+    
+    // Send to monitoring service
+    this.sendMetrics(metrics)
+  }
+  
+  static trackWebVitals(vitals: WebVitals) {
+    // Track Core Web Vitals
+    console.log('Web Vitals:', vitals)
+  }
+}
+```
+
+### Health Checks
+
+```typescript
+// app/api/health/route.ts
+export async function GET() {
+  const checks = {
+    database: await checkDatabase(),
+    storage: await checkStorage(),
+    auth: await checkAuth(),
+    timestamp: new Date().toISOString()
+  }
+  
+  const isHealthy = Object.values(checks).every(
+    check => check.status === 'healthy'
+  )
+  
+  return Response.json(checks, {
+    status: isHealthy ? 200 : 503
+  })
+}
+```
+
+### Error Tracking
+
+```typescript
+// lib/utils/error-handler.ts
+import * as Sentry from '@sentry/nextjs'
+
+export function handleError(error: Error, context: any = {}) {
+  // Log error
+  logger.error('Application error', {
+    error: error.message,
+    stack: error.stack,
+    context,
+    timestamp: new Date().toISOString()
+  })
+  
+  // Send to Sentry in production
+  if (process.env.NODE_ENV === 'production') {
+    Sentry.captureException(error, {
+      tags: context,
+      level: 'error'
+    })
+  }
+}
+```
+
+---
+
+## Testing
+
+### Unit Testing
+
+```typescript
+// __tests__/lib/utils.test.ts
+import { describe, it, expect } from 'vitest'
+import { slugify } from '@/lib/utils'
+
+describe('slugify', () => {
+  it('should convert string to slug', () => {
+    expect(slugify('Hello World')).toBe('hello-world')
+    expect(slugify('Special & Characters!')).toBe('special-characters')
+  })
+})
+```
+
+### Integration Testing
+
+```typescript
+// __tests__/api/projects.test.ts
+import { describe, it, expect } from 'vitest'
+import { createMocks } from 'node-mocks-http'
+import handler from '@/app/api/projects/route'
+
+describe('/api/projects', () => {
+  it('should return published projects', async () => {
+    const { req, res } = createMocks({
+      method: 'GET',
+      query: { published: 'true' }
+    })
+    
+    await handler(req, res)
+    
+    expect(res._getStatusCode()).toBe(200)
+    expect(JSON.parse(res._getData())).toHaveProperty('data')
+  })
+})
+```
+
+### E2E Testing
+
+```typescript
+// playwright.config.ts
+import { defineConfig } from '@playwright/test'
+
+export default defineConfig({
+  testDir: './tests',
+  fullyParallel: true,
+  forbidOnly: !!process.env.CI,
+  retries: process.env.CI ? 2 : 0,
+  workers: process.env.CI ? 1 : undefined,
+  reporter: 'html',
+  use: {
+    baseURL: 'http://localhost:3000',
+    trace: 'on-first-retry'
+  },
+  projects: [
     {
-      "url": "https://example.com/image.jpg",
-      "alt": "Image description"
+      name: 'chromium',
+      use: { ...devices['Desktop Chrome'] }
     }
   ]
-}
+})
 ```
-
-#### Update Project
-```http
-PUT /api/admin/projects/{id}
-Authorization: Bearer jwt_token
-Content-Type: application/json
-
-{
-  "title": "Updated Project Title",
-  "description": "Updated description"
-}
-```
-
-#### Delete Project
-```http
-DELETE /api/admin/projects/{id}
-Authorization: Bearer jwt_token
-```
-
-### User Management APIs
-
-#### Get Users
-```http
-GET /api/admin/users?page=1&limit=10&role=admin
-Authorization: Bearer jwt_token
-```
-
-#### Create User
-```http
-POST /api/admin/users
-Authorization: Bearer jwt_token
-Content-Type: application/json
-
-{
-  "email": "newuser@example.com",
-  "password": "securepassword",
-  "role": "editor",
-  "profile": {
-    "first_name": "John",
-    "last_name": "Doe"
-  }
-}
-```
-
-### File Upload APIs
-
-#### Upload Image
-```http
-POST /api/admin/upload-image
-Authorization: Bearer jwt_token
-Content-Type: multipart/form-data
-
-{
-  "file": [binary data],
-  "project_id": "uuid",
-  "image_type": "banner"
-}
-```
-
-**Response:**
-```json
-{
-  "success": true,
-  "data": {
-    "id": "uuid",
-    "url": "https://example.com/uploads/image.jpg",
-    "storage_path": "uploads/project_id/image.jpg",
-    "file_size": 1024000,
-    "mime_type": "image/jpeg"
-  }
-}
-```
-
-### Monitoring APIs
-
-#### Health Check
-```http
-GET /api/health
-```
-
-**Response:**
-```json
-{
-  "status": "healthy",
-  "timestamp": "2024-01-01T00:00:00Z",
-  "uptime": 3600,
-  "responseTime": 45,
-  "checks": {
-    "database": {
-      "status": "healthy",
-      "responseTime": 25,
-      "details": { "connected": true }
-    },
-    "performance": {
-      "status": "healthy",
-      "details": {
-        "errorRate": 0.001,
-        "memoryUsagePercent": 65,
-        "requestCount": 1250
-      }
-    },
-    "memory": {
-      "status": "healthy",
-      "details": {
-        "heapUsed": 134217728,
-        "heapTotal": 268435456,
-        "usagePercent": 50
-      }
-    }
-  }
-}
-```
-
-#### Lightweight Health Check
-```http
-HEAD /api/health
-```
-
-**Response:**
-- `200` - System healthy
-- `503` - System unhealthy
-
-#### Web Vitals Collection
-```http
-POST /api/metrics/web-vitals
-Content-Type: application/json
-
-{
-  "name": "FCP",
-  "value": 1200,
-  "id": "unique-id",
-  "delta": 100,
-  "rating": "good",
-  "navigationType": "navigate"
-}
-```
-
-**Response:**
-```json
-{
-  "success": true
-}
-```
-
-#### Get Web Vitals Metrics
-```http
-GET /api/metrics/web-vitals
-```
-
-**Response:**
-```json
-{
-  "success": true,
-  "data": [
-    {
-      "name": "FCP",
-      "value": 1200,
-      "id": "unique-id",
-      "delta": 100,
-      "rating": "good",
-      "navigationType": "navigate",
-      "timestamp": "2024-01-01T00:00:00Z"
-    }
-  ]
-}
-```
-
-### Error Responses
-
-#### Standard Error Format
-```json
-{
-  "success": false,
-  "error": {
-    "code": "VALIDATION_ERROR",
-    "message": "Invalid input data",
-    "userMessage": "Please check the form and correct any errors.",
-    "details": [
-      {
-        "field": "title",
-        "message": "Title is required",
-        "constraint": "required"
-      }
-    ],
-    "suggestions": [
-      "Check all required fields are filled",
-      "Ensure data is in the correct format"
-    ],
-    "requestId": "req_123456789",
-    "timestamp": "2024-01-01T00:00:00Z"
-  }
-}
-```
-
-#### HTTP Status Codes
-- `200` - Success
-- `201` - Created
-- `400` - Bad Request
-- `401` - Unauthorized
-- `403` - Forbidden
-- `404` - Not Found
-- `409` - Conflict
-- `422` - Validation Error
-- `500` - Internal Server Error
 
 ---
 
@@ -1274,132 +838,86 @@ GET /api/metrics/web-vitals
 
 ### Development Workflow
 
-1. **Fork the Repository**
+1. **Fork the repository**
+2. **Create feature branch**
    ```bash
-   git clone https://github.com/your-username/wolf-studio.git
-   cd wolf-studio
+   git checkout -b feature/amazing-feature
    ```
 
-2. **Create Feature Branch**
-   ```bash
-   git checkout -b feature/your-feature-name
-   ```
-
-3. **Make Changes**
+3. **Make changes**
    ```bash
    # Make your changes
-   npm run dev # Test locally
-   npm run build # Test build
-   npm run test # Run tests
-   ```
-
-4. **Commit Changes**
-   ```bash
    git add .
-   git commit -m "feat: add new feature description"
+   git commit -m "Add amazing feature"
    ```
 
-5. **Push and Create PR**
+4. **Test changes**
    ```bash
-   git push origin feature/your-feature-name
-   # Create pull request on GitHub
+   npm run test
+   npm run lint
+   npm run build
    ```
 
-### Code Standards
+5. **Submit pull request**
+   ```bash
+   git push origin feature/amazing-feature
+   ```
 
-#### TypeScript Guidelines
-- Use strict TypeScript configuration
-- Define proper interfaces for all data structures
-- Use type guards for runtime type checking
-- Prefer `const` assertions for immutable data
+### Code Style
 
-#### React Guidelines
-- Use functional components with hooks
-- Implement proper error boundaries
-- Use React.memo for performance optimization
-- Follow hooks rules and dependencies
-
-#### Styling Guidelines
-- Use Tailwind CSS utility classes
-- Follow mobile-first responsive design
-- Maintain consistent spacing and typography
-- Use semantic HTML elements
-
-### Testing Standards
-
-#### Unit Tests
-```typescript
-// components/__tests__/ProjectCard.test.tsx
-import { render, screen } from '@testing-library/react'
-import { ProjectCard } from '../ProjectCard'
-
-describe('ProjectCard', () => {
-  it('renders project information correctly', () => {
-    const mockProject = {
-      id: '1',
-      title: 'Test Project',
-      description: 'Test description',
-    }
-    
-    render(<ProjectCard project={mockProject} />)
-    
-    expect(screen.getByText('Test Project')).toBeInTheDocument()
-    expect(screen.getByText('Test description')).toBeInTheDocument()
-  })
-})
+#### ESLint Configuration
+```json
+{
+  "extends": [
+    "next/core-web-vitals",
+    "@typescript-eslint/recommended"
+  ],
+  "rules": {
+    "no-unused-vars": "error",
+    "prefer-const": "error",
+    "no-console": "warn"
+  }
+}
 ```
 
-#### Integration Tests
-```typescript
-// app/api/__tests__/projects.test.ts
-import { POST } from '../admin/projects/route'
-import { NextRequest } from 'next/server'
-
-describe('/api/admin/projects', () => {
-  it('creates a new project successfully', async () => {
-    const request = new NextRequest('http://localhost/api/admin/projects', {
-      method: 'POST',
-      body: JSON.stringify({
-        title: 'Test Project',
-        description: 'Test description',
-        category_id: 'uuid',
-      }),
-    })
-    
-    const response = await POST(request)
-    const data = await response.json()
-    
-    expect(response.status).toBe(201)
-    expect(data.success).toBe(true)
-    expect(data.data.title).toBe('Test Project')
-  })
-})
+#### Prettier Configuration
+```json
+{
+  "semi": false,
+  "trailingComma": "es5",
+  "singleQuote": true,
+  "tabWidth": 2,
+  "useTabs": false
+}
 ```
+
+### Commit Message Format
+
+```
+type(scope): subject
+
+body
+
+footer
+```
+
+**Types:**
+- `feat`: A new feature
+- `fix`: A bug fix
+- `docs`: Documentation only changes
+- `style`: Changes that do not affect the meaning of the code
+- `refactor`: A code change that neither fixes a bug nor adds a feature
+- `test`: Adding missing tests
+- `chore`: Changes to the build process or auxiliary tools
 
 ### Pull Request Guidelines
 
-#### PR Template
-```markdown
-## Description
-Brief description of changes
-
-## Type of Change
-- [ ] Bug fix
-- [ ] New feature
-- [ ] Breaking change
-- [ ] Documentation update
-
-## Testing
-- [ ] Unit tests pass
-- [ ] Integration tests pass
-- [ ] Manual testing completed
-
-## Checklist
-- [ ] Code follows style guidelines
-- [ ] Self-review completed
+#### Before Submitting
+- [ ] Tests pass
+- [ ] Linting passes
+- [ ] Build succeeds
 - [ ] Documentation updated
 - [ ] No breaking changes
-```
 
 ---
 
@@ -1411,20 +929,6 @@ Brief description of changes
 - **Component Documentation**: Available at `/docs/components`
 - **Deployment Guide**: Available at `/docs/deployment`
 - **Security Guide**: Available at `/docs/security`
-
-### Community
-
-- **GitHub Issues**: [Report bugs and request features](https://github.com/your-org/wolf-studio/issues)
-- **Discussions**: [Community discussions](https://github.com/your-org/wolf-studio/discussions)
-- **Discord**: [Join our Discord server](https://discord.gg/wolf-studio)
-
-### Enterprise Support
-
-For enterprise support, contact our team:
-
-- **Email**: enterprise@wolfstudio.com
-- **Phone**: +1 (555) 123-4567
-- **Support Portal**: [enterprise.wolfstudio.com](https://enterprise.wolfstudio.com)
 
 ### Troubleshooting
 
@@ -1516,15 +1020,14 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 - **Supabase Team** for the backend infrastructure
 - **Vercel Team** for the deployment platform
 - **Tailwind CSS Team** for the styling framework
-- **All Contributors** who have helped shape this project
+- **Wolf Studio Team** for the design requirements and feedback
 
 ---
 
 <div align="center">
-  <p>Built with ❤️ for Wolf Studio by the development team</p>
+  <p>Built with ❤️ by the CBRE Development Team</p>
   <p>
     <a href="https://wolf-studio.vercel.app/wolf-studio">Wolf Studio Website</a> •
-    <a href="https://github.com/your-org/wolf-studio">GitHub</a> •
     <a href="https://www.cbre.com.sg">CBRE Singapore</a>
   </p>
 </div>
