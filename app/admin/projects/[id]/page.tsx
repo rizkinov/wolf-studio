@@ -375,8 +375,8 @@ export default function EditProjectPage() {
   }
 
   return (
-    <div className="min-h-full">
-      <div className="max-w-7xl mx-auto p-6">
+    <div className="h-screen overflow-y-auto">
+      <div className="max-w-7xl mx-auto p-6 pb-8">
         {/* Header */}
         <div className="flex items-center justify-between mb-6">
           <div className="flex items-center space-x-4">
