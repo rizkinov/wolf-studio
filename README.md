@@ -340,9 +340,55 @@ CREATE POLICY "Admins can manage all projects"
 
 ### Alternative Deployment Options
 
-#### AWS Amplify
+#### Microsoft Azure
+
+##### Azure Static Web Apps
 ```bash
-# Install AWS CLI
+# Install Azure Static Web Apps CLI
+npm install -g @azure/static-web-apps-cli
+
+# Deploy to Azure Static Web Apps
+swa login
+swa init
+swa deploy --env production
+```
+
+##### Azure App Service
+```bash
+# Install Azure CLI
+curl -sL https://aka.ms/InstallAzureCLIDeb | sudo bash
+
+# Login and create resource group
+az login
+az group create --name wolf-studio-rg --location "East US"
+
+# Create App Service plan
+az appservice plan create --name wolf-studio-plan --resource-group wolf-studio-rg --sku B1 --is-linux
+
+# Create web app
+az webapp create --resource-group wolf-studio-rg --plan wolf-studio-plan --name wolf-studio-app --runtime "NODE|18-lts"
+
+# Deploy
+az webapp deployment source config --name wolf-studio-app --resource-group wolf-studio-rg --repo-url <your-repo-url> --branch main --manual-integration
+```
+
+##### Azure Container Instances
+```bash
+# Build and push to Azure Container Registry
+az acr create --resource-group wolf-studio-rg --name wolfstudioacr --sku Basic
+az acr login --name wolfstudioacr
+docker build -t wolfstudioacr.azurecr.io/wolf-studio:latest .
+docker push wolfstudioacr.azurecr.io/wolf-studio:latest
+
+# Deploy to Container Instances
+az container create --resource-group wolf-studio-rg --name wolf-studio-container --image wolfstudioacr.azurecr.io/wolf-studio:latest --cpu 1 --memory 1 --ports 3000
+```
+
+#### Amazon Web Services (AWS)
+
+##### AWS Amplify
+```bash
+# Install AWS Amplify CLI
 npm install -g @aws-amplify/cli
 
 # Configure deployment
@@ -352,17 +398,206 @@ amplify add hosting
 amplify publish
 ```
 
-#### Netlify
+##### AWS App Runner
+```bash
+# Install AWS CLI
+curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip"
+unzip awscliv2.zip
+sudo ./aws/install
+
+# Create apprunner.yaml
+cat > apprunner.yaml << EOF
+version: 1.0
+runtime: nodejs18
+build:
+  commands:
+    build:
+      - npm ci
+      - npm run build
+run:
+  runtime-version: 18
+  command: npm start
+  network:
+    port: 3000
+EOF
+
+# Deploy via AWS Console or CLI
+aws apprunner create-service --cli-input-json file://apprunner-config.json
+```
+
+##### AWS Elastic Container Service (ECS)
+```bash
+# Create ECS cluster
+aws ecs create-cluster --cluster-name wolf-studio-cluster
+
+# Create task definition
+aws ecs register-task-definition --cli-input-json file://task-definition.json
+
+# Create service
+aws ecs create-service --cluster wolf-studio-cluster --service-name wolf-studio-service --task-definition wolf-studio-task --desired-count 1
+```
+
+##### AWS Lambda + API Gateway (Serverless)
+```bash
+# Install Serverless Framework
+npm install -g serverless
+
+# Create serverless.yml
+cat > serverless.yml << EOF
+service: wolf-studio
+frameworkVersion: '3'
+provider:
+  name: aws
+  runtime: nodejs18.x
+  region: us-east-1
+functions:
+  app:
+    handler: server.handler
+    events:
+      - http:
+          path: /{proxy+}
+          method: ANY
+      - http:
+          path: /
+          method: ANY
+EOF
+
+# Deploy
+serverless deploy
+```
+
+#### Google Cloud Platform
+
+##### Google Cloud Run
+```bash
+# Install Google Cloud SDK
+curl https://sdk.cloud.google.com | bash
+gcloud init
+
+# Build and deploy
+gcloud builds submit --tag gcr.io/PROJECT_ID/wolf-studio
+gcloud run deploy --image gcr.io/PROJECT_ID/wolf-studio --platform managed
+```
+
+##### Google App Engine
+```bash
+# Create app.yaml
+cat > app.yaml << EOF
+runtime: nodejs18
+env: standard
+automatic_scaling:
+  min_instances: 1
+  max_instances: 10
+EOF
+
+# Deploy
+gcloud app deploy
+```
+
+##### Google Firebase Hosting
+```bash
+# Install Firebase CLI
+npm install -g firebase-tools
+
+# Initialize and deploy
+firebase login
+firebase init hosting
+firebase deploy
+```
+
+#### Other Cloud Platforms
+
+##### Netlify
 ```bash
 # Install Netlify CLI
 npm install -g netlify-cli
 
 # Deploy to Netlify
 netlify deploy --prod
+
+# Or create netlify.toml
+cat > netlify.toml << EOF
+[build]
+  command = "npm run build"
+  publish = ".next"
+[build.environment]
+  NEXT_TELEMETRY_DISABLED = "1"
+[[redirects]]
+  from = "/*"
+  to = "/index.html"
+  status = 200
+EOF
+```
+
+##### DigitalOcean App Platform
+```bash
+# Create .do/app.yaml
+mkdir -p .do
+cat > .do/app.yaml << EOF
+name: wolf-studio
+services:
+- name: web
+  source_dir: /
+  github:
+    repo: your-username/wolf-studio
+    branch: main
+  run_command: npm start
+  environment_slug: node-js
+  instance_count: 1
+  instance_size_slug: basic-xxs
+  routes:
+  - path: /
+EOF
+
+# Deploy via DigitalOcean CLI or web interface
+doctl apps create .do/app.yaml
+```
+
+##### Render
+```bash
+# Create render.yaml
+cat > render.yaml << EOF
+services:
+  - type: web
+    name: wolf-studio
+    env: node
+    buildCommand: npm ci && npm run build
+    startCommand: npm start
+    envVars:
+      - key: NODE_ENV
+        value: production
+EOF
+
+# Deploy via Render dashboard or CLI
+```
+
+##### Railway
+```bash
+# Install Railway CLI
+npm install -g @railway/cli
+
+# Login and deploy
+railway login
+railway init
+railway up
+```
+
+##### Heroku
+```bash
+# Install Heroku CLI
+curl https://cli-assets.heroku.com/install.sh | sh
+
+# Create Procfile
+echo "web: npm start" > Procfile
+
+# Deploy
+heroku create wolf-studio-app
+git push heroku main
 ```
 
 ### Docker Deployment
 
+#### Basic Docker Setup
 ```dockerfile
 # Dockerfile
 FROM node:18-alpine
@@ -378,10 +613,163 @@ EXPOSE 3000
 CMD ["npm", "start"]
 ```
 
+#### Multi-stage Docker Build
+```dockerfile
+# Dockerfile.multistage
+FROM node:18-alpine AS builder
+
+WORKDIR /app
+COPY package*.json ./
+RUN npm ci
+
+COPY . .
+RUN npm run build
+
+FROM node:18-alpine AS runner
+WORKDIR /app
+
+ENV NODE_ENV production
+RUN addgroup --system --gid 1001 nodejs
+RUN adduser --system --uid 1001 nextjs
+
+COPY --from=builder /app/next.config.js ./
+COPY --from=builder /app/public ./public
+COPY --from=builder /app/.next/standalone ./
+COPY --from=builder /app/.next/static ./.next/static
+
+USER nextjs
+EXPOSE 3000
+ENV PORT 3000
+
+CMD ["node", "server.js"]
+```
+
+#### Docker Compose
+```yaml
+# docker-compose.yml
+version: '3.8'
+
+services:
+  app:
+    build: .
+    ports:
+      - "3000:3000"
+    environment:
+      - NODE_ENV=production
+      - NEXT_PUBLIC_SUPABASE_URL=${NEXT_PUBLIC_SUPABASE_URL}
+      - NEXT_PUBLIC_SUPABASE_ANON_KEY=${NEXT_PUBLIC_SUPABASE_ANON_KEY}
+    env_file:
+      - .env.local
+    restart: unless-stopped
+
+  nginx:
+    image: nginx:alpine
+    ports:
+      - "80:80"
+    volumes:
+      - ./nginx.conf:/etc/nginx/nginx.conf
+    depends_on:
+      - app
+```
+
 ```bash
-# Build and run
-docker build -t wolf-studio .
-docker run -p 3000:3000 wolf-studio
+# Build and run with Docker Compose
+docker-compose up --build -d
+```
+
+#### Kubernetes Deployment
+```yaml
+# k8s-deployment.yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: wolf-studio
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: wolf-studio
+  template:
+    metadata:
+      labels:
+        app: wolf-studio
+    spec:
+      containers:
+      - name: wolf-studio
+        image: wolf-studio:latest
+        ports:
+        - containerPort: 3000
+        env:
+        - name: NODE_ENV
+          value: "production"
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: wolf-studio-service
+spec:
+  selector:
+    app: wolf-studio
+  ports:
+  - protocol: TCP
+    port: 80
+    targetPort: 3000
+  type: LoadBalancer
+```
+
+```bash
+# Deploy to Kubernetes
+kubectl apply -f k8s-deployment.yaml
+```
+
+### Deployment Considerations
+
+#### Environment Variables
+Each platform requires proper environment variable configuration:
+
+```bash
+# Required for all platforms
+NEXT_PUBLIC_SUPABASE_URL=your_supabase_url
+NEXT_PUBLIC_SUPABASE_ANON_KEY=your_supabase_anon_key
+SUPABASE_SERVICE_ROLE_KEY=your_service_role_key
+NEXTAUTH_URL=your_production_url
+NEXTAUTH_SECRET=your_nextauth_secret
+```
+
+#### Build Configuration
+For static export (some platforms):
+```javascript
+// next.config.js
+/** @type {import('next').NextConfig} */
+const nextConfig = {
+  output: 'export',
+  trailingSlash: true,
+  images: {
+    unoptimized: true
+  }
+}
+
+module.exports = nextConfig
+```
+
+#### Performance Optimization
+```javascript
+// next.config.js for production
+/** @type {import('next').NextConfig} */
+const nextConfig = {
+  compress: true,
+  poweredByHeader: false,
+  generateEtags: false,
+  httpAgentOptions: {
+    keepAlive: true,
+  },
+  images: {
+    formats: ['image/webp', 'image/avif'],
+    minimumCacheTTL: 60,
+  },
+}
+
+module.exports = nextConfig
 ```
 
 ---
