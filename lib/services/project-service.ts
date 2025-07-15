@@ -1,5 +1,5 @@
-import { Project } from '@/app/types';
-import { projectsData } from '../data/projects';
+import { Project } from '@/lib/types/project';
+import { projectsData } from '../../data/projects';
 
 /**
  * Get all projects, sorted by order property

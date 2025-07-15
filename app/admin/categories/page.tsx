@@ -1,8 +1,8 @@
 'use client'
 
 import { useState, useEffect } from 'react'
-import { CBRECard } from '@/components/cbre-card'
-import { CBREButton } from '@/components/cbre-button'
+import { CBRECard } from '@/components/cbre/cbre-card'
+import { CBREButton } from '@/components/cbre/cbre-button'
 import { Plus, Edit, Trash2, Tag, Save, X } from 'lucide-react'
 import { Category, CategoryInsert, CategoryUpdate } from '@/lib/types/database'
 

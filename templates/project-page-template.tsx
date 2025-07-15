@@ -3,8 +3,8 @@
 import React from 'react'
 import Link from 'next/link'
 import Image from 'next/image'
-import { CBREButton } from '@/components/cbre-button'
-import { CBREStyledCard } from '@/components/cbre-styled-card'
+import { CBREButton } from '@/components/cbre/cbre-button'
+import { CBREStyledCard } from '@/components/cbre/cbre-styled-card'
 
 /**
  * Project Page Template - Wolf Studio

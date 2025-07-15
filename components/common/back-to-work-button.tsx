@@ -1,6 +1,6 @@
 import React from 'react';
 import Link from 'next/link';
-import { CBREButton } from '@/components/cbre-button';
+import { CBREButton } from '@/components/cbre/cbre-button';
 import { navigateToOurWork } from '@/lib/navigation';
 
 interface BackToWorkButtonProps {

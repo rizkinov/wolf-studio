@@ -1,7 +1,7 @@
 'use client'
 
-import { CBRECard } from '@/components/cbre-card'
-import { CBREButton } from '@/components/cbre-button'
+import { CBRECard } from '@/components/cbre/cbre-card'
+import { CBREButton } from '@/components/cbre/cbre-button'
 import { FolderOpen, Settings, BarChart3, Plus, Edit, Eye } from 'lucide-react'
 import Link from 'next/link'
 import { useState, useEffect } from 'react'

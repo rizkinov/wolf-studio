@@ -1,9 +1,9 @@
 'use client'
 
 import { useState, useEffect } from 'react'
-import { CBRECard } from '@/components/cbre-card'
-import { CBREButton } from '@/components/cbre-button'
-import { CBREBadge } from '@/components/cbre-badge'
+import { CBRECard } from '@/components/cbre/cbre-card'
+import { CBREButton } from '@/components/cbre/cbre-button'
+import { CBREBadge } from '@/components/cbre/cbre-badge'
 import { Settings, User, Database, Image, Save, RefreshCw } from 'lucide-react'
 import { useAuth } from '@/lib/auth/context'
 import StorageMonitor from '@/components/admin/StorageMonitor'

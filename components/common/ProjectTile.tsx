@@ -1,7 +1,7 @@
 import Link from 'next/link';
 import Image from 'next/image';
-import { Project } from '@/app/types';
-import { CBRECard } from '@/components/cbre-card';
+import { Project } from '@/lib/types/project';
+import { CBRECard } from '@/components/cbre/cbre-card';
 
 interface ProjectTileProps {
   project: Project;

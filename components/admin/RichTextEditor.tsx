@@ -22,8 +22,8 @@ import {
   X
 } from 'lucide-react'
 import { cn } from '@/lib/utils'
-import { CBREButton } from '@/components/cbre-button'
-import RichTextRenderer from '@/components/RichTextRenderer'
+import { CBREButton } from '@/components/cbre/cbre-button'
+import RichTextRenderer from '@/components/common/RichTextRenderer'
 
 interface RichTextEditorProps {
   /** Current content as HTML string */

@@ -2,9 +2,9 @@
 
 import { useState, useEffect, useCallback } from 'react'
 import { useRouter, useParams } from 'next/navigation'
-import { CBRECard } from '@/components/cbre-card'
-import { CBREButton } from '@/components/cbre-button'
-import { CBREBadge } from '@/components/cbre-badge'
+import { CBRECard } from '@/components/cbre/cbre-card'
+import { CBREButton } from '@/components/cbre/cbre-button'
+import { CBREBadge } from '@/components/cbre/cbre-badge'
 import { ArrowLeft, Save, Eye, Trash2, ExternalLink } from 'lucide-react'
 import Link from 'next/link'
 import { ProjectService, CategoryService } from '@/lib/services/database'

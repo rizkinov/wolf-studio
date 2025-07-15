@@ -2,8 +2,8 @@
 
 import React from 'react'
 import Link from 'next/link'
-import { BackToWorkButton } from '@/components/back-to-work-button'
-import { useProjectTracking } from '@/components/project-page-with-tracking'
+import { BackToWorkButton } from '@/components/common/back-to-work-button'
+import { useProjectTracking } from '@/components/common/project-page-with-tracking'
 
 
 /**

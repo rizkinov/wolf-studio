@@ -2,9 +2,9 @@
 
 import { useState, useEffect, useCallback } from 'react'
 import { DragDropContext, Droppable, Draggable } from '@hello-pangea/dnd'
-import { CBRECard } from '@/components/cbre-card'
-import { CBREButton } from '@/components/cbre-button'
-import { CBREBadge } from '@/components/cbre-badge'
+import { CBRECard } from '@/components/cbre/cbre-card'
+import { CBREButton } from '@/components/cbre/cbre-button'
+import { CBREBadge } from '@/components/cbre/cbre-badge'
 import { Checkbox } from '@/components/ui/checkbox'
 import { Search, Plus, Edit, Trash2, Eye, ChevronLeft, ChevronRight, GripVertical, Copy, Filter, X } from 'lucide-react'
 import Link from 'next/link'

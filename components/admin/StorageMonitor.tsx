@@ -2,8 +2,8 @@
 
 import React, { useState, useEffect } from 'react'
 import { HardDrive, Trash2, Download, RefreshCw, AlertTriangle } from 'lucide-react'
-import { CBRECard } from '@/components/cbre-card'
-import { CBREButton } from '@/components/cbre-button'
+import { CBRECard } from '@/components/cbre/cbre-card'
+import { CBREButton } from '@/components/cbre/cbre-button'
 import { cn } from '@/lib/utils'
 
 interface StorageStats {

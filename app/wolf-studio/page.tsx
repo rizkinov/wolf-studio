@@ -1,12 +1,12 @@
 'use client';
 
 import React, { useState, useEffect } from 'react'
-import { CBREButton } from '@/components/cbre-button'
+import { CBREButton } from '@/components/cbre/cbre-button'
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/components/ui/accordion'
-import { CBRECard } from '@/components/cbre-card'
-import { ProjectGrid } from '@/components/ProjectGrid'
-import { ProjectFilter } from '@/components/ProjectFilter'
-import { Project } from '@/app/types'
+import { CBRECard } from '@/components/cbre/cbre-card'
+import { ProjectGrid } from '@/components/common/ProjectGrid'
+import { ProjectFilter } from '@/components/common/ProjectFilter'
+import { Project } from '@/lib/types/project'
 
 export default function WolfStudioPage() {
   const [projects, setProjects] = useState<Project[]>([]);

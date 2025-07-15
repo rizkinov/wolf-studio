@@ -2,8 +2,8 @@
 
 import React, { useState, useEffect } from 'react'
 import { Search, X, Copy, Grid, List } from 'lucide-react'
-import { CBREButton } from '@/components/cbre-button'
-import { CBREBadge } from '@/components/cbre-badge'
+import { CBREButton } from '@/components/cbre/cbre-button'
+import { CBREBadge } from '@/components/cbre/cbre-badge'
 import { cn } from '@/lib/utils'
 import { createClient } from '@/lib/supabase/client'
 

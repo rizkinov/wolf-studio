@@ -3,7 +3,7 @@
 import { AuthProvider } from '@/lib/auth/context'
 import { useAuth } from '@/lib/auth/context'
 import { useRouter, usePathname } from 'next/navigation'
-import { CBREButton } from '@/components/cbre-button'
+import { CBREButton } from '@/components/cbre/cbre-button'
 import { LogOut, Home, FolderOpen, Tag, Settings, BarChart3, Users } from 'lucide-react'
 import Link from 'next/link'
 

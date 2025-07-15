@@ -1,5 +1,5 @@
 import React from 'react';
-import { CBREButton } from '@/components/cbre-button';
+import { CBREButton } from '@/components/cbre/cbre-button';
 
 interface ProjectFilterProps {
   categories: string[];
