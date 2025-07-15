@@ -1,7 +1,7 @@
 'use client'
 
 import React, { useState, useEffect } from 'react'
-import { HardDrive, Trash2, Download, RefreshCw, AlertTriangle } from 'lucide-react'
+import { HardDrive, RefreshCw, AlertTriangle } from 'lucide-react'
 import { CBRECard } from '@/components/cbre/cbre-card'
 import { CBREButton } from '@/components/cbre/cbre-button'
 import { cn } from '@/lib/utils'
@@ -46,8 +46,6 @@ const StorageMonitor: React.FC<StorageMonitorProps> = ({
   const [stats, setStats] = useState<StorageStats | null>(null)
   const [loading, setLoading] = useState(false)
   const [refreshing, setRefreshing] = useState(false)
-  const [optimizing, setOptimizing] = useState(false)
-  const [cleaning, setCleaning] = useState(false)
 
   useEffect(() => {
     loadStorageStats()
@@ -111,38 +109,6 @@ const StorageMonitor: React.FC<StorageMonitorProps> = ({
     if (percentage >= 90) return 'bg-red-500'
     if (percentage >= 75) return 'bg-yellow-500'
     return 'bg-[var(--cbre-green)]'
-  }
-
-  const handleOptimizeStorage = async () => {
-    setOptimizing(true)
-    try {
-      const response = await fetch('/api/admin/storage/optimize', {
-        method: 'POST'
-      })
-      if (response.ok) {
-        await loadStorageStats(true)
-      }
-    } catch (error) {
-      console.error('Error optimizing storage:', error)
-    } finally {
-      setOptimizing(false)
-    }
-  }
-
-  const handleCleanupOldFiles = async () => {
-    setCleaning(true)
-    try {
-      const response = await fetch('/api/admin/storage/cleanup', {
-        method: 'POST'
-      })
-      if (response.ok) {
-        await loadStorageStats(true)
-      }
-    } catch (error) {
-      console.error('Error cleaning up files:', error)
-    } finally {
-      setCleaning(false)
-    }
   }
 
   if (loading && !stats) {
@@ -295,36 +261,10 @@ const StorageMonitor: React.FC<StorageMonitorProps> = ({
         </div>
       )}
 
-      {/* Actions */}
-      {showActions && (
-        <div className="space-y-3">
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
-            <CBREButton
-              variant="outline"
-              onClick={handleOptimizeStorage}
-              disabled={optimizing}
-              className="flex items-center justify-center space-x-2"
-            >
-              <Download className={cn("h-4 w-4", optimizing && "animate-spin")} />
-              <span>{optimizing ? 'Optimizing...' : 'Optimize Storage'}</span>
-            </CBREButton>
-            
-            <CBREButton
-              variant="outline"
-              onClick={handleCleanupOldFiles}
-              disabled={cleaning}
-              className="flex items-center justify-center space-x-2 text-red-600 hover:text-red-800 border-red-300 hover:border-red-400"
-            >
-              <Trash2 className={cn("h-4 w-4", cleaning && "animate-spin")} />
-              <span>{cleaning ? 'Cleaning...' : 'Cleanup Old Files'}</span>
-            </CBREButton>
-          </div>
-          
-          <div className="text-xs text-gray-500 text-center">
-            Storage optimization can reduce file sizes by up to 30% without quality loss
-          </div>
-        </div>
-      )}
+      {/* Info Note */}
+      <div className="text-xs text-gray-500 text-center">
+        Storage usage is calculated from actual file sizes in your project database
+      </div>
     </CBRECard>
   )
 }
