@@ -1,9 +1,9 @@
-# Wolf Studio - Enterprise Portfolio Management System
+# Wolf Studio - Digital Portfolio & Business Platform
 
 <div align="center">
   <img src="logos/wolf-studio-logo-head.svg" alt="Wolf Studio Logo" width="120" height="120">
   
-  **Enterprise-grade portfolio management system built with Next.js 15 and Supabase**
+  **Digital portfolio and business platform for Wolf Studio - CBRE's workplace design firm**
   
   [![Next.js](https://img.shields.io/badge/Next.js-15.2.5-black?style=for-the-badge&logo=next.js)](https://nextjs.org/)
   [![TypeScript](https://img.shields.io/badge/TypeScript-5.0+-blue?style=for-the-badge&logo=typescript)](https://www.typescriptlang.org/)
@@ -30,16 +30,45 @@
 
 ## Project Overview
 
-Wolf Studio is a comprehensive enterprise portfolio management system designed for design and technology teams. It provides a robust admin dashboard for managing projects, users, and content, along with a beautifully crafted public-facing portfolio website.
+Wolf Studio is a renowned workplace design firm under CBRE, specializing in transforming offices into places that bring joy and fulfillment to people at work. Based in Singapore and Hong Kong, Wolf Studio believes in creating workplaces that help organizations grow while making the design journey delightful and rewarding for their clients.
+
+This website serves as Wolf Studio's digital portfolio and business platform, equipped with enterprise-grade portfolio management capabilities. It showcases their extensive work in workplace design, their team, and their services, while providing a robust admin dashboard for managing projects, users, and content.
+
+### About Wolf Studio
+
+Wolf Studio stands firm in their belief of creating "a world where everyone loves going to work." With over 75 years of collective workplace design experience, they have transformed more than 10 million square feet of office space across 750+ client projects over the last 10 years.
+
+**Key Services:**
+- Design Consultancy
+- Design & Build
+- Feasibility Studies  
+- Visual Content
+
+**Locations:**
+- **Singapore Industrial Studio**: 61 Ubi Road 1 #04-21/22, Singapore 408727
+- **Singapore CBD Studio**: 6 Battery Rd, #32-01, Singapore 049909
+- **Hong Kong Studio**: Level 27, One Pacific Place, 88 Queensway, Admiralty, Hong Kong
+
+### Technology Platform Capabilities
+
+This website provides Wolf Studio with a comprehensive digital platform featuring:
+
+- **Project Portfolio Management**: Complete showcase of their workplace design projects
+- **Client Relationship Management**: Tools for managing client projects and relationships
+- **Content Management System**: Rich content management for project descriptions and media
+- **Team Management**: Showcase of team members and their expertise
+- **Business Analytics**: Insights into project performance and client engagement
+- **Enterprise Security**: Robust security measures for client data protection
 
 ### Key Capabilities
 
-- **Project Management**: Complete CRUD operations for portfolio projects
-- **User Management**: Role-based access control and user administration
-- **Content Management**: Rich text editing and media management
-- **Analytics**: Real-time system monitoring and performance tracking
-- **Multi-tenancy**: Support for multiple brands and configurations
-- **Enterprise Security**: Comprehensive authentication and authorization
+- **Project Portfolio Showcase**: Complete showcase of Wolf Studio's workplace design projects
+- **Client Project Management**: Tools for managing design projects and client relationships
+- **Design Content Management**: Rich content management for project descriptions, images, and case studies
+- **Team Showcase**: Professional presentation of Wolf Studio's design team and expertise
+- **Business Analytics**: Insights into project performance and client engagement
+- **Multi-Brand Support**: Support for both Wolf Studio and CBRE branding
+- **Enterprise Security**: Robust security measures for client data and project confidentiality
 
 ### Technology Stack
 
@@ -116,34 +145,34 @@ wolf-studio/
 ## Features
 
 ### Admin Dashboard
-- **🏠 Dashboard**: System overview and quick stats
-- **👥 User Management**: Complete user administration with roles
-- **📁 Project Management**: CRUD operations for portfolio projects
-- **🏷️ Category Management**: Organize projects by categories
-- **📊 Analytics**: Real-time performance metrics and monitoring
-- **⚙️ Settings**: System configuration and preferences
-- **📈 Storage Monitor**: File storage management and optimization
+- **🏠 Dashboard**: Business overview and project statistics
+- **👥 User Management**: Team member and client user administration
+- **📁 Project Management**: Complete project lifecycle management for design projects
+- **🏷️ Category Management**: Organize projects by service type and industry
+- **📊 Analytics**: Real-time business metrics and project performance tracking
+- **⚙️ Settings**: Platform configuration and Wolf Studio branding
+- **📈 Storage Monitor**: Design asset management and optimization
 
-### Public Portfolio
-- **🎨 Project Showcase**: Beautifully designed project galleries
-- **📱 Responsive Design**: Mobile-first responsive layout
-- **🚀 Performance Optimized**: Lazy loading and image optimization
-- **♿ Accessibility**: WCAG 2.1 compliant interface
-- **🔍 SEO Optimized**: Meta tags and structured data
+### Public Portfolio Website
+- **🎨 Project Showcase**: Beautifully designed galleries of Wolf Studio's workplace projects
+- **📱 Responsive Design**: Mobile-first responsive layout optimized for all devices
+- **🚀 Performance Optimized**: Fast loading with lazy loading and image optimization
+- **♿ Accessibility**: WCAG 2.1 compliant interface for inclusive access
+- **🔍 SEO Optimized**: Search engine optimized for business visibility
 
 ### Core Features
-- **🔐 Authentication**: Secure login with session management
-- **🔒 Authorization**: Role-based access control (RBAC)
-- **📁 File Management**: Upload, organize, and optimize images
-- **📝 Rich Text Editor**: WYSIWYG editor for content creation
-- **🎭 Multi-brand Support**: CBRE and Wolf Studio themes
-- **🔧 Error Handling**: Comprehensive error boundaries and logging
-- **📊 Performance Monitoring**: Real-time performance tracking
+- **🔐 Authentication**: Secure login with session management for team and client access
+- **🔒 Authorization**: Role-based access control (RBAC) for different user types
+- **📁 Design Asset Management**: Upload, organize, and optimize project images and documents
+- **📝 Rich Content Editor**: WYSIWYG editor for project descriptions and case studies
+- **🎭 Multi-Brand Support**: Support for both Wolf Studio and CBRE branding themes
+- **🔧 Error Handling**: Comprehensive error boundaries and logging for reliability
+- **📊 Performance Monitoring**: Real-time performance tracking and optimization
 - **🚨 Security Monitoring**: Enterprise-grade security logging and alerts
-- **🔍 Health Monitoring**: Comprehensive system health checks
-- **📈 Analytics Dashboard**: Real-time system metrics and insights
-- **🔄 Request Tracing**: Correlation IDs for debugging and monitoring
-- **⚡ Web Vitals**: Client-side performance metrics collection
+- **🔍 Health Monitoring**: Comprehensive system health checks and monitoring
+- **📈 Business Analytics**: Real-time project metrics and client engagement insights
+- **🔄 Request Tracing**: Correlation IDs for debugging and system monitoring
+- **⚡ Web Vitals**: Client-side performance metrics for optimal user experience
 
 ---
 
@@ -1492,10 +1521,10 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 ---
 
 <div align="center">
-  <p>Built with ❤️ by the Wolf Studio team</p>
+  <p>Built with ❤️ for Wolf Studio by the development team</p>
   <p>
-    <a href="https://wolfstudio.com">Website</a> •
+    <a href="https://wolf-studio.vercel.app/wolf-studio">Wolf Studio Website</a> •
     <a href="https://github.com/your-org/wolf-studio">GitHub</a> •
-    <a href="https://twitter.com/wolfstudio">Twitter</a>
+    <a href="https://www.cbre.com.sg">CBRE Singapore</a>
   </p>
 </div>
