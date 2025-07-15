@@ -12,7 +12,8 @@ import { Category, ProjectWithCategoryAndImages, ProjectUpdate, ProjectDescripti
 import RichTextEditor, { isContentEmpty } from '@/components/admin/RichTextEditor'
 import ImageUploadZone from '@/components/admin/ImageUploadZone'
 import GalleryManager from '@/components/admin/GalleryManager'
-import { createUploadFunction } from '@/lib/services/image-upload'
+// Remove the direct import of createUploadFunction
+// import { createUploadFunction } from '@/lib/services/image-upload'
 
 interface ProjectFormData {
   title: string
@@ -261,6 +262,67 @@ export default function EditProjectPage() {
         console.error('Error deleting project:', error)
         setErrors({ general: 'An unexpected error occurred. Please try again.' })
       }
+    }
+  }
+
+  // Replace the createUploadFunction usage with API route calls
+  const handleBannerUpload = async (file: File, onProgress: (progress: number) => void) => {
+    try {
+      const formData = new FormData()
+      formData.append('file', file)
+      formData.append('imageType', 'banner')
+      if (projectId) {
+        formData.append('projectId', projectId)
+      }
+
+      const response = await fetch('/api/admin/upload-image', {
+        method: 'POST',
+        body: formData,
+      })
+
+      if (!response.ok) {
+        const errorData = await response.json()
+        throw new Error(errorData.error || 'Upload failed')
+      }
+
+      const result = await response.json()
+      return {
+        url: result.url,
+        path: result.path
+      }
+    } catch (error) {
+      console.error('Banner upload error:', error)
+      throw error
+    }
+  }
+
+  const handleGalleryUpload = async (file: File, onProgress: (progress: number) => void) => {
+    try {
+      const formData = new FormData()
+      formData.append('file', file)
+      formData.append('imageType', 'gallery')
+      if (projectId) {
+        formData.append('projectId', projectId)
+      }
+
+      const response = await fetch('/api/admin/upload-image', {
+        method: 'POST',
+        body: formData,
+      })
+
+      if (!response.ok) {
+        const errorData = await response.json()
+        throw new Error(errorData.error || 'Upload failed')
+      }
+
+      const result = await response.json()
+      return {
+        url: result.url,
+        path: result.path
+      }
+    } catch (error) {
+      console.error('Gallery upload error:', error)
+      throw error
     }
   }
 
@@ -521,12 +583,7 @@ export default function EditProjectPage() {
                       'image/*': ['.jpeg', '.jpg', '.png', '.webp']
                     }}
                     maxSize={5 * 1024 * 1024} // 5MB
-                    uploadFn={createUploadFunction({
-                      imageType: 'banner',
-                      maxWidth: 1920,
-                      maxHeight: 1080,
-                      projectId: projectId
-                    })}
+                    uploadFn={handleBannerUpload}
                     onUpload={(files: any[]) => {
                       if (files.length > 0 && files[0].status === 'success') {
                         // Update form data with the uploaded banner image URL
@@ -555,12 +612,7 @@ export default function EditProjectPage() {
                       try {
                         // Upload each file using the upload function
                         const uploadPromises = files.map(file => 
-                          createUploadFunction({
-                            imageType: 'gallery',
-                            maxWidth: 1920,
-                            maxHeight: 1440,
-                            projectId: projectId
-                          })(file, () => {})
+                          handleGalleryUpload(file, () => {})
                         )
                         
                         const results = await Promise.all(uploadPromises)

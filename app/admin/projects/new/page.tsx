@@ -9,7 +9,8 @@ import { CBREBadge } from '@/components/cbre-badge'
 import Link from 'next/link'
 import { Category, ProjectInsert, ProjectDescription } from '@/lib/types/database'
 import ImageUploadZone from '@/components/admin/ImageUploadZone'
-import { createUploadFunction } from '@/lib/services/image-upload'
+// Remove the direct import of createUploadFunction
+// import { createUploadFunction } from '@/lib/services/image-upload'
 import RichTextEditor, { isContentEmpty } from '@/components/admin/RichTextEditor'
 
 interface ProjectFormData {
@@ -47,9 +48,71 @@ export default function NewProjectPage() {
     banner_image_url: ''
   })
   const [galleryImageUploads, setGalleryImageUploads] = useState<string[]>([]) // Store gallery image URLs
+
+  // State for form handling
   const [errors, setErrors] = useState<Record<string, string>>({})
   const [isSubmitting, setIsSubmitting] = useState(false)
 
+  // Upload functions for API route calls
+  const handleBannerUpload = async (file: File, onProgress: (progress: number) => void) => {
+    try {
+      const formData = new FormData()
+      formData.append('file', file)
+      formData.append('imageType', 'banner')
+      // The projectId is not available here, so it's not appended.
+      // This function is primarily for new projects.
+
+      const response = await fetch('/api/admin/upload-image', {
+        method: 'POST',
+        body: formData,
+      })
+
+      if (!response.ok) {
+        const errorData = await response.json()
+        throw new Error(errorData.error || 'Upload failed')
+      }
+
+      const result = await response.json()
+      return {
+        url: result.url,
+        path: result.path
+      }
+    } catch (error) {
+      console.error('Banner upload error:', error)
+      throw error
+    }
+  }
+
+  const handleGalleryUpload = async (file: File, onProgress: (progress: number) => void) => {
+    try {
+      const formData = new FormData()
+      formData.append('file', file)
+      formData.append('imageType', 'gallery')
+      // The projectId is not available here, so it's not appended.
+      // This function is primarily for new projects.
+
+      const response = await fetch('/api/admin/upload-image', {
+        method: 'POST',
+        body: formData,
+      })
+
+      if (!response.ok) {
+        const errorData = await response.json()
+        throw new Error(errorData.error || 'Upload failed')
+      }
+
+      const result = await response.json()
+      return {
+        url: result.url,
+        path: result.path
+      }
+    } catch (error) {
+      console.error('Gallery upload error:', error)
+      throw error
+    }
+  }
+
+  // Load categories on component mount
   useEffect(() => {
     loadCategories()
   }, [])
@@ -490,11 +553,16 @@ export default function NewProjectPage() {
                       'image/*': ['.jpeg', '.jpg', '.png', '.webp']
                     }}
                     maxSize={5 * 1024 * 1024} // 5MB
-                    uploadFn={createUploadFunction({
-                      imageType: 'banner',
-                      maxWidth: 1920,
-                      maxHeight: 1080
-                    })}
+                    uploadFn={async (file: File, onProgress: (progress: number) => void) => {
+                      try {
+                        const result = await handleBannerUpload(file, onProgress);
+                        handleInputChange('banner_image_url', result.url);
+                        return { url: result.url, path: result.path };
+                      } catch (error) {
+                        console.error('Banner upload error:', error);
+                        throw error;
+                      }
+                    }}
                     onUpload={(files: any[]) => {
                       if (files.length > 0 && files[0].status === 'success') {
                         // Update form data with the uploaded banner image URL
@@ -523,11 +591,15 @@ export default function NewProjectPage() {
                       'image/*': ['.jpeg', '.jpg', '.png', '.webp']
                     }}
                     maxSize={5 * 1024 * 1024} // 5MB
-                    uploadFn={createUploadFunction({
-                      imageType: 'gallery',
-                      maxWidth: 1920,
-                      maxHeight: 1440
-                    })}
+                    uploadFn={async (file: File, onProgress: (progress: number) => void) => {
+                      try {
+                        const result = await handleGalleryUpload(file, onProgress);
+                        return { url: result.url, path: result.path };
+                      } catch (error) {
+                        console.error('Gallery upload error:', error);
+                        throw error;
+                      }
+                    }}
                     onUpload={(files: any[]) => {
                       console.log('Gallery images uploaded:', files)
                       // Store uploaded image URLs for later association with project

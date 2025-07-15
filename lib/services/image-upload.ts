@@ -3,8 +3,8 @@ import { v4 as uuidv4 } from 'uuid'
 
 // Create Supabase client only when needed
 const getSupabaseClient = () => {
-  if (typeof window === 'undefined') {
-    // Server-side: return null to prevent usage during build
+  // Only return null during build time when environment variables might not be available
+  if (typeof window === 'undefined' && (!process.env.NEXT_PUBLIC_SUPABASE_URL || !process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY)) {
     return null
   }
   return createClient()
