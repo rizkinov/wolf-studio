@@ -139,6 +139,11 @@ wolf-studio/
 - **🎭 Multi-brand Support**: CBRE and Wolf Studio themes
 - **🔧 Error Handling**: Comprehensive error boundaries and logging
 - **📊 Performance Monitoring**: Real-time performance tracking
+- **🚨 Security Monitoring**: Enterprise-grade security logging and alerts
+- **🔍 Health Monitoring**: Comprehensive system health checks
+- **📈 Analytics Dashboard**: Real-time system metrics and insights
+- **🔄 Request Tracing**: Correlation IDs for debugging and monitoring
+- **⚡ Web Vitals**: Client-side performance metrics collection
 
 ---
 
@@ -260,6 +265,24 @@ NODE_ENV=production
 NEXT_PUBLIC_DEBUG=false
 NEXT_PUBLIC_ENABLE_ANALYTICS=true
 NEXT_PUBLIC_SENTRY_DSN=your_sentry_dsn
+
+# Monitoring & APM
+NEXT_PUBLIC_DATADOG_TOKEN=your_datadog_token
+NEXT_PUBLIC_NEWRELIC_LICENSE_KEY=your_newrelic_key
+NEXT_PUBLIC_LOGROCKET_APP_ID=your_logrocket_id
+
+# Security Configuration
+SECURITY_RATE_LIMIT_MAX=100
+SECURITY_RATE_LIMIT_WINDOW=900000
+SECURITY_CSRF_SECRET=your_csrf_secret
+SECURITY_IP_WHITELIST=127.0.0.1,::1
+SECURITY_BLOCKED_IPS=suspicious.ip.1,suspicious.ip.2
+
+# Performance Monitoring
+PERFORMANCE_API_THRESHOLD=1000
+PERFORMANCE_DB_THRESHOLD=500
+PERFORMANCE_MEMORY_THRESHOLD=80
+PERFORMANCE_ERROR_RATE_THRESHOLD=0.05
 ```
 
 ### Application Configuration
@@ -620,6 +643,305 @@ echo "*.env*" >> .gitignore
 
 ---
 
+## Monitoring & Observability
+
+### Structured Logging
+
+#### Log Levels and Categories
+```typescript
+// lib/services/logger.ts
+export enum LogLevel {
+  ERROR = 'error',
+  WARN = 'warn',
+  INFO = 'info',
+  DEBUG = 'debug',
+  AUDIT = 'audit',
+  SECURITY = 'security',
+  PERFORMANCE = 'performance'
+}
+
+export enum LogCategory {
+  AUTH = 'auth',
+  API = 'api',
+  DATABASE = 'database',
+  SECURITY = 'security',
+  PERFORMANCE = 'performance',
+  USER_ACTION = 'user_action',
+  SYSTEM = 'system',
+  ERROR = 'error',
+  AUDIT = 'audit',
+  MIDDLEWARE = 'middleware'
+}
+```
+
+#### Request Tracing
+```typescript
+// Automatic correlation ID generation
+import { logger } from '@/lib/services/logger'
+
+// Every request gets a unique correlation ID
+const correlationId = logger.generateCorrelationId()
+
+// All logs include correlation ID for tracing
+logger.info('User login attempt', {
+  correlationId,
+  userId: 'user123',
+  ipAddress: '192.168.1.1'
+})
+```
+
+### Performance Monitoring
+
+#### API Performance Tracking
+```typescript
+// lib/services/performance-monitor.ts
+import { performanceMonitor } from '@/lib/services/performance-monitor'
+
+// Track API response times
+performanceMonitor.trackAPIRequest({
+  endpoint: '/api/projects',
+  method: 'GET',
+  statusCode: 200,
+  duration: 150,
+  responseSize: 1024,
+  timestamp: new Date()
+})
+```
+
+#### Database Performance
+```typescript
+// Track database query performance
+performanceMonitor.trackDatabaseQuery({
+  query: 'SELECT * FROM projects WHERE category_id = ?',
+  duration: 45,
+  rows: 25,
+  cached: false,
+  timestamp: new Date()
+})
+```
+
+#### Web Vitals Collection
+```typescript
+// Client-side performance metrics
+import { webVitalsTracker } from '@/lib/services/performance-monitor'
+
+// Automatically track Core Web Vitals
+webVitalsTracker.track('FCP', 1200, 'unique-id', 100, 'good')
+webVitalsTracker.track('LCP', 2500, 'unique-id', 200, 'needs-improvement')
+webVitalsTracker.track('CLS', 0.1, 'unique-id', 0.05, 'good')
+```
+
+### Security Event Logging
+
+#### Authentication Events
+```typescript
+// Log authentication events
+logger.logSecurity({
+  eventType: 'login',
+  userId: 'user123',
+  ipAddress: '192.168.1.1',
+  userAgent: 'Mozilla/5.0...',
+  details: { loginMethod: 'password' },
+  severity: 'low'
+})
+
+// Log failed login attempts
+logger.logSecurity({
+  eventType: 'failed_login',
+  ipAddress: '192.168.1.1',
+  userAgent: 'Mozilla/5.0...',
+  details: { reason: 'invalid_credentials', attempts: 3 },
+  severity: 'medium'
+})
+```
+
+#### Rate Limiting Events
+```typescript
+// Log rate limit violations
+logger.logSecurity({
+  eventType: 'rate_limit',
+  ipAddress: '192.168.1.1',
+  userAgent: 'Mozilla/5.0...',
+  details: { 
+    endpoint: '/api/projects',
+    attempts: 150,
+    timeWindow: '15min'
+  },
+  severity: 'high'
+})
+```
+
+### Health Monitoring
+
+#### System Health Checks
+```http
+GET /api/health
+```
+
+**Response:**
+```json
+{
+  "status": "healthy",
+  "timestamp": "2024-01-01T00:00:00Z",
+  "uptime": 3600,
+  "responseTime": 45,
+  "checks": {
+    "database": {
+      "status": "healthy",
+      "responseTime": 25,
+      "details": { "connected": true }
+    },
+    "performance": {
+      "status": "healthy",
+      "details": {
+        "errorRate": 0.001,
+        "memoryUsagePercent": 65,
+        "requestCount": 1250
+      }
+    },
+    "memory": {
+      "status": "healthy",
+      "details": {
+        "heapUsed": 134217728,
+        "heapTotal": 268435456,
+        "usagePercent": 50
+      }
+    }
+  },
+  "metrics": {
+    "requests": 1250,
+    "errors": 2,
+    "errorRate": 0.0016,
+    "uptime": 3600000
+  },
+  "system": {
+    "nodeVersion": "v18.17.0",
+    "platform": "linux",
+    "environment": "production"
+  }
+}
+```
+
+#### Performance Alerts
+```typescript
+// Automatic performance alerts
+performanceMonitor.checkPerformanceAlerts()
+
+// Custom alert thresholds
+performanceMonitor.setThresholds({
+  apiResponseTime: 1000,     // 1 second
+  databaseQueryTime: 500,    // 500ms
+  memoryUsagePercentage: 80, // 80%
+  errorRate: 0.05            // 5%
+})
+```
+
+### APM Integration
+
+#### Sentry Integration
+```typescript
+// lib/monitoring/sentry.ts
+import * as Sentry from '@sentry/nextjs'
+
+Sentry.init({
+  dsn: process.env.NEXT_PUBLIC_SENTRY_DSN,
+  environment: process.env.NODE_ENV,
+  tracesSampleRate: 1.0,
+  profilesSampleRate: 1.0,
+  beforeSend(event) {
+    // Filter sensitive data
+    return event
+  }
+})
+```
+
+#### DataDog Integration
+```typescript
+// lib/monitoring/datadog.ts
+import { datadog } from '@datadog/browser-logs'
+
+datadog.init({
+  clientToken: process.env.NEXT_PUBLIC_DATADOG_TOKEN,
+  site: 'datadoghq.com',
+  env: process.env.NODE_ENV,
+  service: 'wolf-studio',
+  version: '1.0.0'
+})
+```
+
+#### New Relic Integration
+```typescript
+// lib/monitoring/newrelic.ts
+import newrelic from 'newrelic'
+
+// Custom metrics
+newrelic.recordMetric('Custom/Performance/APIResponse', responseTime)
+newrelic.recordMetric('Custom/Business/ProjectsCreated', 1)
+```
+
+### Audit Logging
+
+#### User Actions
+```typescript
+// Log user actions for audit trail
+logger.logAudit({
+  action: 'project_created',
+  resource: 'project',
+  resourceId: 'project123',
+  userId: 'user123',
+  oldValue: null,
+  newValue: { title: 'New Project', category: 'web' },
+  metadata: { ipAddress: '192.168.1.1' }
+})
+```
+
+#### Data Changes
+```typescript
+// Log data modifications
+logger.logAudit({
+  action: 'project_updated',
+  resource: 'project',
+  resourceId: 'project123',
+  userId: 'user123',
+  oldValue: { title: 'Old Title', status: 'draft' },
+  newValue: { title: 'New Title', status: 'published' },
+  metadata: { reason: 'content_update' }
+})
+```
+
+### Monitoring Dashboard
+
+#### Real-time Metrics
+- **System Health**: CPU, memory, disk usage
+- **API Performance**: Response times, error rates, throughput
+- **Database Performance**: Query times, connection pools
+- **User Activity**: Login rates, feature usage, errors
+- **Security Events**: Failed logins, rate limits, suspicious activity
+
+#### Alerting Rules
+```typescript
+// lib/monitoring/alerts.ts
+export const alertRules = {
+  highErrorRate: {
+    condition: 'errorRate > 0.05',
+    severity: 'critical',
+    channels: ['email', 'slack', 'pagerduty']
+  },
+  slowAPIResponse: {
+    condition: 'avgResponseTime > 2000',
+    severity: 'warning',
+    channels: ['email', 'slack']
+  },
+  highMemoryUsage: {
+    condition: 'memoryUsage > 0.8',
+    severity: 'warning',
+    channels: ['email']
+  }
+}
+```
+
+---
+
 ## API Documentation
 
 ### Authentication APIs
@@ -782,6 +1104,100 @@ Content-Type: multipart/form-data
     "file_size": 1024000,
     "mime_type": "image/jpeg"
   }
+}
+```
+
+### Monitoring APIs
+
+#### Health Check
+```http
+GET /api/health
+```
+
+**Response:**
+```json
+{
+  "status": "healthy",
+  "timestamp": "2024-01-01T00:00:00Z",
+  "uptime": 3600,
+  "responseTime": 45,
+  "checks": {
+    "database": {
+      "status": "healthy",
+      "responseTime": 25,
+      "details": { "connected": true }
+    },
+    "performance": {
+      "status": "healthy",
+      "details": {
+        "errorRate": 0.001,
+        "memoryUsagePercent": 65,
+        "requestCount": 1250
+      }
+    },
+    "memory": {
+      "status": "healthy",
+      "details": {
+        "heapUsed": 134217728,
+        "heapTotal": 268435456,
+        "usagePercent": 50
+      }
+    }
+  }
+}
+```
+
+#### Lightweight Health Check
+```http
+HEAD /api/health
+```
+
+**Response:**
+- `200` - System healthy
+- `503` - System unhealthy
+
+#### Web Vitals Collection
+```http
+POST /api/metrics/web-vitals
+Content-Type: application/json
+
+{
+  "name": "FCP",
+  "value": 1200,
+  "id": "unique-id",
+  "delta": 100,
+  "rating": "good",
+  "navigationType": "navigate"
+}
+```
+
+**Response:**
+```json
+{
+  "success": true
+}
+```
+
+#### Get Web Vitals Metrics
+```http
+GET /api/metrics/web-vitals
+```
+
+**Response:**
+```json
+{
+  "success": true,
+  "data": [
+    {
+      "name": "FCP",
+      "value": 1200,
+      "id": "unique-id",
+      "delta": 100,
+      "rating": "good",
+      "navigationType": "navigate",
+      "timestamp": "2024-01-01T00:00:00Z"
+    }
+  ]
 }
 ```
 
