@@ -351,8 +351,8 @@ export default function NewProjectPage() {
   }
 
   return (
-    <div className="min-h-full">
-      <div className="max-w-7xl mx-auto p-6 pb-8">
+    <div className="min-h-full max-h-screen overflow-hidden">
+      <div className="max-w-7xl mx-auto p-6 pb-8 h-full overflow-y-auto overscroll-y-contain">
         {/* Header */}
         <div className="flex items-center justify-between mb-6">
           <div className="flex items-center space-x-4">
