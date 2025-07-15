@@ -1,6 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { createClient } from '@supabase/supabase-js'
-import type { Category, CategoryInsert, CategoryUpdate } from '@/lib/types/database'
 
 // Create admin client with service role key
 const createAdminClient = () => {

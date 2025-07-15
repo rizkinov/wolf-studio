@@ -12,29 +12,19 @@ import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, Di
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select'
 import { Textarea } from '@/components/ui/textarea'
 import { Switch } from '@/components/ui/switch'
-import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle, AlertDialogTrigger } from '@/components/ui/alert-dialog'
-import { CBRECard } from '@/components/cbre-card'
-import { CBREButton } from '@/components/cbre-button'
-import { CBREBadge } from '@/components/cbre-badge'
+import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle } from '@/components/ui/alert-dialog'
 import { 
   Users, 
   UserPlus, 
   Search, 
   Filter, 
-  MoreHorizontal, 
   Edit, 
   Shield, 
   Trash2, 
-  Eye, 
-  Calendar,
   Activity,
   Clock,
-  MapPin,
-  Phone,
-  Mail,
   Building,
   AlertTriangle,
-  Check,
   X
 } from 'lucide-react'
 import type { 
@@ -45,9 +35,12 @@ import type {
   ActivityLogWithUser,
   UserActivitySummary 
 } from '@/lib/types/database'
-import { UserService, ActivityLogService, PermissionService } from '@/lib/services/database'
+import { ActivityLogService, PermissionService } from '@/lib/services/database'
 
-interface UserManagementPageProps {}
+// Props interface for UserManagementPage component
+interface UserManagementPageProps {
+  // No props currently required
+}
 
 export default function UserManagementPage({}: UserManagementPageProps) {
   const [users, setUsers] = useState<UserProfile[]>([])

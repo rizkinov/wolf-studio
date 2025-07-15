@@ -1,8 +1,7 @@
 'use client'
 
 import React, { useState, useEffect } from 'react'
-import { Search, X, Download, Eye, Trash2, Copy, Grid, List } from 'lucide-react'
-import { CBRECard } from '@/components/cbre-card'
+import { Search, X, Copy, Grid, List } from 'lucide-react'
 import { CBREButton } from '@/components/cbre-button'
 import { CBREBadge } from '@/components/cbre-badge'
 import { cn } from '@/lib/utils'

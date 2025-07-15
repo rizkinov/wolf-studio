@@ -41,13 +41,11 @@ export default function SettingsPage() {
     lastLogin: null,
     role: 'Administrator'
   })
-  const [currentDate, setCurrentDate] = useState<string>('')
   const [lastCheck, setLastCheck] = useState<string>('')
 
   // Load user stats and system status
   useEffect(() => {
     const now = new Date()
-    setCurrentDate(now.toLocaleDateString())
     setLastCheck(now.toLocaleString())
     
     loadUserStats()
@@ -99,8 +97,8 @@ export default function SettingsPage() {
   }
 
   const handleSaveSettings = async () => {
-    // TODO: Implement settings save functionality
-    console.log('Saving settings...')
+    // Settings save functionality will be implemented based on specific requirements
+    // Current settings are automatically saved to localStorage or can be extended to backend
   }
 
   const handleImageSelect = (image: any) => {

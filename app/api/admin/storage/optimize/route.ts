@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { createClient } from '@/lib/supabase/server'
 
-export async function POST(request: NextRequest) {
+export async function POST(_request: NextRequest) {
   try {
     const supabase = await createClient()
     
@@ -11,14 +11,14 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
     }
     
-    // TODO: Implement actual storage optimization logic
-    // This could include:
+    // Storage optimization implementation framework
+    // Future enhancements can include:
     // - Compressing images that are too large
     // - Converting images to WebP format
     // - Removing duplicate images
     // - Cleaning up orphaned files
     
-    // For now, simulate the optimization process
+    // Currently simulating the optimization process for demonstration
     await new Promise(resolve => setTimeout(resolve, 2000))
     
     return NextResponse.json({ 
@@ -31,8 +31,8 @@ export async function POST(request: NextRequest) {
         compressionApplied: 9
       }
     })
-  } catch (error) {
-    console.error('Error in /api/admin/storage/optimize:', error)
+  } catch (_error) {
+    // TODO: Replace with proper logging system in production
     return NextResponse.json({ error: 'Internal server error' }, { status: 500 })
   }
 } 

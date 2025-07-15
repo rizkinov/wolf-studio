@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { createClient } from '@/lib/supabase/server'
 
-export async function GET(request: NextRequest) {
+export async function GET(_request: NextRequest) {
   try {
     const supabase = await createClient()
     
@@ -12,7 +12,7 @@ export async function GET(request: NextRequest) {
       if (error) {
         databaseStatus = 'error'
       }
-    } catch (error) {
+    } catch (_error) {
       databaseStatus = 'error'
     }
     
@@ -23,7 +23,7 @@ export async function GET(request: NextRequest) {
       if (error || !buckets) {
         storageStatus = 'error'
       }
-    } catch (error) {
+    } catch (_error) {
       storageStatus = 'error'
     }
     
@@ -34,7 +34,7 @@ export async function GET(request: NextRequest) {
       if (!user) {
         authStatus = 'inactive'
       }
-    } catch (error) {
+    } catch (_error) {
       authStatus = 'error'
     }
     

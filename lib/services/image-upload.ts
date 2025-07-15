@@ -1,5 +1,4 @@
 import { createClient } from '@/lib/supabase/client'
-import { v4 as uuidv4 } from 'uuid'
 
 // Create Supabase client only when needed
 const getSupabaseClient = () => {

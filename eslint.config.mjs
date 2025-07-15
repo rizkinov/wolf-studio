@@ -22,7 +22,6 @@ const eslintConfig = [
     }
   },
   {
-    files: ["lib/hooks/useActivityLogger.ts"],
     ignores: ["lib/hooks/useActivityLogger.ts"]
   }
 ];

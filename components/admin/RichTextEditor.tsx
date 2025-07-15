@@ -11,15 +11,12 @@ import CharacterCount from '@tiptap/extension-character-count'
 import { 
   Bold, 
   Italic, 
-  Underline,
   Strikethrough,
   List,
   ListOrdered,
   Quote,
   Link as LinkIcon,
   Unlink,
-  Type,
-  Palette,
   Eye,
   Edit3,
   X
