@@ -114,13 +114,13 @@ function AdminLayoutContent({ children }: { children: React.ReactNode }) {
     <div className="flex h-screen bg-lighter-grey">
       {/* Sidebar */}
       <div className="w-64 bg-white border-r border-light-grey flex flex-col overflow-hidden">
-        <div className="flex-1 overflow-y-auto">
+        <div className="flex-1 overflow-y-auto overscroll-y-contain">
           <AdminNavigation />
         </div>
       </div>
 
       {/* Main Content */}
-      <div className="flex-1 overflow-auto">
+      <div className="flex-1 overflow-auto overscroll-contain">
         {children}
       </div>
     </div>
