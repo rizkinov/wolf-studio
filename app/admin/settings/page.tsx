@@ -4,37 +4,121 @@ import { useState, useEffect } from 'react'
 import { CBRECard } from '@/components/cbre-card'
 import { CBREButton } from '@/components/cbre-button'
 import { CBREBadge } from '@/components/cbre-badge'
-import { Settings, User, Database, HardDrive, Image, Save, RefreshCw } from 'lucide-react'
+import { Settings, User, Database, Image, Save, RefreshCw } from 'lucide-react'
 import { useAuth } from '@/lib/auth/context'
 import StorageMonitor from '@/components/admin/StorageMonitor'
 import ImageLibrary from '@/components/admin/ImageLibrary'
+
+interface SystemStatus {
+  database: 'connected' | 'disconnected' | 'error'
+  storage: 'available' | 'unavailable' | 'error'
+  authentication: 'active' | 'inactive' | 'error'
+  api: 'online' | 'offline' | 'error'
+}
+
+interface UserStats {
+  totalImages: number
+  bannerImages: number
+  galleryImages: number
+  lastLogin: string | null
+  role: string
+}
 
 export default function SettingsPage() {
   const { user } = useAuth()
   const [showImageLibrary, setShowImageLibrary] = useState(false)
   const [refreshing, setRefreshing] = useState(false)
+  const [systemStatus, setSystemStatus] = useState<SystemStatus>({
+    database: 'connected',
+    storage: 'available',
+    authentication: 'active',
+    api: 'online'
+  })
+  const [userStats, setUserStats] = useState<UserStats>({
+    totalImages: 0,
+    bannerImages: 0,
+    galleryImages: 0,
+    lastLogin: null,
+    role: 'Administrator'
+  })
   const [currentDate, setCurrentDate] = useState<string>('')
-  const [currentTime, setCurrentTime] = useState<string>('')
   const [lastCheck, setLastCheck] = useState<string>('')
 
-  // Set dates only on client side to avoid hydration mismatch
+  // Load user stats and system status
   useEffect(() => {
     const now = new Date()
     setCurrentDate(now.toLocaleDateString())
-    setCurrentTime(now.toLocaleTimeString())
     setLastCheck(now.toLocaleString())
+    
+    loadUserStats()
+    checkSystemStatus()
   }, [])
+
+  const loadUserStats = async () => {
+    try {
+      // Get real image counts from API
+      const response = await fetch('/api/admin/images/stats')
+      if (response.ok) {
+        const stats = await response.json()
+        setUserStats(prev => ({
+          ...prev,
+          totalImages: stats.totalImages || 0,
+          bannerImages: stats.bannerImages || 0,
+          galleryImages: stats.galleryImages || 0
+        }))
+      }
+    } catch (error) {
+      console.error('Error loading user stats:', error)
+    }
+  }
+
+  const checkSystemStatus = async () => {
+    try {
+      // Check actual system status
+      const response = await fetch('/api/admin/system/status')
+      if (response.ok) {
+        const status = await response.json()
+        setSystemStatus(status)
+      }
+    } catch (error) {
+      console.error('Error checking system status:', error)
+      setSystemStatus({
+        database: 'error',
+        storage: 'error',
+        authentication: 'error',
+        api: 'error'
+      })
+    }
+  }
 
   const handleRefreshSystem = async () => {
     setRefreshing(true)
-    // Simulate system refresh
-    await new Promise(resolve => setTimeout(resolve, 2000))
+    await checkSystemStatus()
+    await loadUserStats()
     setRefreshing(false)
+  }
+
+  const handleSaveSettings = async () => {
+    // TODO: Implement settings save functionality
+    console.log('Saving settings...')
   }
 
   const handleImageSelect = (image: any) => {
     console.log('Selected image:', image)
-    // Handle image selection
+  }
+
+  const getStatusBadge = (status: string) => {
+    switch (status) {
+      case 'connected':
+      case 'available':
+      case 'active':
+      case 'online':
+        return <CBREBadge className="bg-green-100 text-green-800">Online</CBREBadge>
+      case 'error':
+        return <CBREBadge className="bg-red-100 text-red-800">Error</CBREBadge>
+      default:
+        return <CBREBadge className="bg-yellow-100 text-yellow-800">Unknown</CBREBadge>
+    }
   }
 
   return (
@@ -70,14 +154,17 @@ export default function SettingsPage() {
               <label className="block text-sm font-medium text-dark-grey mb-1">
                 Role
               </label>
-              <CBREBadge className="bg-[var(--cbre-green)] text-white">Administrator</CBREBadge>
+              <CBREBadge className="bg-[var(--cbre-green)] text-white">{userStats.role}</CBREBadge>
             </div>
             <div>
               <label className="block text-sm font-medium text-dark-grey mb-1">
-                Last Login
+                Account Created
               </label>
               <div className="text-dark-grey text-sm">
-                {currentDate && currentTime ? `${currentDate} at ${currentTime}` : 'Loading...'}
+                {user?.user_metadata?.created_at ? 
+                  new Date(user.user_metadata.created_at).toLocaleDateString() : 
+                  'Not available'
+                }
               </div>
             </div>
           </div>
@@ -106,19 +193,19 @@ export default function SettingsPage() {
           <div className="space-y-4">
             <div className="flex items-center justify-between">
               <span className="text-dark-grey">Database</span>
-              <CBREBadge className="bg-green-100 text-green-800">Connected</CBREBadge>
+              {getStatusBadge(systemStatus.database)}
             </div>
             <div className="flex items-center justify-between">
               <span className="text-dark-grey">Storage</span>
-              <CBREBadge className="bg-green-100 text-green-800">Available</CBREBadge>
+              {getStatusBadge(systemStatus.storage)}
             </div>
             <div className="flex items-center justify-between">
               <span className="text-dark-grey">Authentication</span>
-              <CBREBadge className="bg-green-100 text-green-800">Active</CBREBadge>
+              {getStatusBadge(systemStatus.authentication)}
             </div>
             <div className="flex items-center justify-between">
               <span className="text-dark-grey">API Status</span>
-              <CBREBadge className="bg-green-100 text-green-800">Online</CBREBadge>
+              {getStatusBadge(systemStatus.api)}
             </div>
             <div className="text-xs text-gray-500 mt-4">
               Last system check: {lastCheck || 'Loading...'}
@@ -126,7 +213,7 @@ export default function SettingsPage() {
           </div>
         </CBRECard>
 
-        {/* Storage Usage - Full Width */}
+        {/* Storage Usage - Full Width (without redundant image counts) */}
         <div className="lg:col-span-2">
           <StorageMonitor showActions={true} />
         </div>
@@ -144,29 +231,6 @@ export default function SettingsPage() {
               Browse, search, and reuse images across your projects. The image library provides 
               a centralized view of all uploaded images with advanced filtering and search capabilities.
             </p>
-            
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-              <div className="text-center p-4 bg-gray-50 rounded-lg">
-                <div className="text-xl font-bold text-[var(--cbre-green)] mb-1">
-                  156
-                </div>
-                <div className="text-sm text-gray-600">Total Images</div>
-              </div>
-              
-              <div className="text-center p-4 bg-gray-50 rounded-lg">
-                <div className="text-xl font-bold text-blue-600 mb-1">
-                  42
-                </div>
-                <div className="text-sm text-gray-600">Banner Images</div>
-              </div>
-              
-              <div className="text-center p-4 bg-gray-50 rounded-lg">
-                <div className="text-xl font-bold text-purple-600 mb-1">
-                  114
-                </div>
-                <div className="text-sm text-gray-600">Gallery Images</div>
-              </div>
-            </div>
             
             <div className="flex space-x-3">
               <CBREButton
@@ -200,12 +264,12 @@ export default function SettingsPage() {
           </div>
         </CBRECard>
 
-        {/* Advanced Settings */}
+        {/* Application Settings */}
         <CBRECard className="p-6">
           <div className="flex items-center space-x-3 mb-4">
             <Settings className="h-5 w-5 text-[var(--cbre-green)]" />
             <h3 className="font-financier text-lg text-[var(--cbre-green)]">
-              Advanced Settings
+              Application Settings
             </h3>
           </div>
           <div className="space-y-4">
@@ -230,11 +294,11 @@ export default function SettingsPage() {
               </label>
               <select 
                 className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[var(--cbre-green)] focus:border-transparent"
-                defaultValue="medium"
+                defaultValue="85"
               >
-                <option value="high">High (100%)</option>
-                <option value="medium">Medium (85%)</option>
-                <option value="low">Low (70%)</option>
+                <option value="100">High Quality (100%)</option>
+                <option value="85">Standard Quality (85%)</option>
+                <option value="70">Compressed (70%)</option>
               </select>
             </div>
             
@@ -265,12 +329,12 @@ export default function SettingsPage() {
               </label>
               <select 
                 className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[var(--cbre-green)] focus:border-transparent"
-                defaultValue="60"
+                defaultValue="3600"
               >
-                <option value="30">30 minutes</option>
-                <option value="60">1 hour</option>
-                <option value="120">2 hours</option>
-                <option value="240">4 hours</option>
+                <option value="1800">30 minutes</option>
+                <option value="3600">1 hour</option>
+                <option value="7200">2 hours</option>
+                <option value="14400">4 hours</option>
               </select>
             </div>
             
@@ -291,6 +355,8 @@ export default function SettingsPage() {
               <input 
                 type="number" 
                 defaultValue="5"
+                min="1"
+                max="10"
                 className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[var(--cbre-green)] focus:border-transparent"
               />
             </div>
@@ -299,7 +365,10 @@ export default function SettingsPage() {
 
         {/* Save Settings */}
         <div className="lg:col-span-2">
-          <CBREButton className="w-full flex items-center justify-center space-x-2">
+          <CBREButton 
+            onClick={handleSaveSettings}
+            className="w-full flex items-center justify-center space-x-2"
+          >
             <Save className="h-4 w-4" />
             <span>Save Settings</span>
           </CBREButton>

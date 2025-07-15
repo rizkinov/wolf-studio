@@ -4,28 +4,32 @@ import React, { useState, useEffect } from 'react'
 import { HardDrive, Trash2, Download, RefreshCw, AlertTriangle } from 'lucide-react'
 import { CBRECard } from '@/components/cbre-card'
 import { CBREButton } from '@/components/cbre-button'
-import { CBREBadge } from '@/components/cbre-badge'
 import { cn } from '@/lib/utils'
 
 interface StorageStats {
   totalSize: number
   usedSize: number
   availableSize: number
-  imageCount: number
-  bannerImages: number
-  galleryImages: number
   largestFiles: {
     name: string
     size: number
     url: string
     uploadedAt: string
+    project?: string
   }[]
   recentUploads: {
     name: string
     size: number
     url: string
     uploadedAt: string
+    project?: string
   }[]
+  storageBreakdown: {
+    bannerImages: number
+    galleryImages: number
+    tempFiles: number
+    other: number
+  }
 }
 
 interface StorageMonitorProps {
@@ -42,6 +46,8 @@ const StorageMonitor: React.FC<StorageMonitorProps> = ({
   const [stats, setStats] = useState<StorageStats | null>(null)
   const [loading, setLoading] = useState(false)
   const [refreshing, setRefreshing] = useState(false)
+  const [optimizing, setOptimizing] = useState(false)
+  const [cleaning, setCleaning] = useState(false)
 
   useEffect(() => {
     loadStorageStats()
@@ -55,60 +61,37 @@ const StorageMonitor: React.FC<StorageMonitorProps> = ({
     }
 
     try {
-      // Mock data - replace with actual Supabase Storage API calls
-      const mockStats: StorageStats = {
-        totalSize: 10 * 1024 * 1024 * 1024, // 10GB
-        usedSize: 2.8 * 1024 * 1024 * 1024, // 2.8GB
-        availableSize: 7.2 * 1024 * 1024 * 1024, // 7.2GB
-        imageCount: 156,
-        bannerImages: 42,
-        galleryImages: 114,
-        largestFiles: [
-          {
-            name: 'cbre-banner-hd.jpg',
-            size: 8.5 * 1024 * 1024, // 8.5MB
-            url: '/storage/cbre-banner-hd.jpg',
-            uploadedAt: '2024-01-15T10:30:00Z'
-          },
-          {
-            name: 'myp-gallery-original.jpg',
-            size: 7.2 * 1024 * 1024, // 7.2MB
-            url: '/storage/myp-gallery-original.jpg',
-            uploadedAt: '2024-01-12T14:20:00Z'
-          },
-          {
-            name: 'bosch-banner-4k.jpg',
-            size: 6.8 * 1024 * 1024, // 6.8MB
-            url: '/storage/bosch-banner-4k.jpg',
-            uploadedAt: '2024-01-10T09:15:00Z'
-          }
-        ],
-        recentUploads: [
-          {
-            name: 'new-project-banner.jpg',
-            size: 3.2 * 1024 * 1024,
-            url: '/storage/new-project-banner.jpg',
-            uploadedAt: '2024-01-20T16:45:00Z'
-          },
-          {
-            name: 'gallery-image-01.jpg',
-            size: 2.1 * 1024 * 1024,
-            url: '/storage/gallery-image-01.jpg',
-            uploadedAt: '2024-01-20T15:30:00Z'
-          }
-        ]
+      const response = await fetch('/api/admin/storage/stats')
+      if (response.ok) {
+        const data = await response.json()
+        setStats(data)
+      } else {
+        // Fallback to mock data if API is not available
+        console.warn('Storage API not available, using fallback data')
+        setStats(getFallbackStats())
       }
-
-      // Simulate API delay
-      await new Promise(resolve => setTimeout(resolve, 500))
-      setStats(mockStats)
     } catch (error) {
       console.error('Error loading storage stats:', error)
+      setStats(getFallbackStats())
     } finally {
       setLoading(false)
       setRefreshing(false)
     }
   }
+
+  const getFallbackStats = (): StorageStats => ({
+    totalSize: 10 * 1024 * 1024 * 1024, // 10GB
+    usedSize: 2.8 * 1024 * 1024 * 1024, // 2.8GB
+    availableSize: 7.2 * 1024 * 1024 * 1024, // 7.2GB
+    largestFiles: [],
+    recentUploads: [],
+    storageBreakdown: {
+      bannerImages: 1.2 * 1024 * 1024 * 1024, // 1.2GB
+      galleryImages: 1.4 * 1024 * 1024 * 1024, // 1.4GB
+      tempFiles: 0.1 * 1024 * 1024 * 1024, // 0.1GB
+      other: 0.1 * 1024 * 1024 * 1024 // 0.1GB
+    }
+  })
 
   const formatFileSize = (bytes: number): string => {
     if (bytes === 0) return '0 B'
@@ -131,13 +114,35 @@ const StorageMonitor: React.FC<StorageMonitorProps> = ({
   }
 
   const handleOptimizeStorage = async () => {
-    // Implement storage optimization (compress images, remove duplicates, etc.)
-    console.log('Optimizing storage...')
+    setOptimizing(true)
+    try {
+      const response = await fetch('/api/admin/storage/optimize', {
+        method: 'POST'
+      })
+      if (response.ok) {
+        await loadStorageStats(true)
+      }
+    } catch (error) {
+      console.error('Error optimizing storage:', error)
+    } finally {
+      setOptimizing(false)
+    }
   }
 
   const handleCleanupOldFiles = async () => {
-    // Implement cleanup of old/unused files
-    console.log('Cleaning up old files...')
+    setCleaning(true)
+    try {
+      const response = await fetch('/api/admin/storage/cleanup', {
+        method: 'POST'
+      })
+      if (response.ok) {
+        await loadStorageStats(true)
+      }
+    } catch (error) {
+      console.error('Error cleaning up files:', error)
+    } finally {
+      setCleaning(false)
+    }
   }
 
   if (loading && !stats) {
@@ -210,27 +215,37 @@ const StorageMonitor: React.FC<StorageMonitorProps> = ({
         )}
       </div>
 
-      {/* Stats Grid */}
-      <div className="grid grid-cols-2 md:grid-cols-3 gap-4 mb-6">
-        <div className="text-center p-3 bg-gray-50 rounded-lg">
-          <div className="text-2xl font-bold text-[var(--cbre-green)]">
-            {stats.imageCount}
+      {/* Storage Breakdown */}
+      <div className="mb-6">
+        <h4 className="font-medium text-gray-900 mb-3">Storage Breakdown</h4>
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+          <div className="text-center p-3 bg-blue-50 rounded-lg">
+            <div className="text-lg font-bold text-blue-600">
+              {formatFileSize(stats.storageBreakdown.bannerImages)}
+            </div>
+            <div className="text-sm text-gray-600">Banner Images</div>
           </div>
-          <div className="text-sm text-gray-600">Total Images</div>
-        </div>
-        
-        <div className="text-center p-3 bg-gray-50 rounded-lg">
-          <div className="text-2xl font-bold text-blue-600">
-            {stats.bannerImages}
+          
+          <div className="text-center p-3 bg-purple-50 rounded-lg">
+            <div className="text-lg font-bold text-purple-600">
+              {formatFileSize(stats.storageBreakdown.galleryImages)}
+            </div>
+            <div className="text-sm text-gray-600">Gallery Images</div>
           </div>
-          <div className="text-sm text-gray-600">Banner Images</div>
-        </div>
-        
-        <div className="text-center p-3 bg-gray-50 rounded-lg">
-          <div className="text-2xl font-bold text-purple-600">
-            {stats.galleryImages}
+          
+          <div className="text-center p-3 bg-orange-50 rounded-lg">
+            <div className="text-lg font-bold text-orange-600">
+              {formatFileSize(stats.storageBreakdown.tempFiles)}
+            </div>
+            <div className="text-sm text-gray-600">Temp Files</div>
           </div>
-          <div className="text-sm text-gray-600">Gallery Images</div>
+          
+          <div className="text-center p-3 bg-gray-50 rounded-lg">
+            <div className="text-lg font-bold text-gray-600">
+              {formatFileSize(stats.storageBreakdown.other)}
+            </div>
+            <div className="text-sm text-gray-600">Other</div>
+          </div>
         </div>
       </div>
 
@@ -239,15 +254,39 @@ const StorageMonitor: React.FC<StorageMonitorProps> = ({
         <div className="mb-6">
           <h4 className="font-medium text-gray-900 mb-3">Largest Files</h4>
           <div className="space-y-2">
-            {stats.largestFiles.map((file, index) => (
-              <div key={index} className="flex items-center justify-between p-2 bg-gray-50 rounded">
-                <div>
-                  <div className="font-medium text-sm text-gray-900">{file.name}</div>
+            {stats.largestFiles.slice(0, 5).map((file, index) => (
+              <div key={index} className="flex items-center justify-between p-3 bg-gray-50 rounded-lg">
+                <div className="flex-1 min-w-0">
+                  <div className="font-medium text-sm text-gray-900 truncate">{file.name}</div>
                   <div className="text-xs text-gray-500">
+                    {file.project && `${file.project} • `}
                     {new Date(file.uploadedAt).toLocaleDateString()}
                   </div>
                 </div>
-                <div className="text-sm font-medium text-gray-700">
+                <div className="text-sm font-medium text-gray-700 ml-4">
+                  {formatFileSize(file.size)}
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      )}
+
+      {/* Recent Uploads */}
+      {stats.recentUploads.length > 0 && (
+        <div className="mb-6">
+          <h4 className="font-medium text-gray-900 mb-3">Recent Uploads</h4>
+          <div className="space-y-2">
+            {stats.recentUploads.slice(0, 5).map((file, index) => (
+              <div key={index} className="flex items-center justify-between p-3 bg-green-50 rounded-lg">
+                <div className="flex-1 min-w-0">
+                  <div className="font-medium text-sm text-gray-900 truncate">{file.name}</div>
+                  <div className="text-xs text-gray-500">
+                    {file.project && `${file.project} • `}
+                    {new Date(file.uploadedAt).toLocaleDateString()}
+                  </div>
+                </div>
+                <div className="text-sm font-medium text-gray-700 ml-4">
                   {formatFileSize(file.size)}
                 </div>
               </div>
@@ -263,19 +302,21 @@ const StorageMonitor: React.FC<StorageMonitorProps> = ({
             <CBREButton
               variant="outline"
               onClick={handleOptimizeStorage}
+              disabled={optimizing}
               className="flex items-center justify-center space-x-2"
             >
-              <Download className="h-4 w-4" />
-              <span>Optimize Storage</span>
+              <Download className={cn("h-4 w-4", optimizing && "animate-spin")} />
+              <span>{optimizing ? 'Optimizing...' : 'Optimize Storage'}</span>
             </CBREButton>
             
             <CBREButton
               variant="outline"
               onClick={handleCleanupOldFiles}
+              disabled={cleaning}
               className="flex items-center justify-center space-x-2 text-red-600 hover:text-red-800 border-red-300 hover:border-red-400"
             >
-              <Trash2 className="h-4 w-4" />
-              <span>Cleanup Old Files</span>
+              <Trash2 className={cn("h-4 w-4", cleaning && "animate-spin")} />
+              <span>{cleaning ? 'Cleaning...' : 'Cleanup Old Files'}</span>
             </CBREButton>
           </div>
           
