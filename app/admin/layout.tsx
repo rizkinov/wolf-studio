@@ -113,8 +113,10 @@ function AdminLayoutContent({ children }: { children: React.ReactNode }) {
   return (
     <div className="flex h-screen bg-lighter-grey">
       {/* Sidebar */}
-      <div className="w-64 bg-white border-r border-light-grey flex flex-col">
-        <AdminNavigation />
+      <div className="w-64 bg-white border-r border-light-grey flex flex-col overflow-hidden">
+        <div className="flex-1 overflow-y-auto">
+          <AdminNavigation />
+        </div>
       </div>
 
       {/* Main Content */}
