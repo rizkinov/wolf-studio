@@ -351,53 +351,54 @@ export default function NewProjectPage() {
   }
 
   return (
-    <div className="p-8">
-      {/* Header */}
-      <div className="flex items-center justify-between mb-8">
-        <div className="flex items-center space-x-4">
-          <Link href="/admin/projects">
-            <CBREButton variant="outline" size="sm">
-              <ChevronLeft className="h-4 w-4" />
+    <div className="min-h-full">
+      <div className="max-w-7xl mx-auto p-6">
+        {/* Header */}
+        <div className="flex items-center justify-between mb-6">
+          <div className="flex items-center space-x-4">
+            <Link href="/admin/projects">
+              <CBREButton variant="outline" size="sm">
+                <ChevronLeft className="h-4 w-4" />
+              </CBREButton>
+            </Link>
+            <div>
+              <h1 className="text-2xl font-financier text-cbre-green mb-1">
+                Create New Project
+              </h1>
+              <p className="text-dark-grey font-calibre">
+                Add a new project to your portfolio
+              </p>
+            </div>
+          </div>
+          <div className="flex space-x-4">
+            <CBREButton
+              variant="outline"
+              onClick={() => setFormData(prev => ({ ...prev, is_published: !prev.is_published }))}
+              className="flex items-center space-x-2"
+            >
+              <Eye className="h-4 w-4" />
+              <span>{formData.is_published ? 'Published' : 'Draft'}</span>
             </CBREButton>
-          </Link>
-          <div>
-            <h1 className="text-2xl font-financier text-cbre-green mb-2">
-              Create New Project
-            </h1>
-            <p className="text-dark-grey font-calibre">
-              Add a new project to your portfolio
-            </p>
           </div>
         </div>
-        <div className="flex space-x-4">
-          <CBREButton
-            variant="outline"
-            onClick={() => setFormData(prev => ({ ...prev, is_published: !prev.is_published }))}
-            className="flex items-center space-x-2"
-          >
-            <Eye className="h-4 w-4" />
-            <span>{formData.is_published ? 'Published' : 'Draft'}</span>
-          </CBREButton>
-        </div>
-      </div>
 
-      {/* Error Alert */}
-      {errors.general && (
-        <CBRECard className="p-4 mb-6 border-red-200 bg-red-50">
-          <p className="text-red-600 font-calibre">{errors.general}</p>
-        </CBRECard>
-      )}
+        {/* Error Alert */}
+        {errors.general && (
+          <CBRECard className="p-4 mb-4 border-red-200 bg-red-50">
+            <p className="text-red-600 font-calibre">{errors.general}</p>
+          </CBRECard>
+        )}
 
-      <form onSubmit={handleSubmit} className="space-y-6">
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+        <form onSubmit={handleSubmit} className="space-y-4">
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-5">
           {/* Main Content */}
-          <div className="lg:col-span-2 space-y-6">
+          <div className="lg:col-span-2 space-y-4">
             {/* Basic Information */}
-            <CBRECard className="p-6">
-              <h3 className="font-financier text-lg text-cbre-green mb-4">
+            <CBRECard className="p-5">
+              <h3 className="font-financier text-lg text-cbre-green mb-3">
                 Basic Information
               </h3>
-              <div className="space-y-4">
+              <div className="space-y-3">
                 <div>
                   <label className="block text-sm font-medium text-dark-grey mb-2">
                     Project Title *
@@ -458,11 +459,11 @@ export default function NewProjectPage() {
             </CBRECard>
 
             {/* Project Details */}
-            <CBRECard className="p-6">
-              <h3 className="font-financier text-lg text-cbre-green mb-4">
+            <CBRECard className="p-5">
+              <h3 className="font-financier text-lg text-cbre-green mb-3">
                 Project Details
               </h3>
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
                 <div>
                   <label className="block text-sm font-medium text-dark-grey mb-2">
                     Location *
@@ -535,8 +536,8 @@ export default function NewProjectPage() {
             </CBRECard>
 
             {/* Description */}
-            <CBRECard className="p-6">
-              <h3 className="font-financier text-lg text-cbre-green mb-4">
+            <CBRECard className="p-5">
+              <h3 className="font-financier text-lg text-cbre-green mb-3">
                 Project Description
               </h3>
               <div>
@@ -672,13 +673,13 @@ export default function NewProjectPage() {
           </div>
 
           {/* Sidebar */}
-          <div className="space-y-6">
+          <div className="space-y-4">
             {/* Publish Settings */}
-            <CBRECard className="p-6">
-              <h3 className="font-financier text-lg text-cbre-green mb-4">
+            <CBRECard className="p-5">
+              <h3 className="font-financier text-lg text-cbre-green mb-3">
                 Publish Settings
               </h3>
-              <div className="space-y-4">
+              <div className="space-y-3">
                 <div className="flex items-center justify-between">
                   <span className="text-dark-grey font-calibre">Status</span>
                   <CBREBadge className={formData.is_published ? 'bg-green-100 text-green-800' : 'bg-gray-100 text-gray-800'}>
@@ -760,7 +761,7 @@ export default function NewProjectPage() {
             </CBRECard>
 
             {/* Actions */}
-            <div className="space-y-3">
+            <div className="space-y-2">
               <CBREButton
                 type="submit"
                 disabled={isSubmitting}
@@ -783,6 +784,7 @@ export default function NewProjectPage() {
           </div>
         </div>
       </form>
+      </div>
     </div>
   )
 } 
