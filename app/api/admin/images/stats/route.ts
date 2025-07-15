@@ -7,7 +7,7 @@ export async function GET(_request: NextRequest) {
     
     // Get image statistics from database
     const { data: images, error } = await supabase
-      .from('images')
+      .from('project_images')
       .select('image_type')
     
     if (error) {
