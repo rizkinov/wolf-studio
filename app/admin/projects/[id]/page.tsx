@@ -14,6 +14,7 @@ import ImageUploadZone from '@/components/admin/ImageUploadZone'
 import GalleryManager from '@/components/admin/GalleryManager'
 // Remove the direct import of createUploadFunction
 // import { createUploadFunction } from '@/lib/services/image-upload'
+import { createClient } from '@/lib/supabase/client'
 
 interface ProjectFormData {
   title: string
@@ -268,6 +269,14 @@ export default function EditProjectPage() {
   // Replace the createUploadFunction usage with API route calls
   const handleBannerUpload = async (file: File, onProgress: (progress: number) => void) => {
     try {
+      // Get the current session for authentication
+      const supabase = createClient()
+      const { data: { session } } = await supabase.auth.getSession()
+      
+      if (!session) {
+        throw new Error('No active session. Please log in again.')
+      }
+
       const formData = new FormData()
       formData.append('file', file)
       formData.append('imageType', 'banner')
@@ -277,6 +286,9 @@ export default function EditProjectPage() {
 
       const response = await fetch('/api/admin/upload-image', {
         method: 'POST',
+        headers: {
+          'Authorization': `Bearer ${session.access_token}`
+        },
         body: formData,
       })
 
@@ -298,6 +310,14 @@ export default function EditProjectPage() {
 
   const handleGalleryUpload = async (file: File, onProgress: (progress: number) => void) => {
     try {
+      // Get the current session for authentication
+      const supabase = createClient()
+      const { data: { session } } = await supabase.auth.getSession()
+      
+      if (!session) {
+        throw new Error('No active session. Please log in again.')
+      }
+
       const formData = new FormData()
       formData.append('file', file)
       formData.append('imageType', 'gallery')
@@ -307,6 +327,9 @@ export default function EditProjectPage() {
 
       const response = await fetch('/api/admin/upload-image', {
         method: 'POST',
+        headers: {
+          'Authorization': `Bearer ${session.access_token}`
+        },
         body: formData,
       })
 
