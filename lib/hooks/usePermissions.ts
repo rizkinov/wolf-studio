@@ -1,6 +1,5 @@
 import { useState, useEffect } from 'react'
 import { useAuth } from '@/lib/auth/context'
-import { PermissionService, UserService } from '@/lib/services/database'
 import type { UserRole } from '@/lib/types/database'
 
 interface UsePermissionsReturn {
@@ -35,9 +34,25 @@ export function usePermissions(): UsePermissionsReturn {
       setLoading(true)
       setError(null)
 
-      // Load user profile to get role
-      // In a real implementation, you might cache this or get it from auth context
-      const { data: profile, error: profileError } = await UserService.getUserProfile(user.id)
+      // Load user profile and permissions via API route
+      const response = await fetch('/api/auth/profile', {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      })
+
+      if (!response.ok) {
+        if (response.status === 401) {
+          // User is not authenticated, this is expected for public pages
+          setUserRole(null)
+          setPermissions(new Map())
+          return
+        }
+        throw new Error(`HTTP error! status: ${response.status}`)
+      }
+
+      const { data: profile, error: profileError } = await response.json()
       
       if (profileError) {
         setError(profileError)
@@ -47,19 +62,13 @@ export function usePermissions(): UsePermissionsReturn {
       if (profile) {
         setUserRole(profile.role)
         
-        // Load specific permissions
-        const { data: userPermissions, error: permError } = await PermissionService.getUserPermissions(user.id)
-        
-        if (permError) {
-          setError(permError)
-          return
-        }
-
-        // Create permission map
+        // Create permission map from permissions
         const permMap = new Map<string, boolean>()
-        userPermissions.forEach(perm => {
-          permMap.set(`${perm.resource_type}:${perm.permission_type}`, true)
-        })
+        if (profile.permissions) {
+          profile.permissions.forEach((perm: any) => {
+            permMap.set(`${perm.resource_type}:${perm.permission_type}`, true)
+          })
+        }
         setPermissions(permMap)
       }
     } catch (err) {

@@ -9,7 +9,11 @@ import { ProjectWithCategoryAndImages, ProjectImage } from '@/lib/types/database
 import { useState, useEffect } from 'react'
 import { notFound } from 'next/navigation'
 import { BannerImage, GalleryImage } from '@/components/ui/optimized-image'
+import { requestThrottler } from '@/lib/utils/request-throttling'
 import { PerformanceMonitor } from '@/components/ui/performance-monitor'
+import { useAuth } from '@/lib/auth/context'
+import { useIsAdmin } from '@/lib/hooks/usePermissions'
+import { AdminDebugPanel } from '@/components/admin/AdminDebugPanel'
 
 interface ProjectPageProps {
   params: Promise<{
@@ -130,6 +134,11 @@ export default function DynamicProjectPage({ params }: ProjectPageProps) {
   const [error, setError] = useState<string | null>(null)
   const [imageLoadErrors, setImageLoadErrors] = useState<Set<string>>(new Set())
 
+  // Check if user is authenticated admin (for performance monitor)
+  const { isAuthenticated } = useAuth()
+  const isAdmin = useIsAdmin()
+  const showPerformanceMonitor = isAuthenticated && isAdmin
+
   // Track page view for analytics
   useProjectTracking(resolvedParams.slug)
 
@@ -139,16 +148,25 @@ export default function DynamicProjectPage({ params }: ProjectPageProps) {
         setLoading(true)
         setError(null)
         
-        const { data, error } = await ProjectService.getProject(resolvedParams.slug, true) // bySlug = true
-        
-        if (error || !data) {
-          setError('Project not found')
-          return
-        }
+        // Use request throttling to prevent rapid duplicate requests
+        const data = await requestThrottler.throttle(
+          `project-${resolvedParams.slug}`,
+          async () => {
+            const { data, error } = await ProjectService.getProject(resolvedParams.slug, true) // bySlug = true
+            
+            if (error || !data) {
+              throw new Error('Project not found')
+            }
+            
+            return data
+          },
+          2000 // Cache for 2 seconds
+        )
 
         setProject(data)
       } catch (err) {
-        setError('Failed to load project')
+        const errorMessage = err instanceof Error ? err.message : 'Failed to load project'
+        setError(errorMessage)
         console.error('Error fetching project:', err)
       } finally {
         setLoading(false)
@@ -195,9 +213,12 @@ export default function DynamicProjectPage({ params }: ProjectPageProps) {
 
   return (
     <div className="flex flex-col min-h-screen bg-white">
-      {/* Performance monitoring (dev only) */}
-      <PerformanceMonitor />
-
+      {/* Performance Monitor (Admin Only) */}
+      {showPerformanceMonitor && <PerformanceMonitor />}
+      
+      {/* Debug Panel (temporary) */}
+      <AdminDebugPanel />
+      
       {/* Navigation Menu */}
       <header className="sticky top-0 z-50 bg-white shadow-sm">
         <nav className="container mx-auto px-4 py-4 flex justify-between items-center">

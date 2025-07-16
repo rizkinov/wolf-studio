@@ -1,9 +1,7 @@
-import { Metadata } from 'next'
+'use client'
 
-export const metadata: Metadata = {
-  title: 'WOLF Studio',
-  description: 'WOLF Studio - We believe in a world where everyone loves going to work',
-}
+import { Metadata } from 'next'
+import { AuthProvider } from '@/lib/auth/context'
 
 export default function WolfStudioLayout({
   children,
@@ -11,8 +9,10 @@ export default function WolfStudioLayout({
   children: React.ReactNode
 }) {
   return (
-    <div className="wolf-studio-layout">
-      {children}
-    </div>
+    <AuthProvider>
+      <div className="wolf-studio-layout">
+        {children}
+      </div>
+    </AuthProvider>
   )
 } 
