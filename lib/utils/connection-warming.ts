@@ -54,7 +54,23 @@ class ConnectionWarmer {
     const startTime = Date.now()
     
     try {
-      const supabase = await createClient()
+      // Skip database warmup if we're not in a request context
+      // This prevents the cookies context error during build/startup
+      if (typeof window !== 'undefined') {
+        throw new Error('Database warmup can only run on server side')
+      }
+      
+      let supabase
+      try {
+        supabase = await createClient()
+      } catch (error) {
+        // If createClient fails (e.g., cookies context issue), skip warmup
+        const errorMsg = error instanceof Error ? error.message : 'Unknown error'
+        if (errorMsg.includes('cookies') || errorMsg.includes('request scope')) {
+          throw new Error('Database warmup skipped - not in request context')
+        }
+        throw error
+      }
       
       // Perform a simple query to warm up the connection
       const { data, error } = await supabase
@@ -138,20 +154,5 @@ export async function ensureConnectionsWarmed(): Promise<void> {
   }
 }
 
-// Auto-warm connections when module loads (for serverless functions)
-if (typeof window === 'undefined' && process.env.NODE_ENV !== 'development') {
-  // Only run in server environment and not during build
-  process.nextTick(() => {
-    // Check if we're in a request context before warming up
-    try {
-      connectionWarmer.warmupConnections().catch(error => {
-        // Silently fail during build/development
-        if (process.env.NODE_ENV === 'production') {
-          logger.error('Auto-warmup failed', error as Error)
-        }
-      })
-    } catch (error) {
-      // Ignore errors during build/development
-    }
-  })
-} 
+// Note: Auto-warmup removed to prevent cookies context issues
+// Connections will be warmed up during actual requests instead 
