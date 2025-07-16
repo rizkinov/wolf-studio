@@ -1,20 +1,30 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { createClient } from '@/lib/supabase/server'
 import { requestThrottler } from '@/lib/utils/request-throttling'
+import { ensureConnectionsWarmed } from '@/lib/utils/connection-warming'
+import { retryDatabaseQuery } from '@/lib/utils/retry-mechanism'
 
 export async function GET(request: NextRequest) {
   try {
     const { searchParams } = new URL(request.url)
     
+    // Ensure connections are warmed up
+    await ensureConnectionsWarmed()
+    
     // Create a cache key based on search parameters
     const cacheKey = `projects-${searchParams.toString()}`
     
-    // Use request throttling to prevent duplicate requests
+    // Use request throttling with retry mechanism
     const result = await requestThrottler.throttle(
       cacheKey,
       async () => {
-        const supabase = await createClient()
-        return await fetchProjects(supabase, searchParams)
+        return await retryDatabaseQuery(
+          async () => {
+            const supabase = await createClient()
+            return await fetchProjects(supabase, searchParams)
+          },
+          'projects-api-fetch'
+        )
       },
       5000 // Cache for 5 seconds
     )

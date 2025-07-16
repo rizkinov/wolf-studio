@@ -7,6 +7,7 @@ import { CBRECard } from '@/components/cbre/cbre-card'
 import { ProjectGrid } from '@/components/common/ProjectGrid'
 import { ProjectFilter } from '@/components/common/ProjectFilter'
 import { Project } from '@/lib/types/project'
+import { ColdStartFallback, useColdStartHandler } from '@/components/common/cold-start-fallback'
 
 export default function WolfStudioPage() {
   const [projects, setProjects] = useState<Project[]>([]);
@@ -15,6 +16,7 @@ export default function WolfStudioPage() {
   const [activeCategory, setActiveCategory] = useState('all');
   const [isLoading, setIsLoading] = useState(true);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const { error, handleError, retry, reset } = useColdStartHandler();
 
   // Smooth scroll function
   const handleNavClick = (e: React.MouseEvent<HTMLAnchorElement>, sectionId: string) => {
@@ -35,6 +37,8 @@ export default function WolfStudioPage() {
   useEffect(() => {
     async function fetchProjects() {
       try {
+        reset() // Clear any previous errors
+        
         // Import projects data
         const { projectsData } = await import('@/data/projects');
         const sortedProjects = [...projectsData].sort((a, b) => a.order - b.order);
@@ -46,14 +50,16 @@ export default function WolfStudioPage() {
         setFilteredProjects(sortedProjects);
         setCategories(uniqueCategories);
         setIsLoading(false);
-      } catch (error) {
+      } catch (err) {
+        const error = err instanceof Error ? err : new Error('Failed to fetch projects');
         console.error('Failed to fetch projects:', error);
+        handleError(error);
         setIsLoading(false);
       }
     }
 
     fetchProjects();
-  }, []);
+  }, [reset, handleError]);
 
   // Handle category change
   const handleCategoryChange = (category: string) => {
@@ -312,7 +318,14 @@ export default function WolfStudioPage() {
           
           {/* Project Grid Component */}
           <div className="mb-12">
-            {isLoading ? (
+            {error ? (
+              <ColdStartFallback 
+                error={error} 
+                reset={retry} 
+                context="projects"
+                retryDelay={3000}
+              />
+            ) : isLoading ? (
               <div className="text-center py-12">Loading projects...</div>
             ) : (
               <ProjectGrid 
