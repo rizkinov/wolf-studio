@@ -1303,12 +1303,11 @@ export class ActivityLogService {
   ): Promise<{ data: ActivityLogWithUser[]; count: number; error: string | null }> {
     try {
       const supabase = getSupabaseClient()
+      
+      // Use the new view that properly handles the user relationship
       let query = supabase
-        .from('activity_logs')
-        .select(`
-          *,
-          user:user_profiles(id, email, full_name, role)
-        `, { count: 'exact' })
+        .from('activity_logs_with_users')
+        .select('*', { count: 'exact' })
 
       // Apply filters
       if (filters) {

@@ -176,6 +176,59 @@ export async function middleware(request: NextRequest) {
     if (pathname.startsWith('/api/')) {
       let response = NextResponse.next()
       
+      // Check if this is an admin API route that needs authentication
+      if (pathname.startsWith('/api/admin/')) {
+        try {
+          logger.logAuth('Admin API route access attempt', undefined, {
+            path: pathname,
+            method: request.method
+          })
+          
+          // Update session for admin API routes
+          response = await updateSession(request)
+          
+          // If updateSession returns a redirect, it means user is not authenticated
+          if (response.status === 302 || response.status === 307) {
+            logger.logAuth('Admin API route access denied - not authenticated', undefined, {
+              path: pathname,
+              method: request.method
+            })
+            
+            return new NextResponse(
+              JSON.stringify({ error: 'Authentication required' }),
+              { 
+                status: 401, 
+                headers: { 
+                  'Content-Type': 'application/json',
+                  'X-Correlation-ID': correlationId
+                } 
+              }
+            )
+          }
+          
+          logger.logAuth('Admin API route access granted', undefined, {
+            path: pathname,
+            method: request.method
+          })
+        } catch (error) {
+          logger.error('Authentication error in API middleware', error as Error, {
+            path: pathname,
+            method: request.method
+          })
+          
+          return new NextResponse(
+            JSON.stringify({ error: 'Authentication error' }),
+            { 
+              status: 401, 
+              headers: { 
+                'Content-Type': 'application/json',
+                'X-Correlation-ID': correlationId
+              } 
+            }
+          )
+        }
+      }
+      
       // Add security headers to API responses
       response = addSecurityHeaders(response)
       response.headers.set('X-Correlation-ID', correlationId)
