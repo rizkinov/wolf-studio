@@ -59,7 +59,7 @@ export default function WolfStudioPage() {
     }
 
     fetchProjects();
-  }, [reset, handleError]);
+  }, []); // Empty dependency array since handleError and reset are now memoized
 
   // Handle category change
   const handleCategoryChange = (category: string) => {

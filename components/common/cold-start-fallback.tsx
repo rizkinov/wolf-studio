@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useCallback } from 'react'
 import { AlertCircle, RefreshCw, Clock } from 'lucide-react'
 
 interface ColdStartFallbackProps {
@@ -26,7 +26,7 @@ export function ColdStartFallback({
                           error?.message?.includes('network') ||
                           error?.message?.includes('connection')
 
-  const handleRetry = async () => {
+  const handleRetry = useCallback(async () => {
     if (isRetrying) return
     
     setIsRetrying(true)
@@ -46,7 +46,7 @@ export function ColdStartFallback({
       console.error('Retry failed:', err)
       setIsRetrying(false)
     }
-  }
+  }, [isRetrying, reset])
 
   useEffect(() => {
     if (isColdStartError && retryDelay > 0) {
@@ -168,19 +168,19 @@ export function useColdStartHandler() {
   const [error, setError] = useState<Error | null>(null)
   const [retryCount, setRetryCount] = useState(0)
 
-  const handleError = (error: Error) => {
+  const handleError = useCallback((error: Error) => {
     setError(error)
-  }
+  }, [])
 
-  const retry = () => {
+  const retry = useCallback(() => {
     setError(null)
     setRetryCount(prev => prev + 1)
-  }
+  }, [])
 
-  const reset = () => {
+  const reset = useCallback(() => {
     setError(null)
     setRetryCount(0)
-  }
+  }, [])
 
   return {
     error,
