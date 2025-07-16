@@ -13,7 +13,6 @@ import { requestThrottler } from '@/lib/utils/request-throttling'
 import { PerformanceMonitor } from '@/components/ui/performance-monitor'
 import { useAuth } from '@/lib/auth/context'
 import { useIsAdmin } from '@/lib/hooks/usePermissions'
-import { AdminDebugPanel } from '@/components/admin/AdminDebugPanel'
 
 interface ProjectPageProps {
   params: Promise<{
@@ -215,9 +214,6 @@ export default function DynamicProjectPage({ params }: ProjectPageProps) {
     <div className="flex flex-col min-h-screen bg-white">
       {/* Performance Monitor (Admin Only) */}
       {showPerformanceMonitor && <PerformanceMonitor />}
-      
-      {/* Debug Panel (temporary) */}
-      <AdminDebugPanel />
       
       {/* Navigation Menu */}
       <header className="sticky top-0 z-50 bg-white shadow-sm">
