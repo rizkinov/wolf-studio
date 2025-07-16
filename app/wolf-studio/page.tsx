@@ -165,7 +165,7 @@ export default function WolfStudioPage() {
           </p>
           
           {/* Photo collage layout with proper aspect ratios and scaled down size */}
-          <div className="max-w-3xl mx-auto mb-12">
+          <div className="max-w-4xl mx-auto mb-12">
             {/* First row */}
             <div className="flex flex-col md:flex-row gap-2 mb-2">
               {/* Top-left (pool party) – 512 x 768 (portrait) */}
@@ -263,7 +263,7 @@ export default function WolfStudioPage() {
             </div>
           </div>
           
-          <div className="max-w-5xl mx-auto mt-16">
+          <div className="max-w-4xl mx-auto mt-16">
             <h3 className="text-2xl font-bold mb-12 text-center">A Bit About Us</h3>
             
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">

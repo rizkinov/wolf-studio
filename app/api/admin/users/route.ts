@@ -113,15 +113,15 @@ export async function POST(request: NextRequest) {
     
     switch (action) {
       case 'create':
-        // Try with email confirmation disabled
-        console.log('Creating auth user with email confirmation disabled...')
+        // Create user with password and send confirmation email
+        console.log('Creating auth user with password and email confirmation...')
         
         let authResult
         try {
           authResult = await adminSupabase.auth.admin.createUser({
             email: data.email,
             password: data.password || 'TempPassword123!',
-            email_confirm: false, // Try with email confirmation disabled
+            email_confirm: false, // This will send a confirmation email
             user_metadata: {
               full_name: data.full_name || data.email
             }
