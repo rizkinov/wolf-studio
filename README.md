@@ -374,18 +374,6 @@ az container create --resource-group wolf-studio-rg --name wolf-studio-container
 
 #### Amazon Web Services (AWS)
 
-##### AWS Amplify
-```bash
-# Install AWS Amplify CLI
-npm install -g @aws-amplify/cli
-
-# Configure deployment
-amplify configure
-amplify init
-amplify add hosting
-amplify publish
-```
-
 ##### AWS App Runner
 ```bash
 # Install AWS CLI
@@ -482,40 +470,7 @@ EOF
 gcloud app deploy
 ```
 
-##### Google Firebase Hosting
-```bash
-# Install Firebase CLI
-npm install -g firebase-tools
-
-# Initialize and deploy
-firebase login
-firebase init hosting
-firebase deploy
-```
-
 #### Other Cloud Platforms
-
-##### Netlify
-```bash
-# Install Netlify CLI
-npm install -g netlify-cli
-
-# Deploy to Netlify
-netlify deploy --prod
-
-# Or create netlify.toml
-cat > netlify.toml << EOF
-[build]
-  command = "npm run build"
-  publish = ".next"
-[build.environment]
-  NEXT_TELEMETRY_DISABLED = "1"
-[[redirects]]
-  from = "/*"
-  to = "/index.html"
-  status = 200
-EOF
-```
 
 ##### DigitalOcean App Platform
 ```bash
