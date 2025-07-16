@@ -5,7 +5,7 @@
   
   **Digital portfolio and business platform for Wolf Studio - CBRE's workplace design firm**
   
-  [![Next.js](https://img.shields.io/badge/Next.js-15.2.5-black?style=for-the-badge&logo=next.js)](https://nextjs.org/)
+  [![Next.js](https://img.shields.io/badge/Next.js-15.0.0-black?style=for-the-badge&logo=next.js)](https://nextjs.org/)
   [![TypeScript](https://img.shields.io/badge/TypeScript-5.0+-blue?style=for-the-badge&logo=typescript)](https://www.typescriptlang.org/)
   [![Supabase](https://img.shields.io/badge/Supabase-Latest-green?style=for-the-badge&logo=supabase)](https://supabase.com/)
   [![Tailwind CSS](https://img.shields.io/badge/Tailwind_CSS-3.4+-38B2AC?style=for-the-badge&logo=tailwind-css)](https://tailwindcss.com/)
@@ -72,7 +72,7 @@ This website provides Wolf Studio with a comprehensive digital platform featurin
 
 ### Technology Stack
 
-- **Frontend**: Next.js 15 with App Router, React 18, TypeScript
+- **Frontend**: Next.js 15 with App Router, React 19, TypeScript
 - **Database**: Supabase (PostgreSQL) with real-time subscriptions
 - **Authentication**: Supabase Auth with JWT tokens
 - **Storage**: Supabase Storage for file management
@@ -192,9 +192,6 @@ npm install
 # Set up environment variables
 cp .env.example .env.local
 
-# Run database migrations
-npm run db:migrate
-
 # Start development server
 npm run dev
 ```
@@ -226,17 +223,9 @@ npm run dev
 
 4. **Database setup**
    ```bash
-   # Initialize Supabase
-   supabase init
-   
-   # Start local Supabase
-   supabase start
-   
-   # Run migrations
-   npm run db:migrate
-   
-   # Seed database (optional)
-   npm run db:seed
+   # Database setup is handled through Supabase Dashboard
+   # Apply migrations from supabase/migrations/ directory
+   # See supabase/README.md for detailed instructions
    ```
 
 5. **Development server**
@@ -261,9 +250,8 @@ NEXT_PUBLIC_SUPABASE_URL=your_supabase_url
 NEXT_PUBLIC_SUPABASE_ANON_KEY=your_supabase_anon_key
 SUPABASE_SERVICE_ROLE_KEY=your_service_role_key
 
-# Authentication
-NEXTAUTH_URL=http://localhost:3000
-NEXTAUTH_SECRET=your_nextauth_secret
+# Application Configuration
+NEXT_PUBLIC_APP_URL=http://localhost:3000
 
 # Database
 DATABASE_URL=your_database_url
@@ -951,7 +939,7 @@ const securityHeaders = [
 
 ### REST API Endpoints
 
-#### Projects API
+#### Public Projects API
 ```typescript
 // GET /api/projects
 // Get all published projects
@@ -960,39 +948,65 @@ GET /api/projects?published=true&limit=10&offset=0
 // GET /api/projects/[id]
 // Get project by ID
 GET /api/projects/123e4567-e89b-12d3-a456-426614174000
+```
 
-// POST /api/projects
+#### Public Categories API
+```typescript
+// GET /api/categories
+// Get all categories
+GET /api/categories
+```
+
+#### Admin Projects API
+```typescript
+// GET /api/admin/projects
+// Get all projects (Admin only)
+GET /api/admin/projects
+
+// GET /api/admin/projects?id=PROJECT_ID
+// Get project by ID (Admin only)
+GET /api/admin/projects?id=123e4567-e89b-12d3-a456-426614174000
+
+// POST /api/admin/projects
 // Create new project (Admin only)
-POST /api/projects
+POST /api/admin/projects
 {
+  "action": "create",
   "title": "Project Title",
   "description": "Project description",
   "is_published": false
 }
 
-// PUT /api/projects/[id]
+// POST /api/admin/projects
 // Update project (Admin only)
-PUT /api/projects/123e4567-e89b-12d3-a456-426614174000
+POST /api/admin/projects
 {
+  "action": "update",
+  "id": "123e4567-e89b-12d3-a456-426614174000",
   "title": "Updated Title",
   "is_published": true
 }
 
-// DELETE /api/projects/[id]
+// POST /api/admin/projects
 // Delete project (Admin only)
-DELETE /api/projects/123e4567-e89b-12d3-a456-426614174000
+POST /api/admin/projects
+{
+  "action": "delete",
+  "id": "123e4567-e89b-12d3-a456-426614174000"
+}
 ```
 
-#### Categories API
+#### Admin Categories API
 ```typescript
-// GET /api/categories
-// Get all categories
-GET /api/categories
+// GET /api/admin/categories
+// Get all categories (Admin only)
+GET /api/admin/categories
 
-// POST /api/categories
+// POST /api/admin/categories
 // Create category (Admin only)
-POST /api/categories
+POST /api/admin/categories
 {
+  "action": "create",
   "name": "Category Name",
   "slug": "category-slug"
 }
@@ -1001,54 +1015,38 @@ POST /api/categories
 #### Admin API
 ```typescript
 // GET /api/admin/stats
-// Get admin statistics
+// Get comprehensive admin statistics
 GET /api/admin/stats
 
 // GET /api/admin/users
 // Get all users (Admin only)
-GET /api/admin/users
+GET /api/admin/users?page=1&limit=10
 
 // POST /api/admin/users
 // Create user (Admin only)
 POST /api/admin/users
 {
+  "action": "create",
   "email": "user@example.com",
-  "role": "editor"
+  "password": "SecurePassword123!",
+  "role": "editor",
+  "full_name": "User Name"
 }
+
+// GET /api/admin/images/stats
+// Get image statistics
+GET /api/admin/images/stats
+
+// GET /api/admin/storage/stats
+// Get storage statistics
+GET /api/admin/storage/stats
+
+// GET /api/admin/system/status
+// Get system status
+GET /api/admin/system/status
 ```
 
-### GraphQL API (Optional)
 
-```graphql
-# Query projects
-query GetProjects($published: Boolean, $limit: Int) {
-  projects(published: $published, limit: $limit) {
-    id
-    title
-    slug
-    description
-    isPublished
-    createdAt
-    updatedAt
-    images {
-      id
-      imageUrl
-      imageType
-      displayOrder
-    }
-  }
-}
-
-# Mutation to create project
-mutation CreateProject($input: ProjectInput!) {
-  createProject(input: $input) {
-    id
-    title
-    slug
-    isPublished
-  }
-}
-```
 
 ---
 
@@ -1058,26 +1056,21 @@ mutation CreateProject($input: ProjectInput!) {
 
 ```typescript
 // lib/services/logger.ts
-import { winston } from 'winston'
+import { LogLevel, LogCategory } from '@/lib/services/logger'
 
-export const logger = winston.createLogger({
-  level: process.env.LOG_LEVEL || 'info',
-  format: winston.format.combine(
-    winston.format.timestamp(),
-    winston.format.errors({ stack: true }),
-    winston.format.json()
-  ),
-  transports: [
-    new winston.transports.File({ filename: 'error.log', level: 'error' }),
-    new winston.transports.File({ filename: 'combined.log' })
-  ]
-})
+export const logger = Logger.getInstance()
 
 // Usage example
 logger.info('User created', {
   userId: '123',
   correlationId: 'req-456',
   action: 'user.create'
+})
+
+// Enhanced logging with categories
+logger.logAuth('User authenticated', userId, {
+  method: 'password',
+  ipAddress: '192.168.1.1'
 })
 ```
 
@@ -1313,10 +1306,10 @@ footer
 
 ### Documentation
 
-- **API Documentation**: Available at `/docs/api`
-- **Component Documentation**: Available at `/docs/components`
-- **Deployment Guide**: Available at `/docs/deployment`
-- **Security Guide**: Available at `/docs/security`
+- **Main Documentation**: This README file
+- **Database Schema**: Available in `supabase/README.md`
+- **Deployment Guide**: Available in `docs/deployment-guide.md`
+- **Security Implementation**: Available in `docs/security-implementation-summary.md`
 
 ### Troubleshooting
 
@@ -1339,8 +1332,8 @@ npm install
 echo $NEXT_PUBLIC_SUPABASE_URL
 echo $NEXT_PUBLIC_SUPABASE_ANON_KEY
 
-# Test database connection
-npm run db:test
+# Test database connection via health endpoint
+curl http://localhost:3000/api/health
 ```
 
 **Authentication Issues**
@@ -1348,8 +1341,11 @@ npm run db:test
 # Clear browser localStorage
 localStorage.clear()
 
-# Check JWT token expiration
-# Verify NEXTAUTH_SECRET is set
+# Check Supabase Auth configuration
+echo $NEXT_PUBLIC_SUPABASE_URL
+echo $NEXT_PUBLIC_SUPABASE_ANON_KEY
+
+# Verify JWT token expiration in Supabase dashboard
 ```
 
 #### Performance Issues
