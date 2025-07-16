@@ -501,6 +501,7 @@ export interface CategoryFormData {
 
 export interface UserFormData {
   email: string
+  password?: string
   full_name?: string
   role: UserRole
   department?: string

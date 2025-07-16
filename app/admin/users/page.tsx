@@ -67,7 +67,8 @@ export default function UserManagementPage({}: UserManagementPageProps) {
     department: '',
     phone: '',
     bio: '',
-    is_active: true
+    is_active: true,
+    password: ''
   })
 
   const itemsPerPage = 10
@@ -196,8 +197,8 @@ export default function UserManagementPage({}: UserManagementPageProps) {
         },
         body: JSON.stringify({ 
           action: 'create',
-          id: crypto.randomUUID(), // This would be handled by auth in real implementation
           email: formData.email,
+          password: formData.password,
           full_name: formData.full_name,
           role: formData.role,
           department: formData.department,
@@ -214,6 +215,7 @@ export default function UserManagementPage({}: UserManagementPageProps) {
         setShowCreateDialog(false)
         setFormData({
           email: '',
+          password: '',
           full_name: '',
           role: 'viewer',
           department: '',
@@ -412,6 +414,18 @@ export default function UserManagementPage({}: UserManagementPageProps) {
                     onChange={(e) => setFormData(prev => ({ ...prev, email: e.target.value }))}
                   />
                 </div>
+                <div className="space-y-2">
+                  <Label htmlFor="password">Password</Label>
+                  <Input
+                    id="password"
+                    type="password"
+                    placeholder="Leave blank for default password"
+                    value={formData.password}
+                    onChange={(e) => setFormData(prev => ({ ...prev, password: e.target.value }))}
+                  />
+                </div>
+              </div>
+              <div className="grid grid-cols-2 gap-4">
                 <div className="space-y-2">
                   <Label htmlFor="full_name">Full Name</Label>
                   <Input

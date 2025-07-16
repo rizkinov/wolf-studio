@@ -111,20 +111,44 @@ export async function POST(request: NextRequest) {
     
     switch (action) {
       case 'create':
-        const { data: newUser, error: createError } = await adminSupabase
+        // First create the user in the auth system
+        const { data: authUser, error: authError } = await adminSupabase.auth.admin.createUser({
+          email: data.email,
+          password: data.password || 'TempPassword123!', // Temporary password - user should change
+          email_confirm: true,
+          user_metadata: {
+            full_name: data.full_name || data.email
+          }
+        })
+        
+        if (authError) {
+          return NextResponse.json({ error: authError.message }, { status: 500 })
+        }
+        
+        // The user profile should be created automatically by the trigger,
+        // but let's update it with the additional data
+        const { data: updatedProfile, error: profileUpdateError } = await adminSupabase
           .from('user_profiles')
-          .insert({
-            ...data,
-            created_at: new Date().toISOString()
+          .update({
+            full_name: data.full_name,
+            role: data.role || 'viewer',
+            department: data.department,
+            phone: data.phone,
+            bio: data.bio,
+            avatar_url: data.avatar_url,
+            is_active: data.is_active !== undefined ? data.is_active : true,
+            updated_at: new Date().toISOString()
           })
+          .eq('id', authUser.user.id)
           .select()
           .single()
         
-        if (createError) {
-          return NextResponse.json({ error: createError.message }, { status: 500 })
+        if (profileUpdateError) {
+          console.error('Error updating user profile:', profileUpdateError)
+          return NextResponse.json({ error: profileUpdateError.message }, { status: 500 })
         }
         
-        return NextResponse.json({ data: newUser })
+        return NextResponse.json({ data: updatedProfile })
       
       case 'update':
         const { id, ...updateData } = data
