@@ -107,26 +107,86 @@ export async function POST(request: NextRequest) {
     const body = await request.json()
     const { action, ...data } = body
     
+    console.log('Creating user with data:', { action, email: data.email, role: data.role })
+    
     const adminSupabase = createAdminClient()
     
     switch (action) {
       case 'create':
-        // First create the user in the auth system
-        const { data: authUser, error: authError } = await adminSupabase.auth.admin.createUser({
-          email: data.email,
-          password: data.password || 'TempPassword123!', // Temporary password - user should change
-          email_confirm: true,
-          user_metadata: {
-            full_name: data.full_name || data.email
-          }
-        })
+        // Try with email confirmation disabled
+        console.log('Creating auth user with email confirmation disabled...')
         
-        if (authError) {
-          return NextResponse.json({ error: authError.message }, { status: 500 })
+        let authResult
+        try {
+          authResult = await adminSupabase.auth.admin.createUser({
+            email: data.email,
+            password: data.password || 'TempPassword123!',
+            email_confirm: false, // Try with email confirmation disabled
+            user_metadata: {
+              full_name: data.full_name || data.email
+            }
+          })
+        } catch (authCreateError) {
+          console.error('Auth create error:', authCreateError)
+          const errorMessage = authCreateError instanceof Error ? authCreateError.message : String(authCreateError)
+          return NextResponse.json({ error: `Auth create error: ${errorMessage}` }, { status: 500 })
         }
         
-        // The user profile should be created automatically by the trigger,
-        // but let's update it with the additional data
+        const { data: authUser, error: authError } = authResult
+        
+        if (authError) {
+          console.error('Auth error:', authError)
+          return NextResponse.json({ error: `Auth error: ${authError.message || JSON.stringify(authError)}` }, { status: 500 })
+        }
+        
+        if (!authUser.user) {
+          console.error('No user returned from auth')
+          return NextResponse.json({ error: 'No user returned from auth' }, { status: 500 })
+        }
+        
+        console.log('Auth user created:', authUser.user.id)
+        
+        // Wait for trigger to create profile
+        await new Promise(resolve => setTimeout(resolve, 2000))
+        
+        // Check if profile was created
+        const { data: existingProfile, error: checkError } = await adminSupabase
+          .from('user_profiles')
+          .select('*')
+          .eq('id', authUser.user.id)
+          .single()
+        
+        if (checkError) {
+          console.error('Profile check error:', checkError)
+          // If profile doesn't exist, create it manually
+          const { data: newProfile, error: manualCreateError } = await adminSupabase
+            .from('user_profiles')
+            .insert({
+              id: authUser.user.id,
+              email: data.email,
+              full_name: data.full_name,
+              role: data.role || 'viewer',
+              department: data.department,
+              phone: data.phone,
+              bio: data.bio,
+              avatar_url: data.avatar_url,
+              is_active: data.is_active !== undefined ? data.is_active : true,
+              created_at: new Date().toISOString(),
+              updated_at: new Date().toISOString()
+            })
+            .select()
+            .single()
+          
+          if (manualCreateError) {
+            console.error('Manual profile creation error:', manualCreateError)
+            return NextResponse.json({ error: `Manual profile creation error: ${manualCreateError.message}` }, { status: 500 })
+          }
+          
+          console.log('User created successfully (manual profile):', newProfile)
+          return NextResponse.json({ data: newProfile })
+        }
+        
+        // Update existing profile with additional data
         const { data: updatedProfile, error: profileUpdateError } = await adminSupabase
           .from('user_profiles')
           .update({
@@ -144,10 +204,11 @@ export async function POST(request: NextRequest) {
           .single()
         
         if (profileUpdateError) {
-          console.error('Error updating user profile:', profileUpdateError)
-          return NextResponse.json({ error: profileUpdateError.message }, { status: 500 })
+          console.error('Profile update error:', profileUpdateError)
+          return NextResponse.json({ error: `Profile update error: ${profileUpdateError.message}` }, { status: 500 })
         }
         
+        console.log('User created successfully:', updatedProfile)
         return NextResponse.json({ data: updatedProfile })
       
       case 'update':
@@ -270,6 +331,7 @@ export async function POST(request: NextRequest) {
     }
   } catch (error) {
     console.error('Error in users POST API:', error)
-    return NextResponse.json({ error: 'Failed to process request' }, { status: 500 })
+    const errorMessage = error instanceof Error ? error.message : 'Unknown error'
+    return NextResponse.json({ error: `Failed to process request: ${errorMessage}` }, { status: 500 })
   }
 } 
