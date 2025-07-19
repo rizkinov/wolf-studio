@@ -46,7 +46,7 @@ Wolf Studio stands firm in their belief of creating "a world where everyone love
 
 **Locations:**
 - **Singapore Industrial Studio**: 61 Ubi Road 1 #04-21/22, Singapore 408727
-- **Singapore CBD Studio**: 6 Battery Rd, #32-01, Singapore 049909
+- **Singapore CBD Studio**: 8 Marina Boulevard, #16-01, Marina Bay Financial Centre Tower 1 (MBFC Tower 1), Singapore 018981
 - **Hong Kong Studio**: Level 27, One Pacific Place, 88 Queensway, Admiralty, Hong Kong
 
 ### Technology Platform Capabilities

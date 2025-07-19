@@ -539,7 +539,7 @@ export default function WolfStudioPage() {
               
               <CBRECard className="p-6">
                 <h4 className="font-bold mb-4">The CBD WOLF Den</h4>
-                <p>@ 6 Battery Rd, #32-01<br />Singapore 049909</p>
+                <p>@ 8 Marina Boulevard<br />#16-01, Marina Bay Financial Centre Tower 1 (MBFC Tower 1)<br />Singapore 018981</p>
               </CBRECard>
               
               <CBRECard className="p-6">
