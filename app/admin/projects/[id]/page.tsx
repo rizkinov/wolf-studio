@@ -57,6 +57,7 @@ export default function EditProjectPage() {
   })
   const [errors, setErrors] = useState<Record<string, string>>({})
   const [isSubmitting, setIsSubmitting] = useState(false)
+  const [successMessage, setSuccessMessage] = useState<string | null>(null)
 
   const loadProject = useCallback(async () => {
     try {
@@ -133,12 +134,20 @@ export default function EditProjectPage() {
     if (errors.title) {
       setErrors(prev => ({ ...prev, title: '' }))
     }
+    // Clear success message when user starts editing
+    if (successMessage) {
+      setSuccessMessage(null)
+    }
   }
 
   const handleInputChange = (field: keyof ProjectFormData, value: string | number | boolean | null) => {
     setFormData(prev => ({ ...prev, [field]: value }))
     if (errors[field]) {
       setErrors(prev => ({ ...prev, [field]: '' }))
+    }
+    // Clear success message when user starts editing
+    if (successMessage) {
+      setSuccessMessage(null)
     }
   }
 
@@ -152,62 +161,99 @@ export default function EditProjectPage() {
       }
     }
     setFormData(prev => ({ ...prev, description }))
+    // Clear success message when user starts editing
+    if (successMessage) {
+      setSuccessMessage(null)
+    }
   }
 
   const validateForm = (): boolean => {
+    console.log('validateForm called with formData:', formData)
     const newErrors: Record<string, string> = {}
 
     if (!formData.title.trim()) {
+      console.log('Validation failed: title is empty')
       newErrors.title = 'Title is required'
     }
 
     if (!formData.slug.trim()) {
+      console.log('Validation failed: slug is empty')
       newErrors.slug = 'Slug is required'
     }
 
     if (!formData.category_id) {
+      console.log('Validation failed: category_id is empty')
       newErrors.category_id = 'Category is required'
     }
 
     if (!formData.subtitle.trim()) {
+      console.log('Validation failed: subtitle is empty')
       newErrors.subtitle = 'Subtitle is required'
     }
 
     if (!formData.location.trim()) {
+      console.log('Validation failed: location is empty')
       newErrors.location = 'Location is required'
     }
 
     if (!formData.scope.trim()) {
+      console.log('Validation failed: scope is empty')
       newErrors.scope = 'Scope is required'
     }
 
     if (formData.year && (formData.year < 1900 || formData.year > new Date().getFullYear() + 10)) {
+      console.log('Validation failed: invalid year', formData.year)
       newErrors.year = 'Please enter a valid year'
     }
 
     // Validate banner image URL if provided
     if (formData.banner_image_url && formData.banner_image_url.trim()) {
+      console.log('Checking banner image URL:', formData.banner_image_url)
       try {
-        new URL(formData.banner_image_url)
+        // Allow local paths that start with / (for local images)
+        if (formData.banner_image_url.startsWith('/')) {
+          console.log('Banner image URL is a local path, validation passed')
+        } else {
+          new URL(formData.banner_image_url)
+          console.log('Banner image URL is a valid absolute URL')
+        }
       } catch {
-        newErrors.banner_image_url = 'Please enter a valid URL'
+        console.log('Validation failed: invalid banner image URL:', formData.banner_image_url)
+        newErrors.banner_image_url = 'Please enter a valid URL or path starting with /'
       }
     }
 
+    console.log('Validation errors:', newErrors)
     setErrors(newErrors)
     return Object.keys(newErrors).length === 0
   }
 
   const handleSubmit = async (e: React.FormEvent) => {
+    console.log('🚀 handleSubmit CALLED!')
     e.preventDefault()
+    console.log('✅ preventDefault completed')
     
-    if (!validateForm()) {
+    // Clear previous messages
+    setErrors({})
+    setSuccessMessage(null)
+    console.log('Cleared previous messages')
+    
+    console.log('About to validate form...')
+    const isValid = validateForm()
+    console.log('Form validation result:', isValid)
+    
+    if (!isValid) {
+      console.log('Form validation failed')
+      // Error details are already set by validateForm()
       return
     }
 
+    console.log('Setting isSubmitting to true')
     setIsSubmitting(true)
 
     try {
+      console.log('Starting project update...', projectId)
+      
       const updates: ProjectUpdate = {
         title: formData.title,
         subtitle: formData.subtitle,
@@ -225,23 +271,44 @@ export default function EditProjectPage() {
         published_at: formData.is_published && !project?.is_published ? new Date().toISOString() : undefined
       }
 
+      console.log('Sending updates:', updates)
+
       const result = await ProjectService.updateProject(projectId, updates)
+      
+      console.log('Update result:', result)
       
       if (result.error) {
         console.error('Error updating project:', result.error)
         if (result.error.includes('duplicate key')) {
           setErrors({ slug: 'This slug is already taken. Please choose a different one.' })
         } else {
-          setErrors({ general: 'Failed to update project. Please try again.' })
+          setErrors({ general: `Failed to update project: ${result.error}` })
         }
         return
       }
 
-      // Success - redirect to projects list
-      router.push('/admin/projects')
+      // Success - show success message and clear any errors
+      console.log('✅ Save successful! Showing success message')
+      setSuccessMessage('Project updated successfully!')
+      setErrors({}) // Clear any existing errors
+      
+      // Update the project state with new data
+      if (result.data) {
+        setProject(result.data as ProjectWithCategoryAndImages)
+        console.log('🔄 Updated project state with new data')
+      }
+      
+      // Scroll to top to show success message
+      window.scrollTo({ top: 0, behavior: 'smooth' })
+      
+      // Optional: Auto-hide success message after 5 seconds
+      setTimeout(() => {
+        setSuccessMessage(null)
+      }, 5000)
+      
     } catch (error) {
       console.error('Error updating project:', error)
-      setErrors({ general: 'An unexpected error occurred. Please try again.' })
+      setErrors({ general: `An unexpected error occurred: ${error instanceof Error ? error.message : 'Unknown error'}` })
     } finally {
       setIsSubmitting(false)
     }
@@ -414,6 +481,13 @@ export default function EditProjectPage() {
             </CBREButton>
           </div>
         </div>
+
+        {/* Success Alert */}
+        {successMessage && (
+          <CBRECard className="p-4 mb-4 border-green-200 bg-green-50">
+            <p className="text-green-600 font-calibre">{successMessage}</p>
+          </CBRECard>
+        )}
 
         {/* Error Alert */}
         {errors.general && (
@@ -798,14 +872,14 @@ export default function EditProjectPage() {
 
               {/* Actions */}
               <div className="space-y-2">
-                <CBREButton
+                <button
                   type="submit"
                   disabled={isSubmitting}
-                  className="w-full flex items-center justify-center space-x-2"
+                  className="w-full flex items-center justify-center space-x-2 bg-[#003F2D] text-white px-4 py-2 rounded-lg hover:bg-[#17E88F] hover:text-[#003F2D] transition-colors duration-300 font-medium disabled:opacity-50"
                 >
                   <Save className="h-4 w-4" />
                   <span>{isSubmitting ? 'Saving...' : 'Save Changes'}</span>
-                </CBREButton>
+                </button>
                 
                 <CBREButton
                   type="button"

@@ -752,6 +752,31 @@
   }
 }
 
+/* Project Description Styling */
+.project-description h2 {
+  @apply text-2xl font-financier font-medium text-primary mb-4 mt-6;
+}
+
+.project-description h3 {
+  @apply text-xl font-financier font-medium text-primary mb-3 mt-5;
+}
+
+.project-description p {
+  @apply font-calibre text-base leading-relaxed text-foreground mb-4;
+}
+
+.project-description ul {
+  @apply list-disc ml-6 mb-4 space-y-2;
+}
+
+.project-description li {
+  @apply font-calibre text-base leading-relaxed text-foreground;
+}
+
+.project-description strong {
+  @apply font-semibold text-primary;
+}
+
 /* Grid Layout - following CBRE design system spacing */
 .projects-grid {
   display: grid;
