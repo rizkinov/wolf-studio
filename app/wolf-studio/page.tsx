@@ -307,14 +307,14 @@ export default function WolfStudioPage() {
             the years that play a part in what we do at WOLF.
           </p>
           
-          {/* Project Filtering */}
-          <div className="mb-8">
+          {/* Project Filtering - HIDDEN FOR NOW */}
+          {/* <div className="mb-8">
             <ProjectFilter 
               categories={categories}
               activeCategory={activeCategory}
               onCategoryChange={handleCategoryChange}
             />
-          </div>
+          </div> */}
           
           {/* Project Grid Component */}
           <div className="mb-12">
@@ -329,7 +329,7 @@ export default function WolfStudioPage() {
               <div className="text-center py-12">Loading projects...</div>
             ) : (
               <ProjectGrid 
-                projects={filteredProjects} 
+                projects={projects} 
                 columns={{
                   mobile: 1,
                   tablet: 2,
