@@ -76,3 +76,5 @@ vercel.svg
 
 # Azure environment (contains sensitive credentials)
 .env.azure
+
+/lib/generated/prisma

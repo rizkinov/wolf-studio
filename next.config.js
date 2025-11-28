@@ -1,7 +1,7 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   reactStrictMode: true,
-  
+
   // Enable standalone output for Docker
   output: 'standalone',
 
@@ -27,8 +27,15 @@ const nextConfig = {
         hostname: 'images.unsplash.com',
         port: '',
         pathname: '/**',
+      },
+      {
+        protocol: 'https',
+        hostname: '*.blob.core.windows.net',
+        port: '',
+        pathname: '/**',
       }
     ],
+
   },
 
   // Performance optimizations
@@ -106,7 +113,7 @@ const nextConfig = {
       // Enable tree shaking
       config.optimization.usedExports = true;
       config.optimization.sideEffects = false;
-      
+
       // Split chunks for better caching
       config.optimization.splitChunks = {
         ...config.optimization.splitChunks,
