@@ -1,16 +1,13 @@
 'use client'
 
-import { createContext, useContext } from 'react'
-import { useSession, signIn as nextAuthSignIn, signOut as nextAuthSignOut } from 'next-auth/react'
-import { SessionProvider } from 'next-auth/react'
-
-// Re-export SessionProvider for wrapping the app
-export { SessionProvider }
+import { createContext, useContext, useEffect, useState } from 'react'
+import { User, AuthError } from '@supabase/supabase-js'
+import { createClient } from '@/lib/supabase/client'
 
 interface AuthContextType {
-  user: any | null
+  user: User | null
   loading: boolean
-  signIn: () => Promise<void>
+  signIn: (email: string, password: string) => Promise<{ error: AuthError | null }>
   signOut: () => Promise<void>
   isAuthenticated: boolean
 }
@@ -18,16 +15,66 @@ interface AuthContextType {
 const AuthContext = createContext<AuthContextType | undefined>(undefined)
 
 export function AuthProvider({ children }: { children: React.ReactNode }) {
-  const { data: session, status } = useSession()
-  const loading = status === 'loading'
-  const user = session?.user || null
+  const [user, setUser] = useState<User | null>(null)
+  const [loading, setLoading] = useState(true)
+  const [supabase] = useState(() => {
+    // Only create client if we're in the browser and have environment variables
+    if (typeof window !== 'undefined' && 
+        process.env.NEXT_PUBLIC_SUPABASE_URL && 
+        process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY) {
+      return createClient()
+    }
+    return null
+  })
 
-  const signIn = async () => {
-    await nextAuthSignIn('azure-ad')
+  useEffect(() => {
+    // Get initial session
+    const getInitialSession = async () => {
+      if (!supabase) {
+        setLoading(false)
+        return
+      }
+      
+      const { data: { session } } = await supabase.auth.getSession()
+      setUser(session?.user ?? null)
+      setLoading(false)
+    }
+
+    getInitialSession()
+
+    // Listen for auth changes
+    if (!supabase) {
+      return
+    }
+    
+    const { data: { subscription } } = supabase.auth.onAuthStateChange(
+      async (event, session) => {
+        setUser(session?.user ?? null)
+        setLoading(false)
+      }
+    )
+
+    return () => subscription.unsubscribe()
+  }, [supabase])
+
+  const signIn = async (email: string, password: string) => {
+    if (!supabase) {
+      return { error: new Error('Supabase client not available') as any }
+    }
+    
+    const { error } = await supabase.auth.signInWithPassword({
+      email,
+      password,
+    })
+    return { error }
   }
 
   const signOut = async () => {
-    await nextAuthSignOut({ callbackUrl: '/' })
+    if (!supabase) {
+      return
+    }
+    
+    await supabase.auth.signOut()
   }
 
   const value = {
@@ -44,11 +91,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
 export const useAuth = () => {
   const context = useContext(AuthContext)
   if (context === undefined) {
-    // If used outside AuthProvider but inside SessionProvider, we can try to construct it
-    // But ideally it should be used within AuthProvider
-    // For backward compatibility with existing code, we might want to throw or return a default
-    // Let's stick to the pattern
     throw new Error('useAuth must be used within an AuthProvider')
   }
   return context
-}
+} 

@@ -2,6 +2,8 @@
 const nextConfig = {
   reactStrictMode: true,
 
+
+
   // Enable standalone output for Docker
   output: 'standalone',
 
@@ -41,7 +43,9 @@ const nextConfig = {
   // Performance optimizations
   experimental: {
     // Only include valid experimental features
+    serverExternalPackages: ['@prisma/client'],
   },
+
 
   // Compression
   compress: true,
