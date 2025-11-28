@@ -38,14 +38,19 @@ export default function WolfStudioPage() {
     async function fetchProjects() {
       try {
         reset() // Clear any previous errors
-        
-        // Import projects data
-        const { projectsData } = await import('@/data/projects');
-        const sortedProjects = [...projectsData].sort((a, b) => a.order - b.order);
-        
+
+        // Fetch projects from API
+        const response = await fetch('/api/projects?published=true');
+        if (!response.ok) {
+          throw new Error('Failed to fetch projects');
+        }
+
+        const { data } = await response.json();
+        const sortedProjects = [...data].sort((a, b) => a.order - b.order);
+
         // Get unique categories
         const uniqueCategories = [...new Set(sortedProjects.map(project => project.category || ''))].filter(Boolean);
-        
+
         setProjects(sortedProjects);
         setFilteredProjects(sortedProjects);
         setCategories(uniqueCategories);

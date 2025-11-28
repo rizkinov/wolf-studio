@@ -1,0 +1,32 @@
+{
+  "name": "wolf-studio-azure-migration",
+  "version": "1.0.0",
+  "description": "Migration toolkit for moving Wolf Studio from Supabase to Azure",
+  "private": true,
+  "scripts": {
+    "validate": "node scripts/1-validate-environment.js",
+    "migrate-db": "node scripts/2-migrate-database.js",
+    "download-storage": "node scripts/3-download-storage-files.js",
+    "upload-storage": "node scripts/4-upload-to-azure-blob.js",
+    "update-urls": "node scripts/5-update-database-urls.js",
+    "verify": "node scripts/6-verify-migration.js",
+    "migrate-all": "npm run validate && npm run migrate-db && npm run download-storage && npm run upload-storage && npm run update-urls && npm run verify"
+  },
+  "dependencies": {
+    "@azure/storage-blob": "^12.17.0",
+    "@supabase/supabase-js": "^2.38.0"
+  },
+  "devDependencies": {},
+  "engines": {
+    "node": ">=18.0.0"
+  },
+  "keywords": [
+    "azure",
+    "migration",
+    "supabase",
+    "database",
+    "blob-storage"
+  ],
+  "author": "Wolf Studio",
+  "license": "MIT"
+}

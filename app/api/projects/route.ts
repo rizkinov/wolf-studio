@@ -81,11 +81,17 @@ async function fetchProjects(supabase: any, searchParams: URLSearchParams) {
   }
 
   const { data, error } = await query
-  
+
   if (error) {
     console.error('Error fetching projects:', error)
     throw new Error('Failed to fetch projects from database')
   }
 
-  return data || []
+  // Transform snake_case to camelCase for frontend
+  return (data || []).map((project: any) => ({
+    ...project,
+    bannerImage: project.banner_image_url,
+    order: project.order_index,
+    // Keep the original fields for backwards compatibility
+  }))
 } 

@@ -4,15 +4,6 @@ const nextConfig = {
   
   // Image optimization configuration
   images: {
-    // Enable Next.js Image optimization
-    domains: [
-      'localhost',
-      // Add your Supabase storage domain
-      process.env.NEXT_PUBLIC_SUPABASE_URL?.replace('https://', '').replace('http://', '') || '',
-      // Add other external image domains as needed
-      'images.unsplash.com',
-      'via.placeholder.com'
-    ],
     // Image formats to serve
     formats: ['image/webp', 'image/avif'],
     // Image sizes for responsive images

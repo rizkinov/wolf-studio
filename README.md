@@ -1261,10 +1261,21 @@ footer
 
 ### Documentation
 
-- **Main Documentation**: This README file
-- **Database Schema**: Available in `supabase/README.md`
-- **Deployment Guide**: Available in `docs/deployment-guide.md`
-- **Security Implementation**: Available in `docs/security-implementation-summary.md`
+All comprehensive documentation is now consolidated in the [`docs/`](docs/) folder:
+
+- **[Documentation Index](docs/README.md)** - Complete documentation overview
+- **Setup Guides**:
+  - [Environment Setup](docs/setup/environment-setup.md) - Development and production configuration
+  - [Database Setup](docs/setup/database-setup.md) - PostgreSQL schema and migrations
+  - [Database Backups](docs/setup/database-backups.md) - Backup and restore procedures
+- **Migration Guides**:
+  - [Azure Migration Summary](docs/migration/migration-summary.md) - Executive overview
+  - [Azure Migration Guide](docs/migration/azure-migration-guide.md) - Complete 60+ page guide
+  - [Migration Toolkit Quickstart](docs/migration/migration-toolkit-quickstart.md) - Quick start
+  - [Pre-Flight Checklist](docs/migration/pre-flight-checklist.md) - Pre-migration validation
+  - [Azure Storage Adapter](docs/migration/azure-storage-adapter.md) - Storage adapter docs
+- **Deployment**: [Deployment Guide](docs/deployment/deployment-guide.md) - Vercel, AWS, Azure, Docker
+- **Security**: [Security Implementation](docs/security/security-implementation.md) - Enterprise security features
 
 ### Troubleshooting
 

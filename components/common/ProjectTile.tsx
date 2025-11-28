@@ -8,12 +8,14 @@ interface ProjectTileProps {
 }
 
 export function ProjectTile({ project }: ProjectTileProps) {
+  const imageUrl = project.bannerImage || '/placeholder-project.jpg';
+
   return (
     <Link href={`/wolf-studio/our-work/${project.slug}`} className="project-tile-link">
       <CBRECard className="project-tile">
         <div className="image-container">
-          <Image 
-            src={project.bannerImage}
+          <Image
+            src={imageUrl}
             alt={project.title}
             fill
             sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 25vw"

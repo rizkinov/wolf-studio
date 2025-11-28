@@ -56,3 +56,23 @@ rollup.config.js.example
 # Unused files from previous project
 next.svg
 vercel.svg
+
+# Backup and temporary files
+*.backup
+*.backup-*
+*.old
+*.tmp
+*~
+
+# Archive directory (old completed migrations)
+/archive/
+
+# Azure migration artifacts (generated during migration)
+/migration/downloads/
+/migration/uploads/
+/migration/backups/
+/migration/logs/
+/migration/reports/
+
+# Azure environment (contains sensitive credentials)
+.env.azure
