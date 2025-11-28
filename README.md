@@ -558,10 +558,20 @@ The application will be available at `http://localhost:3000`.
    docker push <your-registry-name>.azurecr.io/wolf-studio:latest
    ```
 
-2. Create a Container App using the image. Ensure you set the following environment variables in the Container App configuration:
-   - `NEXT_PUBLIC_SUPABASE_URL`
-   - `NEXT_PUBLIC_SUPABASE_ANON_KEY`
-   - `SUPABASE_SERVICE_ROLE_KEY`
+2. Create a Container App using the image.
+
+3. **Critical Configuration**: Since you are migrating to Azure, you must set the following environment variables in your Container App configuration. Do **NOT** use the old Supabase keys for authentication.
+
+   - `DATABASE_URL`: Connection string to your Azure Database for PostgreSQL (e.g., `postgresql://user:pass@host:5432/db?sslmode=require`)
+   - `NEXTAUTH_URL`: Your production URL (e.g., `https://wolf-studio.azurecontainerapps.io`)
+   - `NEXTAUTH_SECRET`: A random string for encryption (generate with `openssl rand -base64 32`)
+   - `AZURE_AD_CLIENT_ID`: From your App Registration
+   - `AZURE_AD_CLIENT_SECRET`: From your App Registration
+   - `AZURE_AD_TENANT_ID`: From your App Registration
+   - `AZURE_STORAGE_CONNECTION_STRING`: For image storage
+
+   *Refer to `docs/AZURE_AUTH_MIGRATION.md` for details on obtaining these values.*
+
 
 ### Migrating Images to Azure Blob Storage
 
