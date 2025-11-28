@@ -647,11 +647,13 @@ Each platform requires proper environment variable configuration:
 
 ```bash
 # Required for all platforms
-NEXT_PUBLIC_SUPABASE_URL=your_supabase_url
-NEXT_PUBLIC_SUPABASE_ANON_KEY=your_supabase_anon_key
-SUPABASE_SERVICE_ROLE_KEY=your_service_role_key
+DATABASE_URL=your_azure_postgres_url
 NEXTAUTH_URL=your_production_url
 NEXTAUTH_SECRET=your_nextauth_secret
+AZURE_AD_CLIENT_ID=your_client_id
+AZURE_AD_CLIENT_SECRET=your_client_secret
+AZURE_AD_TENANT_ID=your_tenant_id
+AZURE_STORAGE_CONNECTION_STRING=your_storage_connection_string
 ```
 
 #### Build Configuration
@@ -694,77 +696,16 @@ module.exports = nextConfig
 
 ## Database Setup
 
-### Supabase Setup
+### Azure PostgreSQL Setup
 
-1. **Create Supabase project**
-   - Go to [supabase.com](https://supabase.com)
-   - Create new project
-   - Note your project URL and anon key
+For detailed instructions on setting up your database on Azure, please refer to the [Database Migration Guide](docs/DATABASE_MIGRATION.md).
 
-2. **Run migrations**
-   ```bash
-   # Apply database schema
-   supabase db reset
-   
-   # Or run specific migrations
-   supabase migration up
-   ```
+This guide covers:
+1.  Provisioning an Azure Database for PostgreSQL instance.
+2.  Creating necessary roles (`anon`, `authenticated`).
+3.  Restoring the provided `public_schema.sql` dump.
+4.  Configuring the application to connect to the new database.
 
-3. **Configure Row Level Security**
-   ```sql
-   -- Enable RLS on all tables
-   ALTER TABLE projects ENABLE ROW LEVEL SECURITY;
-   ALTER TABLE categories ENABLE ROW LEVEL SECURITY;
-   ALTER TABLE users ENABLE ROW LEVEL SECURITY;
-   ```
-
-### Database Schema
-
-#### Core Tables
-```sql
--- Projects table
-CREATE TABLE projects (
-  id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
-  title TEXT NOT NULL,
-  slug TEXT UNIQUE NOT NULL,
-  description JSONB,
-  is_published BOOLEAN DEFAULT false,
-  created_at TIMESTAMP WITH TIME ZONE DEFAULT now(),
-  updated_at TIMESTAMP WITH TIME ZONE DEFAULT now()
-);
-
--- Categories table
-CREATE TABLE categories (
-  id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
-  name TEXT NOT NULL,
-  slug TEXT UNIQUE NOT NULL,
-  description TEXT,
-  created_at TIMESTAMP WITH TIME ZONE DEFAULT now()
-);
-
--- Project images table
-CREATE TABLE project_images (
-  id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
-  project_id UUID REFERENCES projects(id) ON DELETE CASCADE,
-  image_url TEXT NOT NULL,
-  image_type TEXT CHECK (image_type IN ('banner', 'gallery')),
-  display_order INTEGER DEFAULT 0,
-  created_at TIMESTAMP WITH TIME ZONE DEFAULT now()
-);
-```
-
-#### Security Policies
-```sql
--- Public read access for published projects
-CREATE POLICY "Public can view published projects"
-  ON projects FOR SELECT
-  USING (is_published = true);
-
--- Admin full access
-CREATE POLICY "Admin full access"
-  ON projects FOR ALL
-  USING (auth.jwt() ->> 'role' = 'admin');
-```
 
 ---
 
