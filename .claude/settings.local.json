@@ -1,0 +1,32 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(git fetch:*)",
+      "Bash(git pull:*)",
+      "Bash(npm install:*)",
+      "Bash(curl:*)",
+      "Read(//d/**)",
+      "Bash(node:*)",
+      "Bash(chmod:*)",
+      "Bash(npm run dev:*)",
+      "Bash(git add:*)",
+      "Bash(git commit:*)",
+      "Bash(git push:*)",
+      "Bash(mkdir:*)",
+      "Bash(supabase db dump:*)",
+      "Bash(npx supabase:*)",
+      "Bash(where pg_dump)",
+      "Bash(where pg_restore)",
+      "Bash(pg_restore:*)",
+      "Read(//c/Program Files/PostgreSQL/**)",
+      "Bash(\"C:\\Program Files\\PostgreSQL\\18\\bin\\pg_restore.exe\" -f supabase/backups/backup.sql supabase/backups/db_cluster-24-11-2025@17-42-02.backup)",
+      "Bash(find:*)",
+      "Bash(mv:*)",
+      "Bash(grep:*)",
+      "Bash(rm:*)",
+      "Bash(npm run build:*)"
+    ],
+    "deny": [],
+    "ask": []
+  }
+}
