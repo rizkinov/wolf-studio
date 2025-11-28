@@ -1331,7 +1331,7 @@ CREATE POLICY "Service role full access" ON public.project_analytics TO service_
 CREATE POLICY "Service role full access" ON public.project_images TO service_role USING (true) WITH CHECK (true);
 CREATE POLICY "Service role full access" ON public.projects TO service_role USING (true) WITH CHECK (true);
 CREATE POLICY "Service role full access" ON public.user_sessions TO service_role USING (true) WITH CHECK (true);
-CREATE POLICY "Users can read own permissions" ON public.user_permissions FOR SELECT TO authenticated USING ((auth.uid() = user_id));
+-- CREATE POLICY "Users can read own permissions" ON public.user_permissions FOR SELECT TO authenticated USING ((auth.uid() = user_id));
 ALTER TABLE public.activity_logs ENABLE ROW LEVEL SECURITY;
 CREATE POLICY anon_page_views_all ON public.page_views TO anon USING (true) WITH CHECK (true);
 CREATE POLICY anon_project_analytics_select ON public.project_analytics FOR SELECT TO anon USING (true);
