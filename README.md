@@ -578,6 +578,13 @@ If you wish to migrate images from Supabase Storage to Azure Blob Storage, a uti
    ```
    *Note: If no Azure connection string is provided, the script will download images locally to a `temp_migration` folder.*
 
+### Migration to Azure (Full Guide)
+
+For a complete migration from Supabase to Azure (including Database and Authentication), please refer to the following guides:
+
+*   **Database Migration**: [docs/DATABASE_MIGRATION.md](docs/DATABASE_MIGRATION.md) - Instructions for migrating the PostgreSQL schema and data.
+*   **Authentication Migration**: [docs/AZURE_AUTH_MIGRATION.md](docs/AZURE_AUTH_MIGRATION.md) - Guide for switching from Supabase Auth to Azure AD with NextAuth.js.
+
 #### Kubernetes Deployment
 ```yaml
 # k8s-deployment.yaml
