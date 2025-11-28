@@ -592,8 +592,10 @@ If you wish to migrate images from Supabase Storage to Azure Blob Storage, a uti
 
 For a complete migration from Supabase to Azure (including Database and Authentication), please refer to the following guides:
 
+*   **Master Handoff Guide**: [docs/AZURE_HANDOFF.md](docs/AZURE_HANDOFF.md) - **Start Here**. A step-by-step guide to switching the codebase from Supabase to Azure.
 *   **Database Migration**: [docs/DATABASE_MIGRATION.md](docs/DATABASE_MIGRATION.md) - Instructions for migrating the PostgreSQL schema and data.
 *   **Authentication Migration**: [docs/AZURE_AUTH_MIGRATION.md](docs/AZURE_AUTH_MIGRATION.md) - Guide for switching from Supabase Auth to Azure AD with NextAuth.js.
+
 
 #### Kubernetes Deployment
 ```yaml
