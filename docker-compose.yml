@@ -1,0 +1,25 @@
+version: '3.8'
+
+services:
+  app:
+    container_name: wolf-studio-app
+    build:
+      context: .
+      dockerfile: Dockerfile
+    restart: always
+    ports:
+      - "3000:3000"
+    environment:
+      - NODE_ENV=production
+      # These should be set in your .env file or CI/CD pipeline
+      - NEXT_PUBLIC_SUPABASE_URL=${NEXT_PUBLIC_SUPABASE_URL}
+      - NEXT_PUBLIC_SUPABASE_ANON_KEY=${NEXT_PUBLIC_SUPABASE_ANON_KEY}
+      - SUPABASE_SERVICE_ROLE_KEY=${SUPABASE_SERVICE_ROLE_KEY}
+    env_file:
+      - .env.local
+    networks:
+      - wolf-network
+
+networks:
+  wolf-network:
+    driver: bridge

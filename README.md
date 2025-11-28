@@ -540,85 +540,43 @@ git push heroku main
 
 ### Docker Deployment
 
-#### Basic Docker Setup
-```dockerfile
-# Dockerfile
-FROM node:18-alpine
+The project includes a production-ready `Dockerfile` and `docker-compose.yml`.
 
-WORKDIR /app
-COPY package*.json ./
-RUN npm ci --only=production
-
-COPY . .
-RUN npm run build
-
-EXPOSE 3000
-CMD ["npm", "start"]
-```
-
-#### Multi-stage Docker Build
-```dockerfile
-# Dockerfile.multistage
-FROM node:18-alpine AS builder
-
-WORKDIR /app
-COPY package*.json ./
-RUN npm ci
-
-COPY . .
-RUN npm run build
-
-FROM node:18-alpine AS runner
-WORKDIR /app
-
-ENV NODE_ENV production
-RUN addgroup --system --gid 1001 nodejs
-RUN adduser --system --uid 1001 nextjs
-
-COPY --from=builder /app/next.config.js ./
-COPY --from=builder /app/public ./public
-COPY --from=builder /app/.next/standalone ./
-COPY --from=builder /app/.next/static ./.next/static
-
-USER nextjs
-EXPOSE 3000
-ENV PORT 3000
-
-CMD ["node", "server.js"]
-```
-
-#### Docker Compose
-```yaml
-# docker-compose.yml
-version: '3.8'
-
-services:
-  app:
-    build: .
-    ports:
-      - "3000:3000"
-    environment:
-      - NODE_ENV=production
-      - NEXT_PUBLIC_SUPABASE_URL=${NEXT_PUBLIC_SUPABASE_URL}
-      - NEXT_PUBLIC_SUPABASE_ANON_KEY=${NEXT_PUBLIC_SUPABASE_ANON_KEY}
-    env_file:
-      - .env.local
-    restart: unless-stopped
-
-  nginx:
-    image: nginx:alpine
-    ports:
-      - "80:80"
-    volumes:
-      - ./nginx.conf:/etc/nginx/nginx.conf
-    depends_on:
-      - app
-```
-
+#### Build and Run Locally
 ```bash
 # Build and run with Docker Compose
 docker-compose up --build -d
 ```
+
+The application will be available at `http://localhost:3000`.
+
+#### Deploying to Azure Container Apps
+1. Build and push the image to Azure Container Registry (ACR):
+   ```bash
+   az acr login --name <your-registry-name>
+   docker build -t <your-registry-name>.azurecr.io/wolf-studio:latest .
+   docker push <your-registry-name>.azurecr.io/wolf-studio:latest
+   ```
+
+2. Create a Container App using the image. Ensure you set the following environment variables in the Container App configuration:
+   - `NEXT_PUBLIC_SUPABASE_URL`
+   - `NEXT_PUBLIC_SUPABASE_ANON_KEY`
+   - `SUPABASE_SERVICE_ROLE_KEY`
+
+### Migrating Images to Azure Blob Storage
+
+If you wish to migrate images from Supabase Storage to Azure Blob Storage, a utility script is provided.
+
+1. Add your Azure Storage connection string to `.env.local`:
+   ```env
+   AZURE_STORAGE_CONNECTION_STRING="DefaultEndpointsProtocol=https;AccountName=...;AccountKey=...;EndpointSuffix=core.windows.net"
+   ```
+
+2. Run the migration script:
+   ```bash
+   npx ts-node scripts/migrate-images.ts
+   ```
+   *Note: If no Azure connection string is provided, the script will download images locally to a `temp_migration` folder.*
 
 #### Kubernetes Deployment
 ```yaml

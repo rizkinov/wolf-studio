@@ -2,6 +2,9 @@
 const nextConfig = {
   reactStrictMode: true,
   
+  // Enable standalone output for Docker
+  output: 'standalone',
+
   // Image optimization configuration
   images: {
     // Image formats to serve
@@ -96,11 +99,6 @@ const nextConfig = {
     CUSTOM_KEY: process.env.CUSTOM_KEY,
   },
 
-  // Bundle analyzer (enable when needed)
-  // bundleAnalyzer: {
-  //   enabled: process.env.ANALYZE === 'true',
-  // },
-
   // Webpack customization for performance
   webpack: (config, { buildId, dev, isServer, defaultLoaders, webpack }) => {
     // Optimize bundle size
@@ -140,11 +138,8 @@ const nextConfig = {
   // PoweredByHeader
   poweredByHeader: false,
 
-  // Output configuration for static export (if needed)
-  // output: 'standalone',
-
   // Trailing slash configuration
   trailingSlash: false,
 };
 
-module.exports = nextConfig; 
+module.exports = nextConfig;
