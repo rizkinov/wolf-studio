@@ -109,6 +109,32 @@ Since you are using the Prisma Adapter, NextAuth requires specific tables (`Acco
      scope              String?
      id_token           String?  @db.Text
      session_state      String?
+## 7. Troubleshooting
+
+Here are common issues you might encounter during the migration:
+
+### 1. "Reply URL does not match" (Azure AD)
+*   **Error**: You see an error screen from Microsoft saying the reply URL specified in the request does not match the reply URLs configured for the application.
+*   **Fix**:
+    *   Check your `.env` file. `NEXTAUTH_URL` must match exactly (e.g., `http://localhost:3000` vs `http://localhost:3000/`).
+    *   In Azure Portal > App Registration > Authentication, ensure the **Redirect URI** is exactly `http://localhost:3000/api/auth/callback/azure-ad` (for local) or `https://your-domain.com/api/auth/callback/azure-ad` (for production).
+
+### 2. "Database error: relation 'Account' does not exist"
+*   **Error**: NextAuth fails to sign in, and logs show missing tables.
+*   **Fix**: You haven't pushed the Prisma schema to the database yet.
+    *   Run `npx prisma db push` to create the necessary auth tables (`Account`, `Session`, `User`, `VerificationToken`).
+
+### 3. "Invalid client secret is provided"
+*   **Error**: Azure AD rejects the authentication request.
+*   **Fix**:
+    *   Ensure you copied the **Value** of the client secret, not the **Secret ID**.
+    *   Check if the secret has expired in the Azure Portal.
+
+### 4. "PrismaClientInitializationError"
+*   **Error**: The application crashes on startup.
+*   **Fix**:
+    *   Verify your `DATABASE_URL` in `.env`. It must be a valid connection string to your Azure PostgreSQL instance.
+    *   Ensure your IP address is allowed in the Azure Database firewall settings.
 
      user User @relation(fields: [userId], references: [id], onDelete: Cascade)
 
