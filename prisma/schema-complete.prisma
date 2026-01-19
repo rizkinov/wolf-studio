@@ -55,7 +55,6 @@ model User {
   activityLogs     ActivityLog[]
   permissionsGranted UserPermission[] @relation("GrantedBy")
   permissions      UserPermission[] @relation("UserPermissions")
-  userSessions     UserSession[]
   createdProfiles  UserProfile[] @relation("CreatedBy")
 }
 
@@ -171,8 +170,8 @@ model AnalyticsSession {
   pageViewsCount Int      @default(0) @map("page_views_count")
   totalDuration  Int      @default(0) @map("total_duration")
 
-  @@index([sessionId], name: "idx_user_sessions_session_id")
-  @@index([startedAt], name: "idx_user_sessions_started_at")
+  @@index([sessionId])
+  @@index([startedAt])
   @@map("user_sessions")
 }
 
@@ -269,24 +268,8 @@ model ActivityLog {
   @@map("activity_logs")
 }
 
-model UserSession {
-  id           String   @id @default(dbgenerated("uuid_generate_v4()")) @db.Uuid
-  userId       String   @map("user_id")
-  sessionToken String   @unique @map("session_token")
-  ipAddress    String?  @map("ip_address") @db.Inet
-  userAgent    String?  @map("user_agent")
-  isActive     Boolean  @default(true) @map("is_active")
-  lastActivity DateTime @default(now()) @map("last_activity")
-  expiresAt    DateTime @map("expires_at")
-  createdAt    DateTime @default(now()) @map("created_at")
-
-  user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
-
-  @@index([userId], name: "idx_user_sessions_user")
-  @@index([isActive], name: "idx_user_sessions_active")
-  @@index([expiresAt], name: "idx_user_sessions_expires")
-  @@map("user_sessions")
-}
+// Note: user_sessions table is used by AnalyticsSession model (for visitor tracking)
+// NextAuth's Session model handles authenticated user sessions
 
 model UserPermission {
   id             String   @id @default(dbgenerated("uuid_generate_v4()")) @db.Uuid
