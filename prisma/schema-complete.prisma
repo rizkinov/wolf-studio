@@ -1,0 +1,325 @@
+// Complete Prisma Schema for Wolf Studio (Azure PostgreSQL)
+// This includes all application tables + NextAuth tables
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+// ============================================
+// NEXTAUTH TABLES (Authentication)
+// ============================================
+
+model Account {
+  id                String  @id @default(cuid())
+  userId            String
+  type              String
+  provider          String
+  providerAccountId String
+  refresh_token     String? @db.Text
+  access_token      String? @db.Text
+  expires_at        Int?
+  token_type        String?
+  scope             String?
+  id_token          String? @db.Text
+  session_state     String?
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([provider, providerAccountId])
+}
+
+model Session {
+  id           String   @id @default(cuid())
+  sessionToken String   @unique
+  userId       String
+  expires      DateTime
+  user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model User {
+  id            String    @id @default(cuid())
+  name          String?
+  email         String?   @unique
+  emailVerified DateTime?
+  image         String?
+  accounts      Account[]
+  sessions      Session[]
+
+  // Relations to Wolf Studio tables
+  userProfile      UserProfile?
+  activityLogs     ActivityLog[]
+  permissionsGranted UserPermission[] @relation("GrantedBy")
+  permissions      UserPermission[] @relation("UserPermissions")
+  userSessions     UserSession[]
+  createdProfiles  UserProfile[] @relation("CreatedBy")
+}
+
+model VerificationToken {
+  identifier String
+  token      String   @unique
+  expires    DateTime
+
+  @@unique([identifier, token])
+}
+
+// ============================================
+// CORE TABLES (Projects & Categories)
+// ============================================
+
+model Category {
+  id          String    @id @default(dbgenerated("uuid_generate_v4()")) @db.Uuid
+  name        String    @unique
+  slug        String    @unique
+  description String?
+  createdAt   DateTime  @default(now()) @map("created_at")
+  updatedAt   DateTime  @default(now()) @updatedAt @map("updated_at")
+
+  projects    Project[]
+
+  @@index([slug], name: "idx_categories_slug")
+  @@map("categories")
+}
+
+model Project {
+  id              String    @id @default(dbgenerated("uuid_generate_v4()")) @db.Uuid
+  title           String
+  subtitle        String?
+  slug            String    @unique
+  bannerImageUrl  String?   @map("banner_image_url")
+  orderIndex      Int       @default(0) @map("order_index")
+  categoryId      String?   @map("category_id") @db.Uuid
+  publishedAt     DateTime? @map("published_at")
+  createdAt       DateTime  @default(now()) @map("created_at")
+  updatedAt       DateTime  @default(now()) @updatedAt @map("updated_at")
+  isPublished     Boolean   @default(false) @map("is_published")
+  description     Json?     @db.JsonB
+  year            Int?
+  size            String?
+  location        String?
+  scope           String?
+  legacyId        String?   @unique @map("legacy_id")
+  featured        Boolean   @default(false)
+
+  category        Category?        @relation(fields: [categoryId], references: [id], onDelete: SetNull)
+  images          ProjectImage[]
+  analytics       ProjectAnalytics?
+  pageViews       PageView[]
+
+  @@index([slug], name: "idx_projects_slug")
+  @@index([categoryId], name: "idx_projects_category")
+  @@index([isPublished], name: "idx_projects_published")
+  @@index([orderIndex], name: "idx_projects_order")
+  @@map("projects")
+}
+
+model ProjectImage {
+  id           String   @id @default(dbgenerated("uuid_generate_v4()")) @db.Uuid
+  projectId    String   @map("project_id") @db.Uuid
+  imageUrl     String   @map("image_url")
+  altText      String?  @map("alt_text")
+  caption      String?
+  displayOrder Int      @default(0) @map("display_order")
+  imageType    String?  @default("gallery") @map("image_type")
+  createdAt    DateTime @default(now()) @map("created_at")
+  updatedAt    DateTime @default(now()) @updatedAt @map("updated_at")
+  storagePath  String?  @map("storage_path")
+  fileSize     Int?     @map("file_size")
+  mimeType     String?  @map("mime_type")
+  cropData     Json?    @map("crop_data") @db.JsonB
+
+  project      Project  @relation(fields: [projectId], references: [id], onDelete: Cascade)
+
+  @@index([projectId], name: "idx_project_images_project")
+  @@index([displayOrder], name: "idx_project_images_order")
+  @@map("project_images")
+}
+
+// ============================================
+// ANALYTICS TABLES
+// ============================================
+
+model PageView {
+  id           String   @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  projectId    String?  @map("project_id") @db.Uuid
+  userIp       String   @map("user_ip")
+  userAgent    String?  @map("user_agent")
+  referrer     String?
+  sessionId    String?  @map("session_id")
+  viewDuration Int      @default(0) @map("view_duration")
+  createdAt    DateTime @default(now()) @map("created_at")
+
+  project      Project? @relation(fields: [projectId], references: [id], onDelete: Cascade)
+
+  @@index([projectId], name: "idx_page_views_project_id")
+  @@index([createdAt], name: "idx_page_views_created_at")
+  @@index([sessionId], name: "idx_page_views_session_id")
+  @@map("page_views")
+}
+
+model AnalyticsSession {
+  id             String   @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  sessionId      String   @unique @map("session_id")
+  userIp         String   @map("user_ip")
+  userAgent      String?  @map("user_agent")
+  startedAt      DateTime @default(now()) @map("started_at")
+  lastActivity   DateTime @default(now()) @map("last_activity")
+  pageViewsCount Int      @default(0) @map("page_views_count")
+  totalDuration  Int      @default(0) @map("total_duration")
+
+  @@index([sessionId], name: "idx_user_sessions_session_id")
+  @@index([startedAt], name: "idx_user_sessions_started_at")
+  @@map("user_sessions")
+}
+
+model ProjectAnalytics {
+  id                 String    @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  projectId          String    @unique @map("project_id") @db.Uuid
+  totalViews         Int       @default(0) @map("total_views")
+  uniqueVisitors     Int       @default(0) @map("unique_visitors")
+  averageTimeOnPage  Decimal   @default(0) @map("average_time_on_page") @db.Decimal(10, 2)
+  bounceRate         Decimal   @default(0) @map("bounce_rate") @db.Decimal(5, 2)
+  lastViewed         DateTime? @map("last_viewed")
+  updatedAt          DateTime  @default(now()) @map("updated_at")
+
+  project            Project   @relation(fields: [projectId], references: [id], onDelete: Cascade)
+
+  @@index([projectId], name: "idx_project_analytics_project_id")
+  @@map("project_analytics")
+}
+
+// ============================================
+// USER MANAGEMENT TABLES
+// ============================================
+
+enum UserRole {
+  admin
+  editor
+  viewer
+
+  @@map("user_role")
+}
+
+enum ActivityType {
+  project_created
+  project_updated
+  project_deleted
+  project_published
+  project_unpublished
+  category_created
+  category_updated
+  category_deleted
+  image_uploaded
+  image_deleted
+  user_created
+  user_updated
+  user_deleted
+  user_role_changed
+  login
+  logout
+
+  @@map("activity_type")
+}
+
+model UserProfile {
+  id          String    @id @db.Uuid
+  email       String    @unique
+  fullName    String?   @map("full_name")
+  avatarUrl   String?   @map("avatar_url")
+  role        UserRole  @default(viewer)
+  department  String?
+  phone       String?
+  bio         String?
+  lastLoginAt DateTime? @map("last_login_at")
+  isActive    Boolean   @default(true) @map("is_active")
+  createdAt   DateTime  @default(now()) @map("created_at")
+  updatedAt   DateTime  @default(now()) @updatedAt @map("updated_at")
+  createdBy   String?   @map("created_by")
+
+  user        User      @relation(fields: [id], references: [id], onDelete: Cascade)
+  creator     User?     @relation("CreatedBy", fields: [createdBy], references: [id])
+
+  @@index([role], name: "idx_user_profiles_role")
+  @@index([email], name: "idx_user_profiles_email")
+  @@index([isActive], name: "idx_user_profiles_active")
+  @@map("user_profiles")
+}
+
+model ActivityLog {
+  id            String        @id @default(dbgenerated("uuid_generate_v4()")) @db.Uuid
+  userId        String?       @map("user_id")
+  activityType  ActivityType  @map("activity_type")
+  resourceType  String?       @map("resource_type")
+  resourceId    String?       @map("resource_id") @db.Uuid
+  resourceTitle String?       @map("resource_title")
+  details       Json?         @db.JsonB
+  metadata      Json?         @db.JsonB
+  createdAt     DateTime      @default(now()) @map("created_at")
+
+  user          User?         @relation(fields: [userId], references: [id], onDelete: SetNull)
+
+  @@index([userId], name: "idx_activity_logs_user")
+  @@index([activityType], name: "idx_activity_logs_type")
+  @@index([resourceType, resourceId], name: "idx_activity_logs_resource")
+  @@index([createdAt], name: "idx_activity_logs_created")
+  @@map("activity_logs")
+}
+
+model UserSession {
+  id           String   @id @default(dbgenerated("uuid_generate_v4()")) @db.Uuid
+  userId       String   @map("user_id")
+  sessionToken String   @unique @map("session_token")
+  ipAddress    String?  @map("ip_address") @db.Inet
+  userAgent    String?  @map("user_agent")
+  isActive     Boolean  @default(true) @map("is_active")
+  lastActivity DateTime @default(now()) @map("last_activity")
+  expiresAt    DateTime @map("expires_at")
+  createdAt    DateTime @default(now()) @map("created_at")
+
+  user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId], name: "idx_user_sessions_user")
+  @@index([isActive], name: "idx_user_sessions_active")
+  @@index([expiresAt], name: "idx_user_sessions_expires")
+  @@map("user_sessions")
+}
+
+model UserPermission {
+  id             String   @id @default(dbgenerated("uuid_generate_v4()")) @db.Uuid
+  userId         String   @map("user_id")
+  resourceType   String   @map("resource_type")
+  permissionType String   @map("permission_type")
+  grantedBy      String?  @map("granted_by")
+  grantedAt      DateTime @default(now()) @map("granted_at")
+
+  user           User     @relation("UserPermissions", fields: [userId], references: [id], onDelete: Cascade)
+  granter        User?    @relation("GrantedBy", fields: [grantedBy], references: [id])
+
+  @@unique([userId, resourceType, permissionType], name: "unique_user_permission")
+  @@index([userId], name: "idx_user_permissions_user")
+  @@index([resourceType], name: "idx_user_permissions_resource")
+  @@map("user_permissions")
+}
+
+// ============================================
+// MIGRATION TRACKING
+// ============================================
+
+model ImageMigrationLog {
+  id              String   @id @default(dbgenerated("uuid_generate_v4()")) @db.Uuid
+  originalPath    String   @map("original_path")
+  newStoragePath  String   @map("new_storage_path")
+  projectSlug     String   @map("project_slug")
+  status          String   // 'pending', 'success', 'failed'
+  errorMessage    String?  @map("error_message")
+  migratedAt      DateTime @default(now()) @map("migrated_at")
+
+  @@index([projectSlug], name: "idx_image_migration_log_project_slug")
+  @@index([status], name: "idx_image_migration_log_status")
+  @@index([migratedAt], name: "idx_image_migration_log_migrated_at")
+  @@map("image_migration_log")
+}
