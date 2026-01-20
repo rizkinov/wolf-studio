@@ -24,7 +24,8 @@
       "Bash(mv:*)",
       "Bash(grep:*)",
       "Bash(rm:*)",
-      "Bash(npm run build:*)"
+      "Bash(npm run build:*)",
+      "Bash(git checkout:*)"
     ],
     "deny": [],
     "ask": []
