@@ -1,19 +1,21 @@
 # Prisma Setup Guide for Azure PostgreSQL
 
-## Problem
-When you run `npx prisma db push`, it wants to **drop all your existing tables** because the current `prisma/schema.prisma` file only contains 4 NextAuth tables, not the full application schema.
+## Problem (Main Branch Only)
+On the `main` branch, `prisma/schema.prisma` only contains 4 NextAuth tables. This will cause `npx prisma db push` to drop all your existing tables.
 
-## Solution
-Use the complete schema file that includes all 15+ tables.
+## Solution on azure-prisma-migration Branch
+**If you're on the `azure-prisma-migration` branch:** The complete schema is already active in `prisma/schema.prisma`. Skip to Step 3.
+
+**If you're on the `main` branch:** Follow steps 1-2 below.
 
 ---
 
-## Step 1: Backup Current Schema (Optional)
+## Step 1: Backup Current Schema (Main Branch Only)
 ```bash
 mv prisma/schema.prisma prisma/schema-nextauth-only.prisma
 ```
 
-## Step 2: Use Complete Schema
+## Step 2: Use Complete Schema (Main Branch Only)
 ```bash
 cp prisma/schema-complete.prisma prisma/schema.prisma
 ```
@@ -174,10 +176,16 @@ See the main migration guide for code changes.
 
 ## Summary
 
-✅ **DO:** Use `schema-complete.prisma` as your schema
+### On azure-prisma-migration Branch:
+✅ **Schema is ready:** `prisma/schema.prisma` already has complete schema
+✅ **DO:** Run `npx prisma generate` to create client
+✅ **DO:** Run `npx prisma db pull` to sync with existing database (optional)
+❌ **DON'T:** Run `npx prisma db push` on first setup (will drop tables)
+
+### On main Branch:
+✅ **DO:** Copy `schema-complete.prisma` to `schema.prisma` first
 ✅ **DO:** Run `npx prisma db pull` to sync with existing database
 ✅ **DO:** Run `npx prisma generate` to create client
-❌ **DON'T:** Run `npx prisma db push` on first setup (will drop tables)
 ❌ **DON'T:** Use the incomplete `schema.prisma` (only has 4 tables)
 
 ---

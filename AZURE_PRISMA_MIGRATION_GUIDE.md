@@ -37,10 +37,12 @@ This branch (`azure-prisma-migration`) contains a **complete Prisma-based databa
 Before starting, ensure you have:
 
 1. ✅ **Azure PostgreSQL** with data migrated (public schema imported)
-2. ✅ **Prisma schema** set up (`prisma/schema-complete.prisma` → `prisma/schema.prisma`)
+2. ✅ **Prisma schema** ready (`prisma/schema.prisma` already has complete schema)
 3. ✅ **Prisma Client** generated (`npx prisma generate`)
 4. ✅ **No-auth middleware** active (`middleware-no-auth.ts` → `middleware.ts`)
 5. ✅ **DATABASE_URL** in `.env.local`
+
+**Note:** The complete schema is already active in `prisma/schema.prisma` on this branch. The old incomplete schema is saved as `prisma/schema-nextauth-only.prisma` for reference.
 
 ---
 
