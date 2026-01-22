@@ -142,7 +142,7 @@ export class ProjectService {
           categoryId: project.category_id,
           publishedAt: project.published_at,
           isPublished: project.is_published || false,
-          description: project.description as Prisma.InputJsonValue,
+          description: project.description as unknown as Prisma.InputJsonValue,
           year: project.year,
           size: project.size,
           location: project.location,
@@ -175,7 +175,7 @@ export class ProjectService {
       if (updates.category_id !== undefined) updateData.categoryId = updates.category_id
       if (updates.published_at !== undefined) updateData.publishedAt = updates.published_at
       if (updates.is_published !== undefined) updateData.isPublished = updates.is_published
-      if (updates.description !== undefined) updateData.description = updates.description as Prisma.InputJsonValue
+      if (updates.description !== undefined) updateData.description = updates.description as unknown as Prisma.InputJsonValue
       if (updates.year !== undefined) updateData.year = updates.year
       if (updates.size !== undefined) updateData.size = updates.size
       if (updates.location !== undefined) updateData.location = updates.location
@@ -253,7 +253,7 @@ export class ProjectService {
           orderIndex: original.orderIndex + 1,
           categoryId: original.categoryId,
           isPublished: false,
-          description: original.description as Prisma.InputJsonValue,
+          description: original.description as unknown as Prisma.InputJsonValue,
           year: original.year,
           size: original.size,
           location: original.location,
@@ -275,7 +275,7 @@ export class ProjectService {
             storagePath: img.storagePath,
             fileSize: img.fileSize,
             mimeType: img.mimeType,
-            cropData: img.cropData as Prisma.InputJsonValue,
+            cropData: img.cropData as unknown as Prisma.InputJsonValue,
           })),
         })
       }
@@ -478,7 +478,7 @@ export class ProjectImageService {
           storagePath: image.storage_path,
           fileSize: image.file_size,
           mimeType: image.mime_type,
-          cropData: image.crop_data as Prisma.InputJsonValue,
+          cropData: image.crop_data as unknown as Prisma.InputJsonValue,
         },
       })
 
@@ -505,7 +505,7 @@ export class ProjectImageService {
       if (updates.storage_path !== undefined) updateData.storagePath = updates.storage_path
       if (updates.file_size !== undefined) updateData.fileSize = updates.file_size
       if (updates.mime_type !== undefined) updateData.mimeType = updates.mime_type
-      if (updates.crop_data !== undefined) updateData.cropData = updates.crop_data as Prisma.InputJsonValue
+      if (updates.crop_data !== undefined) updateData.cropData = updates.crop_data as unknown as Prisma.InputJsonValue
 
       const updatedImage = await prisma.projectImage.update({
         where: { id },
