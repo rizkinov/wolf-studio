@@ -379,6 +379,10 @@ export interface ProjectImageInsert {
   caption?: string | null
   display_order?: number
   image_type?: 'banner' | 'gallery'
+  storage_path?: string | null
+  file_size?: number | null
+  mime_type?: string | null
+  crop_data?: Record<string, any> | null
   created_at?: string
   updated_at?: string
 }
@@ -391,6 +395,10 @@ export interface ProjectImageUpdate {
   caption?: string | null
   display_order?: number
   image_type?: 'banner' | 'gallery'
+  storage_path?: string | null
+  file_size?: number | null
+  mime_type?: string | null
+  crop_data?: Record<string, any> | null
   updated_at?: string
 }
 
