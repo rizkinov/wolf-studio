@@ -172,7 +172,13 @@ export class ProjectService {
       if (updates.slug !== undefined) updateData.slug = updates.slug
       if (updates.banner_image_url !== undefined) updateData.bannerImageUrl = updates.banner_image_url
       if (updates.order_index !== undefined) updateData.orderIndex = updates.order_index
-      if (updates.category_id !== undefined) updateData.categoryId = updates.category_id
+      if (updates.category_id !== undefined) {
+        if (updates.category_id === null) {
+          updateData.category = { disconnect: true }
+        } else {
+          updateData.category = { connect: { id: updates.category_id } }
+        }
+      }
       if (updates.published_at !== undefined) updateData.publishedAt = updates.published_at
       if (updates.is_published !== undefined) updateData.isPublished = updates.is_published
       if (updates.description !== undefined) updateData.description = updates.description as unknown as Prisma.InputJsonValue
@@ -293,7 +299,7 @@ export class ProjectService {
     updates: Partial<ProjectUpdate>
   ): Promise<{ count: number; error: string | null }> {
     try {
-      const updateData: Prisma.ProjectUpdateInput = {}
+      const updateData: Prisma.ProjectUncheckedUpdateManyInput = {}
 
       if (updates.is_published !== undefined) updateData.isPublished = updates.is_published
       if (updates.featured !== undefined) updateData.featured = updates.featured
